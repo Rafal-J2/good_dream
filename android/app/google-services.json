@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "238258904158",
+    "project_id": "good-dream-3e9ec",
+    "storage_bucket": "good-dream-3e9ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238258904158:android:d5cebadfdf4bcd67c868cf",
+        "android_client_info": {
+          "package_name": "com.devsoftware.good_dream"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238258904158-7u5omm95qjit386larv9rjvg9vk0kq4b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDH-HTG-t43BgvuGu99fmP1VkLsFj3Bfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238258904158-7u5omm95qjit386larv9rjvg9vk0kq4b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238258904158:android:a25d90661921731bc868cf",
+        "android_client_info": {
+          "package_name": "com.example.good_dream11"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238258904158-7u5omm95qjit386larv9rjvg9vk0kq4b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDH-HTG-t43BgvuGu99fmP1VkLsFj3Bfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238258904158-7u5omm95qjit386larv9rjvg9vk0kq4b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-1694522060476593~6113144291"
+    }
+  ],
+  "configuration_version": "1"
+}
