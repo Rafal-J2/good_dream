@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'functions.dart';
 import 'package:good_dream/fun/functions.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shimmer/shimmer.dart';
 
 
 void main() async {
@@ -155,7 +156,7 @@ class _ClockTimerState extends State<ClockTimer> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
+  //  final Size screenSize = MediaQuery.of(context).size;
 
     return Consumer<DataProvider>(builder: (
         context,
@@ -173,11 +174,15 @@ class _ClockTimerState extends State<ClockTimer> {
               //    mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    iconSize: screenSize.height / 25,
-                    icon: Icon(Icons.audiotrack,
-                        color: cart.count <= 0
-                            ? Color.fromRGBO(255, 255, 255, 0.2)
-                            : Colors.white),
+                    iconSize: 45,
+                    icon: Shimmer.fromColors(
+                      baseColor: Colors.grey,
+                      highlightColor: Colors.black,
+                      child: Icon(Icons.multitrack_audio,
+                          color: cart.count <= 0
+                              ? Color.fromRGBO(255, 255, 255, 0.2)
+                              : Colors.white),
+                    ),
                     onPressed: () {
                       sendAnalyticsTrackSounds();
                       Navigator.of(context).push(MaterialPageRoute(
@@ -217,14 +222,20 @@ class _ClockTimerState extends State<ClockTimer> {
                         color: cart.count2 <= 0
                             ? Color.fromRGBO(255, 255, 255, 0.2)
                             : Colors.white),
+
+
                   ),
                   IconButton(
-                    iconSize: screenSize.height / 25,
+                    iconSize: 45,
                     //   padding: EdgeInsets.all(20.0),
-                    icon: Icon(Icons.api,
-                        color: cart.count2 <= 0
-                            ? Color.fromRGBO(255, 255, 255, 0.2)
-                            : Colors.white),
+                    icon: Shimmer.fromColors(
+                      highlightColor: Colors.grey,
+                      baseColor: Colors.black,
+                      child: Icon(Icons.play_circle_outline,
+                          color: cart.count2 <= 0
+                              ? Color.fromRGBO(255, 255, 255, 0.2)
+                              : Colors.white),
+                    ),
                     onPressed: () {
                       sendAnalyticsTrackPiano();
                       Navigator.of(context).push(MaterialPageRoute(

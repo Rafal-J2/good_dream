@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:good_dream/fun/arrays.dart';
 import 'package:good_dream/fun/clockTimer.dart';
-import 'package:good_dream/screens/menu.dart';
 import 'package:good_dream/services/admob_service.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:good_dream/fun/functions.dart';
@@ -20,16 +19,16 @@ import 'package:admob_flutter/admob_flutter.dart';
 void main() async {
   runApp(ChangeNotifierProvider(
     create: (context) => DataProvider(),
-    child: GoodDream(),
+    child: MainSounds(),
   ));
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   await Firebase.initializeApp();
 }
 
-class GoodDream extends StatefulWidget {
+class MainSounds extends StatefulWidget {
   //Functions to Show Dialog
-  GoodDream({
+  MainSounds({
     Key key,
     this.confirmWidget,
     this.cancelWidget,
@@ -50,11 +49,11 @@ class GoodDream extends StatefulWidget {
   _State createState() => _State(analytics, observer);
 }
 
-class _State extends State<GoodDream> {
+class _State extends State<MainSounds> {
   _State(
-    this.analytics,
-    this.observer,
-  );
+      this.analytics,
+      this.observer,
+      );
 
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
@@ -78,10 +77,10 @@ class _State extends State<GoodDream> {
       DeviceOrientation.portraitDown,
     ]);
     return Consumer<DataProvider>(builder: (
-      context,
-      cart,
-      child,
-    ) {
+        context,
+        cart,
+        child,
+        ) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(brightness: Brightness.dark),
@@ -89,9 +88,6 @@ class _State extends State<GoodDream> {
           length: 3,
           child: Scaffold(
             //  backgroundColor: Colors.grey,
-            drawer: Drawer(
-              child: Menu(),
-            ),
             appBar: AppBar(
               flexibleSpace: Container(
                 decoration: BoxDecoration(
@@ -100,9 +96,9 @@ class _State extends State<GoodDream> {
                         colors: [Color(0xFF16222A),
                           Color(0xFF3A6073)],
                         stops: [
-                      0.5,
-                      0.9
-                    ])),
+                          0.5,
+                          0.9
+                        ])),
               ),
               bottom: TabBar(
                 tabs: [
@@ -111,16 +107,14 @@ class _State extends State<GoodDream> {
                   ),
                   Center(
                       child: Tab(
-                    child: Text("Mechanical"),
-                  )),
+                        child: Text("Mechanical"),
+                      )),
                   Tab(
                     child: Text("Piano"),
                   ),
                 ],
               ),
               // title: Text('Tabs Demo'),
-
-              title: Center(child: Text('Good Dream')),
             ),
             body: Container(
               decoration: BoxDecoration(
@@ -143,46 +137,46 @@ class _State extends State<GoodDream> {
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [
-                                    Color(0xFF16222A),
-                                    Color(0xFF3A6073)
-                                  ],
+                                        Color(0xFF16222A),
+                                        Color(0xFF3A6073)
+                                      ],
                                       stops: [
-                                    0.4,
-                                    0.7
-                                  ])),
+                                        0.4,
+                                        0.7
+                                      ])),
                               //    width: 50.0,
                               height: screenSize.height / 1.6,
                               //   color: Color.fromRGBO(0, 0, 20, 1),
                               child: GridView.builder(
                                 itemCount: arrays.length,
                                 gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        childAspectRatio: 0.8,
-                                        crossAxisCount: 3),
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 0.8,
+                                    crossAxisCount: 3),
                                 itemBuilder: (context, index) {
                                   return Column(
                                     children: [
                                       FlatButton(
-                                        padding: EdgeInsets.all(15),
+                                        padding: EdgeInsets.all(20),
                                         onPressed: () async {
                                           if (cart.count <= 5) {
                                             //Bool checking
                                             arrays[index].isFav =
-                                                !arrays[index].isFav;
+                                            !arrays[index].isFav;
                                             // Click_events - if isFav is true
-                                           /* if (arrays[index].isFav) {
+                                            if (arrays[index].isFav) {
                                               await analytics.logEvent(
                                                 name: arrays[index].events,
                                               );
-                                            }*/
+                                            }
                                             // Play or Stop sounds
                                             arrays[index].isFav
                                                 ? arrays[index].player.open(
-                                                    Audio(
-                                                      arrays[index].sounds,
-                                                    ),
-                                                    //  showNotification: true,
-                                                    loopMode: LoopMode.single)
+                                                Audio(
+                                                  arrays[index].sounds,
+                                                ),
+                                                //  showNotification: true,
+                                                loopMode: LoopMode.single)
                                                 : arrays[index].player.pause();
                                             //Add image to page two
                                             arrays[index].isFav
@@ -205,27 +199,20 @@ class _State extends State<GoodDream> {
                                             foregroundServiceStop();
                                           }
                                         },
-                                        child: Column(
-                                          children: [
-                                            Image(
-                                              height: 50,
-                                              width: 60,
-                                              //  height: 50.0,
-                                              image: AssetImage(arrays[index].isFav
-                                                  ? arrays[index].picOn
-                                                  : arrays[index].picOff),
-                                            ),
-                                            Padding(padding: EdgeInsets.only(top: 10)),
-                                            Text(arrays[index].title,
-                                              style: TextStyle(fontSize: 12),
-                                              textAlign: TextAlign.center,
-
-                                            ),
-                                          ],
+                                        child: Image(
+                                          height: screenSize.height / 16,
+                                          //  height: 50.0,
+                                          image: AssetImage(arrays[index].isFav
+                                              ? arrays[index].picOn
+                                              : arrays[index].picOff),
                                         ),
                                       ),
-
-                                   /*   AnimatedOpacity(
+                                      Text(
+                                        arrays[index].title,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                      AnimatedOpacity(
                                         opacity: arrays[index].isFav
                                             ? arrays[index].opacityOn
                                             : arrays[index].opacityOff,
@@ -250,7 +237,7 @@ class _State extends State<GoodDream> {
                                                     }),
                                               );
                                             }),
-                                      )*/
+                                      )
                                     ],
                                   );
                                 },
@@ -276,9 +263,9 @@ class _State extends State<GoodDream> {
                               child: GridView.builder(
                                 itemCount: arrays2.length,
                                 gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        childAspectRatio: 0.8,
-                                        crossAxisCount: 3),
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 0.8,
+                                    crossAxisCount: 3),
                                 itemBuilder: (context, index) {
                                   return Column(
                                     children: [
@@ -286,23 +273,23 @@ class _State extends State<GoodDream> {
                                         padding: EdgeInsets.all(20),
                                         onPressed: () async {
                                           if (cart.count <= 5) {
-                                            /// Bool checking
+                                            //Bool checking
                                             arrays2[index].isFav =
-                                                !arrays2[index].isFav;
+                                            !arrays2[index].isFav;
                                             // Click_events
-                                      /*      if (arrays2[index].isFav) {
+                                            if (arrays2[index].isFav) {
                                               await analytics.logEvent(
                                                 name: arrays2[index].events,
                                               );
-                                            }*/
-                                            /// Play or Stop sounds
+                                            }
+                                            // Play or Stop sounds
                                             arrays2[index].isFav
                                                 ? arrays2[index].player.open(
-                                                    Audio(
-                                                        arrays2[index].sounds),
-                                                    loopMode: LoopMode.single)
+                                                Audio(
+                                                    arrays2[index].sounds),
+                                                loopMode: LoopMode.single)
                                                 : arrays2[index].player.pause();
-                                            /// Add image to page two
+                                            //Add image to page two
                                             arrays2[index].isFav
                                                 ? cart.add(arrays2[index])
                                                 : cart.remove(arrays2[index]);
@@ -315,7 +302,7 @@ class _State extends State<GoodDream> {
                                               toast();
                                             }
                                           }
-                                          /// foregroundService START or STOP
+                                          // foregroundService START or STOP
                                           if (cart.count == 1) {
                                             foregroundService();
                                           } else if (cart.count == 0 &&
@@ -323,27 +310,22 @@ class _State extends State<GoodDream> {
                                             foregroundServiceStop();
                                           }
                                         },
-                                        child: Column(
-                                          children: [
-                                            Image(
-                                              height: 50,
-                                              width: 60,
-                                              //  height: 50.0,
-                                              image: AssetImage(arrays2[index].isFav
-                                                  ? arrays2[index].picOn
-                                                  : arrays2[index].picOff),
-                                            ),
-                                            Padding(padding: EdgeInsets.only(top: 10)),
-                                            Text(arrays2[index].title,
-                                              style: TextStyle(fontSize: 12),
-                                                  textAlign: TextAlign.center,
-
-                                            ),
-                                          ],
+                                        child: Image(
+                                          height: screenSize.height / 16,
+                                          //   height: screenSize.width / 8,
+                                          // data.height == 200 ? height: 50 :
+                                          //  height: 50,
+                                          image: AssetImage(arrays2[index].isFav
+                                              ? arrays2[index].picOn
+                                              : arrays2[index].picOff),
                                         ),
                                       ),
+                                      Text(arrays2[index].title,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 12),
 
-                                    /*  AnimatedOpacity(
+                                      ),
+                                      AnimatedOpacity(
                                         duration: Duration(milliseconds: 800),
                                         opacity: arrays2[index].isFav
                                             ? arrays2[index].opacityOn
@@ -368,7 +350,7 @@ class _State extends State<GoodDream> {
                                                     }),
                                               );
                                             }),
-                                      )*/
+                                      )
                                     ],
                                   );
                                 },
@@ -393,81 +375,73 @@ class _State extends State<GoodDream> {
                               child: GridView.builder(
                                 itemCount: arrays3.length,
                                 gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        childAspectRatio: 0.8,
-                                        crossAxisCount: 3),
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 0.8,
+                                    crossAxisCount: 3),
                                 itemBuilder: (context, index) {
                                   return Column(
                                     children: [
                                       FlatButton(
                                         padding: EdgeInsets.all(20),
                                         onPressed: () async {
-
-                                         if (cart.count2 == 1 && arrays3[index].isFav == false) {
-                                            arrays3[0].player.pause();
-                                            arrays3[1].player.pause();
-                                            arrays3[2].player.pause();
-                                            arrays3[3].player.pause();
-                                            arrays3[4].player.pause();
-                                            arrays3[5].player.pause();
-                                            cart.remove2(arrays3[0]);
-                                            cart.remove2(arrays3[1]);
-                                            cart.remove2(arrays3[2]);
-                                            cart.remove2(arrays3[3]);
-                                            cart.remove2(arrays3[4]);
-                                            cart.remove2(arrays3[5]);
-                                            arrays3[0].isFav = false;
-                                            arrays3[1].isFav = false;
-                                            arrays3[2].isFav = false;
-                                            arrays3[3].isFav = false;
-                                            arrays3[4].isFav = false;
-                                            arrays3[5].isFav = false;
-                                         }
-
-                                          if (cart.count2 <= 1 && arrays3[index].isFav == false) {
-                                            arrays3[index].player.open(
-                                                Audio(arrays3[index]
-                                                    .sounds),
-                                                loopMode: LoopMode
-                                                    .single);
-                                            cart.add2(arrays3[index]);
-                                            arrays3[index].isFav = true;
-                                          }  else {
-                                            arrays3[index].player.pause();
+                                          if (cart.count2 <= 0) {
+                                            //Bool checking
+                                            arrays3[index].isFav =
+                                            !arrays3[index].isFav;
+                                            if (arrays3[index].isFav) {
+                                              await analytics.logEvent(
+                                                name: arrays3[index].events,
+                                              );
+                                              print(arrays3[index].log);
+                                            }
+                                            // Play or Stop sounds
+                                            arrays3[index].isFav
+                                                ? arrays3[index].player.open(
+                                                Audio(
+                                                    arrays3[index].sounds),
+                                                loopMode: LoopMode.single)
+                                                : arrays3[index].player.pause();
+                                            //Add image to page two
+                                            // Counter to piano
+                                            arrays3[index].isFav
+                                                ? cart.add2(arrays3[index])
+                                                : cart.remove2(arrays3[index]);
+                                          } else if (cart.count2 <= 1) {
+                                            cart.remove(arrays3[index]);
                                             cart.remove2(arrays3[index]);
                                             arrays3[index].isFav = false;
+                                            arrays3[index].player.pause();
+                                            //Toast Text
+                                            if (cart.count2 == 1) {
+                                              toast2();
+                                            }
                                           }
-
-                                         /// foregroundService START or STOP
-                                         if (cart.count2 == 1) {
-                                           foregroundService();
-                                         } else if (cart.count2 == 0 &&
-                                             cart.count == 0) {
-                                           foregroundServiceStop();
-                                         }
+                                          // foregroundService START or STOP
+                                          if (cart.count2 == 1) {
+                                            foregroundService();
+                                          } else if (cart.count2 == 0 &&
+                                              cart.count == 0) {
+                                            foregroundServiceStop();
+                                          }
                                         },
-                                        child: Column(
-                                          children: [
-                                            Image(
-                                              height: 50,
-                                              width: 60,
-                                              //  height: 50.0,
-                                              image: AssetImage(arrays3[index].isFav
-                                                  ? arrays3[index].picOn
-                                                  : arrays3[index].picOff),
-                                            ),
-                                            Padding(padding: EdgeInsets.only(top: 10)),
-                                            Text(arrays3[index].title,
-                                              style: TextStyle(fontSize: 12),
-                                              textAlign: TextAlign.center,
-
-                                            ),
-                                          ],
+                                        child: Shimmer.fromColors(
+                                          highlightColor: Colors.white,
+                                          baseColor: Colors.grey,
+                                          child: Image(
+                                            // height: 50.0,
+                                            height: screenSize.height / 16,
+                                            image: AssetImage(
+                                                arrays3[index].isFav
+                                                    ? arrays3[index].picOn
+                                                    : arrays3[index].picOff),
+                                          ),
                                         ),
                                       ),
-
-
-                                 /*     AnimatedOpacity(
+                                      Text(arrays3[index].title,
+                                        style: TextStyle(fontSize: 12),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      AnimatedOpacity(
                                         duration: Duration(milliseconds: 700),
                                         opacity: arrays3[index].isFav
                                             ? arrays3[index].opacityOn
@@ -489,7 +463,7 @@ class _State extends State<GoodDream> {
                                                     });
                                                   });
                                             }),
-                                      )*/
+                                      )
                                     ],
                                   );
                                 },
@@ -504,12 +478,12 @@ class _State extends State<GoodDream> {
                   //  SlideCountdownClock(duration: _duration,),
                   ClockTimer(),
                   //   TODO Bannerflu
-               Container(
-                   //     width: 400,
+                  Container(
+                    //     width: 400,
                     child: AdmobBanner(
                       adUnitId: ams.getBannerAdId(),
-                     adSize: AdmobBannerSize.ADAPTIVE_BANNER(
-                        width: MediaQuery.of(context).size.width.toInt()),
+                      adSize: AdmobBannerSize.ADAPTIVE_BANNER(
+                          width: MediaQuery.of(context).size.width.toInt()),
                     ),
                   ),
                 ],

@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:good_dream/models/ViewModels.dart';
 
-
 class DataProvider extends ChangeNotifier {
 
   List<ViewModels> _items = [];
-
   void add(ViewModels item) {
     _items.add(item);
     print(_items);
@@ -18,7 +16,6 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   int get count {
     return _items.length;
   }
@@ -26,7 +23,6 @@ class DataProvider extends ChangeNotifier {
   List<ViewModels> get basketItems {
     return _items;
   }
-
 
   // counter to piano
 
@@ -36,7 +32,6 @@ class DataProvider extends ChangeNotifier {
     _items2.add(item);
     notifyListeners();
   }
-
 
   void remove2(ViewModels item) {
     _items2.remove(item);
