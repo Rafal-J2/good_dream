@@ -11,7 +11,6 @@ import 'package:good_dream/fun/functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shimmer/shimmer.dart';
 
-
 void main() async {
   runApp(ChangeNotifierProvider(
     create: (context) => DataProvider(),
@@ -67,20 +66,20 @@ class _ClockTimerState extends State<ClockTimer> {
     ),
   );
 
-  Future<void> sendAnalyticsTrackSounds() async {
+ sendAnalyticsTrackSounds()  async {
     await analytics.logEvent(
       name: 'click_trackSounds',
     );
   }
 
-  Future<void> sendAnalyticsTrackPiano() async {
-    await analytics.logEvent(
+   sendAnalyticsTrackPiano() {
+    analytics.logEvent(
       name: 'click_trackPiano',
     );
   }
 
-  Future<void> sendAnalyticsSetTime() async {
-    await analytics.logEvent(
+  sendAnalyticsSetTime() {
+   analytics.logEvent(
       name: 'set_times',
     );
   }
@@ -183,8 +182,11 @@ class _ClockTimerState extends State<ClockTimer> {
                               ? Color.fromRGBO(255, 255, 255, 0.2)
                               : Colors.white),
                     ),
-                    onPressed: () {
-                      sendAnalyticsTrackSounds();
+                    onPressed: () async {
+                      //sendAnalyticsTrackSounds();
+                  await analytics.logEvent(
+                        name: 'click_trackSounds',
+                      );
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CheckoutPage()));
                       //  sendAnalyticsEvent();
@@ -204,10 +206,10 @@ class _ClockTimerState extends State<ClockTimer> {
                     left: 30.0, right: 30.0, top: 15),
                 child: RaisedButton(
                   color: Colors.black26,
-                  onPressed: () {
+                  onPressed: () async {
                     _showDialog();
                     _cancelTimer();
-                    sendAnalyticsSetTime();
+                   await sendAnalyticsSetTime();
                     // showBanner();
                   },
                   child: Text("Set Time"),
@@ -229,15 +231,16 @@ class _ClockTimerState extends State<ClockTimer> {
                     iconSize: 45,
                     //   padding: EdgeInsets.all(20.0),
                     icon: Shimmer.fromColors(
-                      highlightColor: Colors.grey,
+                      highlightColor: Colors.white,
                       baseColor: Colors.black,
                       child: Icon(Icons.play_circle_outline,
                           color: cart.count2 <= 0
                               ? Color.fromRGBO(255, 255, 255, 0.2)
                               : Colors.white),
                     ),
-                    onPressed: () {
-                      sendAnalyticsTrackPiano();
+                    onPressed: () async {
+                await sendAnalyticsTrackPiano();
+
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CheckoutPage()));
                       //    sendAnalyticsEvent();

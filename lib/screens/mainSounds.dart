@@ -37,6 +37,8 @@ class MainSounds extends StatefulWidget {
     this.observer,
   }) : super(key: key);
 
+
+
 // Firebase Analytics
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
@@ -55,11 +57,18 @@ class _State extends State<MainSounds> {
       this.observer,
       );
 
+
+
+
+
+
+
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
   String _message = '';
 
   final ams = AdMobService();
+
 
   void startServiceInPlatform() async {
     if (Platform.isAndroid) {
@@ -219,20 +228,20 @@ class _State extends State<MainSounds> {
                                         duration: Duration(milliseconds: 800),
                                         child: PlayerBuilder.volume(
                                             player: arrays[index].player,
-                                            builder: (context, volume) {
+                                            builder: (context, _volume) {
                                               return Shimmer.fromColors(
                                                 baseColor: Colors.white,
                                                 highlightColor: Colors.grey,
                                                 child: Slider(
-                                                    value: volume,
+                                                    value: _volume,
                                                     min: 0,
                                                     max: 1,
                                                     divisions: 50,
-                                                    onChanged: (v) {
+                                                    onChanged: (value) {
                                                       setState(() {
                                                         arrays[index]
                                                             .player
-                                                            .setVolume(v);
+                                                            .setVolume(_volume = value);
                                                       });
                                                     }),
                                               );

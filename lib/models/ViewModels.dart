@@ -12,6 +12,7 @@ class ViewModels {
 
   var opacityOff;
   var opacityOn;
+  double vol = 0.5;
 
   ViewModels(
       {this.events,
@@ -23,7 +24,8 @@ class ViewModels {
       this.sounds,
       this.log,
       this.opacityOff,
-      this.opacityOn});
+      this.opacityOn,
+      this.vol});
 
   playAudio00() {
     player.open(

@@ -5,14 +5,15 @@ import 'package:provider/provider.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:shimmer/shimmer.dart';
 
-
 class CheckoutPage extends StatefulWidget {
   @override
   _CheckoutPageState createState() => _CheckoutPageState();
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-  // List<Product> get products => items;
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -61,15 +62,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             ),
                             PlayerBuilder.volume(
                                 player: cart.basketItems[index].player,
-                                builder: (context, volume) {
+                                builder: (context, _vol) {
                                   return Slider(
                                       activeColor: Colors.white,
-                                      value: volume,
+                                      value: _vol,
                                       min: 0,
                                       max: 1,
                                       divisions: 50,
                                       onChanged: (v) {
                                         setState(() {
+
                                           cart.basketItems[index]
                                               .player
                                               .setVolume(v);

@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:admob_flutter/admob_flutter.dart';
@@ -131,11 +130,15 @@ class _State extends State<GoodDream> {
                       stops: [1.0, 0.7])),
               child: Column(
                 children: [
+
                   Expanded(
                     child: TabBarView(
                       children: <Widget>[
+
+                        // TODO  ListView1
                         ListView(
                           children: <Widget>[
+
                             // TODO  Tab1
                             Container(
                               decoration: BoxDecoration(
@@ -153,6 +156,7 @@ class _State extends State<GoodDream> {
                               //    width: 50.0,
                               height: screenSize.height / 1.6,
                               //   color: Color.fromRGBO(0, 0, 20, 1),
+
                               child: GridView.builder(
                                 itemCount: arrays.length,
                                 gridDelegate:
@@ -169,18 +173,22 @@ class _State extends State<GoodDream> {
                                             //Bool checking
                                             arrays[index].isFav =
                                                 !arrays[index].isFav;
+
                                             // Click_events - if isFav is true
-                                           /* if (arrays[index].isFav) {
+                                            if (arrays[index].isFav) {
                                               await analytics.logEvent(
                                                 name: arrays[index].events,
                                               );
-                                            }*/
+                                            }
+
                                             // Play or Stop sounds
                                             arrays[index].isFav
                                                 ? arrays[index].player.open(
                                                     Audio(
                                                       arrays[index].sounds,
                                                     ),
+
+                                         //   volume: 0.5,
                                                     //  showNotification: true,
                                                     loopMode: LoopMode.single)
                                                 : arrays[index].player.pause();
@@ -219,13 +227,12 @@ class _State extends State<GoodDream> {
                                             Text(arrays[index].title,
                                               style: TextStyle(fontSize: 12),
                                               textAlign: TextAlign.center,
-
                                             ),
                                           ],
                                         ),
                                       ),
 
-                                   /*   AnimatedOpacity(
+                         /*         AnimatedOpacity(
                                         opacity: arrays[index].isFav
                                             ? arrays[index].opacityOn
                                             : arrays[index].opacityOff,
@@ -252,6 +259,7 @@ class _State extends State<GoodDream> {
                                             }),
                                       )*/
                                     ],
+
                                   );
                                 },
                               ),
@@ -290,11 +298,11 @@ class _State extends State<GoodDream> {
                                             arrays2[index].isFav =
                                                 !arrays2[index].isFav;
                                             // Click_events
-                                      /*      if (arrays2[index].isFav) {
+                                          if (arrays2[index].isFav) {
                                               await analytics.logEvent(
                                                 name: arrays2[index].events,
                                               );
-                                            }*/
+                                            }
                                             /// Play or Stop sounds
                                             arrays2[index].isFav
                                                 ? arrays2[index].player.open(
@@ -376,6 +384,7 @@ class _State extends State<GoodDream> {
                             ),
                           ],
                         ),
+                        // TODO  ListView1
                         ListView(
                           children: <Widget>[
                             // TODO Tab3
@@ -402,26 +411,13 @@ class _State extends State<GoodDream> {
                                       FlatButton(
                                         padding: EdgeInsets.all(20),
                                         onPressed: () async {
-
                                          if (cart.count2 == 1 && arrays3[index].isFav == false) {
-                                            arrays3[0].player.pause();
-                                            arrays3[1].player.pause();
-                                            arrays3[2].player.pause();
-                                            arrays3[3].player.pause();
-                                            arrays3[4].player.pause();
-                                            arrays3[5].player.pause();
-                                            cart.remove2(arrays3[0]);
-                                            cart.remove2(arrays3[1]);
-                                            cart.remove2(arrays3[2]);
-                                            cart.remove2(arrays3[3]);
-                                            cart.remove2(arrays3[4]);
-                                            cart.remove2(arrays3[5]);
-                                            arrays3[0].isFav = false;
-                                            arrays3[1].isFav = false;
-                                            arrays3[2].isFav = false;
-                                            arrays3[3].isFav = false;
-                                            arrays3[4].isFav = false;
-                                            arrays3[5].isFav = false;
+                                           for (int i = 0; i < arrays3.length; i++)
+                                             {  arrays3[i].player.pause();}
+                                           for (int i = 0; i < arrays3.length; i++)
+                                           {  cart.remove2(arrays3[i]);}
+                                           for (int i = 0; i < arrays3.length; i++)
+                                           {arrays3[i].isFav = false;}
                                          }
 
                                           if (cart.count2 <= 1 && arrays3[index].isFav == false) {
@@ -445,6 +441,14 @@ class _State extends State<GoodDream> {
                                              cart.count == 0) {
                                            foregroundServiceStop();
                                          }
+
+                                         // Click_events - if isFav is true
+                                      if (arrays3[index].isFav) {
+                                           await analytics.logEvent(
+                                             name: arrays3[index].events,
+                                           );
+                                         }
+
                                         },
                                         child: Column(
                                           children: [
@@ -497,8 +501,11 @@ class _State extends State<GoodDream> {
                             ),
                           ],
                         ),
+
                       ],
+
                     ),
+
                   ),
                   // TODO bottom buttons
                   //  SlideCountdownClock(duration: _duration,),

@@ -20,6 +20,7 @@ final arrays = [
       opacityOff: 0.0,
       opacityOn: 1.0,
       sounds: "assets/audio/bonfire.ogg",
+      vol: 0.5,
       player: AssetsAudioPlayer()),
   ViewModels(
       events: 'click_jungle',
@@ -72,7 +73,7 @@ final arrays = [
       sounds: "assets/audio/wind.ogg",
       player: AssetsAudioPlayer()),
 
-  ViewModels(
+  /*ViewModels(
       events: null,
       picOff: 'assets/images/coming-soon.png',
       picOn: 'assets/images/coming-soon.png',
@@ -81,7 +82,7 @@ final arrays = [
       sounds: null,
       opacityOff: 0.0,
       opacityOn: 0.0,
-      player: AssetsAudioPlayer()),
+      player: AssetsAudioPlayer()),*/
 
 
 /*  ViewModels(
@@ -179,7 +180,7 @@ final arrays2 = [
       opacityOff: 0.0,
       opacityOn: 1.0,
       player: AssetsAudioPlayer()),
- ViewModels(
+/* ViewModels(
       events: null,
       picOff: 'assets/images/coming-soon.png',
       picOn: 'assets/images/coming-soon.png',
@@ -188,7 +189,7 @@ final arrays2 = [
       sounds: null,
       opacityOff: 0.0,
       opacityOn: 0.0,
-      player: AssetsAudioPlayer()),
+      player: AssetsAudioPlayer()),*/
 ];
 
 List<ViewModels> get models3 => arrays3;
