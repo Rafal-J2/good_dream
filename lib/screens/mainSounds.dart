@@ -164,11 +164,11 @@ class _State extends State<MainSounds> {
                                             arrays[index].isFav =
                                             !arrays[index].isFav;
                                             // Click_events - if isFav is true
-                                            if (arrays[index].isFav) {
+                                          /*  if (arrays[index].isFav) {
                                               await analytics.logEvent(
                                                 name: arrays[index].events,
                                               );
-                                            }
+                                            }*/
                                             // Play or Stop sounds
                                             arrays[index].isFav
                                                 ? arrays[index].player.open(
@@ -206,11 +206,6 @@ class _State extends State<MainSounds> {
                                               ? arrays[index].picOn
                                               : arrays[index].picOff),
                                         ),
-                                      ),
-                                      Text(
-                                        arrays[index].title,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 12),
                                       ),
                                       AnimatedOpacity(
                                         opacity: arrays[index].isFav

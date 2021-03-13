@@ -116,7 +116,7 @@ class _State extends State<GoodDream> {
               ),
               // title: Text('Tabs Demo'),
 
-              title: Center(child: Text('Good Dream')),
+           //   title: Center(child: Text('Good Dream')),
             ),
             body: Container(
               decoration: BoxDecoration(
@@ -154,25 +154,24 @@ class _State extends State<GoodDream> {
                                 itemCount: arrays.length,
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
-                                        childAspectRatio: 0.8,
+                                        childAspectRatio: 1.0,
                                         crossAxisCount: 3),
                                 itemBuilder: (context, index) {
                                   return Column(
                                     children: [
                                       FlatButton(
-                                        padding: EdgeInsets.all(15),
+                                        padding: EdgeInsets.only(top: 10),
                                         onPressed: () async {
                                           if (cart.count <= 5) {
                                             //Bool checking
                                             arrays[index].isFav =
                                                 !arrays[index].isFav;
-
                                             // Click_events - if isFav is true
-                                            /* if (arrays[index].isFav) {
+                                             if (arrays[index].isFav) {
                                               await analytics.logEvent(
                                                 name: arrays[index].events,
                                               );
-                                            }*/
+                                            }
                                             // Play or Stop sounds
                                             arrays[index].isFav
                                                 ? arrays[index].player.open(
@@ -207,52 +206,51 @@ class _State extends State<GoodDream> {
                                         child: Column(
                                           children: [
                                             Image(
+                                              fit: BoxFit.contain,
                                               height: 50,
-                                              width: 60,
+                                              width: 80,
                                               //  height: 50.0,
                                               image: AssetImage(
                                                   arrays[index].isFav
                                                       ? arrays[index].picOn
                                                       : arrays[index].picOff),
                                             ),
-                                            Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 10)),
-                                            Text(
+                                            arrays[index].isFav ?  AnimatedOpacity(
+                                              opacity: arrays[index].isFav
+                                                  ? arrays[index].opacityOn
+                                                  : arrays[index].opacityOff,
+                                              duration: Duration(milliseconds: 800),
+                                              child: PlayerBuilder.volume(
+                                                  player: arrays[index].player,
+                                                  builder: (context, volume) {
+                                                    return Shimmer.fromColors(
+                                                      baseColor: Colors.white,
+                                                      highlightColor: Colors.grey,
+                                                      child: Slider(
+                                                          value: volume,
+                                                          min: 0,
+                                                          max: 1,
+                                                          divisions: 50,
+                                                          onChanged: (v) {
+                                                            setState(() {
+                                                              arrays[index]
+                                                                  .player
+                                                                  .setVolume(v);
+                                                            });
+                                                          }),
+                                                    );
+                                                  }),
+                                            ) : Text(
                                               arrays[index].title,
-                                              style: TextStyle(fontSize: 12),
+                                              style: TextStyle(fontSize: 12.0,
+                                                height: 2.5),
                                               textAlign: TextAlign.center,
                                             ),
                                           ],
                                         ),
                                       ),
 
-                                               AnimatedOpacity(
-                                        opacity: arrays[index].isFav
-                                            ? arrays[index].opacityOn
-                                            : arrays[index].opacityOff,
-                                        duration: Duration(milliseconds: 800),
-                                        child: PlayerBuilder.volume(
-                                            player: arrays[index].player,
-                                            builder: (context, volume) {
-                                              return Shimmer.fromColors(
-                                                baseColor: Colors.white,
-                                                highlightColor: Colors.grey,
-                                                child: Slider(
-                                                    value: volume,
-                                                    min: 0,
-                                                    max: 1,
-                                                    divisions: 50,
-                                                    onChanged: (v) {
-                                                      setState(() {
-                                                        arrays[index]
-                                                            .player
-                                                            .setVolume(v);
-                                                      });
-                                                    }),
-                                              );
-                                            }),
-                                      )
+
                                     ],
                                   );
                                 },
@@ -290,18 +288,18 @@ class _State extends State<GoodDream> {
                                   return Column(
                                     children: [
                                       FlatButton(
-                                        padding: EdgeInsets.all(20),
+                                        padding: EdgeInsets.only(top: 10.0),
                                         onPressed: () async {
                                           if (cart.count <= 5) {
                                             /// Bool checking
                                             arrays2[index].isFav =
                                                 !arrays2[index].isFav;
                                             // Click_events
-                                            /*    if (arrays2[index].isFav) {
+                                                if (arrays2[index].isFav) {
                                               await analytics.logEvent(
                                                 name: arrays2[index].events,
                                               );
-                                            }*/
+                                            }
                                             /// Play or Stop sounds
                                             arrays2[index].isFav
                                                 ? arrays2[index].player.open(
@@ -323,7 +321,6 @@ class _State extends State<GoodDream> {
                                               toast();
                                             }
                                           }
-
                                           /// foregroundService START or STOP
                                           if (cart.count == 1) {
                                             foregroundService();
@@ -346,41 +343,41 @@ class _State extends State<GoodDream> {
                                             Padding(
                                                 padding:
                                                     EdgeInsets.only(top: 10)),
-                                            Text(
+                                            arrays2[index].isFav ? AnimatedOpacity(
+                                              duration: Duration(milliseconds: 800),
+                                              opacity: arrays2[index].isFav
+                                                  ? arrays2[index].opacityOn
+                                                  : arrays2[index].opacityOff,
+                                              child: PlayerBuilder.volume(
+                                                  player: arrays2[index].player,
+                                                  builder: (context, volume) {
+                                                    return Shimmer.fromColors(
+                                                      baseColor: Colors.white,
+                                                      highlightColor: Colors.grey,
+                                                      child: Slider(
+                                                          value: volume,
+                                                          min: 0,
+                                                          max: 1,
+                                                          divisions: 50,
+                                                          onChanged: (v) {
+                                                            setState(() {
+                                                              arrays2[index]
+                                                                  .player
+                                                                  .setVolume(v);
+                                                            });
+                                                          }),
+                                                    );
+                                                  }),
+                                            ) :     Text(
                                               arrays2[index].title,
-                                              style: TextStyle(fontSize: 12),
+                                              style: TextStyle(fontSize: 13.0,
+                                                  height: 2.5),
                                               textAlign: TextAlign.center,
                                             ),
+
                                           ],
                                         ),
                                       ),
-
-                                      /*  AnimatedOpacity(
-                                        duration: Duration(milliseconds: 800),
-                                        opacity: arrays2[index].isFav
-                                            ? arrays2[index].opacityOn
-                                            : arrays2[index].opacityOff,
-                                        child: PlayerBuilder.volume(
-                                            player: arrays2[index].player,
-                                            builder: (context, volume) {
-                                              return Shimmer.fromColors(
-                                                baseColor: Colors.white,
-                                                highlightColor: Colors.grey,
-                                                child: Slider(
-                                                    value: volume,
-                                                    min: 0,
-                                                    max: 1,
-                                                    divisions: 50,
-                                                    onChanged: (v) {
-                                                      setState(() {
-                                                        arrays2[index]
-                                                            .player
-                                                            .setVolume(v);
-                                                      });
-                                                    }),
-                                              );
-                                            }),
-                                      )*/
                                     ],
                                   );
                                 },
@@ -388,7 +385,7 @@ class _State extends State<GoodDream> {
                             ),
                           ],
                         ),
-                        // TODO  ListView1
+
                         ListView(
                           children: <Widget>[
                             // TODO Tab3
@@ -418,7 +415,7 @@ class _State extends State<GoodDream> {
                                   return Column(
                                     children: [
                                       FlatButton(
-                                        padding: EdgeInsets.all(20),
+                                        padding: EdgeInsets.only(top: 10.0),
                                         onPressed: () async {
                                           if (cart.count2 == 1 &&
                                               arrays3[index].isFav == false) {
@@ -443,7 +440,6 @@ class _State extends State<GoodDream> {
                                             cart.remove2(arrays3[index]);
                                             arrays3[index].isFav = false;
                                           }
-
                                           /// foregroundService START or STOP
                                           if (cart.count2 == 1) {
                                             foregroundService();
@@ -453,11 +449,11 @@ class _State extends State<GoodDream> {
                                           }
 
                                           // Click_events - if isFav is true
-                                    /*      if (arrays3[index].isFav) {
+                                          if (arrays3[index].isFav) {
                                             await analytics.logEvent(
                                               name: arrays3[index].events,
                                             );
-                                          }*/
+                                          }
                                         },
                                         child: Column(
                                           children: [
@@ -473,38 +469,37 @@ class _State extends State<GoodDream> {
                                             Padding(
                                                 padding:
                                                     EdgeInsets.only(top: 10)),
-                                            Text(
+                                            arrays3[index].isFav ? AnimatedOpacity(
+                                              duration: Duration(milliseconds: 700),
+                                              opacity: arrays3[index].isFav
+                                                  ? arrays3[index].opacityOn
+                                                  : arrays3[index].opacityOff,
+                                              child: PlayerBuilder.volume(
+                                                  player: arrays3[index].player,
+                                                  builder: (context, volume) {
+                                                    return Slider(
+                                                        activeColor: Colors.grey,
+                                                        value: volume,
+                                                        min: 0,
+                                                        max: 1,
+                                                        divisions: 50,
+                                                        onChanged: (v) {
+                                                          setState(() {
+                                                            arrays3[index]
+                                                                .player
+                                                                .setVolume(v);
+                                                          });
+                                                        });
+                                                  }),
+                                            ) :  Text(
                                               arrays3[index].title,
-                                              style: TextStyle(fontSize: 12),
+                                              style: TextStyle(fontSize: 13,
+                                                  height: 2.5),
                                               textAlign: TextAlign.center,
                                             ),
                                           ],
                                         ),
                                       ),
-
-                                      /*     AnimatedOpacity(
-                                        duration: Duration(milliseconds: 700),
-                                        opacity: arrays3[index].isFav
-                                            ? arrays3[index].opacityOn
-                                            : arrays3[index].opacityOff,
-                                        child: PlayerBuilder.volume(
-                                            player: arrays3[index].player,
-                                            builder: (context, volume) {
-                                              return Slider(
-                                                  activeColor: Colors.grey,
-                                                  value: volume,
-                                                  min: 0,
-                                                  max: 1,
-                                                  divisions: 50,
-                                                  onChanged: (v) {
-                                                    setState(() {
-                                                      arrays3[index]
-                                                          .player
-                                                          .setVolume(v);
-                                                    });
-                                                  });
-                                            }),
-                                      )*/
                                     ],
                                   );
                                 },

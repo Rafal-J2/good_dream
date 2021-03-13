@@ -85,7 +85,7 @@ final arrays = [
       player: AssetsAudioPlayer()),*/
 
 
-  ViewModels(
+/*  ViewModels(
       events: 'click_river',
       picOff: 'assets/images/river_w.png',
       picOn: 'assets/images/river_on.png',
@@ -95,7 +95,6 @@ final arrays = [
       opacityOn: 1.0,
       sounds: "assets/audio/river.ogg",
       player: AssetsAudioPlayer()),
-   /*
   ViewModels(
       events: 'click_cricket',
       picOff: 'assets/images/cricket_w.png',
@@ -198,9 +197,21 @@ final arrays3 = [
 
   ViewModels(
       events: 'click_piano1',
+      picOff: 'assets/images/piano6_w.png',
+      picOn: 'assets/images/piano6_on.png',
+      title: 'Atmosphere Piano',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      //   log: "---arrays3[events_1]---",
+      sounds: "assets/audio/atmosphere_piano.ogg",
+      player: AssetsAudioPlayer()),
+
+  ViewModels(
+      events: 'click_piano2',
       picOff: 'assets/images/piano_w.png',
       picOn: 'assets/images/piano_on.png',
-      title: 'Piano talk',
+      title: 'Piano',
       isFav: false,
       opacityOff: 0.0,
       opacityOn: 1.0,
@@ -208,7 +219,7 @@ final arrays3 = [
       player: AssetsAudioPlayer()),
 
   ViewModels(
-      events: 'click_piano2',
+      events: 'click_piano3',
       picOff: 'assets/images/piano2_w.png',
       picOn: 'assets/images/piano2_on.png',
       title: 'Piano epic voice',
@@ -218,7 +229,7 @@ final arrays3 = [
       sounds: "assets/audio/piano_epic_voice2.ogg",
       player: AssetsAudioPlayer()),
   ViewModels(
-      events: 'click_piano3',
+      events: 'click_piano4',
       picOff: 'assets/images/piano3_w.png',
       picOn: 'assets/images/piano3_on.png',
       title: 'Emotional Piano',
@@ -228,7 +239,7 @@ final arrays3 = [
       sounds: "assets/audio/emotional_piano.ogg",
       player: AssetsAudioPlayer()),
   ViewModels(
-      events: 'click_piano4',
+      events: 'click_piano5',
       picOff: 'assets/images/piano4_w.png',
       picOn: 'assets/images/piano4_on.png',
       title: 'Emotional Pianos',
@@ -239,7 +250,7 @@ final arrays3 = [
       player: AssetsAudioPlayer()),
 
   ViewModels(
-      events: 'click_piano5',
+      events: 'click_piano6',
       picOff: 'assets/images/piano5_w.png',
       picOn: 'assets/images/piano5_on.png',
       title: 'Epic Piano',
@@ -250,17 +261,7 @@ final arrays3 = [
       sounds: "assets/audio/epic_piano.ogg",
       player: AssetsAudioPlayer()),
 
-  ViewModels(
-      events: 'click_piano6',
-      picOff: 'assets/images/piano6_w.png',
-      picOn: 'assets/images/piano6_on.png',
-      title: 'Atmosphere Piano',
-      isFav: false,
-      opacityOff: 0.0,
-      opacityOn: 1.0,
-      //   log: "---arrays3[events_1]---",
-      sounds: "assets/audio/atmosphere_piano.ogg",
-      player: AssetsAudioPlayer()),
+
 
   /*ViewModels(
       events: null,

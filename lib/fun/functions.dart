@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 void toast() {
   Fluttertoast.cancel();
   Fluttertoast.showToast(
-      msg:"Six sounds can be played simultaneously.",
+      msg:"6 sounds can be played simultaneously.",
      // msg: "Jednocześnie można odtwarzać 6 dźwięków",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
