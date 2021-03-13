@@ -72,6 +72,16 @@ final arrays = [
       opacityOn: 1.0,
       sounds: "assets/audio/wind.ogg",
       player: AssetsAudioPlayer()),
+    ViewModels(
+      events: 'click_river',
+      picOff: 'assets/images/river_w.png',
+      picOn: 'assets/images/river_on.png',
+      title: 'River',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/river.ogg",
+      player: AssetsAudioPlayer()),
 
   /*ViewModels(
       events: null,
@@ -95,6 +105,7 @@ final arrays = [
       opacityOn: 1.0,
       sounds: "assets/audio/river.ogg",
       player: AssetsAudioPlayer()),
+
   ViewModels(
       events: 'click_cricket',
       picOff: 'assets/images/cricket_w.png',

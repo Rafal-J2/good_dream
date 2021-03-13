@@ -67,11 +67,11 @@ class _ClockTimerState extends State<ClockTimer> {
     border: new Border(
       top: new BorderSide(
         style: BorderStyle.solid,
-        color: Colors.black26,
+        color: Colors.white,
       ),
       bottom: new BorderSide(
         style: BorderStyle.solid,
-        color: Colors.black26,
+        color: Colors.white,
       ),
     ),
   );
@@ -202,6 +202,7 @@ class _ClockTimerState extends State<ClockTimer> {
                   Text(
                     cart.count.toString(),
                     style: TextStyle(
+                      fontSize: 14,
                         color: cart.count <= 0
                             ? Color.fromRGBO(255, 255, 255, 0.2)
                             : Colors.white),
@@ -227,6 +228,7 @@ class _ClockTimerState extends State<ClockTimer> {
                   Text(
                     cart.count2.toString(),
                     style: TextStyle(
+                      fontSize: 14,
                         color: cart.count2 <= 0
                             ? Color.fromRGBO(255, 255, 255, 0.2)
                             : Colors.white),
@@ -264,12 +266,13 @@ class _ClockTimerState extends State<ClockTimer> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Colors.grey,
+            backgroundColor: Colors.black45,
             title: Center(child: Text('Set Time')),
             content: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 new NumberPicker.integer(
+                  textStyle: TextStyle(color: Colors.white),
                   listViewWidth: 65,
                   initialValue: _hours,
                   decoration: _decoration,
@@ -284,9 +287,10 @@ class _ClockTimerState extends State<ClockTimer> {
                 ),
                 Text(
                   ':',
-                  style: TextStyle(fontSize: 30),
+                  style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
                 new NumberPicker.integer(
+                  textStyle: TextStyle(color: Colors.white),
                   listViewWidth: 65,
                   initialValue: _minutes,
                   decoration: _decoration,
@@ -299,17 +303,20 @@ class _ClockTimerState extends State<ClockTimer> {
             ),
             actions: [
               new TextButton(
+
                 onPressed: () {
                   Navigator.of(context)
                       .pop(new Duration(hours: _hours, minutes: _minutes));
                   _startTimer();
                   toast3();
                 },
-                child: widget.confirmWidget ?? Text('START TIME'),
+                child: widget.confirmWidget ?? Text('START TIME',
+                    style: TextStyle(color: Colors.white)),
               ),
               new FlatButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: widget.cancelWidget ?? Text('CANCEL'),
+                child: widget.cancelWidget ?? Text('CANCEL',
+                    style: TextStyle(color: Colors.white)),
               ),
             ],
           );

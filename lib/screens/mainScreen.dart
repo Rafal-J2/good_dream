@@ -206,15 +206,18 @@ class _State extends State<GoodDream> {
                                         child: Column(
                                           children: [
                                             Image(
-                                              fit: BoxFit.contain,
+                                           //   fit: BoxFit.contain,
                                               height: 50,
-                                              width: 80,
+                                              width: 70,
                                               //  height: 50.0,
                                               image: AssetImage(
                                                   arrays[index].isFav
                                                       ? arrays[index].picOn
                                                       : arrays[index].picOff),
                                             ),
+                                            Padding(
+                                                padding:
+                                                EdgeInsets.only(top: 10)),
                                             arrays[index].isFav ?  AnimatedOpacity(
                                               opacity: arrays[index].isFav
                                                   ? arrays[index].opacityOn
@@ -282,7 +285,7 @@ class _State extends State<GoodDream> {
                                 itemCount: arrays2.length,
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
-                                        childAspectRatio: 0.8,
+                                        childAspectRatio: 1.0,
                                         crossAxisCount: 3),
                                 itemBuilder: (context, index) {
                                   return Column(
@@ -333,7 +336,7 @@ class _State extends State<GoodDream> {
                                           children: [
                                             Image(
                                               height: 50,
-                                              width: 60,
+                                              width: 70,
                                               //  height: 50.0,
                                               image: AssetImage(
                                                   arrays2[index].isFav
@@ -370,7 +373,7 @@ class _State extends State<GoodDream> {
                                                   }),
                                             ) :     Text(
                                               arrays2[index].title,
-                                              style: TextStyle(fontSize: 13.0,
+                                              style: TextStyle(fontSize: 12.0,
                                                   height: 2.5),
                                               textAlign: TextAlign.center,
                                             ),
@@ -409,7 +412,7 @@ class _State extends State<GoodDream> {
                                 itemCount: arrays3.length,
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
-                                        childAspectRatio: 0.8,
+                                        childAspectRatio: 1.0,
                                         crossAxisCount: 3),
                                 itemBuilder: (context, index) {
                                   return Column(
@@ -459,7 +462,7 @@ class _State extends State<GoodDream> {
                                           children: [
                                             Image(
                                               height: 50,
-                                              width: 60,
+                                              width: 70,
                                               //  height: 50.0,
                                               image: AssetImage(
                                                   arrays3[index].isFav
@@ -493,7 +496,7 @@ class _State extends State<GoodDream> {
                                                   }),
                                             ) :  Text(
                                               arrays3[index].title,
-                                              style: TextStyle(fontSize: 13,
+                                              style: TextStyle(fontSize: 12,
                                                   height: 2.5),
                                               textAlign: TextAlign.center,
                                             ),
