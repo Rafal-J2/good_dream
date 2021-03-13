@@ -12,9 +12,6 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage> {
 
-
-
-
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -81,8 +78,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           ],
                         );               
                       }),
-
-               //   child: GridView.builder(gridDelegate: null, itemBuilder: null)
                 ),
                 // TODO Flat button piano
                 Container(

@@ -6,18 +6,20 @@ import 'package:good_dream/screens/mainScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:flare_splash_screen/flare_splash_screen.dart';
 import 'package:flutter/services.dart';
-//import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+
 
 void main() {
- // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+// FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
 // Firebase
+
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: analytics);
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +27,12 @@ class MyApp extends StatelessWidget {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     var materialApp = MaterialApp(
       debugShowCheckedModeBanner: false,
-      navigatorObservers: <NavigatorObserver>[observer],
+  //    navigatorObservers: <NavigatorObserver>[observer],
       home: SplashScreen(
         'assets/intro2.flr',
         GoodDream(          
-          analytics: analytics,
-          observer: observer,
+       analytics: analytics,
+        observer: observer,
         ),
         startAnimation: 'intro',
         backgroundColor: Color(0xff000000),

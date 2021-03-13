@@ -37,8 +37,6 @@ class MainSounds extends StatefulWidget {
     this.observer,
   }) : super(key: key);
 
-
-
 // Firebase Analytics
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
@@ -57,18 +55,11 @@ class _State extends State<MainSounds> {
       this.observer,
       );
 
-
-
-
-
-
-
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
   String _message = '';
 
   final ams = AdMobService();
-
 
   void startServiceInPlatform() async {
     if (Platform.isAndroid) {

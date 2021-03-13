@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:admob_flutter/admob_flutter.dart';
+import 'package:shimmer/shimmer.dart';
 
 void main() async {
   runApp(ChangeNotifierProvider(
@@ -96,12 +97,8 @@ class _State extends State<GoodDream> {
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topLeft,
-                        colors: [Color(0xFF16222A),
-                          Color(0xFF3A6073)],
-                        stops: [
-                      0.5,
-                      0.9
-                    ])),
+                        colors: [Color(0xFF16222A), Color(0xFF3A6073)],
+                        stops: [0.5, 0.9])),
               ),
               bottom: TabBar(
                 tabs: [
@@ -130,15 +127,12 @@ class _State extends State<GoodDream> {
                       stops: [1.0, 0.7])),
               child: Column(
                 children: [
-
                   Expanded(
                     child: TabBarView(
                       children: <Widget>[
-
                         // TODO  ListView1
                         ListView(
                           children: <Widget>[
-
                             // TODO  Tab1
                             Container(
                               decoration: BoxDecoration(
@@ -156,7 +150,6 @@ class _State extends State<GoodDream> {
                               //    width: 50.0,
                               height: screenSize.height / 1.6,
                               //   color: Color.fromRGBO(0, 0, 20, 1),
-
                               child: GridView.builder(
                                 itemCount: arrays.length,
                                 gridDelegate:
@@ -175,20 +168,18 @@ class _State extends State<GoodDream> {
                                                 !arrays[index].isFav;
 
                                             // Click_events - if isFav is true
-                                            if (arrays[index].isFav) {
+                                            /* if (arrays[index].isFav) {
                                               await analytics.logEvent(
                                                 name: arrays[index].events,
                                               );
-                                            }
-
+                                            }*/
                                             // Play or Stop sounds
                                             arrays[index].isFav
                                                 ? arrays[index].player.open(
                                                     Audio(
                                                       arrays[index].sounds,
                                                     ),
-
-                                         //   volume: 0.5,
+                                                    volume: 0.5,
                                                     //  showNotification: true,
                                                     loopMode: LoopMode.single)
                                                 : arrays[index].player.pause();
@@ -219,12 +210,16 @@ class _State extends State<GoodDream> {
                                               height: 50,
                                               width: 60,
                                               //  height: 50.0,
-                                              image: AssetImage(arrays[index].isFav
-                                                  ? arrays[index].picOn
-                                                  : arrays[index].picOff),
+                                              image: AssetImage(
+                                                  arrays[index].isFav
+                                                      ? arrays[index].picOn
+                                                      : arrays[index].picOff),
                                             ),
-                                            Padding(padding: EdgeInsets.only(top: 10)),
-                                            Text(arrays[index].title,
+                                            Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 10)),
+                                            Text(
+                                              arrays[index].title,
                                               style: TextStyle(fontSize: 12),
                                               textAlign: TextAlign.center,
                                             ),
@@ -232,7 +227,7 @@ class _State extends State<GoodDream> {
                                         ),
                                       ),
 
-                         /*         AnimatedOpacity(
+                                               AnimatedOpacity(
                                         opacity: arrays[index].isFav
                                             ? arrays[index].opacityOn
                                             : arrays[index].opacityOff,
@@ -257,9 +252,8 @@ class _State extends State<GoodDream> {
                                                     }),
                                               );
                                             }),
-                                      )*/
+                                      )
                                     ],
-
                                   );
                                 },
                               ),
@@ -275,9 +269,14 @@ class _State extends State<GoodDream> {
                                   gradient: LinearGradient(
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
-                                      colors: [Color(0xFF16222A),
-                                        Color(0xFF3A6073)],
-                                      stops: [0.5, 0.7])),
+                                      colors: [
+                                    Color(0xFF16222A),
+                                    Color(0xFF3A6073)
+                                  ],
+                                      stops: [
+                                    0.5,
+                                    0.7
+                                  ])),
                               // width: 50.0,
                               height: screenSize.height / 1.6,
                               //  color: Colors.black12,
@@ -298,16 +297,17 @@ class _State extends State<GoodDream> {
                                             arrays2[index].isFav =
                                                 !arrays2[index].isFav;
                                             // Click_events
-                                          if (arrays2[index].isFav) {
+                                            /*    if (arrays2[index].isFav) {
                                               await analytics.logEvent(
                                                 name: arrays2[index].events,
                                               );
-                                            }
+                                            }*/
                                             /// Play or Stop sounds
                                             arrays2[index].isFav
                                                 ? arrays2[index].player.open(
                                                     Audio(
                                                         arrays2[index].sounds),
+                                                    volume: 0.5,
                                                     loopMode: LoopMode.single)
                                                 : arrays2[index].player.pause();
                                             /// Add image to page two
@@ -323,6 +323,7 @@ class _State extends State<GoodDream> {
                                               toast();
                                             }
                                           }
+
                                           /// foregroundService START or STOP
                                           if (cart.count == 1) {
                                             foregroundService();
@@ -337,21 +338,24 @@ class _State extends State<GoodDream> {
                                               height: 50,
                                               width: 60,
                                               //  height: 50.0,
-                                              image: AssetImage(arrays2[index].isFav
-                                                  ? arrays2[index].picOn
-                                                  : arrays2[index].picOff),
+                                              image: AssetImage(
+                                                  arrays2[index].isFav
+                                                      ? arrays2[index].picOn
+                                                      : arrays2[index].picOff),
                                             ),
-                                            Padding(padding: EdgeInsets.only(top: 10)),
-                                            Text(arrays2[index].title,
+                                            Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 10)),
+                                            Text(
+                                              arrays2[index].title,
                                               style: TextStyle(fontSize: 12),
-                                                  textAlign: TextAlign.center,
-
+                                              textAlign: TextAlign.center,
                                             ),
                                           ],
                                         ),
                                       ),
 
-                                    /*  AnimatedOpacity(
+                                      /*  AnimatedOpacity(
                                         duration: Duration(milliseconds: 800),
                                         opacity: arrays2[index].isFav
                                             ? arrays2[index].opacityOn
@@ -393,9 +397,14 @@ class _State extends State<GoodDream> {
                                   gradient: LinearGradient(
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
-                                      colors: [Color(0xFF16222A),
-                                        Color(0xFF3A6073)],
-                                      stops: [0.6, 0.7])),
+                                      colors: [
+                                    Color(0xFF16222A),
+                                    Color(0xFF3A6073)
+                                  ],
+                                      stops: [
+                                    0.6,
+                                    0.7
+                                  ])),
                               //  width: 50.0,
                               height: screenSize.height / 1.6,
                               // color: Colors.black12,
@@ -411,44 +420,44 @@ class _State extends State<GoodDream> {
                                       FlatButton(
                                         padding: EdgeInsets.all(20),
                                         onPressed: () async {
-                                         if (cart.count2 == 1 && arrays3[index].isFav == false) {
-                                           for (int i = 0; i < arrays3.length; i++)
-                                             {  arrays3[i].player.pause();}
-                                           for (int i = 0; i < arrays3.length; i++)
-                                           {  cart.remove2(arrays3[i]);}
-                                           for (int i = 0; i < arrays3.length; i++)
-                                           {arrays3[i].isFav = false;}
-                                         }
-
-                                          if (cart.count2 <= 1 && arrays3[index].isFav == false) {
+                                          if (cart.count2 == 1 &&
+                                              arrays3[index].isFav == false) {
+                                            for (int i = 0;
+                                                i < arrays3.length;
+                                                i++) {
+                                              arrays3[i].player.pause();
+                                              cart.remove2(arrays3[i]);
+                                              arrays3[i].isFav = false;
+                                            }
+                                          }
+                                          if (cart.count2 <= 1 &&
+                                              arrays3[index].isFav == false) {
                                             arrays3[index].player.open(
-                                                Audio(arrays3[index]
-                                                    .sounds),
-                                                loopMode: LoopMode
-                                                    .single);
+                                                Audio(arrays3[index].sounds),
+                                                volume: 0.5,
+                                                loopMode: LoopMode.single);
                                             cart.add2(arrays3[index]);
                                             arrays3[index].isFav = true;
-                                          }  else {
+                                          } else {
                                             arrays3[index].player.pause();
                                             cart.remove2(arrays3[index]);
                                             arrays3[index].isFav = false;
                                           }
 
-                                         /// foregroundService START or STOP
-                                         if (cart.count2 == 1) {
-                                           foregroundService();
-                                         } else if (cart.count2 == 0 &&
-                                             cart.count == 0) {
-                                           foregroundServiceStop();
-                                         }
+                                          /// foregroundService START or STOP
+                                          if (cart.count2 == 1) {
+                                            foregroundService();
+                                          } else if (cart.count2 == 0 &&
+                                              cart.count == 0) {
+                                            foregroundServiceStop();
+                                          }
 
-                                         // Click_events - if isFav is true
-                                      if (arrays3[index].isFav) {
-                                           await analytics.logEvent(
-                                             name: arrays3[index].events,
-                                           );
-                                         }
-
+                                          // Click_events - if isFav is true
+                                    /*      if (arrays3[index].isFav) {
+                                            await analytics.logEvent(
+                                              name: arrays3[index].events,
+                                            );
+                                          }*/
                                         },
                                         child: Column(
                                           children: [
@@ -456,22 +465,24 @@ class _State extends State<GoodDream> {
                                               height: 50,
                                               width: 60,
                                               //  height: 50.0,
-                                              image: AssetImage(arrays3[index].isFav
-                                                  ? arrays3[index].picOn
-                                                  : arrays3[index].picOff),
+                                              image: AssetImage(
+                                                  arrays3[index].isFav
+                                                      ? arrays3[index].picOn
+                                                      : arrays3[index].picOff),
                                             ),
-                                            Padding(padding: EdgeInsets.only(top: 10)),
-                                            Text(arrays3[index].title,
+                                            Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 10)),
+                                            Text(
+                                              arrays3[index].title,
                                               style: TextStyle(fontSize: 12),
                                               textAlign: TextAlign.center,
-
                                             ),
                                           ],
                                         ),
                                       ),
 
-
-                                 /*     AnimatedOpacity(
+                                      /*     AnimatedOpacity(
                                         duration: Duration(milliseconds: 700),
                                         opacity: arrays3[index].isFav
                                             ? arrays3[index].opacityOn
@@ -501,22 +512,19 @@ class _State extends State<GoodDream> {
                             ),
                           ],
                         ),
-
                       ],
-
                     ),
-
                   ),
                   // TODO bottom buttons
                   //  SlideCountdownClock(duration: _duration,),
                   ClockTimer(),
                   //   TODO Bannerflu
-               Container(
-                   //     width: 400,
+                  Container(
+                    //     width: 400,
                     child: AdmobBanner(
                       adUnitId: ams.getBannerAdId(),
-                     adSize: AdmobBannerSize.ADAPTIVE_BANNER(
-                        width: MediaQuery.of(context).size.width.toInt()),
+                      adSize: AdmobBannerSize.ADAPTIVE_BANNER(
+                          width: MediaQuery.of(context).size.width.toInt()),
                     ),
                   ),
                 ],

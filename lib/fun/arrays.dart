@@ -85,7 +85,7 @@ final arrays = [
       player: AssetsAudioPlayer()),*/
 
 
-/*  ViewModels(
+  ViewModels(
       events: 'click_river',
       picOff: 'assets/images/river_w.png',
       picOn: 'assets/images/river_on.png',
@@ -95,6 +95,7 @@ final arrays = [
       opacityOn: 1.0,
       sounds: "assets/audio/river.ogg",
       player: AssetsAudioPlayer()),
+   /*
   ViewModels(
       events: 'click_cricket',
       picOff: 'assets/images/cricket_w.png',

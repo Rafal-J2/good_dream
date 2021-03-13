@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:good_dream/models/DataProvider.dart';
@@ -17,7 +20,8 @@ void main() async {
     child: ClockTimer(),
   ));
 
- // await Firebase.initializeApp();
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  await Firebase.initializeApp();
 }
 
 class ClockTimer extends StatefulWidget {
@@ -26,22 +30,28 @@ ClockTimer({
   this.confirmWidget,
   this.cancelWidget,
   this.analytics,
+  this.observer,
 }) : super(key: key);
 
+
 final FirebaseAnalytics analytics;
+final FirebaseAnalyticsObserver observer;
 final Widget confirmWidget;
 final Widget cancelWidget;
 
   @override
-  _ClockTimerState createState() => _ClockTimerState(analytics);
+  _ClockTimerState createState() => _ClockTimerState(analytics, observer);
 }
 
 class _ClockTimerState extends State<ClockTimer> {
   _ClockTimerState(
       this.analytics,
+      this.observer,
       );
 
   final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+  String _message = '';
 
   @override
   void initState() {
@@ -73,7 +83,7 @@ class _ClockTimerState extends State<ClockTimer> {
   }
 
    sendAnalyticsTrackPiano() {
-    analytics.logEvent(
+   analytics.logEvent(
       name: 'click_trackPiano',
     );
   }
@@ -182,14 +192,11 @@ class _ClockTimerState extends State<ClockTimer> {
                               ? Color.fromRGBO(255, 255, 255, 0.2)
                               : Colors.white),
                     ),
-                    onPressed: () async {
+                    onPressed: ()  {
                       //sendAnalyticsTrackSounds();
-                  await analytics.logEvent(
-                        name: 'click_trackSounds',
-                      );
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CheckoutPage()));
-                      //  sendAnalyticsEvent();
+
                     },
                   ),
                   Text(
@@ -206,10 +213,9 @@ class _ClockTimerState extends State<ClockTimer> {
                     left: 30.0, right: 30.0, top: 15),
                 child: RaisedButton(
                   color: Colors.black26,
-                  onPressed: () async {
+                  onPressed: () {
                     _showDialog();
                     _cancelTimer();
-                   await sendAnalyticsSetTime();
                     // showBanner();
                   },
                   child: Text("Set Time"),
@@ -224,8 +230,6 @@ class _ClockTimerState extends State<ClockTimer> {
                         color: cart.count2 <= 0
                             ? Color.fromRGBO(255, 255, 255, 0.2)
                             : Colors.white),
-
-
                   ),
                   IconButton(
                     iconSize: 45,
@@ -238,9 +242,7 @@ class _ClockTimerState extends State<ClockTimer> {
                               ? Color.fromRGBO(255, 255, 255, 0.2)
                               : Colors.white),
                     ),
-                    onPressed: () async {
-                await sendAnalyticsTrackPiano();
-
+                    onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CheckoutPage()));
                       //    sendAnalyticsEvent();
@@ -252,9 +254,7 @@ class _ClockTimerState extends State<ClockTimer> {
           ),
           _renderClock(),
         ],
-
       );
-
     });
   }
 
@@ -314,7 +314,5 @@ class _ClockTimerState extends State<ClockTimer> {
             ],
           );
         });
-
   }
-
 }
