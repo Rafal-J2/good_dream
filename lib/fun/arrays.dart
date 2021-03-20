@@ -1,6 +1,9 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:good_dream/models/ViewModels.dart';
 
+
+
+
 bool isFav0 = true;
 bool isFav1 = true;
 bool isFav2 = true;
@@ -72,16 +75,6 @@ final arrays = [
       opacityOn: 1.0,
       sounds: "assets/audio/wind.ogg",
       player: AssetsAudioPlayer()),
-    ViewModels(
-      events: 'click_river',
-      picOff: 'assets/images/river_w.png',
-      picOn: 'assets/images/river_on.png',
-      title: 'River',
-      isFav: false,
-      opacityOff: 0.0,
-      opacityOn: 1.0,
-      sounds: "assets/audio/river.ogg",
-      player: AssetsAudioPlayer()),
 
   /*ViewModels(
       events: null,
@@ -105,7 +98,6 @@ final arrays = [
       opacityOn: 1.0,
       sounds: "assets/audio/river.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_cricket',
       picOff: 'assets/images/cricket_w.png',
@@ -206,6 +198,8 @@ final arrays2 = [
 List<ViewModels> get models3 => arrays3;
 final arrays3 = [
 
+
+
   ViewModels(
       events: 'click_piano1',
       picOff: 'assets/images/piano6_w.png',
@@ -284,8 +278,9 @@ final arrays3 = [
       opacityOff: 0.0,
       opacityOn: 0.0,
       player: AssetsAudioPlayer()),*/
-
-
-
-
 ];
+
+
+
+
+//final bloc = CartItemsBloc();

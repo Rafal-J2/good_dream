@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/services.dart';
 
-
 //show text
 void toast() {
   Fluttertoast.cancel();
@@ -24,7 +23,7 @@ void toast2() {
       msg: "Piano sounds cannot be mix together",
     //  msg: "Dźwięków pianina nie można ze sobą łączyć.",
       toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.black, // Colors.black45
       textColor: Colors.white,
@@ -66,3 +65,4 @@ foregroundService(){
 foregroundServiceStop(){
   assetsAudioPlayer.stop();
 }
+

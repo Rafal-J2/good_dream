@@ -1,29 +1,28 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:good_dream/fun/arrays.dart';
 import 'package:good_dream/fun/clockTimer.dart';
 import 'package:good_dream/screens/menu.dart';
 import 'package:good_dream/services/admob_service.dart';
 import 'package:good_dream/models/DataProvider.dart';
-import 'package:good_dream/fun/functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:admob_flutter/admob_flutter.dart';
-import 'package:shimmer/shimmer.dart';
+import 'TabView/tabViewOne.dart';
+import 'TabView/tabViewTwo.dart';
+import 'TabView/tabViewThree.dart';
+
 
 void main() async {
   runApp(ChangeNotifierProvider(
     create: (context) => DataProvider(),
     child: GoodDream(),
   ));
-
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   await Firebase.initializeApp();
 }
 
@@ -150,114 +149,7 @@ class _State extends State<GoodDream> {
                               //    width: 50.0,
                               height: screenSize.height / 1.6,
                               //   color: Color.fromRGBO(0, 0, 20, 1),
-                              child: GridView.builder(
-                                itemCount: arrays.length,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        childAspectRatio: 1.0,
-                                        crossAxisCount: 3),
-                                itemBuilder: (context, index) {
-                                  return Column(
-                                    children: [
-                                      FlatButton(
-                                        padding: EdgeInsets.only(top: 10),
-                                        onPressed: () async {
-                                          if (cart.count <= 5) {
-                                            //Bool checking
-                                            arrays[index].isFav =
-                                                !arrays[index].isFav;
-                                            // Click_events - if isFav is true
-                                             if (arrays[index].isFav) {
-                                              await analytics.logEvent(
-                                                name: arrays[index].events,
-                                              );
-                                            }
-                                            // Play or Stop sounds
-                                            arrays[index].isFav
-                                                ? arrays[index].player.open(
-                                                    Audio(
-                                                      arrays[index].sounds,
-                                                    ),
-                                                    volume: 0.5,
-                                                    //  showNotification: true,
-                                                    loopMode: LoopMode.single)
-                                                : arrays[index].player.pause();
-                                            //Add image to page two
-                                            arrays[index].isFav
-                                                ? cart.add(arrays[index])
-                                                : cart.remove(arrays[index]);
-                                          } else if (cart.count == 6) {
-                                            cart.remove(arrays[index]);
-                                            arrays[index].isFav = false;
-                                            arrays[index].player.pause();
-                                            //Toast Text
-                                            if (cart.count == 6) {
-                                              toast();
-                                            }
-                                          }
-                                          // foregroundService START or STOP
-                                          if (cart.count == 1) {
-                                            foregroundService();
-                                          } else if (cart.count == 0 &&
-                                              cart.count2 == 0) {
-                                            foregroundServiceStop();
-                                          }
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Image(
-                                           //   fit: BoxFit.contain,
-                                              height: 50,
-                                              width: 70,
-                                              //  height: 50.0,
-                                              image: AssetImage(
-                                                  arrays[index].isFav
-                                                      ? arrays[index].picOn
-                                                      : arrays[index].picOff),
-                                            ),
-                                            Padding(
-                                                padding:
-                                                EdgeInsets.only(top: 10)),
-                                            arrays[index].isFav ?  AnimatedOpacity(
-                                              opacity: arrays[index].isFav
-                                                  ? arrays[index].opacityOn
-                                                  : arrays[index].opacityOff,
-                                              duration: Duration(milliseconds: 800),
-                                              child: PlayerBuilder.volume(
-                                                  player: arrays[index].player,
-                                                  builder: (context, volume) {
-                                                    return Shimmer.fromColors(
-                                                      baseColor: Colors.white,
-                                                      highlightColor: Colors.grey,
-                                                      child: Slider(
-                                                          value: volume,
-                                                          min: 0,
-                                                          max: 1,
-                                                          divisions: 50,
-                                                          onChanged: (v) {
-                                                            setState(() {
-                                                              arrays[index]
-                                                                  .player
-                                                                  .setVolume(v);
-                                                            });
-                                                          }),
-                                                    );
-                                                  }),
-                                            ) : Text(
-                                              arrays[index].title,
-                                              style: TextStyle(fontSize: 12.0,
-                                                height: 2.5),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-
-
-                                    ],
-                                  );
-                                },
-                              ),
+                              child: TabViewOne(),
                             ),
                           ],
                         ),
@@ -281,110 +173,7 @@ class _State extends State<GoodDream> {
                               // width: 50.0,
                               height: screenSize.height / 1.6,
                               //  color: Colors.black12,
-                              child: GridView.builder(
-                                itemCount: arrays2.length,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        childAspectRatio: 1.0,
-                                        crossAxisCount: 3),
-                                itemBuilder: (context, index) {
-                                  return Column(
-                                    children: [
-                                      FlatButton(
-                                        padding: EdgeInsets.only(top: 10.0),
-                                        onPressed: () async {
-                                          if (cart.count <= 5) {
-                                            /// Bool checking
-                                            arrays2[index].isFav =
-                                                !arrays2[index].isFav;
-                                            // Click_events
-                                                if (arrays2[index].isFav) {
-                                              await analytics.logEvent(
-                                                name: arrays2[index].events,
-                                              );
-                                            }
-                                            /// Play or Stop sounds
-                                            arrays2[index].isFav
-                                                ? arrays2[index].player.open(
-                                                    Audio(
-                                                        arrays2[index].sounds),
-                                                    volume: 0.5,
-                                                    loopMode: LoopMode.single)
-                                                : arrays2[index].player.pause();
-                                            /// Add image to page two
-                                            arrays2[index].isFav
-                                                ? cart.add(arrays2[index])
-                                                : cart.remove(arrays2[index]);
-                                          } else if (cart.count == 6) {
-                                            cart.remove(arrays2[index]);
-                                            arrays2[index].isFav = false;
-                                            arrays2[index].player.pause();
-                                            //Toast Text
-                                            if (cart.count == 6) {
-                                              toast();
-                                            }
-                                          }
-                                          /// foregroundService START or STOP
-                                          if (cart.count == 1) {
-                                            foregroundService();
-                                          } else if (cart.count == 0 &&
-                                              cart.count2 == 0) {
-                                            foregroundServiceStop();
-                                          }
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Image(
-                                              height: 50,
-                                              width: 70,
-                                              //  height: 50.0,
-                                              image: AssetImage(
-                                                  arrays2[index].isFav
-                                                      ? arrays2[index].picOn
-                                                      : arrays2[index].picOff),
-                                            ),
-                                            Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 10)),
-                                            arrays2[index].isFav ? AnimatedOpacity(
-                                              duration: Duration(milliseconds: 800),
-                                              opacity: arrays2[index].isFav
-                                                  ? arrays2[index].opacityOn
-                                                  : arrays2[index].opacityOff,
-                                              child: PlayerBuilder.volume(
-                                                  player: arrays2[index].player,
-                                                  builder: (context, volume) {
-                                                    return Shimmer.fromColors(
-                                                      baseColor: Colors.white,
-                                                      highlightColor: Colors.grey,
-                                                      child: Slider(
-                                                          value: volume,
-                                                          min: 0,
-                                                          max: 1,
-                                                          divisions: 50,
-                                                          onChanged: (v) {
-                                                            setState(() {
-                                                              arrays2[index]
-                                                                  .player
-                                                                  .setVolume(v);
-                                                            });
-                                                          }),
-                                                    );
-                                                  }),
-                                            ) :     Text(
-                                              arrays2[index].title,
-                                              style: TextStyle(fontSize: 12.0,
-                                                  height: 2.5),
-                                              textAlign: TextAlign.center,
-                                            ),
-
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
+                              child: TabViewTwo(),
                             ),
                           ],
                         ),
@@ -408,105 +197,7 @@ class _State extends State<GoodDream> {
                               //  width: 50.0,
                               height: screenSize.height / 1.6,
                               // color: Colors.black12,
-                              child: GridView.builder(
-                                itemCount: arrays3.length,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        childAspectRatio: 1.0,
-                                        crossAxisCount: 3),
-                                itemBuilder: (context, index) {
-                                  return Column(
-                                    children: [
-                                      FlatButton(
-                                        padding: EdgeInsets.only(top: 10.0),
-                                        onPressed: () async {
-                                          if (cart.count2 == 1 &&
-                                              arrays3[index].isFav == false) {
-                                            for (int i = 0;
-                                                i < arrays3.length;
-                                                i++) {
-                                              arrays3[i].player.pause();
-                                              cart.remove2(arrays3[i]);
-                                              arrays3[i].isFav = false;
-                                            }
-                                          }
-                                          if (cart.count2 <= 1 &&
-                                              arrays3[index].isFav == false) {
-                                            arrays3[index].player.open(
-                                                Audio(arrays3[index].sounds),
-                                                volume: 0.5,
-                                                loopMode: LoopMode.single);
-                                            cart.add2(arrays3[index]);
-                                            arrays3[index].isFav = true;
-                                          } else {
-                                            arrays3[index].player.pause();
-                                            cart.remove2(arrays3[index]);
-                                            arrays3[index].isFav = false;
-                                          }
-                                          /// foregroundService START or STOP
-                                          if (cart.count2 == 1) {
-                                            foregroundService();
-                                          } else if (cart.count2 == 0 &&
-                                              cart.count == 0) {
-                                            foregroundServiceStop();
-                                          }
-
-                                          // Click_events - if isFav is true
-                                          if (arrays3[index].isFav) {
-                                            await analytics.logEvent(
-                                              name: arrays3[index].events,
-                                            );
-                                          }
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Image(
-                                              height: 50,
-                                              width: 70,
-                                              //  height: 50.0,
-                                              image: AssetImage(
-                                                  arrays3[index].isFav
-                                                      ? arrays3[index].picOn
-                                                      : arrays3[index].picOff),
-                                            ),
-                                            Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 10)),
-                                            arrays3[index].isFav ? AnimatedOpacity(
-                                              duration: Duration(milliseconds: 700),
-                                              opacity: arrays3[index].isFav
-                                                  ? arrays3[index].opacityOn
-                                                  : arrays3[index].opacityOff,
-                                              child: PlayerBuilder.volume(
-                                                  player: arrays3[index].player,
-                                                  builder: (context, volume) {
-                                                    return Slider(
-                                                        activeColor: Colors.grey,
-                                                        value: volume,
-                                                        min: 0,
-                                                        max: 1,
-                                                        divisions: 50,
-                                                        onChanged: (v) {
-                                                          setState(() {
-                                                            arrays3[index]
-                                                                .player
-                                                                .setVolume(v);
-                                                          });
-                                                        });
-                                                  }),
-                                            ) :  Text(
-                                              arrays3[index].title,
-                                              style: TextStyle(fontSize: 12,
-                                                  height: 2.5),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
+                              child: TabViewThree(),
                             ),
                           ],
                         ),
