@@ -43,7 +43,7 @@ class _State extends State<TabViewTwo> {
         itemCount: arrays2.length,
         gridDelegate:
         SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: 0.8,
+            childAspectRatio: 1.0,
             crossAxisCount: 3),
         itemBuilder: (context, index) {
           return Column(
@@ -55,8 +55,8 @@ class _State extends State<TabViewTwo> {
                     /// Bool checking
                     arrays2[index].isFav =
                     !arrays2[index].isFav;
-                    // Click_events
-                    if (arrays2[index].isFav) {
+                    // Click_events Analytics
+                   if (arrays2[index].isFav) {
                       await _analytics.logEvent(
                         name: arrays2[index].events,
                       );
@@ -135,7 +135,6 @@ class _State extends State<TabViewTwo> {
                           height: 2.5),
                       textAlign: TextAlign.center,
                     ),
-
                   ],
                 ),
               ),

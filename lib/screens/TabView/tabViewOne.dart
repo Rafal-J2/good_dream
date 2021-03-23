@@ -56,6 +56,7 @@ class _State extends State<TabViewOne> {
                     //Bool checking
                     arrays[index].isFav =
                     !arrays[index].isFav;
+
                     // Click_events - if isFav is true
                     if (arrays[index].isFav) {
                       await _analytics.logEvent(

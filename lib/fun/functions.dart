@@ -10,22 +10,9 @@ void toast() {
       msg:"6 sounds can be played simultaneously.",
      // msg: "Jednocześnie można odtwarzać 6 dźwięków",
       toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.black, //Colors.black45
-      textColor: Colors.white,
-      fontSize: 16.0);
-}
-
-void toast2() {
-  Fluttertoast.cancel();
-  Fluttertoast.showToast(
-      msg: "Piano sounds cannot be mix together",
-    //  msg: "Dźwięków pianina nie można ze sobą łączyć.",
-      toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
-      backgroundColor: Colors.black, // Colors.black45
+      backgroundColor: Colors.black, //Colors.black45
       textColor: Colors.white,
       fontSize: 16.0);
 }
@@ -35,7 +22,7 @@ void toast3() {
       msg: "The time has started",
     //  msg: "Czas wystartował",
       toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.white, //Colors.white70
       textColor: Colors.black,

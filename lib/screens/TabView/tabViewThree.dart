@@ -42,7 +42,7 @@ class _State extends State<TabViewThree> {
         itemCount: arrays3.length,
         gridDelegate:
         SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: 0.8,
+            childAspectRatio: 1.0,
             crossAxisCount: 3),
         itemBuilder: (context, index) {
           return Column(

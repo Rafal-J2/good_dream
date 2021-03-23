@@ -30,33 +30,28 @@ ClockTimer({
   this.confirmWidget,
   this.cancelWidget,
   this.analytics,
-  this.observer,
+ // this.observer,
 }) : super(key: key);
 
-
 final FirebaseAnalytics analytics;
-final FirebaseAnalyticsObserver observer;
+// final FirebaseAnalyticsObserver observer;
 final Widget confirmWidget;
 final Widget cancelWidget;
 
   @override
-  _ClockTimerState createState() => _ClockTimerState(analytics, observer);
+  _State createState() => _State(analytics);
 }
 
-class _ClockTimerState extends State<ClockTimer> {
-  _ClockTimerState(
-      this.analytics,
-      this.observer,
-      );
-
-  final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
-  String _message = '';
+class _State extends State<ClockTimer> {
+  FirebaseAnalytics _analytics;
+  _State(FirebaseAnalytics analytics);
 
   @override
   void initState() {
+    _analytics = FirebaseAnalytics();
     super.initState();
     _resetRemainingTime();
+
 /*   Test Crash
     FirebaseCrashlytics.instance.crash();
     _showDialogStat = GlobalKey();*/
@@ -67,29 +62,29 @@ class _ClockTimerState extends State<ClockTimer> {
     border: new Border(
       top: new BorderSide(
         style: BorderStyle.solid,
-        color: Colors.white,
+        color: Colors.black26,
       ),
       bottom: new BorderSide(
         style: BorderStyle.solid,
-        color: Colors.white,
+        color: Colors.black26,
       ),
     ),
   );
 
- sendAnalyticsTrackSounds()  async {
-    await analytics.logEvent(
+ sendAnalyticsTrackSounds()  {
+     _analytics.logEvent(
       name: 'click_trackSounds',
     );
   }
 
    sendAnalyticsTrackPiano() {
-   analytics.logEvent(
+   _analytics.logEvent(
       name: 'click_trackPiano',
     );
   }
 
   sendAnalyticsSetTime() {
-   analytics.logEvent(
+   _analytics.logEvent(
       name: 'set_times',
     );
   }
@@ -193,7 +188,7 @@ class _ClockTimerState extends State<ClockTimer> {
                               : Colors.white),
                     ),
                     onPressed: ()  {
-                      //sendAnalyticsTrackSounds();
+                      sendAnalyticsTrackSounds();
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CheckoutPage()));
 
@@ -202,7 +197,6 @@ class _ClockTimerState extends State<ClockTimer> {
                   Text(
                     cart.count.toString(),
                     style: TextStyle(
-                      fontSize: 14,
                         color: cart.count <= 0
                             ? Color.fromRGBO(255, 255, 255, 0.2)
                             : Colors.white),
@@ -215,6 +209,7 @@ class _ClockTimerState extends State<ClockTimer> {
                 child: RaisedButton(
                   color: Colors.black26,
                   onPressed: () {
+                    sendAnalyticsSetTime();
                     _showDialog();
                     _cancelTimer();
                     // showBanner();
@@ -228,7 +223,6 @@ class _ClockTimerState extends State<ClockTimer> {
                   Text(
                     cart.count2.toString(),
                     style: TextStyle(
-                      fontSize: 14,
                         color: cart.count2 <= 0
                             ? Color.fromRGBO(255, 255, 255, 0.2)
                             : Colors.white),
@@ -244,7 +238,8 @@ class _ClockTimerState extends State<ClockTimer> {
                               ? Color.fromRGBO(255, 255, 255, 0.2)
                               : Colors.white),
                     ),
-                    onPressed: () {
+                    onPressed: ()  {
+                      sendAnalyticsTrackPiano();
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CheckoutPage()));
                       //    sendAnalyticsEvent();
@@ -266,13 +261,12 @@ class _ClockTimerState extends State<ClockTimer> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Colors.black45,
+            backgroundColor: Colors.grey,
             title: Center(child: Text('Set Time')),
             content: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 new NumberPicker.integer(
-                  textStyle: TextStyle(color: Colors.white),
                   listViewWidth: 65,
                   initialValue: _hours,
                   decoration: _decoration,
@@ -287,10 +281,9 @@ class _ClockTimerState extends State<ClockTimer> {
                 ),
                 Text(
                   ':',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(fontSize: 30),
                 ),
                 new NumberPicker.integer(
-                  textStyle: TextStyle(color: Colors.white),
                   listViewWidth: 65,
                   initialValue: _minutes,
                   decoration: _decoration,
@@ -303,20 +296,17 @@ class _ClockTimerState extends State<ClockTimer> {
             ),
             actions: [
               new TextButton(
-
                 onPressed: () {
                   Navigator.of(context)
                       .pop(new Duration(hours: _hours, minutes: _minutes));
                   _startTimer();
                   toast3();
                 },
-                child: widget.confirmWidget ?? Text('START TIME',
-                    style: TextStyle(color: Colors.white)),
+                child: widget.confirmWidget ?? Text('START TIME'),
               ),
               new FlatButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: widget.cancelWidget ?? Text('CANCEL',
-                    style: TextStyle(color: Colors.white)),
+                child: widget.cancelWidget ?? Text('CANCEL'),
               ),
             ],
           );

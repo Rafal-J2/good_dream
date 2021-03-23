@@ -408,7 +408,6 @@ class _State extends State<MainSounds> {
                                             arrays3[index].player.pause();
                                             //Toast Text
                                             if (cart.count2 == 1) {
-                                              toast2();
                                             }
                                           }
                                           // foregroundService START or STOP

@@ -16,7 +16,6 @@ import 'TabView/tabViewOne.dart';
 import 'TabView/tabViewTwo.dart';
 import 'TabView/tabViewThree.dart';
 
-
 void main() async {
   runApp(ChangeNotifierProvider(
     create: (context) => DataProvider(),
@@ -210,7 +209,7 @@ class _State extends State<GoodDream> {
                   //   TODO Bannerflu
                   Container(
                     //     width: 400,
-                    child: AdmobBanner(
+                   child: AdmobBanner(
                       adUnitId: ams.getBannerAdId(),
                       adSize: AdmobBannerSize.ADAPTIVE_BANNER(
                           width: MediaQuery.of(context).size.width.toInt()),
