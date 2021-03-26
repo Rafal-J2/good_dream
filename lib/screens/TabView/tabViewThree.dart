@@ -33,6 +33,7 @@ class _State extends State<TabViewThree> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Consumer<DataProvider>(builder: (context,
@@ -47,8 +48,7 @@ class _State extends State<TabViewThree> {
         itemBuilder: (context, index) {
           return Column(
             children: [
-              FlatButton(
-                padding: EdgeInsets.only(top: 10.0),
+              TextButton(
                 onPressed: () async {
                   if (cart.count2 == 1 &&
                       arrays3[index].isFav == false) {
@@ -127,7 +127,8 @@ class _State extends State<TabViewThree> {
                     ) :  Text(
                       arrays3[index].title,
                       style: TextStyle(fontSize: 13,
-                          height: 2.5),
+                          height: 2.5,
+                      color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
                   ],

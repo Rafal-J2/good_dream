@@ -9,7 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'TabView/tabViewOne.dart';
@@ -32,12 +31,11 @@ class GoodDream extends StatefulWidget {
     this.confirmWidget,
     this.cancelWidget,
     this.title,
-    this.analytics,
     this.observer,
   }) : super(key: key);
 
 // Firebase Analytics
-  final FirebaseAnalytics analytics;
+  //final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
   // Dialogs global
   final Widget confirmWidget;
@@ -45,18 +43,17 @@ class GoodDream extends StatefulWidget {
   final String title;
 
   @override
-  _State createState() => _State(analytics, observer);
+  _State createState() => _State(observer);
 }
 
 class _State extends State<GoodDream> {
   _State(
-    this.analytics,
+   // this.analytics,
     this.observer,
   );
 
-  final FirebaseAnalytics analytics;
+  //final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
-  String _message = '';
 
   final ams = AdMobService();
 
@@ -108,7 +105,7 @@ class _State extends State<GoodDream> {
                     child: Text("Mechanical"),
                   )),
                   Tab(
-                    child: Text("Piano"),
+                    child: Text("Music"),
                   ),
                 ],
               ),

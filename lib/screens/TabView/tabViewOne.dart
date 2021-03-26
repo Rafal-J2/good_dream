@@ -49,8 +49,8 @@ class _State extends State<TabViewOne> {
           //   final shopList = snapshot.data["shop items"];
           return Column(
             children: [
-              FlatButton(
-                padding: EdgeInsets.only(top: 10),
+              TextButton(
+              ///  padding: EdgeInsets.only(top: 10),
                 onPressed: () async {
                   if (cart.count <= 5) {
                     //Bool checking
@@ -99,7 +99,7 @@ class _State extends State<TabViewOne> {
                     Image(
                       fit: BoxFit.contain,
                       height: 50,
-                      width: 80,
+                      width: 120,
                       //  height: 50.0,
                       image: AssetImage(
                           arrays[index].isFav
@@ -134,8 +134,10 @@ class _State extends State<TabViewOne> {
                     ) : Text(
                       arrays[index].title,
                       style: TextStyle(fontSize: 12.0,
-                          height: 2.5),
+                          height: 2.5,
+                      color: Colors.white),
                       textAlign: TextAlign.center,
+
                     ),
                   ],
                 ),

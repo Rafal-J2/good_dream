@@ -57,7 +57,9 @@ class _State extends State<MainSounds> {
 
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
-  String _message = '';
+
+  ///check it out
+ // String _message = '';
 
   final ams = AdMobService();
 
@@ -156,8 +158,7 @@ class _State extends State<MainSounds> {
                                 itemBuilder: (context, index) {
                                   return Column(
                                     children: [
-                                      FlatButton(
-                                        padding: EdgeInsets.all(20),
+                                      TextButton(
                                         onPressed: () async {
                                           if (cart.count <= 5) {
                                             //Bool checking
@@ -264,8 +265,8 @@ class _State extends State<MainSounds> {
                                 itemBuilder: (context, index) {
                                   return Column(
                                     children: [
-                                      FlatButton(
-                                        padding: EdgeInsets.all(20),
+                                      TextButton(
+                                    //    padding: EdgeInsets.all(20),
                                         onPressed: () async {
                                           if (cart.count <= 5) {
                                             //Bool checking
@@ -376,8 +377,8 @@ class _State extends State<MainSounds> {
                                 itemBuilder: (context, index) {
                                   return Column(
                                     children: [
-                                      FlatButton(
-                                        padding: EdgeInsets.all(20),
+                                      TextButton(
+                                       // padding: EdgeInsets.all(20),
                                         onPressed: () async {
                                           if (cart.count2 <= 0) {
                                             //Bool checking

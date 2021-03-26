@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:good_dream/screens/screenTwo.dart';
@@ -158,6 +158,11 @@ class _State extends State<ClockTimer> {
     return n.toString().padLeft(2, "0");
   }
 
+  final ButtonStyle raiseButtonStyle = ElevatedButton.styleFrom(
+
+    primary: Colors.black,
+  );
+
   @override
   Widget build(BuildContext context) {
   //  final Size screenSize = MediaQuery.of(context).size;
@@ -206,8 +211,9 @@ class _State extends State<ClockTimer> {
               Padding(
                 padding: const EdgeInsets.only(
                     left: 30.0, right: 30.0, top: 15),
-                child: RaisedButton(
-                  color: Colors.black26,
+                child: ElevatedButton(
+                  style: raiseButtonStyle,
+             //     color: Colors.black26,
                   onPressed: () {
                     sendAnalyticsSetTime();
                     _showDialog();
@@ -216,6 +222,7 @@ class _State extends State<ClockTimer> {
                   },
                   child: Text("Set Time"),
                 ),
+
               ),
               Row(
                 // mainAxisAlignment: MainAxisAlignment.center,
@@ -304,7 +311,7 @@ class _State extends State<ClockTimer> {
                 },
                 child: widget.confirmWidget ?? Text('START TIME'),
               ),
-              new FlatButton(
+              new TextButton(
                 onPressed: () => Navigator.of(context).pop(),
                 child: widget.cancelWidget ?? Text('CANCEL'),
               ),

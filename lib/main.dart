@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       home: SplashScreen(
         'assets/intro2.flr',
         GoodDream(          
-      analytics: analytics,
+    //  analytics: analytics,
         observer: observer,
         ),
         startAnimation: 'intro',
