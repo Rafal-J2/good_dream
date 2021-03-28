@@ -11,13 +11,13 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     return Consumer<DataProvider>(
       builder: (context, cart, child) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(brightness: Brightness.dark),
           home: Scaffold(
             appBar: AppBar(
@@ -37,8 +37,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            FlatButton(
-                              padding: EdgeInsets.all(20),
+                           TextButton(
+                             /// padding: EdgeInsets.all(20),
                               onPressed: () {
                                 // Pause sounds with page one
                                 cart.basketItems[index].player
@@ -92,8 +92,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            FlatButton(
-                              padding: EdgeInsets.all(40),
+                            TextButton(
+                            ///  padding: EdgeInsets.all(40),
                               onPressed: () {
                                 // Pause sounds with page one
                                 cart.basketItems2[index].player

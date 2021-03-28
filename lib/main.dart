@@ -3,11 +3,10 @@ import 'package:firebase_analytics/observer.dart';
 // import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:good_dream/models/DataProvider.dart';
-import 'package:good_dream/screens/mainScreen.dart';
+import 'package:good_dream/screens/bottomNavigatro.dart';
 import 'package:provider/provider.dart';
 import 'package:flare_splash_screen/flare_splash_screen.dart';
 import 'package:flutter/services.dart';
-
 
 void main() {
 // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
@@ -16,7 +15,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
 // Firebase
-
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: analytics);
@@ -31,9 +29,9 @@ class MyApp extends StatelessWidget {
   //    navigatorObservers: <NavigatorObserver>[observer],
       home: SplashScreen(
         'assets/intro2.flr',
-        GoodDream(          
+        MyApp4(
     //  analytics: analytics,
-        observer: observer,
+     //   observer: observer,
         ),
         startAnimation: 'intro',
         backgroundColor: Color(0xff000000),

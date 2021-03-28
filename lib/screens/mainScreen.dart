@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:admob_flutter/admob_flutter.dart';
 import 'TabView/tabViewOne.dart';
 import 'TabView/tabViewTwo.dart';
 import 'TabView/tabViewThree.dart';
@@ -46,12 +45,11 @@ class GoodDream extends StatefulWidget {
   _State createState() => _State(observer);
 }
 
-class _State extends State<GoodDream> {
+class _State extends State<GoodDream> with AutomaticKeepAliveClientMixin  {
   _State(
    // this.analytics,
     this.observer,
   );
-
   //final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
 
@@ -67,6 +65,7 @@ class _State extends State<GoodDream> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final Size screenSize = MediaQuery.of(context).size;
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -77,6 +76,7 @@ class _State extends State<GoodDream> {
       cart,
       child,
     ) {
+
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(brightness: Brightness.dark),
@@ -145,7 +145,8 @@ class _State extends State<GoodDream> {
                               //    width: 50.0,
                               height: screenSize.height / 1.6,
                               //   color: Color.fromRGBO(0, 0, 20, 1),
-                              child: TabViewOne(),
+                              child: TabViewOne(
+                              ),
                             ),
                           ],
                         ),
@@ -206,11 +207,11 @@ class _State extends State<GoodDream> {
                   //   TODO Bannerflu
                   Container(
                     //     width: 400,
-                   child: AdmobBanner(
+              /*     child: AdmobBanner(
                       adUnitId: ams.getBannerAdId(),
                       adSize: AdmobBannerSize.ADAPTIVE_BANNER(
                           width: MediaQuery.of(context).size.width.toInt()),
-                    ),
+                    ),*/
                   ),
                 ],
               ),
@@ -220,4 +221,7 @@ class _State extends State<GoodDream> {
       );
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

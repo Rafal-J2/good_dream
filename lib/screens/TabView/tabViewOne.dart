@@ -22,7 +22,8 @@ class TabViewOne extends StatefulWidget {
   @override
   _State createState() => _State(analytics);
 }
-class _State extends State<TabViewOne> {
+class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
+  final PageStorageBucket bucket = PageStorageBucket();
   // Firebase Analytics
   FirebaseAnalytics _analytics;
 
@@ -36,9 +37,11 @@ class _State extends State<TabViewOne> {
 
   @override
   Widget build(BuildContext context) {
+      super.build(context);
     return Consumer<DataProvider>(builder: (context,
         cart,
         child,) {
+
       return GridView.builder(
         itemCount: arrays.length,
         gridDelegate:
@@ -137,7 +140,6 @@ class _State extends State<TabViewOne> {
                           height: 2.5,
                       color: Colors.white),
                       textAlign: TextAlign.center,
-
                     ),
                   ],
                 ),
@@ -148,4 +150,8 @@ class _State extends State<TabViewOne> {
       );
     });
   }
+
+  @override
+
+  bool get wantKeepAlive => true;
 }

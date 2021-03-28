@@ -102,6 +102,49 @@ final arrays = [
       opacityOn: 1.0,
       sounds: "assets/audio/forest_ambience.ogg",
       player: AssetsAudioPlayer()),
+
+  ViewModels(
+      events: 'click_forest',
+      picOff: 'assets/images/forest_w.png',
+      picOn: 'assets/images/forest_on.png',
+      title: 'Forest',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/forest_ambience.ogg",
+      player: AssetsAudioPlayer()),
+
+  ViewModels(
+      events: 'click_cricket',
+      picOff: 'assets/images/cricket_w.png',
+      picOn: 'assets/images/cricket_on.png',
+      title: 'Cricket',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/cricket.ogg",
+      player: AssetsAudioPlayer()),
+  ViewModels(
+      events: 'click_forest',
+      picOff: 'assets/images/forest_w.png',
+      picOn: 'assets/images/forest_on.png',
+      title: 'Forest',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/forest_ambience.ogg",
+      player: AssetsAudioPlayer()),
+
+  ViewModels(
+      events: 'click_forest',
+      picOff: 'assets/images/forest_w.png',
+      picOn: 'assets/images/forest_on.png',
+      title: 'Forest',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/forest_ambience.ogg",
+      player: AssetsAudioPlayer()),
 ];
 
 List<ViewModels> get models2 => arrays2;
