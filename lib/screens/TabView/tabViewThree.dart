@@ -127,7 +127,6 @@ class _State extends State<TabViewThree> {
                     ) :  Text(
                       arrays3[index].title,
                       style: TextStyle(fontSize: 13,
-                          height: 2.5,
                       color: Colors.white),
                       textAlign: TextAlign.center,
                     ),

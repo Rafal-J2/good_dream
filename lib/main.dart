@@ -1,12 +1,13 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
-// import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:good_dream/models/DataProvider.dart';
-import 'package:good_dream/screens/bottomNavigatro.dart';
+import 'package:good_dream/screens/navigatrors.dart';
 import 'package:provider/provider.dart';
 import 'package:flare_splash_screen/flare_splash_screen.dart';
 import 'package:flutter/services.dart';
+
+
 
 void main() {
 // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
   //    navigatorObservers: <NavigatorObserver>[observer],
       home: SplashScreen(
         'assets/intro2.flr',
-        MyApp4(
+        Navigators(
     //  analytics: analytics,
      //   observer: observer,
         ),

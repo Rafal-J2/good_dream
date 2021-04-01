@@ -22,6 +22,7 @@ class TabViewTwo extends StatefulWidget {
   @override
   _State createState() => _State(analytics);
 }
+
 class _State extends State<TabViewTwo> {
   // Firebase Analytics
   FirebaseAnalytics _analytics;
@@ -93,13 +94,13 @@ class _State extends State<TabViewTwo> {
                   children: [
                     Image(
                       height: 50,
-                      width: 60,
+                      width: 120,
                       //  height: 50.0,
                       image: AssetImage(arrays2[index].isFav
                           ? arrays2[index].picOn
                           : arrays2[index].picOff),
                     ),
-                    Padding(padding: EdgeInsets.only(top: 10)),
+                    Padding(padding: EdgeInsets.only(top: 8)),
                     arrays2[index].isFav
                         ? AnimatedOpacity(
                             duration: Duration(milliseconds: 800),
@@ -129,7 +130,7 @@ class _State extends State<TabViewTwo> {
                             arrays2[index].title,
                             style: TextStyle(
                                 fontSize: 13.0,
-                                height: 2.5,
+                             //   height: 2.5,
                                 color: Colors.white),
                             textAlign: TextAlign.center,
                           ),

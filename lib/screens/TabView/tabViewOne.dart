@@ -12,7 +12,7 @@ class TabViewOne extends StatefulWidget {
   TabViewOne({
     Key key,
     this.analytics,
- //   this.observer,
+    //   this.observer,
   }) : super(key: key);
 
   // Firebase Analytics
@@ -22,59 +22,58 @@ class TabViewOne extends StatefulWidget {
   @override
   _State createState() => _State(analytics);
 }
+
 class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
   final PageStorageBucket bucket = PageStorageBucket();
   // Firebase Analytics
-  FirebaseAnalytics _analytics;
+  FirebaseAnalytics analytics;
 
   _State(FirebaseAnalytics analytics);
 
   @override
   void initState() {
-    _analytics = FirebaseAnalytics();
+    analytics = FirebaseAnalytics();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-      super.build(context);
-    return Consumer<DataProvider>(builder: (context,
-        cart,
-        child,) {
-
+    super.build(context);
+    return Consumer<DataProvider>(builder: (
+      context,
+      cart,
+      child,
+    ) {
       return GridView.builder(
         itemCount: arrays.length,
-        gridDelegate:
-        SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: 1.0,
-            crossAxisCount: 3),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            childAspectRatio: 1.0, crossAxisCount: 3),
         itemBuilder: (context, index) {
           //   final shopList = snapshot.data["shop items"];
           return Column(
             children: [
               TextButton(
-              ///  padding: EdgeInsets.only(top: 10),
+                ///  padding: EdgeInsets.only(top: 10),
                 onPressed: () async {
                   if (cart.count <= 5) {
                     //Bool checking
-                    arrays[index].isFav =
-                    !arrays[index].isFav;
+                    arrays[index].isFav = !arrays[index].isFav;
 
                     // Click_events - if isFav is true
-                    if (arrays[index].isFav) {
+                    /*     if (arrays[index].isFav) {
                       await _analytics.logEvent(
                         name: arrays[index].events,
                       );
-                    }
+                    }*/
                     // Play or Stop sounds
                     arrays[index].isFav
                         ? arrays[index].player.open(
-                        Audio(
-                          arrays[index].sounds,
-                        ),
-                        volume: 0.5,
-                        //  showNotification: true,
-                        loopMode: LoopMode.single)
+                            Audio(
+                              arrays[index].sounds,
+                            ),
+                            volume: 0.5,
+                            //  showNotification: true,
+                            loopMode: LoopMode.single)
                         : arrays[index].player.pause();
                     //Add image to page two
                     arrays[index].isFav
@@ -92,8 +91,7 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
                   // foregroundService START or STOP
                   if (cart.count == 1) {
                     foregroundService();
-                  } else if (cart.count == 0 &&
-                      cart.count2 == 0) {
+                  } else if (cart.count == 0 && cart.count2 == 0) {
                     foregroundServiceStop();
                   }
                 },
@@ -103,44 +101,44 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
                       fit: BoxFit.contain,
                       height: 50,
                       width: 120,
-                      //  height: 50.0,
-                      image: AssetImage(
-                          arrays[index].isFav
-                              ? arrays[index].picOn
-                              : arrays[index].picOff),
+                      image: AssetImage(arrays[index].isFav
+                          ? arrays[index].picOn
+                          : arrays[index].picOff),
                     ),
-                    arrays[index].isFav ? AnimatedOpacity(
-                      opacity: arrays[index].isFav
-                          ? arrays[index].opacityOn
-                          : arrays[index].opacityOff,
-                      duration: Duration(milliseconds: 800),
-                      child: PlayerBuilder.volume(
-                          player: arrays[index].player,
-                          builder: (context, volume) {
-                            return Shimmer.fromColors(
-                              baseColor: Colors.white,
-                              highlightColor: Colors.grey,
-                              child: Slider(
-                                  value: volume,
-                                  min: 0,
-                                  max: 1,
-                                  divisions: 50,
-                                  onChanged: (v) {
-                                    setState(() {
-                                      arrays[index]
-                                          .player
-                                          .setVolume(v);
-                                    });
-                                  }),
-                            );
-                          }),
-                    ) : Text(
-                      arrays[index].title,
-                      style: TextStyle(fontSize: 12.0,
-                          height: 2.5,
-                      color: Colors.white),
-                      textAlign: TextAlign.center,
-                    ),
+                    Padding(padding: EdgeInsets.only(top: 8)),
+                    arrays[index].isFav
+                        ? AnimatedOpacity(
+                            opacity: arrays[index].isFav
+                                ? arrays[index].opacityOn
+                                : arrays[index].opacityOff,
+                            duration: Duration(milliseconds: 800),
+                            child: PlayerBuilder.volume(
+                                player: arrays[index].player,
+                                builder: (context, volume) {
+                                  return Shimmer.fromColors(
+                                    baseColor: Colors.white,
+                                    highlightColor: Colors.grey,
+                                    child: Slider(
+                                        value: volume,
+                                        min: 0,
+                                        max: 1,
+                                        divisions: 50,
+                                        onChanged: (v) {
+                                          setState(() {
+                                            arrays[index].player.setVolume(v);
+                                          });
+                                        }),
+                                  );
+                                }),
+                          )
+                        : Text(
+                            arrays[index].title,
+                            style: TextStyle(
+                                fontSize: 12.0,
+                            //    height: 2.5,
+                                color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
                   ],
                 ),
               ),
@@ -152,6 +150,5 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
   }
 
   @override
-
   bool get wantKeepAlive => true;
 }

@@ -7,7 +7,6 @@ import '../fun/launch_url.dart';
 class Menu extends StatefulWidget {
   @override
   _MenuState createState() => _MenuState();
-
 }
 
 class _MenuState extends State<Menu> {
@@ -18,20 +17,21 @@ class _MenuState extends State<Menu> {
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Color(0xFF16222A),
-                Color(0xFF3A6073)],
+              colors: [Color(0xFF16222A), Color(0xFF3A6073)],
               stops: [0.5, 0.9])),
       child: ListView(
         children: <Widget>[
           DrawerHeader(
             // TODO hamburger
-            child: Text('Menu'),
+            child: Text('Menu',
+            style: TextStyle(
+              color: Colors.white
+            )),
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [Color(0xFF16222A),
-                      Color(0xFF3A6073)],
+                    colors: [Color(0xFF16222A), Color(0xFF3A6073)],
                     stops: [0.5, 0.7])),
           ),
           Column(
@@ -40,33 +40,36 @@ class _MenuState extends State<Menu> {
                               title: Text('Premium'),
                               onTap: () {},
                             ),*/
-
               ListTile(
-                title: Text('Privacy Policy'),
+                title: Text('Privacy Policy',
+                    style: TextStyle(color: Colors.white)),
                 onTap: () {
                   // TODO Dialog witch hamburger
                   showMyDialog2();
                 },
               ),
-            /* ListTile(
+              /* ListTile(
                           title: Text('Terms & Conditions'),
                           onTap: () {
                           //  showMyDialog3();
                           },
                         ),*/
               ListTile(
-                title: Text('Acknowledgments'),
+                title: Text(
+                  'Acknowledgments',
+                  style: TextStyle(color: Colors.white),
+                ),
                 onTap: () {
                   showMyDialog3();
-                  //  Test();
-                  //   Test();
                 },
               ),
               ListTile(
-                title: Text('Exit the application'),
+                title: Text(
+                  'Exit the application',
+                  style: TextStyle(color: Colors.white),
+                ),
                 onTap: () {
-                  SystemChannels.platform
-                      .invokeMethod('SystemNavigator.pop');
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                 },
               ),
             ],
@@ -113,7 +116,6 @@ class _MenuState extends State<Menu> {
                   ),
                   child: Text(partTwo),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
@@ -180,12 +182,10 @@ class _MenuState extends State<Menu> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(partSeven),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(
                     top: 8.0,
@@ -307,7 +307,6 @@ class _MenuState extends State<Menu> {
                   padding: const EdgeInsets.all(16.0),
                   child: Text(acknowledgments),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(
                     top: 8.0,
@@ -340,7 +339,4 @@ class _MenuState extends State<Menu> {
       },
     );
   }
-
-
 }
-

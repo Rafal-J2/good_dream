@@ -1,4 +1,5 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:good_dream/fun/functions.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
       builder: (context, cart, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(brightness: Brightness.dark),
+          theme: FlexColorScheme
+              .light(scheme: FlexScheme.mandyRed)
+              .toTheme,
+          // The Mandy red, dark theme.
+          darkTheme: FlexColorScheme
+              .dark(scheme: FlexScheme.mandyRed)
+              .toTheme,
+          // Use dark or light theme base
           home: Scaffold(
             appBar: AppBar(
               title: Text('Active sounds'),
@@ -28,7 +36,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 Container(
                   width: 50.0,
                 height: screenSize.height / 2,
-                  color: Colors.black12,
+               //   color: Colors.black12,
                   child: GridView.builder(
                       itemCount: cart.basketItems.length,
                       gridDelegate:
@@ -83,7 +91,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 Container(
                   width: 50.0,
                   height: screenSize.height / 1.6,
-                  color: Colors.black45,
+                 // color: Colors.black45,
                   child: GridView.builder(
                       itemCount: cart.basketItems2.length,
                       gridDelegate:
