@@ -10,6 +10,9 @@ class ViewModels {
   String log;
   final player;
 
+  bool isDarkMode;
+   var themeMode;
+
   var opacityOff;
   var opacityOn;
   double vol = 0.5;
@@ -25,7 +28,9 @@ class ViewModels {
       this.log,
       this.opacityOff,
       this.opacityOn,
-      this.vol});
+      this.vol,
+      this.isDarkMode,
+      this.themeMode});
 
   playAudio00() {
     player.open(

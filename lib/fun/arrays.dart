@@ -11,6 +11,40 @@ bool isFav6 = true;
 List<ViewModels> get models => arrays;
 
 final arrays = [
+
+  ViewModels(
+      events: 'click_woodpecker',
+      picOff: 'assets/images/woodpecker_w.png',
+      picOn: 'assets/images/woodpecker_on.png',
+      title: 'Woodpecker',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/woodpecker.ogg",
+      player: AssetsAudioPlayer()),
+
+  ViewModels(
+      events: 'click_frogs_ambience',
+      picOff: 'assets/images/frog_w.png',
+      picOn: 'assets/images/frog_on.png',
+      title: 'Frogs ambience',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/frogs_ambience.ogg",
+      player: AssetsAudioPlayer()),
+
+  ViewModels(
+      events: 'click_storks',
+      picOff: 'assets/images/stork_w.png',
+      picOn: 'assets/images/stork_on.png',
+      title: 'Stork',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/storks.ogg",
+      player: AssetsAudioPlayer()),
+
   ViewModels(
       events: 'click_bonfire',
       picOff: 'assets/images/bonfire2_w.png',
@@ -177,7 +211,6 @@ final arrays2 = [
       opacityOff: 0.0,
       opacityOn: 1.0,
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_hair_dryer',
       picOff: 'assets/images/hair_dryer_w.png',
@@ -185,6 +218,17 @@ final arrays2 = [
       title: 'Hair dryer',
       isFav: false,
       sounds: "assets/audio/hair_dryer2.ogg",
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      player: AssetsAudioPlayer()),
+
+  ViewModels(
+      events: 'click_keyboard',
+      picOff: 'assets/images/keyboard_w.png',
+      picOn: 'assets/images/keyboard_on.png',
+      title: 'Keyboard',
+      isFav: false,
+      sounds: "assets/audio/keyboard.ogg",
       opacityOff: 0.0,
       opacityOn: 1.0,
       player: AssetsAudioPlayer()),
@@ -256,20 +300,16 @@ final arrays3 = [
       opacityOn: 1.0,
       sounds: "assets/audio/relaxation_piano.ogg",
       player: AssetsAudioPlayer()),
-
-
-  /*ViewModels(
-      events: null,
-      picOff: 'assets/images/coming-soon.png',
-      picOn: 'assets/images/coming-soon.png',
-      title: 'coming-soon',
-      isFav: false,
-      sounds: null,
-      opacityOff: 0.0,
-      opacityOn: 0.0,
-      player: AssetsAudioPlayer()),*/
 ];
 
 
 
+List<ViewModels> get models4 => arrays4;
+final arrays4 = [
+  ViewModels(
+      isDarkMode: false,
+
+        ),
+
+];
 

@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:good_dream/fun/clockTimer.dart';
-
 import 'package:good_dream/services/admob_service.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,7 +31,12 @@ class GoodDream extends StatefulWidget {
     this.cancelWidget,
     this.title,
     this.observer,
+    this.themeMode,
+    this.onThemeModeChanged,
   }) : super(key: key);
+
+  final ThemeMode themeMode;
+  final ValueChanged<ThemeMode> onThemeModeChanged;
 
 // Firebase Analytics
   //final FirebaseAnalytics analytics;
@@ -47,6 +51,7 @@ class GoodDream extends StatefulWidget {
 }
 
 class _State extends State<GoodDream>   {
+  ThemeMode themeMode = ThemeMode.light;
   _State(
    // this.analytics,
     this.observer,
@@ -65,7 +70,7 @@ class _State extends State<GoodDream>   {
   }
   @override
   Widget build(BuildContext context) {
-    /// This is Verications
+    /// This is for verification
     final Size screenSize = MediaQuery.of(context).size;
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -80,32 +85,19 @@ class _State extends State<GoodDream>   {
         debugShowCheckedModeBanner: false,
         theme: FlexColorScheme
             .light(scheme: FlexScheme.red,
-        //  onPrimary: Colors.white,
                onSecondary: Colors.white,
-        //    surface: Colors.black,
-
-         //   onSeconday: Colors.green,
-            scaffoldBackground: Color(0xFF20124d),
-           // surface: Colors.yellow
+            scaffoldBackground: Color(0xFF20124d)
         )
             .toTheme,
-        // The Mandy red, dark theme.
         darkTheme: FlexColorScheme
             .dark(scheme: FlexScheme.red,
-            scaffoldBackground: Colors.black45,
-
-         // surface: Colors.yellow
+            onPrimary: Colors.white,
         )
             .toTheme,
-        // Use dark or light theme based on system setting.
-        themeMode: ThemeMode.system,
+        themeMode: cart.basketItems3.isEmpty  ? ThemeMode.system : cart.basketItems3[0].themeMode,
         home: DefaultTabController(
           length: 3,
           child: Scaffold(
-            //  backgroundColor: Colors.grey,
-         /*   drawer: Drawer(
-              child: Menu(),
-            ),*/
             appBar: PreferredSize(
              preferredSize: Size.fromHeight(40.0),
               child: AppBar(
@@ -128,14 +120,10 @@ class _State extends State<GoodDream>   {
                     ],
                   ),
                 ),
-                // title: Text('Tabs Demo'),
-
-           //   title: Center(child: Text('Good Dream')),
               ),
             ),
             body: Container(
           decoration: BoxDecoration(
-         //     color: Color(0xFF20124d),
           ),
               child: Column(
                 children: [
@@ -151,6 +139,7 @@ class _State extends State<GoodDream>   {
                               child: TabViewOne(
                               ),
                             ),
+
                           ],
                         ),
                         // TODO  ListView2
@@ -165,7 +154,6 @@ class _State extends State<GoodDream>   {
                             ),
                           ],
                         ),
-
                         ListView(
                           children: <Widget>[
                             // TODO Tab3
@@ -175,21 +163,12 @@ class _State extends State<GoodDream>   {
                             ),
                           ],
                         ),
+
                       ],
                     ),
                   ),
                   // TODO bottom buttons
-                  //  SlideCountdownClock(duration: _duration,),
                   ClockTimer(),
-                  //   TODO Bannerflu
-                  Container(
-                    //     width: 400,
-              /*     child: AdmobBanner(
-                      adUnitId: ams.getBannerAdId(),
-                      adSize: AdmobBannerSize.ADAPTIVE_BANNER(
-                          width: MediaQuery.of(context).size.width.toInt()),
-                    ),*/
-                  ),
                 ],
               ),
             ),

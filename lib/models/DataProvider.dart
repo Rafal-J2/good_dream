@@ -6,10 +6,9 @@ class DataProvider extends ChangeNotifier {
   List<ViewModels> _items = [];
   void add(ViewModels item) {
     _items.add(item);
-    print(_items);
+   // print(_items);
     notifyListeners();
   }
-
 
   void remove(ViewModels item) {
     _items.remove(item);
@@ -20,11 +19,10 @@ class DataProvider extends ChangeNotifier {
     return _items.length;
   }
 
-  List<ViewModels> get basketItems {
-    return _items;
-  }
-
   // counter to piano
+  int get count2 {
+    return _items2.length;
+  }
 
   List<ViewModels> _items2 = [];
 
@@ -39,12 +37,29 @@ class DataProvider extends ChangeNotifier {
   }
 
 
-  int get count2 {
-    return _items2.length;
-  }
 
   List<ViewModels> get basketItems2 {
     return _items2;
+  }
+
+
+  List<ViewModels> get basketItems {
+    return _items;
+  }
+
+
+
+
+  List<ViewModels> _items3 = [];
+
+  void add3(ViewModels item) {
+    _items3.add(item);
+    notifyListeners();
+  }
+
+  List<ViewModels> get basketItems3 {
+    return _items3;
+
   }
 
 }

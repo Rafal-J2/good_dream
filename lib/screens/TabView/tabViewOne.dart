@@ -75,10 +75,14 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
                             //  showNotification: true,
                             loopMode: LoopMode.single)
                         : arrays[index].player.pause();
-                    //Add image to page two
-                    arrays[index].isFav
+                   arrays[index].isFav
                         ? cart.add(arrays[index])
                         : cart.remove(arrays[index]);
+                    //Add image to page two. If is isFav = true, add entire arrays.
+                    // Table number is depends on from the selected item
+                    // for example:  arrays[0].isFav = true.
+                    // If is true add to cart provider entire items  "picOff, isFav, sounds, vol, player"
+                    // basketItems is the receiver i find screenTwo.dart
                   } else if (cart.count == 6) {
                     cart.remove(arrays[index]);
                     arrays[index].isFav = false;
@@ -139,6 +143,7 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
                                 color: Colors.white),
                             textAlign: TextAlign.center,
                           ),
+
                   ],
                 ),
               ),

@@ -7,8 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:flare_splash_screen/flare_splash_screen.dart';
 import 'package:flutter/services.dart';
 
-
-
 void main() {
 // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   runApp(MyApp());
@@ -35,7 +33,7 @@ class MyApp extends StatelessWidget {
      //   observer: observer,
         ),
         startAnimation: 'intro',
-        backgroundColor: Color(0xff000000),
+      //  backgroundColor: Color(0xff000000),
       ),
     );
     return ChangeNotifierProvider(

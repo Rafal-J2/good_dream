@@ -1,6 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:good_dream/fun/functions.dart';
 import 'package:provider/provider.dart';
 import 'package:good_dream/models/DataProvider.dart';
@@ -10,8 +11,9 @@ class CheckoutPage extends StatefulWidget {
   @override
   _CheckoutPageState createState() => _CheckoutPageState();
 }
-
 class _CheckoutPageState extends State<CheckoutPage> {
+  ThemeMode themeMode = ThemeMode.light;
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -20,16 +22,23 @@ class _CheckoutPageState extends State<CheckoutPage> {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: FlexColorScheme
-              .light(scheme: FlexScheme.mandyRed)
+              .light(scheme: FlexScheme.red,
+            onSecondary: Colors.white,
+            scaffoldBackground: Color(0xFF20124d),
+          )
               .toTheme,
-          // The Mandy red, dark theme.
           darkTheme: FlexColorScheme
-              .dark(scheme: FlexScheme.mandyRed)
+              .dark(scheme: FlexScheme.red,
+          )
               .toTheme,
-          // Use dark or light theme base
+          themeMode: cart.basketItems3.isEmpty  ? ThemeMode.system : cart.basketItems3[0].themeMode,
           home: Scaffold(
-            appBar: AppBar(
-              title: Text('Active sounds'),
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(40.0),
+              child: AppBar(
+                systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.black),
+                title: Text('Active sounds'),
+              ),
             ),
             body:  ListView(
               children: <Widget>[
@@ -76,7 +85,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                       divisions: 50,
                                       onChanged: (v) {
                                         setState(() {
-
                                           cart.basketItems[index]
                                               .player
                                               .setVolume(v);
@@ -88,6 +96,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       }),
                 ),
                 // TODO Flat button piano
+
                 Container(
                   width: 50.0,
                   height: screenSize.height / 1.6,
@@ -112,7 +121,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   foregroundServiceStop();
                                 }
                               },
-
                               child: Shimmer.fromColors(
                                 highlightColor: Colors.white,
                                 baseColor: Colors.black26,
@@ -145,12 +153,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   );
                                 }),
                           ],
-
                         );
-                     
                       }),
-
-                  //   child: GridView.builder(gridDelegate: null, itemBuilder: null)
                 ),
               ],
             ),

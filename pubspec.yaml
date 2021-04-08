@@ -118,6 +118,14 @@ flutter:
        - assets/hair_dryer_on.png
        - assets/flute_w.png
        - assets/flute_on.png
+       - assets/keyboard_w.png
+       - assets/keyboard_on.png
+       - assets/frog_w.png
+       - assets/frog_on.png
+       - assets/woodpecker_w.png
+       - assets/woodpecker_on.png
+       - assets/stork_w.png
+       - assets/stork_on.png
        - assets/audio/
        - assets/splash.flr
        - assets/intro.flr

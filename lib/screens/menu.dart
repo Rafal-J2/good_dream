@@ -1,82 +1,131 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:good_dream/fun/arrays.dart';
+
+import 'package:good_dream/fun/modeSwitch.dart';
+import 'package:good_dream/models/DataProvider.dart';
+import 'package:provider/provider.dart';
 import '../fun/dialogs.dart';
 import '../fun/launch_url.dart';
 
 class Menu extends StatefulWidget {
+  const Menu({
+    Key key,
+    this.setDarkMode,
+  }) : super(key: key);
+  final ValueChanged<bool> setDarkMode;
+
+
   @override
   _MenuState createState() => _MenuState();
 }
 
-class _MenuState extends State<Menu> {
+class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
+
+ // bool isSwitched = false;
+ bool isDarkMode;
+
+  void initState() {
+    isDarkMode = false;
+    super.initState();
+  }
+
+  ThemeMode themeMode = ThemeMode.system;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Color(0xFF16222A), Color(0xFF3A6073)],
-              stops: [0.5, 0.9])),
-      child: ListView(
-        children: <Widget>[
-          DrawerHeader(
-            // TODO hamburger
-            child: Text('Menu',
-            style: TextStyle(
-              color: Colors.white
-            )),
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Color(0xFF16222A), Color(0xFF3A6073)],
-                    stops: [0.5, 0.7])),
-          ),
-          Column(
-            children: [
-              /*    ListTile(
-                              title: Text('Premium'),
-                              onTap: () {},
-                            ),*/
-              ListTile(
-                title: Text('Privacy Policy',
-                    style: TextStyle(color: Colors.white)),
-                onTap: () {
-                  // TODO Dialog witch hamburger
-                  showMyDialog2();
-                },
-              ),
-              /* ListTile(
-                          title: Text('Terms & Conditions'),
-                          onTap: () {
-                          //  showMyDialog3();
-                          },
-                        ),*/
-              ListTile(
-                title: Text(
-                  'Acknowledgments',
-                  style: TextStyle(color: Colors.white),
+    super.build(context);
+   // const FlexScheme usedFlexScheme = FlexScheme.mandyRed;
+    return Consumer<DataProvider>(builder: (
+        context,
+        cart,
+        child,
+        ) {
+
+/*        theme: FlexColorScheme
+            .light(scheme: FlexScheme.red,
+         // onSecondary: Colors.white,
+       //   scaffoldBackground: Color(0xFF20124d),
+        )
+            .toTheme,
+        darkTheme: FlexColorScheme
+            .dark(scheme: FlexScheme.red,
+        )
+            .toTheme,
+          themeMode: cart.basketItems3.isEmpty  ? ThemeMode.system : cart.basketItems3[0].themeMode,*/
+        return ListView(
+
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Menu', style: TextStyle(color: Colors.white)),
+            ),
+            Column(
+              children: [
+         /*       DemoPage(
+                  setDarkMode: (bool value) {
+                    setState(() {
+                   isDarkMode = value;
+                      /// It is work
+                   arrays4[0].isDarkMode = value;
+                   cart.add3(arrays4[0]);
+                    });
+                  },
+                ),*/
+                ListTile(
+                  title:
+                  Text('Privacy Policy', style: TextStyle(color: Colors.white)),
+                  onTap: () {
+                    showMyDialog2();
+                  },
                 ),
-                onTap: () {
-                  showMyDialog3();
-                },
-              ),
-              ListTile(
-                title: Text(
-                  'Exit the application',
-                  style: TextStyle(color: Colors.white),
+                ListTile(
+                  title: Text('Terms & Conditions',
+                      style: TextStyle(color: Colors.white)),
+
+                  onTap: () {
+                    //  showMyDialog3();
+                  },
                 ),
-                onTap: () {
-                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+                ListTile(
+                  title: Text(
+                    'Acknowledgments',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    showMyDialog3();
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    'Exit the application',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                  },
+                ),
+               Container(
+                  height: 200,
+                  child: HomePage(
+                    // We pass it the current theme mode.
+                    themeMode: themeMode,
+                    // On the home page we can toggle theme mode between light and dark.
+                    onThemeModeChanged: (ThemeMode mode) {
+                      setState(() {
+                       themeMode = mode;
+                        arrays4[0].themeMode = mode;
+                        cart.add3(arrays4[0]);
+                      });
+                    },
+                    flexSchemeData: FlexColor.schemes[FlexScheme.red],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+    });
   }
 
   Future<void> showMyDialog2() async {
@@ -339,4 +388,57 @@ class _MenuState extends State<Menu> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({
+    Key key,
+    this.setDarkMode,
+  }) : super(key: key);
+  final ValueChanged<bool> setDarkMode;
+
+  @override
+  _DemoPageState createState() => _DemoPageState();
+}
+//-----------------------------
+
+class _DemoPageState extends State<DemoPage> {
+  bool isDarkMode;
+  @override
+  void initState() {
+    isDarkMode = false;
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<DataProvider>(builder: (
+        context,
+        cart,
+        child,
+    ) {
+   return Container(
+      child: SwitchListTile.adaptive(
+          title: const Text('Use dark theme'),
+          subtitle:
+          const Text('OFF for light theme, ON for dark theme.'),
+          value: isDarkMode,
+          onChanged: (bool value) {
+            setState(() {
+              isDarkMode = value;
+              widget.setDarkMode(isDarkMode);
+            //  arrays4[0].isDarkMode = value;
+             // cart.add3(isDarkMode = value);
+           //   arrays4[0].isDarkMode = value;
+           //  cart.add3(arrays4[0]);
+            });
+          },
+        ),
+    );
+    });
+  }
+
+
 }

@@ -60,7 +60,6 @@ class _State extends State<TabViewTwo> {
                         name: arrays2[index].events,
                       );
                     }
-
                     /// Play or Stop sounds
                     arrays2[index].isFav
                         ? arrays2[index].player.open(

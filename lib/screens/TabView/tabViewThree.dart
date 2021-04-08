@@ -22,6 +22,7 @@ class TabViewThree extends StatefulWidget {
   _State createState() => _State(analytics);
 }
 class _State extends State<TabViewThree> {
+  ThemeMode themeMode = ThemeMode.light;
   // Firebase Analytics
   FirebaseAnalytics _analytics;
 
@@ -129,14 +130,19 @@ class _State extends State<TabViewThree> {
                       style: TextStyle(fontSize: 13,
                       color: Colors.white),
                       textAlign: TextAlign.center,
+
+
                     ),
                   ],
                 ),
               ),
+
+
             ],
           );
         },
       );
+
     });
   }
 }

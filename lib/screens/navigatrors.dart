@@ -1,9 +1,11 @@
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:good_dream/models/DataProvider.dart';
 import 'package:good_dream/screens/mainScreen.dart';
 import 'package:good_dream/screens/screenTwo.dart';
 import 'package:good_dream/services/admob_service.dart';
+import 'package:provider/provider.dart';
 import 'menu.dart';
 
 class Navigators extends StatefulWidget {
@@ -12,22 +14,38 @@ class Navigators extends StatefulWidget {
 }
 
 class _NavigatorsState extends State<Navigators> {
+  // ThemeMode themeMode = ThemeMode.light;
+  bool isDarkMode;
+
+  void initState() {
+    isDarkMode = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: FlexColorScheme.light(
-        scheme: FlexScheme.red,
-        background: Color(0xFF20124d),
-    //  surface: Colors.black,
-      //  onPrimary: Colors.black,
-       //   onSecondary: Colors.black
-      ).toTheme,
-      darkTheme: FlexColorScheme.dark(scheme: FlexScheme.mandyRed).toTheme,
-      themeMode: ThemeMode.system,
-      home: MyHomePage(title: 'Save States in BottomNavigationBar'),
-    );
+    return Consumer<DataProvider>(builder: (
+      context,
+      cart,
+      child,
+    ) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        /*      title: 'Flutter Demo',
+        theme: FlexColorScheme
+            .light(
+          scheme: FlexScheme.red,
+          background: Color(0xFF20124d),
+        )
+            .toTheme,
+        darkTheme: FlexColorScheme
+            .dark(scheme: FlexScheme.mandyRed)
+            .toTheme,
+         //  themeMode: arrays4[0].isDarkMode ? ThemeMode.dark : ThemeMode.light,
+             themeMode: null,*/
+        home: MyHomePage(title: 'Save States in BottomNavigationBar'),
+      );
+    });
   }
 }
 
@@ -40,6 +58,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  ThemeMode themeMode = ThemeMode.light;
   var _selectedPageIndex;
   List<Widget> _pages;
   PageController _pageController;
@@ -49,13 +68,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-
     _selectedPageIndex = 0;
     _pages = [
       GoodDream(),
       CheckoutPage(),
       Menu(),
     ];
+
+    /// Save state all screens
     _pageController = PageController(initialPage: _selectedPageIndex);
   }
 
@@ -68,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> fakeBottomButtons = List<Widget>();
+    List<Widget> fakeBottomButtons = <Widget>[];
     fakeBottomButtons.add(Container(
       child: AdmobBanner(
         adUnitId: ams.getBannerAdId(),
@@ -76,49 +96,74 @@ class _MyHomePageState extends State<MyHomePage> {
             width: MediaQuery.of(context).size.width.toInt()),
       ),
     ));
-    return Scaffold(
-      body: PageView(
-        controller: _pageController,
-        physics: NeverScrollableScrollPhysics(),
-        children: _pages,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        unselectedItemColor: Colors.white,
-        selectedItemColor: Colors.red,
-        selectedIconTheme: IconThemeData(
-          color: Colors.red
-        ),
-        //   backgroundColor: Color(0xFF16222A),
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Mix Sounds',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.surround_sound),
-            label: 'Active Sounds',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: 'Settings',
-          ),
-        ],
-        //   selectedItemColor: Colors.white,
-        //   unselectedItemColor: Colors.blue,
-        showSelectedLabels: true,
-        currentIndex: _selectedPageIndex,
-        onTap: (selectedPageIndex) {
-          setState(() {
-            _selectedPageIndex = selectedPageIndex;
-            _pageController.jumpToPage(selectedPageIndex);
-          });
-        },
-      ),
-      persistentFooterButtons: fakeBottomButtons,
+    return Consumer<DataProvider>(builder: (
+      context,
+      cart,
+      child,
+    ) {
+      return MaterialApp(
+        theme: FlexColorScheme.light(
+                scheme: FlexScheme.red,
+                //   onSecondary: Colors.white,
+                scaffoldBackground: Color(0xFF20124d),
+                /// Colors Navigation Bar
+                background: Color(0xFF20124d))
+            .toTheme,
+        darkTheme: FlexColorScheme.dark(
+          scheme: FlexScheme.red,
+          onPrimary: Colors.white,
+          //  scaffoldBackground: Colors.black87,
+        ).toTheme,
+        // themeMode: ThemeMode.system,
+        //   themeMode: cart.basketItems3.isEmpty  ? ThemeMode.dark : cart.basketItems3[0].themeMode,
+        themeMode: cart.basketItems3.isEmpty
+            ? ThemeMode.system
+            : cart.basketItems3[0].themeMode,
 
-      /// Colors ADS
-      backgroundColor: Color(0xFF20124d),
-    );
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: PageView(
+            controller: _pageController,
+            physics: NeverScrollableScrollPhysics(),
+            children: _pages,
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            unselectedItemColor: Colors.white,
+            selectedItemColor: Colors.red,
+            selectedIconTheme: IconThemeData(color: Colors.red),
+            //   backgroundColor: Color(0xFF20124d),
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Mix Sounds',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.surround_sound),
+                label: 'Active Sounds',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.menu),
+                label: 'Settings',
+              ),
+            ],
+            //   selectedItemColor: Colors.white,
+            //   unselectedItemColor: Colors.blue,
+            showSelectedLabels: true,
+            currentIndex: _selectedPageIndex,
+            onTap: (selectedPageIndex) {
+              setState(() {
+                _selectedPageIndex = selectedPageIndex;
+                _pageController.jumpToPage(selectedPageIndex);
+              });
+            },
+          ),
+          persistentFooterButtons: fakeBottomButtons,
+
+          /// Colors ADS
+          //  backgroundColor: Color(0xFF20124d),
+        ),
+      );
+    });
   }
 }
 

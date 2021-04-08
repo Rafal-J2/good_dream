@@ -84,9 +84,9 @@ class _State extends State<ClockTimer> {
   }
 
   sendAnalyticsSetTime() {
-   _analytics.logEvent(
+  /* _analytics.logEvent(
       name: 'set_times',
-    );
+    );*/
   }
 
   Timer timer;
@@ -128,7 +128,7 @@ class _State extends State<ClockTimer> {
 
     return Text(
       "$hours:$minutes:$seconds",
-      style: TextStyle(fontSize: 40.0),
+      style: TextStyle(fontSize: 40.0, color: Colors.white),
     );
   }
 
@@ -174,11 +174,9 @@ class _State extends State<ClockTimer> {
         ) {
       return Column(
         children: [
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
               Row(
               //    mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -196,7 +194,6 @@ class _State extends State<ClockTimer> {
                       sendAnalyticsTrackSounds();
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CheckoutPage()));
-
                     },
                   ),
                   Text(
@@ -222,7 +219,6 @@ class _State extends State<ClockTimer> {
                   },
                   child: Text("Set Time"),
                 ),
-
               ),
               Row(
                 // mainAxisAlignment: MainAxisAlignment.center,
@@ -268,7 +264,7 @@ class _State extends State<ClockTimer> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Colors.grey,
+          //  backgroundColor: Colors.grey,
             title: Center(child: Text('Set Time')),
             content: Row(
               mainAxisAlignment: MainAxisAlignment.center,
