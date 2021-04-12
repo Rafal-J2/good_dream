@@ -81,7 +81,6 @@ class _State extends State<TabViewTwo> {
                       toast();
                     }
                   }
-
                   /// foregroundService START or STOP
                   if (cart.count == 1) {
                     foregroundService();

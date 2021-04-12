@@ -42,7 +42,6 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
         cart,
         child,
         ) {
-
 /*        theme: FlexColorScheme
             .light(scheme: FlexScheme.red,
          // onSecondary: Colors.white,
@@ -57,21 +56,11 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
         return ListView(
 
           children: <Widget>[
-            DrawerHeader(
+      /*      DrawerHeader(
               child: Text('Menu', style: TextStyle(color: Colors.white)),
-            ),
+            ),*/
             Column(
               children: [
-         /*       DemoPage(
-                  setDarkMode: (bool value) {
-                    setState(() {
-                   isDarkMode = value;
-                      /// It is work
-                   arrays4[0].isDarkMode = value;
-                   cart.add3(arrays4[0]);
-                    });
-                  },
-                ),*/
                 ListTile(
                   title:
                   Text('Privacy Policy', style: TextStyle(color: Colors.white)),
@@ -79,14 +68,13 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
                     showMyDialog2();
                   },
                 ),
-                ListTile(
+            /*    ListTile(
                   title: Text('Terms & Conditions',
                       style: TextStyle(color: Colors.white)),
-
                   onTap: () {
                     //  showMyDialog3();
                   },
-                ),
+                ),*/
                 ListTile(
                   title: Text(
                     'Acknowledgments',
@@ -131,7 +119,7 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
   Future<void> showMyDialog2() async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.grey,
@@ -391,54 +379,4 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
 
   @override
   bool get wantKeepAlive => true;
-}
-
-class DemoPage extends StatefulWidget {
-  const DemoPage({
-    Key key,
-    this.setDarkMode,
-  }) : super(key: key);
-  final ValueChanged<bool> setDarkMode;
-
-  @override
-  _DemoPageState createState() => _DemoPageState();
-}
-//-----------------------------
-
-class _DemoPageState extends State<DemoPage> {
-  bool isDarkMode;
-  @override
-  void initState() {
-    isDarkMode = false;
-    super.initState();
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<DataProvider>(builder: (
-        context,
-        cart,
-        child,
-    ) {
-   return Container(
-      child: SwitchListTile.adaptive(
-          title: const Text('Use dark theme'),
-          subtitle:
-          const Text('OFF for light theme, ON for dark theme.'),
-          value: isDarkMode,
-          onChanged: (bool value) {
-            setState(() {
-              isDarkMode = value;
-              widget.setDarkMode(isDarkMode);
-            //  arrays4[0].isDarkMode = value;
-             // cart.add3(isDarkMode = value);
-           //   arrays4[0].isDarkMode = value;
-           //  cart.add3(arrays4[0]);
-            });
-          },
-        ),
-    );
-    });
-  }
-
-
 }

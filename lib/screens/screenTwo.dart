@@ -11,6 +11,7 @@ class CheckoutPage extends StatefulWidget {
   @override
   _CheckoutPageState createState() => _CheckoutPageState();
 }
+
 class _CheckoutPageState extends State<CheckoutPage> {
   ThemeMode themeMode = ThemeMode.light;
 
@@ -21,78 +22,79 @@ class _CheckoutPageState extends State<CheckoutPage> {
       builder: (context, cart, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: FlexColorScheme
-              .light(scheme: FlexScheme.red,
+          theme: FlexColorScheme.light(
+            scheme: FlexScheme.red,
             onSecondary: Colors.white,
             scaffoldBackground: Color(0xFF20124d),
-          )
-              .toTheme,
-          darkTheme: FlexColorScheme
-              .dark(scheme: FlexScheme.red,
-          )
-              .toTheme,
-          themeMode: cart.basketItems3.isEmpty  ? ThemeMode.system : cart.basketItems3[0].themeMode,
+          ).toTheme,
+          darkTheme: FlexColorScheme.dark(
+            scheme: FlexScheme.red,
+          ).toTheme,
+          themeMode: cart.basketItems3.isEmpty
+              ? ThemeMode.system
+              : cart.basketItems3[0].themeMode,
           home: Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(40.0),
               child: AppBar(
-                systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.black),
+                systemOverlayStyle:
+                    SystemUiOverlayStyle(statusBarColor: Colors.black),
                 title: Text('Active sounds'),
               ),
             ),
-            body:  ListView(
+            body: ListView(
               children: <Widget>[
                 Container(
                   width: 50.0,
-                height: screenSize.height / 2,
-               //   color: Colors.black12,
-                  child: GridView.builder(
+                  height: screenSize.height / 2,
+                  //   color: Colors.black12,
+                  child: ListView.builder(
                       itemCount: cart.basketItems.length,
-                      gridDelegate:
-                      SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: 0.8,
-                          crossAxisCount: 3),
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                           TextButton(
-                             /// padding: EdgeInsets.all(20),
-                              onPressed: () {
-                                // Pause sounds with page one
-                                cart.basketItems[index].player
-                                    .pause();
-                                cart.basketItems[index].isFav = false;
-                            //   cart.basketItems2[index].id = true;
-                                cart.remove(cart.basketItems[index]);
-                          //    cart.remove2(cart.basketItems2[index]);
-                                if(cart.count == 0 && cart.count2 == 0) {
-                                  foregroundServiceStop();
-                                }
-                              },
-                              child: Image(
-                                height: 50.0,
-                                image: AssetImage(
-                                    cart.basketItems[index].picOff),
-                              ),
+                            Row(
+                              children: [
+                                     Image(
+                                    height: 50.0,
+                                    width: 50.0,
+                                    image: AssetImage(
+                                        cart.basketItems[index].picOff),
+                                  ),
+                                PlayerBuilder.volume(
+                                    player: cart.basketItems[index].player,
+                                    builder: (context, _vol) {
+                                      return Slider(
+                                          activeColor: Colors.white,
+                                          value: _vol,
+                                          min: 0,
+                                          max: 1,
+                                          divisions: 50,
+                                          onChanged: (v) {
+                                            setState(() {
+                                              cart.basketItems[index].player
+                                                  .setVolume(v);
+                                            });
+                                          });
+                                    }),
+                                IconButton(
+                                  icon: Icon(Icons.delete_forever),
+                                  iconSize: 48,
+                                  onPressed: () {
+                                    // Pause sounds with page one
+                                    cart.basketItems[index].player.pause();
+                                    cart.basketItems[index].isFav = false;
+                                    cart.remove(cart.basketItems[index]);
+                                    //    cart.remove2(cart.basketItems2[index]);
+                                    if (cart.count == 0 && cart.count2 == 0) {
+                                      foregroundServiceStop();
+                                    }
+                                  },
+                                )
+                              ],
                             ),
-                            PlayerBuilder.volume(
-                                player: cart.basketItems[index].player,
-                                builder: (context, _vol) {
-                                  return Slider(
-                                      activeColor: Colors.white,
-                                      value: _vol,
-                                      min: 0,
-                                      max: 1,
-                                      divisions: 50,
-                                      onChanged: (v) {
-                                        setState(() {
-                                          cart.basketItems[index]
-                                              .player
-                                              .setVolume(v);
-                                        });
-                                      });
-                                }),
                           ],
-                        );               
+                        );
                       }),
                 ),
                 // TODO Flat button piano
@@ -100,24 +102,22 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 Container(
                   width: 50.0,
                   height: screenSize.height / 1.6,
-                 // color: Colors.black45,
+                  // color: Colors.black45,
                   child: GridView.builder(
                       itemCount: cart.basketItems2.length,
-                      gridDelegate:
-                      SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: 0.8,
-                          crossAxisCount: 1),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 0.8, crossAxisCount: 1),
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
                             TextButton(
-                            ///  padding: EdgeInsets.all(40),
+                              ///  padding: EdgeInsets.all(40),
                               onPressed: () {
                                 // Pause sounds with page one
-                                cart.basketItems2[index].player
-                                    .pause();
+                                cart.basketItems2[index].player.pause();
                                 cart.basketItems2[index].isFav = false;
-                                   cart.remove2(cart.basketItems2[index]);
-                                if(cart.count == 0 && cart.count2 == 0) {
+                                cart.remove2(cart.basketItems2[index]);
+                                if (cart.count == 0 && cart.count2 == 0) {
                                   foregroundServiceStop();
                                 }
                               },
@@ -145,8 +145,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                         divisions: 100,
                                         onChanged: (v) {
                                           setState(() {
-                                            cart.basketItems2[index]
-                                                .player
+                                            cart.basketItems2[index].player
                                                 .setVolume(v);
                                           });
                                         }),

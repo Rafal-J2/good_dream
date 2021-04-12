@@ -36,8 +36,6 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   List<ViewModels> get basketItems2 {
     return _items2;
   }
@@ -46,9 +44,6 @@ class DataProvider extends ChangeNotifier {
   List<ViewModels> get basketItems {
     return _items;
   }
-
-
-
 
   List<ViewModels> _items3 = [];
 
@@ -61,5 +56,4 @@ class DataProvider extends ChangeNotifier {
     return _items3;
 
   }
-
 }

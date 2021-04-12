@@ -26,13 +26,13 @@ class TabViewOne extends StatefulWidget {
 class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
   final PageStorageBucket bucket = PageStorageBucket();
   // Firebase Analytics
-  FirebaseAnalytics analytics;
+  FirebaseAnalytics _analytics;
 
   _State(FirebaseAnalytics analytics);
 
   @override
   void initState() {
-    analytics = FirebaseAnalytics();
+    _analytics = FirebaseAnalytics();
     super.initState();
   }
 
@@ -58,13 +58,12 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
                   if (cart.count <= 5) {
                     //Bool checking
                     arrays[index].isFav = !arrays[index].isFav;
-
                     // Click_events - if isFav is true
-                    /*     if (arrays[index].isFav) {
+                         if (arrays[index].isFav) {
                       await _analytics.logEvent(
                         name: arrays[index].events,
                       );
-                    }*/
+                    }
                     // Play or Stop sounds
                     arrays[index].isFav
                         ? arrays[index].player.open(

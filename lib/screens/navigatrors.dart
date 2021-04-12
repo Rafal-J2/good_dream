@@ -31,18 +31,6 @@ class _NavigatorsState extends State<Navigators> {
     ) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
-        /*      title: 'Flutter Demo',
-        theme: FlexColorScheme
-            .light(
-          scheme: FlexScheme.red,
-          background: Color(0xFF20124d),
-        )
-            .toTheme,
-        darkTheme: FlexColorScheme
-            .dark(scheme: FlexScheme.mandyRed)
-            .toTheme,
-         //  themeMode: arrays4[0].isDarkMode ? ThemeMode.dark : ThemeMode.light,
-             themeMode: null,*/
         home: MyHomePage(title: 'Save States in BottomNavigationBar'),
       );
     });
@@ -158,7 +146,6 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           persistentFooterButtons: fakeBottomButtons,
-
           /// Colors ADS
           //  backgroundColor: Color(0xFF20124d),
         ),

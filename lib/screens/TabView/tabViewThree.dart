@@ -34,7 +34,6 @@ class _State extends State<TabViewThree> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Consumer<DataProvider>(builder: (context,
@@ -81,7 +80,6 @@ class _State extends State<TabViewThree> {
                       cart.count == 0) {
                     foregroundServiceStop();
                   }
-
                   // Click_events - if isFav is true
                   if (arrays3[index].isFav) {
                     await _analytics.logEvent(
@@ -136,8 +134,6 @@ class _State extends State<TabViewThree> {
                   ],
                 ),
               ),
-
-
             ],
           );
         },
