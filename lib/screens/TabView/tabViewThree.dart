@@ -49,6 +49,7 @@ class _State extends State<TabViewThree> {
           return Column(
             children: [
               TextButton(
+                /// Stops all sounds
                 onPressed: () async {
                   if (cart.count2 == 1 &&
                       arrays3[index].isFav == false) {
@@ -57,6 +58,7 @@ class _State extends State<TabViewThree> {
                     i++) {
                       arrays3[i].player.pause();
                       cart.remove2(arrays3[i]);
+                      cart.remove(arrays3[i]);
                       arrays3[i].isFav = false;
                     }
                   }
@@ -67,10 +69,12 @@ class _State extends State<TabViewThree> {
                         volume: 0.5,
                         loopMode: LoopMode.single);
                     cart.add2(arrays3[index]);
+                    cart.add(arrays3[index]);
                     arrays3[index].isFav = true;
                   } else {
                     arrays3[index].player.pause();
                     cart.remove2(arrays3[index]);
+                    cart.remove(arrays3[index]);
                     arrays3[index].isFav = false;
                   }
                   /// foregroundService START or STOP

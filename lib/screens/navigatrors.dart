@@ -123,11 +123,14 @@ class _MyHomePageState extends State<MyHomePage> {
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: 'Mix Sounds',
+                label: 'Mix Sounds ',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.surround_sound),
-                label: 'Active Sounds',
+                icon: Icon(Icons.surround_sound,
+                    color: cart.count <= 0
+                        ? null
+                        : Colors.white),
+                label: 'Active Sounds - ${cart.count.toString()}',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.menu),

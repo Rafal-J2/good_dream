@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:good_dream/fun/functions.dart';
 import 'package:provider/provider.dart';
 import 'package:good_dream/models/DataProvider.dart';
-import 'package:shimmer/shimmer.dart';
+
 
 class CheckoutPage extends StatefulWidget {
   @override
@@ -45,8 +45,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
             body: ListView(
               children: <Widget>[
                 Container(
-                  width: 50.0,
-                  height: screenSize.height / 2,
+                 // width: 50.0,
+                  height: screenSize.height,
                   //   color: Colors.black12,
                   child: ListView.builder(
                       itemCount: cart.basketItems.length,
@@ -85,10 +85,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     cart.basketItems[index].player.pause();
                                     cart.basketItems[index].isFav = false;
                                     cart.remove(cart.basketItems[index]);
+                                //    cart.remove2(cart.basketItems2[index]);
                                     //    cart.remove2(cart.basketItems2[index]);
                                     if (cart.count == 0 && cart.count2 == 0) {
                                       foregroundServiceStop();
                                     }
+
                                   },
                                 )
                               ],
@@ -98,8 +100,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       }),
                 ),
                 // TODO Flat button piano
-
-                Container(
+               /* Container(
                   width: 50.0,
                   height: screenSize.height / 1.6,
                   // color: Colors.black45,
@@ -154,7 +155,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           ],
                         );
                       }),
-                ),
+                ),*/
               ],
             ),
           ),

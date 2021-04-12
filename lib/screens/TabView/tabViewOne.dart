@@ -59,7 +59,7 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
                     //Bool checking
                     arrays[index].isFav = !arrays[index].isFav;
                     // Click_events - if isFav is true
-                         if (arrays[index].isFav) {
+                        if (arrays[index].isFav) {
                       await _analytics.logEvent(
                         name: arrays[index].events,
                       );

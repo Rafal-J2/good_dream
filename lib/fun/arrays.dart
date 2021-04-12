@@ -301,7 +301,7 @@ final arrays3 = [
       sounds: "assets/audio/asian_piano.ogg",
       player: AssetsAudioPlayer()),
 
-  ViewModels(
+/*  ViewModels(
     //  events: 'click_asian_piano',
       picOff: 'assets/images/piano3_w.png',
       picOn: 'assets/images/piano3_on.png',
@@ -332,7 +332,7 @@ final arrays3 = [
       opacityOff: 0.0,
       opacityOn: 1.0,
       sounds: "assets/audio/asian_piano.ogg",
-      player: AssetsAudioPlayer()),
+      player: AssetsAudioPlayer()),*/
 ];
 
 

@@ -6,13 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:good_dream/models/DataProvider.dart';
-import 'package:good_dream/screens/screenTwo.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'functions.dart';
 import 'package:good_dream/fun/functions.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:shimmer/shimmer.dart';
+
 
 void main() async {
   runApp(ChangeNotifierProvider(
@@ -177,7 +176,7 @@ class _State extends State<ClockTimer> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
+             /* Row(
               //    mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
@@ -191,9 +190,9 @@ class _State extends State<ClockTimer> {
                               : Colors.white),
                     ),
                     onPressed: ()  {
-                      sendAnalyticsTrackSounds();
+                    *//*  sendAnalyticsTrackSounds();
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CheckoutPage()));
+                          builder: (context) => CheckoutPage()));*//*
                     },
                   ),
                   Text(
@@ -204,7 +203,7 @@ class _State extends State<ClockTimer> {
                             : Colors.white),
                   ),
                 ],
-              ),
+              ),*/
               Padding(
                 padding: const EdgeInsets.only(
                     left: 30.0, right: 30.0, top: 15),
@@ -220,7 +219,7 @@ class _State extends State<ClockTimer> {
                   child: Text("Set Time"),
                 ),
               ),
-              Row(
+           /*   Row(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -242,14 +241,14 @@ class _State extends State<ClockTimer> {
                               : Colors.white),
                     ),
                     onPressed: ()  {
-                      sendAnalyticsTrackPiano();
+          *//*            sendAnalyticsTrackPiano();
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CheckoutPage()));
+                          builder: (context) => CheckoutPage()));*//*
                       //    sendAnalyticsEvent();
                     },
                   ),
                 ],
-              ),
+              ),*/
             ],
           ),
           _renderClock(),
