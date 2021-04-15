@@ -11,7 +11,6 @@ bool isFav6 = true;
 List<ViewModels> get models => arrays;
 
 final arrays = [
-
   ViewModels(
       events: 'click_woodpecker',
       picOff: 'assets/images/woodpecker_w.png',
@@ -22,7 +21,6 @@ final arrays = [
       opacityOn: 1.0,
       sounds: "assets/audio/woodpecker.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_frogs_ambience',
       picOff: 'assets/images/frog_w.png',
@@ -33,7 +31,6 @@ final arrays = [
       opacityOn: 1.0,
       sounds: "assets/audio/frogs_ambience.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_storks',
       picOff: 'assets/images/stork_w.png',
@@ -44,7 +41,6 @@ final arrays = [
       opacityOn: 1.0,
       sounds: "assets/audio/storks.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_bonfire',
       picOff: 'assets/images/bonfire2_w.png',
@@ -55,16 +51,6 @@ final arrays = [
       opacityOn: 1.0,
       sounds: "assets/audio/bonfire.ogg",
       vol: 0.5,
-      player: AssetsAudioPlayer()),
-  ViewModels(
-      events: 'click_jungle',
-      picOff: 'assets/images/jungle_w.png',
-      picOn: 'assets/images/jungle_on.png',
-      title: 'Tropical',
-      isFav: false,
-      opacityOff: 0.0,
-      opacityOn: 1.0,
-      sounds: "assets/audio/tropical_ambience.ogg",
       player: AssetsAudioPlayer()),
   ViewModels(
       events: 'click_bird',
@@ -136,7 +122,16 @@ final arrays = [
       opacityOn: 1.0,
       sounds: "assets/audio/forest_ambience.ogg",
       player: AssetsAudioPlayer()),
-
+  ViewModels(
+      events: 'click_jungle',
+      picOff: 'assets/images/jungle_w.png',
+      picOn: 'assets/images/jungle_on.png',
+      title: 'Tropical',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/tropical_ambience.ogg",
+      player: AssetsAudioPlayer()),
 ];
 
 List<ViewModels> get models2 => arrays2;
@@ -221,7 +216,6 @@ final arrays2 = [
       opacityOff: 0.0,
       opacityOn: 1.0,
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_keyboard',
       picOff: 'assets/images/keyboard_w.png',
@@ -236,6 +230,72 @@ final arrays2 = [
 
 List<ViewModels> get models3 => arrays3;
 final arrays3 = [
+  ViewModels(
+      events: 'click_flute',
+      picOff: 'assets/images/flute_w.png',
+      picOn: 'assets/images/flute_on.png',
+      title: 'Flute',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/flute.ogg",
+      player: AssetsAudioPlayer()),
+
+  ViewModels(
+      events: 'click_asian_piano',
+      picOff: 'assets/images/zen_w.png',
+      picOn: 'assets/images/zen_on.png',
+      title: 'Meditations',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/the_meditations.ogg",
+      player: AssetsAudioPlayer()),
+
+  ViewModels(
+      events: 'click_lotus',
+      picOff: 'assets/images/lotus_w.png',
+      picOn: 'assets/images/lotus_on.png',
+      title: 'Lotus',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/528_hz.ogg",
+      player: AssetsAudioPlayer()),
+
+  ViewModels(
+      events: 'click_relaxation_piano',
+      picOff: 'assets/images/piano3_w.png',
+      picOn: 'assets/images/piano3_on.png',
+      title: 'Relaxation piano',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/asian_piano.ogg",
+      player: AssetsAudioPlayer()),
+
+  ViewModels(
+      events: 'click_piano',
+      picOff: 'assets/images/piano6_w.png',
+      picOn: 'assets/images/piano6_on.png',
+      title: 'Piano',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/love_piano.ogg",
+      player: AssetsAudioPlayer()),
+
+  ViewModels(
+      events: 'click_piano_atmosphere',
+      picOff: 'assets/images/piano5_w.png',
+      picOn: 'assets/images/piano5_on.png',
+      title: 'Atmosphere piano',
+      isFav: false,
+      opacityOff: 0.0,
+      opacityOn: 1.0,
+      sounds: "assets/audio/atmosphere_piano.ogg",
+      player: AssetsAudioPlayer()),
+
   ViewModels(
       events: 'click_piano_and_water',
       picOff: 'assets/images/water_drop_w.png',
@@ -268,81 +328,13 @@ final arrays3 = [
       opacityOn: 1.0,
       sounds: "assets/audio/guitar_song.ogg",
       player: AssetsAudioPlayer()),
-  ViewModels(
-      events: 'click_flute',
-      picOff: 'assets/images/flute_w.png',
-      picOn: 'assets/images/flute_on.png',
-      title: 'Flute',
-      isFav: false,
-      opacityOff: 0.0,
-      opacityOn: 1.0,
-      sounds: "assets/audio/flute.ogg",
-      player: AssetsAudioPlayer()),
 
-  ViewModels(
-      events: 'click_piano_atmosphere',
-      picOff: 'assets/images/piano5_w.png',
-      picOn: 'assets/images/piano5_on.png',
-      title: 'Atmosphere piano',
-      isFav: false,
-      opacityOff: 0.0,
-      opacityOn: 1.0,
-      sounds: "assets/audio/atmosphere_piano.ogg",
-      player: AssetsAudioPlayer()),
 
-  ViewModels(
-      events: 'click_relaxation_piano',
-      picOff: 'assets/images/piano6_w.png',
-      picOn: 'assets/images/piano6_on.png',
-      title: 'Relaxation piano',
-      isFav: false,
-      opacityOff: 0.0,
-      opacityOn: 1.0,
-      sounds: "assets/audio/asian_piano.ogg",
-      player: AssetsAudioPlayer()),
-
-/*  ViewModels(
-    //  events: 'click_asian_piano',
-      picOff: 'assets/images/piano3_w.png',
-      picOn: 'assets/images/piano3_on.png',
-      title: 'Asian piano piano',
-      isFav: false,
-      opacityOff: 0.0,
-      opacityOn: 1.0,
-      sounds: "assets/audio/asian_piano.ogg",
-      player: AssetsAudioPlayer()),
-
-  ViewModels(
-    //  events: 'click_yoga',
-      picOff: 'assets/images/lotus_w.png',
-      picOn: 'assets/images/lotus_on.png',
-      title: 'Relaxation piano',
-      isFav: false,
-      opacityOff: 0.0,
-      opacityOn: 1.0,
-      sounds: "assets/audio/asian_piano.ogg",
-      player: AssetsAudioPlayer()),
-
-  ViewModels(
-    //  events: 'click_yoga_relaxation',
-      picOff: 'assets/images/piano6_w.png',
-      picOn: 'assets/images/piano6_on.png',
-      title: 'Relaxation piano',
-      isFav: false,
-      opacityOff: 0.0,
-      opacityOn: 1.0,
-      sounds: "assets/audio/asian_piano.ogg",
-      player: AssetsAudioPlayer()),*/
 ];
-
-
 
 List<ViewModels> get models4 => arrays4;
 final arrays4 = [
   ViewModels(
-      isDarkMode: false,
-
-        ),
-
+    isDarkMode: false,
+  ),
 ];
-

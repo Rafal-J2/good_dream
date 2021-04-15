@@ -1,6 +1,5 @@
 import 'package:url_launcher/url_launcher.dart';
 
-
   launchURL() async {
     const url = 'https://policies.google.com/privacy';
     if (await canLaunch(url)) {
@@ -37,9 +36,6 @@ import 'package:url_launcher/url_launcher.dart';
     }
   }
 
-
-
-
   launchURL5() async {
     const url = 'https://www.flaticon.com';
     if (await canLaunch(url)) {
@@ -49,12 +45,8 @@ import 'package:url_launcher/url_launcher.dart';
     }
   }
 
-
-
   void switch2(){
-
     String url = 'A';
-
     switch(url) {
       case 'A':
         print('test');
@@ -64,6 +56,5 @@ import 'package:url_launcher/url_launcher.dart';
         print('test2');
 
     }
-
   }
 

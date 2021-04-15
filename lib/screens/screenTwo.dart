@@ -6,7 +6,6 @@ import 'package:good_dream/fun/functions.dart';
 import 'package:provider/provider.dart';
 import 'package:good_dream/models/DataProvider.dart';
 
-
 class CheckoutPage extends StatefulWidget {
   @override
   _CheckoutPageState createState() => _CheckoutPageState();
@@ -44,6 +43,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
             ),
             body: ListView(
               children: <Widget>[
+                Center(
+                  child: cart.count == 0 ? Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Text('No active sounds',
+                      style: TextStyle(
+                         fontSize: 28,
+                          color: Colors.white
+                      ),),
+                  ) : null,
+                ),
                 Container(
                  // width: 50.0,
                   height: screenSize.height,
@@ -55,12 +64,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           children: [
                             Row(
                               children: [
-                                     Image(
+                                     Padding(
+                                       padding: const EdgeInsets.only(left: 8.0),
+                                       child: Image(
                                     height: 50.0,
                                     width: 50.0,
                                     image: AssetImage(
-                                        cart.basketItems[index].picOff),
+                                          cart.basketItems[index].picOff),
                                   ),
+                                     ),
                                 PlayerBuilder.volume(
                                     player: cart.basketItems[index].player,
                                     builder: (context, _vol) {
@@ -78,8 +90,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                           });
                                     }),
                                 IconButton(
-                                  icon: Icon(Icons.delete_forever),
-                                  iconSize: 48,
+                                  icon: Icon(Icons.delete_forever,
+                                  color: Colors.white,),
+                                  iconSize: 48.0,
                                   onPressed: () {
                                     // Pause sounds with page one
                                     cart.basketItems[index].player.pause();
@@ -87,10 +100,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     cart.remove(cart.basketItems[index]);
                                 //    cart.remove2(cart.basketItems2[index]);
                                     //    cart.remove2(cart.basketItems2[index]);
-                                    if (cart.count == 0 && cart.count2 == 0) {
+                                    if (cart.count == 0) {
                                       foregroundServiceStop();
                                     }
-
                                   },
                                 )
                               ],
@@ -99,6 +111,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         );
                       }),
                 ),
+
                 // TODO Flat button piano
                /* Container(
                   width: 50.0,

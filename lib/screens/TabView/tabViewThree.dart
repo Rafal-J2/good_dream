@@ -85,7 +85,7 @@ class _State extends State<TabViewThree> {
                     foregroundServiceStop();
                   }
                   // Click_events - if isFav is true
-                  if (arrays3[index].isFav) {
+                 if (arrays3[index].isFav) {
                     await _analytics.logEvent(
                       name: arrays3[index].events,
                     );

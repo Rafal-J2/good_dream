@@ -97,79 +97,76 @@ class _State extends State<GoodDream>   {
         themeMode: cart.basketItems3.isEmpty  ? ThemeMode.system : cart.basketItems3[0].themeMode,
         home: DefaultTabController(
           length: 3,
-          child: Scaffold(
-            appBar: PreferredSize(
-             preferredSize: Size.fromHeight(40.0),
-              child: AppBar(
-                backwardsCompatibility: false,
-                systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.black),
-                flexibleSpace: SizedBox(
-                  child: TabBar(
-                    labelPadding: EdgeInsets.only(top: 28),
-                    tabs: [
-                      Tab(
-                        child: Text("Nature"),
-                      ),
-                      Center(
-                          child: Tab(
-                        child: Text("Mechanical"),
-                      )),
-                      Tab(
-                        child: Text("Music"),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            body: Container(
-          decoration: BoxDecoration(
-          ),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: TabBarView(
-                      children: <Widget>[
-                        // TODO  ListView1
-                        ListView(
-                          children: <Widget>[
-                            // TODO  Tab1
-                            Container(
-                              height: screenSize.height / 1.6,
-                              child: TabViewOne(
-                              ),
-                            ),
-
-                          ],
+          child: WillPopScope(
+            onWillPop: () => onBackPressed(),
+            child: Scaffold(
+              appBar: PreferredSize(
+               preferredSize: Size.fromHeight(40.0),
+                child: AppBar(
+                  backwardsCompatibility: false,
+                  systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.black),
+                  flexibleSpace: SizedBox(
+                    child: TabBar(
+                      labelPadding: EdgeInsets.only(top: 28),
+                      tabs: [
+                        Tab(
+                          child: Text("Nature"),
                         ),
-                        // TODO  ListView2
-                        ListView(
-                          children: <Widget>[
-                            // TODO  Tab2
-                            Container(
-                              // width: 50.0,
-                              height: screenSize.height / 1.6,
-                              //  color: Colors.black12,
-                              child: TabViewTwo(),
-                            ),
-                          ],
+                        Center(
+                            child: Tab(
+                          child: Text("Mechanical"),
+                        )),
+                        Tab(
+                          child: Text("Music"),
                         ),
-                        ListView(
-                          children: <Widget>[
-                            // TODO Tab3
-                            Container(
-                              height: screenSize.height / 1.6,
-                              child: TabViewThree(),
-                            ),
-                          ],
-                        ),
-
                       ],
                     ),
                   ),
-                  // TODO bottom buttons
-                  ClockTimer(),
-                ],
+                ),
+              ),
+              body: Container(
+            decoration: BoxDecoration(
+            ),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TabBarView(
+                        children: <Widget>[
+                          ListView(
+                            children: <Widget>[
+                              Container(
+                                height: screenSize.height / 1.6,
+                                child: TabViewOne(
+                                ),
+                              ),
+
+                            ],
+                          ),
+                          ListView(
+                            children: <Widget>[
+                              Container(
+                                // width: 50.0,
+                                height: screenSize.height / 1.6,
+                                //  color: Colors.black12,
+                                child: TabViewTwo(),
+                              ),
+                            ],
+                          ),
+                          ListView(
+                            children: <Widget>[
+                              Container(
+                                height: screenSize.height / 1.6,
+                                child: TabViewThree(),
+                              ),
+                            ],
+                          ),
+
+                        ],
+                      ),
+                    ),
+                    ClockTimer(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -178,5 +175,29 @@ class _State extends State<GoodDream>   {
     });
   }
 
-
+  Future<bool> onBackPressed() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Are you sure?'),
+          content: Text('Do you want to exit an App'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            TextButton(
+              child: Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            )
+          ],
+        );
+      },
+    ) ?? false;
+  }
 }

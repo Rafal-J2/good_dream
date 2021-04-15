@@ -70,7 +70,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void dispose() {
     _pageController.dispose();
-
     super.dispose();
   }
 
@@ -107,7 +106,6 @@ class _MyHomePageState extends State<MyHomePage> {
         themeMode: cart.basketItems3.isEmpty
             ? ThemeMode.system
             : cart.basketItems3[0].themeMode,
-
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: PageView(

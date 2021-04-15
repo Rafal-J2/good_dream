@@ -83,9 +83,9 @@ class _State extends State<ClockTimer> {
   }
 
   sendAnalyticsSetTime() {
-  /* _analytics.logEvent(
+   _analytics.logEvent(
       name: 'set_times',
-    );*/
+    );
   }
 
   Timer timer;
@@ -219,10 +219,10 @@ class _State extends State<ClockTimer> {
                   child: Text("Set Time"),
                 ),
               ),
-           /*   Row(
+          /*    Row(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                *//*  Text(
                     cart.count2.toString(),
                     style: TextStyle(
                         color: cart.count2 <= 0
@@ -241,12 +241,12 @@ class _State extends State<ClockTimer> {
                               : Colors.white),
                     ),
                     onPressed: ()  {
-          *//*            sendAnalyticsTrackPiano();
+                      sendAnalyticsTrackPiano();
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CheckoutPage()));*//*
+                          builder: (context) => null));
                       //    sendAnalyticsEvent();
                     },
-                  ),
+                  ),*//*
                 ],
               ),*/
             ],
@@ -314,4 +314,6 @@ class _State extends State<ClockTimer> {
           );
         });
   }
+
+
 }
