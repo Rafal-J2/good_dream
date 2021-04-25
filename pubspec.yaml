@@ -35,6 +35,7 @@ dependencies:
   firebase_crashlytics: ^1.0.0
   admob_flutter: ^1.0.1
   flex_color_scheme: ^2.1.0
+  lottie: ^1.0.1
 
 
 
@@ -130,6 +131,12 @@ flutter:
        - assets/lotus_on.png
        - assets/zen_w.png
        - assets/zen_on.png
+       - assets/zen_stone.jpg
+       - assets/zen_stone2.jpg
+       - assets/shore.jpg
+       - assets/waterfalls.jpg
+       - assets/lottiefiles/
+       - assets/
        - assets/audio/
        - assets/splash.flr
        - assets/intro.flr

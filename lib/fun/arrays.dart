@@ -240,7 +240,6 @@ final arrays3 = [
       opacityOn: 1.0,
       sounds: "assets/audio/flute.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_asian_piano',
       picOff: 'assets/images/zen_w.png',
@@ -251,7 +250,6 @@ final arrays3 = [
       opacityOn: 1.0,
       sounds: "assets/audio/the_meditations.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_lotus',
       picOff: 'assets/images/lotus_w.png',
@@ -262,7 +260,6 @@ final arrays3 = [
       opacityOn: 1.0,
       sounds: "assets/audio/528_hz.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_relaxation_piano',
       picOff: 'assets/images/piano3_w.png',
@@ -273,7 +270,6 @@ final arrays3 = [
       opacityOn: 1.0,
       sounds: "assets/audio/asian_piano.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_piano',
       picOff: 'assets/images/piano6_w.png',
@@ -284,7 +280,6 @@ final arrays3 = [
       opacityOn: 1.0,
       sounds: "assets/audio/love_piano.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_piano_atmosphere',
       picOff: 'assets/images/piano5_w.png',
@@ -295,7 +290,6 @@ final arrays3 = [
       opacityOn: 1.0,
       sounds: "assets/audio/atmosphere_piano.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_piano_and_water',
       picOff: 'assets/images/water_drop_w.png',
@@ -306,7 +300,6 @@ final arrays3 = [
       opacityOn: 1.0,
       sounds: "assets/audio/piano_and_water.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_binaural',
       picOff: 'assets/images/binaural_w.png',
@@ -317,7 +310,6 @@ final arrays3 = [
       opacityOn: 1.0,
       sounds: "assets/audio/binaural.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_guitar',
       picOff: 'assets/images/guitar_w.png',
@@ -328,13 +320,26 @@ final arrays3 = [
       opacityOn: 1.0,
       sounds: "assets/audio/guitar_song.ogg",
       player: AssetsAudioPlayer()),
-
-
 ];
 
 List<ViewModels> get models4 => arrays4;
 final arrays4 = [
   ViewModels(
-    isDarkMode: false,
+      image: "assets/images/zen_stone.jpg",
+      title: "Mix 1",
+      sounds: "assets/audio/thunder_ambience.ogg",
+      sounds2: "assets/audio/guitar_song.ogg",
+      player: AssetsAudioPlayer()),
+  ViewModels(
+    image: "assets/images/zen_stone2.jpg",
+    title: "Mix 2",
+  ),
+  ViewModels(
+    image: "assets/images/shore.jpg",
+    title: "Mix 3",
+  ),
+  ViewModels(
+    image: "assets/images/waterfalls.jpg",
+    title: "Mix 4",
   ),
 ];

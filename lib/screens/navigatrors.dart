@@ -3,8 +3,10 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:good_dream/screens/mainScreen.dart';
+import 'package:good_dream/screens/mixes.dart';
 import 'package:good_dream/screens/screenTwo.dart';
 import 'package:good_dream/services/admob_service.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'menu.dart';
 
@@ -58,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _selectedPageIndex = 0;
     _pages = [
+      Mix(),
       GoodDream(),
       CheckoutPage(),
       Menu(),
@@ -120,15 +123,21 @@ class _MyHomePageState extends State<MyHomePage> {
             //   backgroundColor: Color(0xFF20124d),
             items: [
               BottomNavigationBarItem(
+                icon: Icon(Icons.self_improvement_sharp),
+                label: 'Mixes ',
+              ),
+              BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Mix Sounds ',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.surround_sound,
-                    color: cart.count <= 0
-                        ? null
-                        : Colors.white),
-                label: 'Active Sounds - ${cart.count.toString()}',
+                icon: cart.count <= 0
+                    ? Lottie.asset('assets/lottiefiles/sound_off.json',
+                  height: 40.0,
+                    )
+                    : Lottie.asset('assets/lottiefiles/sound_on.json',
+                  height: 40.0,),
+                label: 'Active - ${cart.count.toString()}',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.menu),
@@ -138,6 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
             //   selectedItemColor: Colors.white,
             //   unselectedItemColor: Colors.blue,
             showSelectedLabels: true,
+            showUnselectedLabels: true,
             currentIndex: _selectedPageIndex,
             onTap: (selectedPageIndex) {
               setState(() {

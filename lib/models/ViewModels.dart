@@ -5,13 +5,15 @@ class ViewModels {
   String events;
   String picOff;
   String picOn;
+  String image;
   String title;
   String sounds;
+  String sounds2;
   String log;
   final player;
 
   bool isDarkMode;
-   var themeMode;
+  var themeMode;
 
   var opacityOff;
   var opacityOn;
@@ -20,11 +22,13 @@ class ViewModels {
   ViewModels(
       {this.events,
       this.picOff,
+      this.picOn,
+      this.image,
       this.title,
       this.isFav,
-      this.picOn,
       this.player,
       this.sounds,
+      this.sounds2,
       this.log,
       this.opacityOff,
       this.opacityOn,

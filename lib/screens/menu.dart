@@ -1,9 +1,7 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:good_dream/fun/arrays.dart';
-
 import 'package:good_dream/fun/modeSwitch.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:provider/provider.dart';

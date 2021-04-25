@@ -11,11 +11,12 @@ class CheckoutPage extends StatefulWidget {
   _CheckoutPageState createState() => _CheckoutPageState();
 }
 
-class _CheckoutPageState extends State<CheckoutPage> {
+class _CheckoutPageState extends State<CheckoutPage> with AutomaticKeepAliveClientMixin {
   ThemeMode themeMode = ThemeMode.light;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final Size screenSize = MediaQuery.of(context).size;
     return Consumer<DataProvider>(
       builder: (context, cart, child) {
@@ -70,7 +71,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     height: 50.0,
                                     width: 50.0,
                                     image: AssetImage(
-                                          cart.basketItems[index].picOff),
+                                    cart.basketItems[index].picOff,
+                                    ),
                                   ),
                                      ),
                                 PlayerBuilder.volume(
@@ -176,4 +178,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
       },
     );
   }
+
+  @override
+
+  bool get wantKeepAlive => true;
 }

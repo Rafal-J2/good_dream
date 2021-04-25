@@ -4,7 +4,6 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:good_dream/fun/clockTimer.dart';
 import 'package:good_dream/services/admob_service.dart';
 import 'package:good_dream/models/DataProvider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
