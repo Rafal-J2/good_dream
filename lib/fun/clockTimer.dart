@@ -176,34 +176,6 @@ class _State extends State<ClockTimer> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-             /* Row(
-              //    mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    iconSize: 45,
-                    icon: Shimmer.fromColors(
-                      baseColor: Colors.grey,
-                      highlightColor: Colors.black,
-                      child: Icon(Icons.multitrack_audio,
-                          color: cart.count <= 0
-                              ? Color.fromRGBO(255, 255, 255, 0.2)
-                              : Colors.white),
-                    ),
-                    onPressed: ()  {
-                    *//*  sendAnalyticsTrackSounds();
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CheckoutPage()));*//*
-                    },
-                  ),
-                  Text(
-                    cart.count.toString(),
-                    style: TextStyle(
-                        color: cart.count <= 0
-                            ? Color.fromRGBO(255, 255, 255, 0.2)
-                            : Colors.white),
-                  ),
-                ],
-              ),*/
               Padding(
                 padding: const EdgeInsets.only(
                     left: 30.0, right: 30.0, top: 15),
@@ -211,7 +183,7 @@ class _State extends State<ClockTimer> {
                   style: raiseButtonStyle,
              //     color: Colors.black26,
                   onPressed: () {
-                    sendAnalyticsSetTime();
+                //    sendAnalyticsSetTime();
                     _showDialog();
                     _cancelTimer();
                     // showBanner();
@@ -219,36 +191,6 @@ class _State extends State<ClockTimer> {
                   child: Text("Set Time"),
                 ),
               ),
-          /*    Row(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                *//*  Text(
-                    cart.count2.toString(),
-                    style: TextStyle(
-                        color: cart.count2 <= 0
-                            ? Color.fromRGBO(255, 255, 255, 0.2)
-                            : Colors.white),
-                  ),
-                  IconButton(
-                    iconSize: 45,
-                    //   padding: EdgeInsets.all(20.0),
-                    icon: Shimmer.fromColors(
-                      highlightColor: Colors.white,
-                      baseColor: Colors.black,
-                      child: Icon(Icons.play_circle_outline,
-                          color: cart.count2 <= 0
-                              ? Color.fromRGBO(255, 255, 255, 0.2)
-                              : Colors.white),
-                    ),
-                    onPressed: ()  {
-                      sendAnalyticsTrackPiano();
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => null));
-                      //    sendAnalyticsEvent();
-                    },
-                  ),*//*
-                ],
-              ),*/
             ],
           ),
           _renderClock(),
@@ -268,9 +210,9 @@ class _State extends State<ClockTimer> {
             content: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                new NumberPicker.integer(
-                  listViewWidth: 65,
-                  initialValue: _hours,
+                 NumberPicker(
+               //   listViewWidth: 65,
+                  value: _hours,
                   decoration: _decoration,
                   minValue: 0,
                   maxValue: 12,
@@ -285,9 +227,9 @@ class _State extends State<ClockTimer> {
                   ':',
                   style: TextStyle(fontSize: 30),
                 ),
-                new NumberPicker.integer(
-                  listViewWidth: 65,
-                  initialValue: _minutes,
+                 NumberPicker(
+              //    listViewWidth: 65,
+                  value: _minutes,
                   decoration: _decoration,
                   minValue: 1,
                   maxValue: 59,

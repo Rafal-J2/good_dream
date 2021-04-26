@@ -24,17 +24,17 @@ dependencies:
   flutter:
     sdk: flutter
   assets_audio_player: ^3.0.3+2
-  provider: ^4.3.2+2
-  numberpicker: ^1.2.1
-  fluttertoast: ^7.1.1
-  flare_splash_screen: ^2.0.1+2
-  shimmer: ^1.1.2
-  url_launcher: ^6.0.2
-  firebase_core: ^1.0.2
-  firebase_analytics: ^7.1.1
+  provider: ^5.0.0
+  numberpicker: ^2.1.1
+  fluttertoast: ^8.0.6
+  flare_splash_screen: ^4.0.0
+  shimmer: ^2.0.0
+  url_launcher: ^6.0.3
+  firebase_core: ^1.0.4
+  firebase_analytics: ^8.0.1
   firebase_crashlytics: ^1.0.0
   admob_flutter: ^1.0.1
-  flex_color_scheme: ^2.1.0
+  flex_color_scheme: ^2.1.1
   lottie: ^1.0.1
 
 
@@ -131,11 +131,7 @@ flutter:
        - assets/lotus_on.png
        - assets/zen_w.png
        - assets/zen_on.png
-       - assets/zen_stone.jpg
-       - assets/zen_stone2.jpg
-       - assets/shore.jpg
-       - assets/waterfalls.jpg
-       - assets/lottiefiles/
+
        - assets/
        - assets/audio/
        - assets/splash.flr

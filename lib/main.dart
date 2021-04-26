@@ -26,12 +26,11 @@ class MyApp extends StatelessWidget {
     var materialApp = MaterialApp(
       debugShowCheckedModeBanner: false,
   //    navigatorObservers: <NavigatorObserver>[observer],
-      home: SplashScreen(
-        'assets/intro2.flr',
-        Navigators(
-    //  analytics: analytics,
-     //   observer: observer,
+      home: SplashScreen.navigate(
+        name:'assets/intro2.flr',
+       next: (context) => Navigators(
         ),
+        until: () => Future.delayed(Duration(seconds: 3)),
         startAnimation: 'intro',
       //  backgroundColor: Color(0xff000000),
       ),
