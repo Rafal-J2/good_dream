@@ -5,14 +5,14 @@ import 'arrays.dart';
 
 class Analytics extends StatefulWidget {
   Analytics({
-    Key key,
+    Key? key,
     this.analytics,
     this.observer,
   }) : super(key: key);
 
   // Firebase Analytics
-  final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
+  final FirebaseAnalytics? analytics;
+  final FirebaseAnalyticsObserver? observer;
 
   @override
   _AnalyticsState createState() => _AnalyticsState(analytics, observer);
@@ -24,13 +24,13 @@ class _AnalyticsState extends State<Analytics> {
       this.observer
       );
 
-  final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
+  final FirebaseAnalytics? analytics;
+  final FirebaseAnalyticsObserver? observer;
   String _message = '';
 
   Future<void> logEvent() async {
-    await analytics.logEvent(
-      name: arrays3[0].events,
+    await analytics!.logEvent(
+      name: arrays3[0].events!,
     );
   }
 

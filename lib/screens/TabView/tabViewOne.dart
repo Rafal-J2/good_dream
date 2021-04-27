@@ -8,6 +8,9 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
+
+
+
 class TabViewOne extends StatefulWidget {
   TabViewOne({
     Key key,

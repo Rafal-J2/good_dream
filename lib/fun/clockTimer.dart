@@ -25,25 +25,25 @@ void main() async {
 
 class ClockTimer extends StatefulWidget {
 ClockTimer({
-  Key key,
+  Key? key,
   this.confirmWidget,
   this.cancelWidget,
   this.analytics,
  // this.observer,
 }) : super(key: key);
 
-final FirebaseAnalytics analytics;
+final FirebaseAnalytics? analytics;
 // final FirebaseAnalyticsObserver observer;
-final Widget confirmWidget;
-final Widget cancelWidget;
+final Widget? confirmWidget;
+final Widget? cancelWidget;
 
   @override
   _State createState() => _State(analytics);
 }
 
 class _State extends State<ClockTimer> {
-  FirebaseAnalytics _analytics;
-  _State(FirebaseAnalytics analytics);
+  late FirebaseAnalytics _analytics;
+  _State(FirebaseAnalytics? analytics);
 
   @override
   void initState() {
@@ -88,9 +88,9 @@ class _State extends State<ClockTimer> {
     );
   }
 
-  Timer timer;
-  int minuteDialog;
-  int hoursDialog;
+  Timer? timer;
+  int? minuteDialog;
+  int? hoursDialog;
   bool counting = false;
   int _minutes = 0;
   int _seconds = 1800;
@@ -133,7 +133,7 @@ class _State extends State<ClockTimer> {
 
   _cancelTimer() {
     if (timer != null) {
-      timer.cancel();
+      timer!.cancel();
       timer = null;
     }
     setState(() {

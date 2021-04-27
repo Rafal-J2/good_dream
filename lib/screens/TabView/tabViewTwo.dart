@@ -10,13 +10,13 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 
 class TabViewTwo extends StatefulWidget {
   TabViewTwo({
-    Key key,
+    Key? key,
     this.analytics,
     //   this.observer,
   }) : super(key: key);
 
   // Firebase Analytics
-  final FirebaseAnalytics analytics;
+  final FirebaseAnalytics? analytics;
 //  final FirebaseAnalyticsObserver observer;
 
   @override
@@ -25,9 +25,9 @@ class TabViewTwo extends StatefulWidget {
 
 class _State extends State<TabViewTwo> {
   // Firebase Analytics
-  FirebaseAnalytics _analytics;
+  late FirebaseAnalytics _analytics;
 
-  _State(FirebaseAnalytics analytics);
+  _State(FirebaseAnalytics? analytics);
 
   @override
   void initState() {
@@ -53,23 +53,23 @@ class _State extends State<TabViewTwo> {
                 onPressed: () async {
                   if (cart.count <= 5) {
                     /// Bool checking
-                    arrays2[index].isFav = !arrays2[index].isFav;
+                    arrays2[index].isFav = !arrays2[index].isFav!;
                     // Click_events Analytics
-                   if (arrays2[index].isFav) {
+                   if (arrays2[index].isFav!) {
                       await _analytics.logEvent(
-                        name: arrays2[index].events,
+                        name: arrays2[index].events!,
                       );
                     }
                     /// Play or Stop sounds
-                    arrays2[index].isFav
+                    arrays2[index].isFav!
                         ? arrays2[index].player.open(
-                            Audio(arrays2[index].sounds),
+                            Audio(arrays2[index].sounds!),
                             volume: 0.5,
                             loopMode: LoopMode.single)
                         : arrays2[index].player.pause();
 
                     /// Add image to page two
-                    arrays2[index].isFav
+                    arrays2[index].isFav!
                         ? cart.add(arrays2[index])
                         : cart.remove(arrays2[index]);
                   } else if (cart.count == 6) {
@@ -94,15 +94,15 @@ class _State extends State<TabViewTwo> {
                       height: 50,
                       width: 120,
                       //  height: 50.0,
-                      image: AssetImage(arrays2[index].isFav
-                          ? arrays2[index].picOn
-                          : arrays2[index].picOff),
+                      image: AssetImage(arrays2[index].isFav!
+                          ? arrays2[index].picOn!
+                          : arrays2[index].picOff!),
                     ),
                     Padding(padding: EdgeInsets.only(top: 8)),
-                    arrays2[index].isFav
+                    arrays2[index].isFav!
                         ? AnimatedOpacity(
                             duration: Duration(milliseconds: 800),
-                            opacity: arrays2[index].isFav
+                            opacity: arrays2[index].isFav!
                                 ? arrays2[index].opacityOn
                                 : arrays2[index].opacityOff,
                             child: PlayerBuilder.volume(
@@ -125,7 +125,7 @@ class _State extends State<TabViewTwo> {
                                 }),
                           )
                         : Text(
-                            arrays2[index].title,
+                            arrays2[index].title!,
                             style: TextStyle(
                                 fontSize: 13.0,
                              //   height: 2.5,

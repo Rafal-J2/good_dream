@@ -3,7 +3,7 @@ import 'dart:io';
 
 class AdMobService {
 
-  String getAdMobAppId() {
+  String? getAdMobAppId() {
     if (Platform.isIOS) {
       return 'ca-app-pub-1694522060476593/2285006502';
     } else if (Platform.isAndroid) {
@@ -12,7 +12,7 @@ class AdMobService {
     return null;
   }
 
-  String getBannerAdId() {
+  String? getBannerAdId() {
     if (Platform.isIOS) {
       return 'ca-app-pub-1694522060476593/2285006502';
     } else if (Platform.isAndroid) {
