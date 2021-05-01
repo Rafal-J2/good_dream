@@ -6,12 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:good_dream/models/DataProvider.dart';
-import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'functions.dart';
 import 'package:good_dream/fun/functions.dart';
 import 'package:flutter/cupertino.dart';
-
 
 void main() async {
   runApp(ChangeNotifierProvider(
@@ -57,7 +55,7 @@ class _State extends State<ClockTimer> {
   }
 
   // Number picker
-  Decoration _decoration = new BoxDecoration(
+/*  Decoration _decoration = new BoxDecoration(
     border: new Border(
       top: new BorderSide(
         style: BorderStyle.solid,
@@ -68,7 +66,7 @@ class _State extends State<ClockTimer> {
         color: Colors.black26,
       ),
     ),
-  );
+  );*/
 
  sendAnalyticsTrackSounds()  {
      _analytics.logEvent(
@@ -93,11 +91,30 @@ class _State extends State<ClockTimer> {
   int? hoursDialog;
   bool counting = false;
   int _minutes = 0;
-  int _seconds = 1800;
+  int _seconds = 3600;
   int _hours = 0;
 
   _resetRemainingTime() {
     setState(() {
+      debugPrint('reset 1 ------');
+      _seconds = 0;
+      _minutes = 5;
+      _hours = 0;
+    });
+  }
+
+  _resetRemainingTime2() {
+    setState(() {
+      debugPrint('reset 2 -------');
+      _seconds = 0;
+      _minutes = 10;
+      _hours = 0;
+    });
+  }
+
+  _resetRemainingTime3() {
+    setState(() {
+      debugPrint('reset 2 -------');
       _seconds = 0;
       _minutes = 15;
       _hours = 0;
@@ -105,6 +122,20 @@ class _State extends State<ClockTimer> {
   }
 
   _startTimer() {
+    debugPrint('START TIME ----------');
+    _seconds = _hours * 3600 + _minutes * 60;
+
+      _cancelTimer();
+    // _resetRemainingTime();
+
+      timer = Timer.periodic(Duration(seconds: 1), (_) {
+        _tick();
+      });
+
+  }
+
+/*  _startTimer() {
+    debugPrint('START TIME ----------');
     _seconds = _hours * 3600 + _minutes * 60;
     if (counting) {
       _cancelTimer();
@@ -117,7 +148,7 @@ class _State extends State<ClockTimer> {
         counting = true;
       });
     }
-  }
+  }*/
 
   _renderClock() {
     final duration = Duration(seconds: _seconds);
@@ -185,7 +216,7 @@ class _State extends State<ClockTimer> {
                   onPressed: () {
                 //    sendAnalyticsSetTime();
                     _showDialog();
-                    _cancelTimer();
+                  //  _cancelTimer();
                     // showBanner();
                   },
                   child: Text("Set Time"),
@@ -210,7 +241,7 @@ class _State extends State<ClockTimer> {
             content: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 NumberPicker(
+          /*       NumberPicker(
                //   listViewWidth: 65,
                   value: _hours,
                   decoration: _decoration,
@@ -219,7 +250,7 @@ class _State extends State<ClockTimer> {
                   zeroPad: true,
                   onChanged: (value) {
                     setState(() {
-                      _hours = value;
+                    _hours = 1;
                     });
                   },
                 ),
@@ -234,12 +265,12 @@ class _State extends State<ClockTimer> {
                   minValue: 1,
                   maxValue: 59,
                   zeroPad: true,
-                  onChanged: (value) => setState(() => _minutes = value),
-                )
+                  onChanged: (value) => setState(() => _minutes = 10),
+                )*/
               ],
             ),
             actions: [
-              new TextButton(
+          /*    new TextButton(
                 onPressed: () {
                   Navigator.of(context)
                       .pop(new Duration(hours: _hours, minutes: _minutes));
@@ -247,10 +278,48 @@ class _State extends State<ClockTimer> {
                   toast3();
                 },
                 child: widget.confirmWidget ?? Text('START TIME'),
+              ),*/
+                TextButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pop(new Duration(hours: _hours, minutes: _minutes));
+                  _resetRemainingTime();
+                  _startTimer();
+                  toast3();
+                },
+                child:  Text('5 MINUTES'),
               ),
-              new TextButton(
+
+               TextButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pop(new Duration(hours: _hours, minutes: _minutes));
+                  _resetRemainingTime2();
+                  _startTimer();
+                  toast3();
+                },
+                child: Text('10 MINUTES'),
+              ),
+               TextButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pop(new Duration(hours: _hours, minutes: _minutes));
+                  _resetRemainingTime3();
+                  _startTimer();
+                  toast3();
+                },
+                child:  Text('15 MINUTES'),
+              ),
+               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: widget.cancelWidget ?? Text('CANCEL'),
+                child: widget.cancelWidget ?? Text('CLOSE'),
+              ),
+               TextButton(
+                onPressed: () {
+                  _cancelTimer();
+                  Navigator.of(context).pop();
+                },
+                child: widget.cancelWidget ?? Text('STOP TIMER'),
               ),
             ],
           );
