@@ -1,15 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:good_dream/models/ViewModels.dart';
 
-bool isFav0 = true;
-bool isFav1 = true;
-bool isFav2 = true;
-bool isFav4 = true;
-bool isFav5 = true;
-bool isFav6 = true;
-
 List<ViewModels> get models => arrays;
-
 final arrays = [
   ViewModels(
       events: 'click_woodpecker',
@@ -343,3 +335,4 @@ final arrays4 = [
     title: "Mix 4",
   ),
 ];
+

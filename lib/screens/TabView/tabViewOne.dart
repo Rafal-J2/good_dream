@@ -1,15 +1,11 @@
 import 'package:good_dream/fun/arrays.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:good_dream/fun/functions.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-
-
-
 
 class TabViewOne extends StatefulWidget {
   TabViewOne({

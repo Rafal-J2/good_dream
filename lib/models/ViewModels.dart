@@ -12,27 +12,29 @@ class ViewModels {
   String log;
   final player;
 
-  bool isDarkMode;
+  bool? isDarkMode;
   var themeMode;
 
   var opacityOff;
   var opacityOn;
-  double vol = 0.5;
+  double? vol = 0.5;
 
   ViewModels(
       {this.events,
       this.picOff,
-      this.picOn,
-      this.image,
       this.title,
       this.isFav,
+      this.picOn,
       this.player,
       this.sounds,
-      this.sounds2,
       this.log,
       this.opacityOff,
       this.opacityOn,
       this.vol,
+      this.padding,
+      this.text,
+      this.textStyle,
+      this.gestureDetector,
       this.isDarkMode,
       this.themeMode});
 
