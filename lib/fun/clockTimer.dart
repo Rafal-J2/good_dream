@@ -9,7 +9,6 @@ import 'package:good_dream/models/DataProvider.dart';
 import 'package:provider/provider.dart';
 import 'functions.dart';
 import 'package:good_dream/fun/functions.dart';
-import 'package:flutter/cupertino.dart';
 
 void main() async {
   runApp(ChangeNotifierProvider(
@@ -43,26 +42,12 @@ class _State extends State<ClockTimer> {
   void initState() {
     _analytics = FirebaseAnalytics();
     super.initState();
-    _resetRemainingTime();
+    _resetRemainingTime5();
 
 /*   Test Crash
     FirebaseCrashlytics.instance.crash();
     _showDialogStat = GlobalKey();*/
   }
-
-  // Number picker
-/*  Decoration _decoration = new BoxDecoration(
-    border: new Border(
-      top: new BorderSide(
-        style: BorderStyle.solid,
-        color: Colors.black26,
-      ),
-      bottom: new BorderSide(
-        style: BorderStyle.solid,
-        color: Colors.black26,
-      ),
-    ),
-  );*/
 
   sendAnalyticsTrackSounds() {
     _analytics.logEvent(
@@ -90,53 +75,71 @@ class _State extends State<ClockTimer> {
   int _seconds = 3600;
   int _hours = 0;
 
-  _resetRemainingTime() {
+  _resetRemainingTime5() {
     setState(() {
-      debugPrint('reset 1 ------');
       _seconds = 0;
       _minutes = 5;
       _hours = 0;
     });
   }
 
-  _resetRemainingTime2() {
+  _resetRemainingTime10() {
     setState(() {
-      debugPrint('reset 2 -------');
+      _seconds = 0;
+      _minutes = 10;
+      _hours = 0;
+    });
+  }
+
+  _resetRemainingTime15() {
+    setState(() {
       _seconds = 0;
       _minutes = 15;
       _hours = 0;
     });
   }
 
-  _resetRemainingTime3() {
+  _resetRemainingTime30() {
     setState(() {
-      debugPrint('reset 2 -------');
       _seconds = 0;
       _minutes = 30;
       _hours = 0;
     });
   }
 
-  _resetRemainingTime4() {
+  _resetRemainingTime60() {
     setState(() {
-      debugPrint('reset 2 -------');
       _seconds = 0;
       _minutes = 60;
       _hours = 0;
     });
   }
 
-  _resetRemainingTime5() {
+  _resetRemainingTime120() {
     setState(() {
-      debugPrint('reset 2 -------');
+      _seconds = 0;
+      _minutes = 120;
+      _hours = 0;
+    });
+  }
+
+  _resetRemainingTime180() {
+    setState(() {
       _seconds = 0;
       _minutes = 180;
       _hours = 0;
     });
   }
 
+  _resetRemainingTime240() {
+    setState(() {
+      _seconds = 0;
+      _minutes = 240;
+      _hours = 0;
+    });
+  }
+
   _startTimer() {
-    debugPrint('START TIME ----------');
     _seconds = _hours * 3600 + _minutes * 60;
 
     _cancelTimer();
@@ -175,7 +178,7 @@ class _State extends State<ClockTimer> {
       _seconds -= 1;
       if (_seconds <= 0) {
         _cancelTimer();
-        _resetRemainingTime();
+        _resetRemainingTime5();
         SystemChannels.platform.invokeMethod('SystemNavigator.pop');
       }
     });
@@ -208,12 +211,9 @@ class _State extends State<ClockTimer> {
                     const EdgeInsets.only(left: 30.0, right: 30.0, top: 15),
                 child: ElevatedButton(
                   style: raiseButtonStyle,
-                  //     color: Colors.black26,
                   onPressed: () {
-                    //    sendAnalyticsSetTime();
+                    sendAnalyticsSetTime();
                     _showDialog();
-                    //  _cancelTimer();
-                    // showBanner();
                   },
                   child: Text("Set Time"),
                 ),
@@ -240,7 +240,7 @@ class _State extends State<ClockTimer> {
                   onPressed: () {
                     Navigator.of(context)
                         .pop(new Duration(hours: _hours, minutes: _minutes));
-                    _resetRemainingTime();
+                    _resetRemainingTime5();
                     _startTimer();
                     toast3();
                   },
@@ -252,7 +252,19 @@ class _State extends State<ClockTimer> {
                   onPressed: () {
                     Navigator.of(context)
                         .pop(new Duration(hours: _hours, minutes: _minutes));
-                    _resetRemainingTime2();
+                    _resetRemainingTime10();
+                    _startTimer();
+                    toast3();
+                  },
+                  child: Text('10 MINUTES'),
+                ),
+              ),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pop(new Duration(hours: _hours, minutes: _minutes));
+                    _resetRemainingTime15();
                     _startTimer();
                     toast3();
                   },
@@ -264,7 +276,7 @@ class _State extends State<ClockTimer> {
                   onPressed: () {
                     Navigator.of(context)
                         .pop(new Duration(hours: _hours, minutes: _minutes));
-                    _resetRemainingTime3();
+                    _resetRemainingTime30();
                     _startTimer();
                     toast3();
                   },
@@ -276,7 +288,7 @@ class _State extends State<ClockTimer> {
                   onPressed: () {
                     Navigator.of(context)
                         .pop(new Duration(hours: _hours, minutes: _minutes));
-                    _resetRemainingTime4();
+                    _resetRemainingTime60();
                     _startTimer();
                     toast3();
                   },
@@ -288,11 +300,36 @@ class _State extends State<ClockTimer> {
                   onPressed: () {
                     Navigator.of(context)
                         .pop(new Duration(hours: _hours, minutes: _minutes));
-                    _resetRemainingTime5();
+                    _resetRemainingTime120();
+                    _startTimer();
+                    toast3();
+                  },
+                  child: Text('2 HOURS'),
+                ),
+              ),
+
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pop(new Duration(hours: _hours, minutes: _minutes));
+                    _resetRemainingTime180();
                     _startTimer();
                     toast3();
                   },
                   child: Text('3 HOURS'),
+                ),
+              ),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pop(new Duration(hours: _hours, minutes: _minutes));
+                    _resetRemainingTime240();
+                    _startTimer();
+                    toast3();
+                  },
+                  child: Text('4 HOURS'),
                 ),
               ),
               Padding(

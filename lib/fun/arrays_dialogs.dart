@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:good_dream/models/ViewModels.dart';
-
 import 'launch_url.dart';
 
 List<ViewModels> get models5 => arrays5;
@@ -207,4 +205,11 @@ String partEleven =
 String acknowledgments =
     "Icons made by Freepik from Flaticon - www.flaticon.com";
 String acknowledgments2 =
-    "Icons Train made by Smashicons www.flaticon.com/authors/smashicons - Icons Emotional Piano made by Those Icons www.flaticon.com/authors/those-icons";
+    "Icons made by Smashicons from www.flaticon.com/authors/smashicons - "
+    "Icons made by Those-Icons from Icons www.flaticon.com/authors/those-icons -"
+    "Icons made by Surang from www.flaticon.com/authors/surang -"
+    "Icons made by Smalllikeart from www.flaticon.com/authors/smalllikeart -"
+    "Icons made by Ultimatearm from www.flaticon.com/authors/ultimatearm - from from www.flaticon.com";
+
+
+

@@ -1,5 +1,5 @@
 name: good_dream
-description: A new Flutter application.
+description: Good dream.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -131,8 +131,31 @@ flutter:
        - assets/lotus_on.png
        - assets/zen_w.png
        - assets/zen_on.png
-
-       - assets/
+       - assets/waterfall.ogg
+       - assets/raincoat_w.png
+       - assets/raincoat_on.png
+       - assets/rain_windows_w.png
+       - assets/rain_windows_on.png
+       - assets/waterfall_w.png
+       - assets/waterfall_on.png
+       - assets/rain_on_car_roof_w.png
+       - assets/rain_on_car_roof_on.png
+       - assets/car_w.png
+       - assets/car_on.png
+       - assets/sea_w.png
+       - assets/sea_on.png
+       - assets/cave_w.png
+       - assets/cave_on.png
+       - assets/city_park_w.png
+       - assets/city_park_on.png
+       - assets/fireplace_w.png
+       - assets/fireplace_on.png
+       - assets/fountain_park_w.png
+       - assets/fountain_park_on.png
+       - assets/windshield_w.png
+       - assets/windshield_on.png
+       - assets/creek_w.png
+       - assets/creek_on.png
        - assets/audio/
        - assets/splash.flr
        - assets/intro.flr
