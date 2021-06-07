@@ -1,42 +1,96 @@
+import 'dart:developer';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:good_dream/fun/arrays.dart';
+import 'package:get_storage/get_storage.dart';
+
+import 'package:good_dream/fun/arrays_3-4.dart';
 import 'package:good_dream/fun/modeSwitch.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:good_dream/fun/showDialogs.dart';
 
+/*class Controller extends GetxController {
+  final dataStorage = GetStorage();
+ //  get isThemeMode => dataStorage.read('key');
+}*/
+
 class Menu extends StatefulWidget {
   const Menu({
-    Key key,
-    this.setDarkMode,
+    Key? key,
+//    this.setDarkMode,
   }) : super(key: key);
-  final ValueChanged<bool> setDarkMode;
+//  final ValueChanged<bool>? setDarkMode;
 
   @override
   _MenuState createState() => _MenuState();
 }
 
 class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
-  // bool isSwitched = false;
-  bool? isDarkMode;
+
+  final dataStorage = GetStorage();
+
 
   void initState() {
-    isDarkMode = false;
     super.initState();
+ //   dataStorage.read('intCheck');
+    intCheck = 0;
+    log("intCheck***$intCheck");
+    switchThemeMode();
+ //   arrays4[0].checkThemeMode = ThemeMode.light;
+  //   dataStorage.read('key');
+ //    dataStorage.read('key2');
+   /* if(dataCount.read('key') != null) {
+       dataCount.read('key');
+    }*/
+ //   log("initState controller ${dataStorage.read('key')}");
+  //  log("initState themeMode ${themeMode = controller.dataStorage.read('key')}");
   }
 
-  ThemeMode themeMode = ThemeMode.system;
+   checkStorage() {
+  if(themeMode == ThemeMode.light) {
+    intCheck = 0;
+  } else if (themeMode == ThemeMode.dark){
+    intCheck = 1;
+  } else {intCheck = 2;}
+    log("intCheck $intCheck");
+ // log("themeMode2 $themeMode2");
+//  dataStorage.write('intCheck', intCheck);
+}
+
+  void switchThemeMode(){
+    switch(intCheck){
+      case 0 :
+        themeMode = ThemeMode.light;
+        print('ThemeMode.light*');
+        break;
+      case 1 :
+        themeMode = ThemeMode.dark;
+        print('ThemeMode.dark*');
+        break;
+      case 2 :
+        themeMode = ThemeMode.system;
+        print('ThemeMode.system*');
+    }
+
+  }
+
+  late int intCheck;
+
+  late ThemeMode themeMode;
+
+ //  ThemeMode themeMode = arrays4[0].themeMode ?? ThemeMode.system;
   @override
   Widget build(BuildContext context) {
+//    final controller = Get.put(Controller());
     super.build(context);
     // const FlexScheme usedFlexScheme = FlexScheme.mandyRed;
     return Consumer<DataProvider>(builder: (
-      context,
-      cart,
-      child,
-    ) {
+        context,
+        cart,
+        child,
+        ) {
       return ListView(
         children: <Widget>[
           /*      DrawerHeader(
@@ -44,6 +98,12 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
             ),*/
           Column(
             children: [
+              ListTile(
+                  title: Text("${dataStorage.read('intCheck')}",
+                    style: TextStyle(color: Colors.white) ,
+                  )
+              ),
+
               ListTile(
                 title: Text('Privacy Policy',
                     style: TextStyle(color: Colors.white)),
@@ -66,13 +126,6 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
                       });
                 },
               ),
-              /*    ListTile(
-                  title: Text('Terms & Conditions',
-                      style: TextStyle(color: Colors.white)),
-                  onTap: () {
-                    //  showMyDialog3();
-                  },
-                ),*/
               ListTile(
                 title: Text(
                   'Acknowledgments',
@@ -110,13 +163,28 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
                 height: 200,
                 child: HomePage(
                   // We pass it the current theme mode.
-                  themeMode: themeMode,
+             //    themeMode: themeMode,
+                   themeMode:  themeMode,
                   // On the home page we can toggle theme mode between light and dark.
                   onThemeModeChanged: (ThemeMode mode) {
                     setState(() {
-                      themeMode = mode;
-                      arrays4[0].themeMode = mode;
+                     themeMode = mode;
+                     checkStorage();
+                     switchThemeMode();
+                      dataStorage.write('intCheck', intCheck);
+              /*      if(themeMode == ThemeMode.light) {
+                       intCheck = 0;
+                     } else if (themeMode == ThemeMode.dark){
+                       intCheck = 1;
+                     } else {intCheck = 2;}
+                      log("intCheck $intCheck");
+                     log("themeMode $themeMode");*/
+                  //   dataStorage.write('key', mode);
+              //       dataStorage.write('key2', _counter);
+                  //  arrays4[0].themeMode = mode;
+                    arrays4[0].checkThemeMode = themeMode;
                       cart.add3(arrays4[0]);
+                //  log("arrys[0] ${arrays4[0]}");
                     });
                   },
                   flexSchemeData: FlexColor.schemes[FlexScheme.red],
@@ -128,451 +196,6 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
       );
     });
   }
-
-/*  Future<void> showMyDialog2() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.grey,
-          title: Text('Privacy Policy'),
-          content: SingleChildScrollView(
-            child: ListView.builder(
-              itemCount: 0,
-              itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  children: [
-                    Padding(padding: EdgeInsets.all(12.0)),
-                    Text(
-                      'Privacy Policy',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(partOne),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Personal Information',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 16.0,
-                        left: 16.0,
-                        right: 16.0,
-                      ),
-                      child: Text(partTwo),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Consent',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(partThree),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Information Collection and Use',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(partFour),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Links to Other Sites',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(partFive),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Advertising AdMob',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(partSix),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8.0,
-                        left: 24.0,
-                      ),
-                      child: GestureDetector(
-                        child: Text('•	AdMob',
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Colors.blue)),
-                        onTap: () => launchURL2(),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Analytics',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(partSeven),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8.0,
-                        left: 24.0,
-                      ),
-                      child: GestureDetector(
-                        child: Text('•	Google Play Services',
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Colors.blue)),
-                        onTap: () => launchURL(),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8.0,
-                        left: 24.0,
-                      ),
-                      child: GestureDetector(
-                        child: Text('•	Google Analytics for Firebase',
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Colors.blue)),
-                        onTap: () => launchURL3(),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8.0,
-                        left: 24.0,
-                      ),
-                      child: GestureDetector(
-                        child: Text('•	Firebase Crashlytics',
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Colors.blue)),
-                        onTap: () => launchURL4(),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Children’s Privacy',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(partEight),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Cookies',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(partNine),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Information security',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(partTen),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Contact Information',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(partEleven),
-                    ),
-                  ],
-                );
-              },
-              *//* children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(
-                    'Privacy Policy',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(partOne),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Personal Information',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 16.0,
-                    left: 16.0,
-                    right: 16.0,
-                  ),
-                  child: Text(partTwo),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Consent',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(partThree),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Information Collection and Use',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(partFour),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Links to Other Sites',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(partFive),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Advertising AdMob',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(partSix),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 8.0,
-                    left: 24.0,
-                  ),
-                  child: GestureDetector(
-                    child: Text('•	AdMob',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue)),
-                    onTap: () => launchURL2(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Analytics',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(partSeven),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 8.0,
-                    left: 24.0,
-                  ),
-                  child: GestureDetector(
-                    child: Text('•	Google Play Services',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue)),
-                    onTap: () => launchURL(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 8.0,
-                    left: 24.0,
-                  ),
-                  child: GestureDetector(
-                    child: Text('•	Google Analytics for Firebase',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue)),
-                    onTap: () => launchURL3(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 8.0,
-                    left: 24.0,
-                  ),
-                  child: GestureDetector(
-                    child: Text('•	Firebase Crashlytics',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue)),
-                    onTap: () => launchURL4(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Children’s Privacy',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(partEight),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Cookies',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(partNine),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Information security',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(partTen),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Contact Information',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(partEleven),
-                ),
-              ],*//*
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Approve'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }*/
-
-/*  Future<void> showMyDialog3() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.grey,
-          title: Text('Acknowledgments'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(
-                    'Acknowledgments',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(acknowledgments),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 8.0,
-                    left: 24.0,
-                  ),
-                  child: GestureDetector(
-                    child: Text('•	www.flaticon.com',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue)),
-                    onTap: () => launchURL5(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(acknowledgments2),
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Approve'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }*/
 
   @override
   bool get wantKeepAlive => true;

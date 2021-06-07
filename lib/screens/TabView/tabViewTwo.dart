@@ -1,4 +1,4 @@
-import 'package:good_dream/fun/arrays 1-2.dart';
+import 'package:good_dream/fun/arrays_1-2.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:good_dream/fun/functions.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,10 +38,10 @@ class _State extends State<TabViewTwo> {
   @override
   Widget build(BuildContext context) {
     return Consumer<DataProvider>(builder: (
-      context,
-      cart,
-      child,
-    ) {
+        context,
+        cart,
+        child,
+        ) {
       return GridView.builder(
         itemCount: arrays2.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -55,17 +55,17 @@ class _State extends State<TabViewTwo> {
                     /// Bool checking
                     arrays2[index].isFav = !arrays2[index].isFav!;
                     // Click_events Analytics
-                   if (arrays2[index].isFav!) {
-                      await _analytics.logEvent(
+                    if (arrays2[index].isFav!) {
+                     /* await _analytics.logEvent(
                         name: arrays2[index].events!,
-                      );
+                      );*/
                     }
                     /// Play or Stop sounds
                     arrays2[index].isFav!
                         ? arrays2[index].player.open(
-                            Audio(arrays2[index].sounds!),
-                            volume: 0.5,
-                            loopMode: LoopMode.single)
+                        Audio(arrays2[index].sounds!),
+                        volume: 0.5,
+                        loopMode: LoopMode.single)
                         : arrays2[index].player.pause();
 
                     /// Add image to page two
@@ -101,37 +101,37 @@ class _State extends State<TabViewTwo> {
                     Padding(padding: EdgeInsets.only(top: 8)),
                     arrays2[index].isFav!
                         ? AnimatedOpacity(
-                            duration: Duration(milliseconds: 800),
-                            opacity: arrays2[index].isFav!
-                                ? arrays2[index].opacityOn
-                                : arrays2[index].opacityOff,
-                            child: PlayerBuilder.volume(
-                                player: arrays2[index].player,
-                                builder: (context, volume) {
-                                  return Shimmer.fromColors(
-                                    baseColor: Colors.white,
-                                    highlightColor: Colors.grey,
-                                    child: Slider(
-                                        value: volume,
-                                        min: 0,
-                                        max: 1,
-                                        divisions: 50,
-                                        onChanged: (v) {
-                                          setState(() {
-                                            arrays2[index].player.setVolume(v);
-                                          });
-                                        }),
-                                  );
-                                }),
-                          )
+                      duration: Duration(milliseconds: 800),
+                      opacity: arrays2[index].isFav!
+                          ? arrays2[index].opacityOn
+                          : arrays2[index].opacityOff,
+                      child: PlayerBuilder.volume(
+                          player: arrays2[index].player,
+                          builder: (context, volume) {
+                            return Shimmer.fromColors(
+                              baseColor: Colors.white,
+                              highlightColor: Colors.grey,
+                              child: Slider(
+                                  value: volume,
+                                  min: 0,
+                                  max: 1,
+                                  divisions: 50,
+                                  onChanged: (v) {
+                                    setState(() {
+                                      arrays2[index].player.setVolume(v);
+                                    });
+                                  }),
+                            );
+                          }),
+                    )
                         : Text(
-                            arrays2[index].title!,
-                            style: TextStyle(
-                                fontSize: 13.0,
-                             //   height: 2.5,
-                                color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
+                      arrays2[index].title!,
+                      style: TextStyle(
+                          fontSize: 13.0,
+                          //   height: 2.5,
+                          color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
                   ],
                 ),
               ),

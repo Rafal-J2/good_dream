@@ -1,13 +1,14 @@
 
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'arrays.dart';
+import 'arrays_1-2.dart';
+
 
 bool isFav = false;
 
 mix1() {
   arrays[0].player.open(
       Audio(
-          arrays[0].sounds
+          arrays[0].sounds!
       )
   );
 
@@ -17,7 +18,7 @@ mix1() {
 mix2() {
   arrays[1].player.open(
       Audio(
-          arrays[1].sounds
+          arrays[1].sounds!
       )
   );
 }
@@ -25,7 +26,7 @@ mix2() {
 mix3() {
   arrays[2].player.open(
       Audio(
-          arrays[2].sounds
+          arrays[2].sounds!
       )
   );
 }

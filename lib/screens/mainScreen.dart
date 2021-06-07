@@ -8,24 +8,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'TabView/tabVieFour.dart';
 import 'TabView/tabViewOne.dart';
 import 'TabView/tabViewTwo.dart';
 import 'TabView/tabViewThree.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+
 
 void main() async {
   runApp(ChangeNotifierProvider(
     create: (context) => DataProvider(),
     child: GoodDream(),
   ));
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   await Firebase.initializeApp();
 }
 
 class GoodDream extends StatefulWidget {
   //Functions to Show Dialog
   GoodDream({
-    Key key,
+    Key? key,
     this.confirmWidget,
     this.cancelWidget,
     this.title,
@@ -34,16 +36,16 @@ class GoodDream extends StatefulWidget {
     this.onThemeModeChanged,
   }) : super(key: key);
 
-  final ThemeMode themeMode;
-  final ValueChanged<ThemeMode> onThemeModeChanged;
+  final ThemeMode? themeMode;
+  final ValueChanged<ThemeMode>? onThemeModeChanged;
 
 // Firebase Analytics
   //final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
+  final FirebaseAnalyticsObserver? observer;
   // Dialogs global
-  final Widget confirmWidget;
-  final Widget cancelWidget;
-  final String title;
+  final Widget? confirmWidget;
+  final Widget? cancelWidget;
+  final String? title;
 
   @override
   _State createState() => _State(observer);
@@ -52,18 +54,18 @@ class GoodDream extends StatefulWidget {
 class _State extends State<GoodDream>   {
   ThemeMode themeMode = ThemeMode.light;
   _State(
-   // this.analytics,
-    this.observer,
-  );
+      // this.analytics,
+      this.observer,
+      );
   //final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
+  final FirebaseAnalyticsObserver? observer;
 
   final ams = AdMobService();
 
   void startServiceInPlatform() async {
     if (Platform.isAndroid) {
       var methodChannel = MethodChannel("com.retroportalstudio.messages");
-      String data = await methodChannel.invokeMethod("startService");
+      String? data = await methodChannel.invokeMethod("startService");
       debugPrint(data);
     }
   }
@@ -76,47 +78,51 @@ class _State extends State<GoodDream>   {
       DeviceOrientation.portraitDown,
     ]);
     return Consumer<DataProvider>(builder: (
-      context,
-      cart,
-      child,
-    ) {
+        context,
+        cart,
+        child,
+        ) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: FlexColorScheme
             .light(scheme: FlexScheme.red,
-               onSecondary: Colors.white,
+            onSecondary: Colors.white,
             scaffoldBackground: Color(0xFF20124d)
         )
             .toTheme,
         darkTheme: FlexColorScheme
             .dark(scheme: FlexScheme.red,
-            onPrimary: Colors.white,
+          onPrimary: Colors.white,
         )
             .toTheme,
-        themeMode: cart.basketItems3.isEmpty  ? ThemeMode.system : cart.basketItems3[0].themeMode,
+        themeMode: cart.basketItems3.isEmpty  ? ThemeMode.system : cart.basketItems3[0].checkThemeMode,
         home: DefaultTabController(
-          length: 3,
+          length: 4,
           child: WillPopScope(
             onWillPop: () => onBackPressed(),
             child: Scaffold(
               appBar: PreferredSize(
-               preferredSize: Size.fromHeight(40.0),
+                preferredSize: Size.fromHeight(40.0),
                 child: AppBar(
                   backwardsCompatibility: false,
                   systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.black),
                   flexibleSpace: SizedBox(
                     child: TabBar(
-                      labelPadding: EdgeInsets.only(top: 28),
+                      isScrollable: true,
+                      physics: ClampingScrollPhysics (),
+                      labelPadding: EdgeInsets.only(top: 28, left: 15, right: 15),
                       tabs: [
                         Tab(
                           child: Text("Nature"),
                         ),
-                        Center(
-                            child: Tab(
-                          child: Text("Mechanical"),
-                        )),
+                        Tab(
+                          child: Text("Water"),
+                        ),
                         Tab(
                           child: Text("Music"),
+                        ),
+                        Tab(
+                          child: Text("Mechanical"),
                         ),
                       ],
                     ),
@@ -124,12 +130,13 @@ class _State extends State<GoodDream>   {
                 ),
               ),
               body: Container(
-            decoration: BoxDecoration(
-            ),
+                decoration: BoxDecoration(
+                ),
                 child: Column(
                   children: [
                     Expanded(
                       child: TabBarView(
+
                         children: <Widget>[
                           ListView(
                             children: <Widget>[
@@ -159,11 +166,19 @@ class _State extends State<GoodDream>   {
                               ),
                             ],
                           ),
-
+                          ListView(
+                            children: <Widget>[
+                              Container(
+                                height: screenSize.height / 1.6,
+                                child: TabViewFour(),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
                     ClockTimer(),
+
                   ],
                 ),
               ),
@@ -197,6 +212,6 @@ class _State extends State<GoodDream>   {
           ],
         );
       },
-    ) ?? false;
+    ).then((value) => value ?? false);
   }
 }

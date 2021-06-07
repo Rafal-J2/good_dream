@@ -11,8 +11,9 @@ class CheckoutPage extends StatefulWidget {
   _CheckoutPageState createState() => _CheckoutPageState();
 }
 
-class _CheckoutPageState extends State<CheckoutPage> with AutomaticKeepAliveClientMixin {
-  ThemeMode themeMode = ThemeMode.light;
+class _CheckoutPageState extends State<CheckoutPage>
+    with AutomaticKeepAliveClientMixin {
+ // ThemeMode themeMode = ThemeMode.light;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class _CheckoutPageState extends State<CheckoutPage> with AutomaticKeepAliveClie
           ).toTheme,
           themeMode: cart.basketItems3.isEmpty
               ? ThemeMode.system
-              : cart.basketItems3[0].themeMode,
+              : cart.basketItems3[0].checkThemeMode,
           home: Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(40.0),
@@ -45,17 +46,18 @@ class _CheckoutPageState extends State<CheckoutPage> with AutomaticKeepAliveClie
             body: ListView(
               children: <Widget>[
                 Center(
-                  child: cart.count == 0 ? Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: Text('No active sounds',
-                      style: TextStyle(
-                         fontSize: 28,
-                          color: Colors.white
-                      ),),
-                  ) : null,
+                  child: cart.count == 0
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: Text(
+                            'No active sounds',
+                            style: TextStyle(fontSize: 28, color: Colors.white),
+                          ),
+                        )
+                      : null,
                 ),
                 Container(
-                 // width: 50.0,
+                  // width: 50.0,
                   height: screenSize.height,
                   //   color: Colors.black12,
                   child: ListView.builder(
@@ -65,16 +67,16 @@ class _CheckoutPageState extends State<CheckoutPage> with AutomaticKeepAliveClie
                           children: [
                             Row(
                               children: [
-                                     Padding(
-                                       padding: const EdgeInsets.only(left: 8.0),
-                                       child: Image(
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Image(
                                     height: 50.0,
                                     width: 50.0,
                                     image: AssetImage(
-                                    cart.basketItems[index].picOff,
+                                      cart.basketItems[index].picOff!,
                                     ),
                                   ),
-                                     ),
+                                ),
                                 PlayerBuilder.volume(
                                     player: cart.basketItems[index].player,
                                     builder: (context, _vol) {
@@ -92,15 +94,17 @@ class _CheckoutPageState extends State<CheckoutPage> with AutomaticKeepAliveClie
                                           });
                                     }),
                                 IconButton(
-                                  icon: Icon(Icons.delete_forever,
-                                  color: Colors.white,),
+                                  icon: Icon(
+                                    Icons.delete_forever,
+                                    color: Colors.white,
+                                  ),
                                   iconSize: 48.0,
                                   onPressed: () {
                                     // Pause sounds with page one
                                     cart.basketItems[index].player.pause();
                                     cart.basketItems[index].isFav = false;
                                     cart.remove(cart.basketItems[index]);
-                                //    cart.remove2(cart.basketItems2[index]);
+                                    //    cart.remove2(cart.basketItems2[index]);
                                     //    cart.remove2(cart.basketItems2[index]);
                                     if (cart.count == 0) {
                                       foregroundServiceStop();
@@ -115,7 +119,7 @@ class _CheckoutPageState extends State<CheckoutPage> with AutomaticKeepAliveClie
                 ),
 
                 // TODO Flat button piano
-               /* Container(
+                /* Container(
                   width: 50.0,
                   height: screenSize.height / 1.6,
                   // color: Colors.black45,
@@ -180,6 +184,5 @@ class _CheckoutPageState extends State<CheckoutPage> with AutomaticKeepAliveClie
   }
 
   @override
-
   bool get wantKeepAlive => true;
 }

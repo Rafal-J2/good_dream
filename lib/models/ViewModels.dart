@@ -1,19 +1,23 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 
 class ViewModels {
-  bool isFav;
-  String events;
-  String picOff;
-  String picOn;
-  String image;
-  String title;
-  String sounds;
-  String sounds2;
-  String log;
+  bool? isFav;
+  String? events;
+  String? picOff;
+  String? picOn;
+  String? title;
+  String? sounds;
+  String? sounds2;
+  String? log;
+  String? text;
+  String? image;
+  final gestureDetector;
+  final textStyle;
+  final padding;
   final player;
 
   bool? isDarkMode;
-  var themeMode;
+  var checkThemeMode;
 
   var opacityOff;
   var opacityOn;
@@ -21,22 +25,24 @@ class ViewModels {
 
   ViewModels(
       {this.events,
-      this.picOff,
-      this.title,
-      this.isFav,
-      this.picOn,
-      this.player,
-      this.sounds,
-      this.log,
-      this.opacityOff,
-      this.opacityOn,
-      this.vol,
-      this.padding,
-      this.text,
-      this.textStyle,
-      this.gestureDetector,
-      this.isDarkMode,
-      this.themeMode});
+        this.picOff,
+        this.title,
+        this.isFav,
+        this.picOn,
+        this.player,
+        this.sounds,
+        this.sounds2,
+        this.log,
+        this.opacityOff,
+        this.opacityOn,
+        this.vol,
+        this.padding,
+        this.text,
+        this.image,
+        this.gestureDetector,
+        this.textStyle,
+        this.isDarkMode,
+        this.checkThemeMode});
 
   playAudio00() {
     player.open(

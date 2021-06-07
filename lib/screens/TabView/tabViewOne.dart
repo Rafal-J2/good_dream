@@ -1,4 +1,4 @@
-import 'package:good_dream/fun/arrays.dart';
+import 'package:good_dream/fun/arrays_1-2.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:good_dream/fun/functions.dart';
 import 'package:flutter/material.dart';
@@ -9,25 +9,25 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 
 class TabViewOne extends StatefulWidget {
   TabViewOne({
-    Key key,
+    Key? key,
     this.analytics,
     //   this.observer,
   }) : super(key: key);
 
   // Firebase Analytics
-  final FirebaseAnalytics analytics;
+  final FirebaseAnalytics? analytics;
 //  final FirebaseAnalyticsObserver observer;
 
   @override
   _State createState() => _State(analytics);
 }
-/// Stack records
+
 class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
   final PageStorageBucket bucket = PageStorageBucket();
   // Firebase Analytics
-  FirebaseAnalytics _analytics;
+  late FirebaseAnalytics _analytics;
 
-  _State(FirebaseAnalytics analytics);
+  _State(FirebaseAnalytics? analytics);
 
   @override
   void initState() {
@@ -39,10 +39,10 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return Consumer<DataProvider>(builder: (
-      context,
-      cart,
-      child,
-    ) {
+        context,
+        cart,
+        child,
+        ) {
       return GridView.builder(
         itemCount: arrays.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -56,24 +56,24 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
                 onPressed: () async {
                   if (cart.count <= 5) {
                     //Bool checking
-                    arrays[index].isFav = !arrays[index].isFav;
+                    arrays[index].isFav = !arrays[index].isFav!;
                     // Click_events - if isFav is true
-                        if (arrays[index].isFav) {
-                      await _analytics.logEvent(
-                        name: arrays[index].events,
-                      );
+                    if (arrays[index].isFav!) {
+                    /*  await _analytics.logEvent(
+                        name: arrays[index].events!,
+                      );*/
                     }
                     // Play or Stop sounds
-                    arrays[index].isFav
+                    arrays[index].isFav!
                         ? arrays[index].player.open(
-                            Audio(
-                              arrays[index].sounds,
-                            ),
-                            volume: 0.5,
-                            //  showNotification: true,
-                            loopMode: LoopMode.single)
+                        Audio(
+                          arrays[index].sounds!,
+                        ),
+                        volume: 0.5,
+                        //  showNotification: true,
+                        loopMode: LoopMode.single)
                         : arrays[index].player.pause();
-                   arrays[index].isFav
+                    arrays[index].isFav!
                         ? cart.add(arrays[index])
                         : cart.remove(arrays[index]);
                     //Add image to page two. If is isFav = true, add entire arrays.
@@ -103,44 +103,44 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
                       fit: BoxFit.contain,
                       height: 50,
                       width: 120,
-                      image: AssetImage(arrays[index].isFav
-                          ? arrays[index].picOn
-                          : arrays[index].picOff),
+                      image: AssetImage(arrays[index].isFav!
+                          ? arrays[index].picOn!
+                          : arrays[index].picOff!),
                     ),
                     Padding(padding: EdgeInsets.only(top: 8)),
-                    arrays[index].isFav
+                    arrays[index].isFav!
                         ? AnimatedOpacity(
-                            opacity: arrays[index].isFav
-                                ? arrays[index].opacityOn
-                                : arrays[index].opacityOff,
-                            duration: Duration(milliseconds: 800),
-                            child: PlayerBuilder.volume(
-                                player: arrays[index].player,
-                                builder: (context, volume) {
-                                  return Shimmer.fromColors(
-                                    baseColor: Colors.white,
-                                    highlightColor: Colors.grey,
-                                    child: Slider(
-                                        value: volume,
-                                        min: 0,
-                                        max: 1,
-                                        divisions: 50,
-                                        onChanged: (v) {
-                                          setState(() {
-                                            arrays[index].player.setVolume(v);
-                                          });
-                                        }),
-                                  );
-                                }),
-                          )
+                      opacity: arrays[index].isFav!
+                          ? arrays[index].opacityOn
+                          : arrays[index].opacityOff,
+                      duration: Duration(milliseconds: 800),
+                      child: PlayerBuilder.volume(
+                          player: arrays[index].player,
+                          builder: (context, volume) {
+                            return Shimmer.fromColors(
+                              baseColor: Colors.white,
+                              highlightColor: Colors.grey,
+                              child: Slider(
+                                  value: volume,
+                                  min: 0,
+                                  max: 1,
+                                  divisions: 50,
+                                  onChanged: (v) {
+                                    setState(() {
+                                      arrays[index].player.setVolume(v);
+                                    });
+                                  }),
+                            );
+                          }),
+                    )
                         : Text(
-                            arrays[index].title,
-                            style: TextStyle(
-                                fontSize: 12.0,
-                            //    height: 2.5,
-                                color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
+                      arrays[index].title!,
+                      style: TextStyle(
+                          fontSize: 12.0,
+                          //    height: 2.5,
+                          color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
 
                   ],
                 ),

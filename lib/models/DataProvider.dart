@@ -40,7 +40,6 @@ class DataProvider extends ChangeNotifier {
     return _items2;
   }
 
-
   List<ViewModels> get basketItems {
     return _items;
   }

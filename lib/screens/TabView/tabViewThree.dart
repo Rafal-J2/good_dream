@@ -1,4 +1,6 @@
-import 'package:good_dream/fun/arrays 3-4.dart';
+import 'dart:developer';
+
+import 'package:good_dream/fun/arrays_3-4.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:good_dream/fun/functions.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,17 +53,30 @@ class _State extends State<TabViewThree> {
               TextButton(
                 /// Stops all sounds
                 onPressed: () async {
+
                   if (cart.count2 == 1 &&
                       arrays3[index].isFav == false) {
                     for (int i = 0;
                    i < arrays3.length;
                     i++) {
-                      arrays3[i].player.pause();
+                      arrays3[i].player.stop();
                       cart.remove2(arrays3[i]);
                       cart.remove(arrays3[i]);
                       arrays3[i].isFav = false;
                     }
                   }
+
+           /*     log('Test audio ---------- ${
+                      arrays3[index].player.open(
+                          Audio(arrays3[index].sounds!),)
+                  }'
+                  );
+
+                  log('Test audio STOP 222222 ---------- ${
+                      arrays3[index].player.stop()
+                  }'
+                  );*/
+
                   if (cart.count2 <= 1 &&
                       arrays3[index].isFav == false) {
                     arrays3[index].player.open(
@@ -73,6 +88,7 @@ class _State extends State<TabViewThree> {
                     arrays3[index].isFav = true;
                   } else {
                     arrays3[index].player.pause();
+                    log('{arrays3[index].player.pause()} ${arrays3[index].player.pause()}');
                     cart.remove2(arrays3[index]);
                     cart.remove(arrays3[index]);
                     arrays3[index].isFav = false;
@@ -86,9 +102,9 @@ class _State extends State<TabViewThree> {
                   }
                   // Click_events - if isFav is true
                  if (arrays3[index].isFav!) {
-                    await _analytics.logEvent(
+                  /*  await _analytics.logEvent(
                       name: arrays3[index].events!,
-                    );
+                    );*/
                   }
                 },
                 child: Column(
@@ -132,8 +148,6 @@ class _State extends State<TabViewThree> {
                       style: TextStyle(fontSize: 13,
                       color: Colors.white),
                       textAlign: TextAlign.center,
-
-
                     ),
                   ],
                 ),

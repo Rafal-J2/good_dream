@@ -7,7 +7,7 @@ List<ViewModels> get models5 => arrays5;
 final arrays5 = [
   ViewModels(
     text: 'Privacy Policy',
-   textStyle: TextStyle(fontWeight: FontWeight.bold),
+    textStyle: TextStyle(fontWeight: FontWeight.bold),
   ),
   ViewModels(
     text: partOne,
@@ -26,16 +26,16 @@ final arrays5 = [
   ViewModels(
     text: partThree,
   ),
- ViewModels(
+  ViewModels(
     text: 'Information Collection and Use',
-     textStyle: TextStyle(fontWeight: FontWeight.bold),
+    textStyle: TextStyle(fontWeight: FontWeight.bold),
   ),
   ViewModels(
     text: partFour,
   ),
   ViewModels(
     text: 'Links to Other Sites',
-      textStyle: TextStyle(fontWeight: FontWeight.bold),
+    textStyle: TextStyle(fontWeight: FontWeight.bold),
   ),
   ViewModels(
     text: partFive,
@@ -59,7 +59,7 @@ final arrays5 = [
         onTap: () => launchURL2(),
       )
   ),
- ViewModels(
+  ViewModels(
       text: '',
       gestureDetector: GestureDetector(
         child: Text('•	Google Analytics for Firebase',
@@ -209,7 +209,9 @@ String acknowledgments2 =
     "Icons made by Those-Icons from Icons www.flaticon.com/authors/those-icons -"
     "Icons made by Surang from www.flaticon.com/authors/surang -"
     "Icons made by Smalllikeart from www.flaticon.com/authors/smalllikeart -"
+    "Icons made by photo3idea_studiofrom www.flaticon.com/authors/photo3idea-studio - from from www.flaticon.com"
     "Icons made by Ultimatearm from www.flaticon.com/authors/ultimatearm - from from www.flaticon.com";
+
 
 
 

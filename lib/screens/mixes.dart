@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:good_dream/fun/arrays.dart';
+import 'package:good_dream/fun/arrays_1-2.dart';
+import 'package:good_dream/fun/arrays_3-4.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:good_dream/fun/onlyMix.dart';
@@ -19,30 +20,28 @@ class Mix extends StatelessWidget {
           itemBuilder: (context, index) {
             return Column(
               children: [
-
                 TextButton(
                   onPressed: () {
                     isFav = !isFav;
                     if (isFav) {
-
-                      if (!arrays[0].isFav) {
+                      if (arrays[0].isFav!) {
                         mix1();
                         cart.add(arrays[0]);
-                        arrays[0].isFav = !arrays[0].isFav;
+                        arrays[0].isFav = arrays[0].isFav;
                         debugPrint('arrays[0]');
                       }
 
-                      if (!arrays[1].isFav) {
+                      if (arrays[1].isFav!) {
                         mix2();
                         cart.add(arrays[1]);
-                        arrays[1].isFav = !arrays[1].isFav;
+                        arrays[1].isFav = arrays[1].isFav;
                         debugPrint('arrays[1]');
                       }
 
-                      if (!arrays[2].isFav) {
+                      if (arrays[2].isFav!) {
                         mix3();
                         cart.add(arrays[2]);
-                        arrays[2].isFav = !arrays[2].isFav;
+                        arrays[2].isFav = arrays[2].isFav;
                         debugPrint('arrays[2]');
                       }
 
@@ -62,11 +61,11 @@ class Mix extends StatelessWidget {
                     }
                   },
                   child: Image(
-                    image: AssetImage(arrays4[index].image),
+                    image: AssetImage(arrays4[index].image!),
                   ),
                 ),
 
-                Text(arrays4[index].title,
+                Text(arrays4[index].title!,
                 style: TextStyle(
                   color: Colors.white
                 ),
