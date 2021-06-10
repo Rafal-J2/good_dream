@@ -102,9 +102,9 @@ class _State extends State<TabViewThree> {
                   }
                   // Click_events - if isFav is true
                  if (arrays3[index].isFav!) {
-                  /*  await _analytics.logEvent(
+                   await _analytics.logEvent(
                       name: arrays3[index].events!,
-                    );*/
+                    );
                   }
                 },
                 child: Column(

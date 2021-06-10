@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
-
 import 'package:good_dream/fun/arrays_3-4.dart';
 import 'package:good_dream/fun/modeSwitch.dart';
 import 'package:good_dream/models/DataProvider.dart';
@@ -37,7 +36,7 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
  //   dataStorage.read('intCheck');
     intCheck = 0;
     log("intCheck***$intCheck");
-    switchThemeMode();
+  //  switchThemeMode();
  //   arrays4[0].checkThemeMode = ThemeMode.light;
   //   dataStorage.read('key');
  //    dataStorage.read('key2');
@@ -59,7 +58,7 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
 //  dataStorage.write('intCheck', intCheck);
 }
 
-  void switchThemeMode(){
+/*  void switchThemeMode(){
     switch(intCheck){
       case 0 :
         themeMode = ThemeMode.light;
@@ -74,13 +73,13 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
         print('ThemeMode.system*');
     }
 
-  }
+  }*/
 
   late int intCheck;
 
-  late ThemeMode themeMode;
+ // late ThemeMode themeMode;
 
- //  ThemeMode themeMode = arrays4[0].themeMode ?? ThemeMode.system;
+  ThemeMode themeMode =  ThemeMode.system;
   @override
   Widget build(BuildContext context) {
 //    final controller = Get.put(Controller());
@@ -98,12 +97,6 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
             ),*/
           Column(
             children: [
-              ListTile(
-                  title: Text("${dataStorage.read('intCheck')}",
-                    style: TextStyle(color: Colors.white) ,
-                  )
-              ),
-
               ListTile(
                 title: Text('Privacy Policy',
                     style: TextStyle(color: Colors.white)),
@@ -170,8 +163,8 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
                     setState(() {
                      themeMode = mode;
                      checkStorage();
-                     switchThemeMode();
-                      dataStorage.write('intCheck', intCheck);
+                  //   switchThemeMode();
+                  //    dataStorage.write('intCheck', intCheck);
               /*      if(themeMode == ThemeMode.light) {
                        intCheck = 0;
                      } else if (themeMode == ThemeMode.dark){
@@ -181,7 +174,7 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
                      log("themeMode $themeMode");*/
                   //   dataStorage.write('key', mode);
               //       dataStorage.write('key2', _counter);
-                  //  arrays4[0].themeMode = mode;
+                 //   arrays4[0].themeMode = mode;
                     arrays4[0].checkThemeMode = themeMode;
                       cart.add3(arrays4[0]);
                 //  log("arrys[0] ${arrays4[0]}");

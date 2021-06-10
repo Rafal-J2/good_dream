@@ -56,9 +56,9 @@ class _State extends State<TabViewTwo> {
                     arrays2[index].isFav = !arrays2[index].isFav!;
                     // Click_events Analytics
                     if (arrays2[index].isFav!) {
-                     /* await _analytics.logEvent(
+                      await _analytics.logEvent(
                         name: arrays2[index].events!,
-                      );*/
+                      );
                     }
                     /// Play or Stop sounds
                     arrays2[index].isFav!

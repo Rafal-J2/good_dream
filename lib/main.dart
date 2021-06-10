@@ -3,10 +3,11 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/models/DataProvider.dart';
-import 'package:good_dream/screens/navigatrors.dart';
+
+import 'package:good_dream/fun/splashScreen.dart';
 import 'package:provider/provider.dart';
-import 'package:flare_splash_screen/flare_splash_screen.dart';
 import 'package:flutter/services.dart';
+
 
 void main() async {
   await GetStorage.init();
@@ -26,14 +27,15 @@ class MyApp extends StatelessWidget {
     var materialApp = MaterialApp(
       debugShowCheckedModeBanner: false,
   //    navigatorObservers: <NavigatorObserver>[observer],
-      home: SplashScreen.navigate(
+      home: SplashScreen2(),
+     /* home: SplashScreen.navigate(
         name:'assets/intro2.flr',
        next: (context) => Navigators(
         ),
         until: () => Future.delayed(Duration(seconds: 3)),
         startAnimation: 'intro',
       //  backgroundColor: Color(0xff000000),
-      ),
+      ),*/
     );
     return ChangeNotifierProvider(
       create: (context) => DataProvider(),
