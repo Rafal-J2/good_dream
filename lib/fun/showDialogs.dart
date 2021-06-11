@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'arrays_dialogs.dart';
+import 'dialogs.dart';
 import 'launch_url.dart';
 
 Widget setupAlertDialogContainer() {

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:good_dream/fun/arrays_3-4.dart';
 import 'package:good_dream/models/DataProvider.dart';
-import 'package:good_dream/fun/functions.dart';
+import 'package:good_dream/fun/foregroundService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';

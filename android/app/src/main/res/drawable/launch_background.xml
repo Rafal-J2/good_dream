@@ -6,7 +6,12 @@
     <!-- You can insert your own image assets here -->
     <item>
         <bitmap
-            android:gravity="center"
-            android:src="@mipmap/meditation" />
+        android:gravity="center"
+        android:src="@mipmap/meditation" />
     </item>
+<!--    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@mipmap/dream_large" />
+    </item>-->
 </layer-list>

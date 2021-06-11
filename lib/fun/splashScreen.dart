@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:good_dream/screens/navigators.dart';
 import 'package:lottie/lottie.dart';
 
-class SplashScreen2 extends StatefulWidget {
-  const SplashScreen2({Key? key}) : super(key: key);
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  _SplashScreen2State createState() => _SplashScreen2State();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreen2State extends State<SplashScreen2> {
+class _SplashScreenState extends State<SplashScreen> {
   void initState() {
    super.initState();
     Timer(Duration(seconds: 3), (){
