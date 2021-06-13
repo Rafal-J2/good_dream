@@ -235,7 +235,7 @@ class _State extends State<ClockTimer> {
                     }
 
                   },
-                  child: _isFav ? Text("Stop Time") : Text('Start Time'),
+                  child: _isFav ? Text("Stop Time") : Text('Start Timer'),
                 ),
               ),
               Padding(

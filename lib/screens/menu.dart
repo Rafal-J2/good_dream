@@ -33,8 +33,14 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
 
   void initState() {
     super.initState();
- //   dataStorage.read('intCheck');
-    intCheck = 0;
+  //  themeMode = ThemeMode.light;
+    intCheck = 1;
+    switchThemeMode();
+    dataStorage.read('intCheck');
+    checkStorage();
+ //   arrays4[0].checkThemeMode = themeMode;
+ //   cart.add3(arrays4[0]);
+
     log("intCheck***$intCheck");
   //  switchThemeMode();
  //   arrays4[0].checkThemeMode = ThemeMode.light;
@@ -53,12 +59,11 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
   } else if (themeMode == ThemeMode.dark){
     intCheck = 1;
   } else {intCheck = 2;}
-    log("intCheck $intCheck");
- // log("themeMode2 $themeMode2");
-//  dataStorage.write('intCheck', intCheck);
+  dataStorage.write('intCheck', intCheck);
+  log("intCheck $intCheck");
 }
 
-/*  void switchThemeMode(){
+  void switchThemeMode(){
     switch(intCheck){
       case 0 :
         themeMode = ThemeMode.light;
@@ -72,14 +77,13 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
         themeMode = ThemeMode.system;
         print('ThemeMode.system*');
     }
-
-  }*/
+  }
 
   late int intCheck;
 
  // late ThemeMode themeMode;
-
-  ThemeMode themeMode =  ThemeMode.system;
+  late ThemeMode themeMode;
+//  ThemeMode themeMode = ThemeMode.light;
   @override
   Widget build(BuildContext context) {
 //    final controller = Get.put(Controller());
@@ -92,11 +96,13 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
         ) {
       return ListView(
         children: <Widget>[
+
           /*      DrawerHeader(
               child: Text('Menu', style: TextStyle(color: Colors.white)),
             ),*/
           Column(
             children: [
+
               ListTile(
                 title: Text('Privacy Policy',
                     style: TextStyle(color: Colors.white)),

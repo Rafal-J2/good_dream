@@ -6,6 +6,7 @@ import 'package:good_dream/screens/mainScreen.dart';
 import 'package:good_dream/screens/mixes.dart';
 import 'package:good_dream/screens/screenTwo.dart';
 import 'package:good_dream/services/admob_service.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'menu.dart';
 
@@ -26,10 +27,10 @@ class _NavigatorsState extends State<Navigators> {
   @override
   Widget build(BuildContext context) {
     return Consumer<DataProvider>(builder: (
-        context,
-        cart,
-        child,
-        ) {
+      context,
+      cart,
+      child,
+    ) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: MyHomePage(title: 'Save States in BottomNavigationBar'),
@@ -86,17 +87,18 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     ));
     return Consumer<DataProvider>(builder: (
-        context,
-        cart,
-        child,
-        ) {
+      context,
+      cart,
+      child,
+    ) {
       return MaterialApp(
         theme: FlexColorScheme.light(
-            scheme: FlexScheme.red,
-            //   onSecondary: Colors.white,
-            scaffoldBackground: Color(0xFF20124d),
-            /// Colors Navigation Bar
-            background: Color(0xFF20124d))
+                scheme: FlexScheme.red,
+                //   onSecondary: Colors.white,
+                scaffoldBackground: Color(0xFF20124d),
+
+                /// Colors Navigation Bar
+                background: Color(0xFF20124d))
             .toTheme,
         darkTheme: FlexColorScheme.dark(
           scheme: FlexScheme.red,
@@ -126,11 +128,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 label: 'Mix Sounds ',
               ),
               BottomNavigationBarItem(
+                icon: cart.count <= 0
+                    ? Icon(Icons.surround_sound) :
+                      Lottie.asset('assets/lottieFiles/sounds_waves.json'),
+                label: 'Active Sounds - ${cart.count.toString()}',
+                /*
                 icon: Icon(Icons.surround_sound,
                     color: cart.count <= 0
                         ? null
-                        : Colors.white),
-                label: 'Active Sounds - ${cart.count.toString()}',
+                        : Colors.white),*/
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.menu),
@@ -148,8 +154,8 @@ class _MyHomePageState extends State<MyHomePage> {
               });
             },
           ),
-      // Admob banner
-      //    persistentFooterButtons: admobBaner,
+          // Admob banner
+          //    persistentFooterButtons: admobBaner,
           /// Colors ADS
           //  backgroundColor: Color(0xFF20124d),
         ),
@@ -157,4 +163,3 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 }
-
