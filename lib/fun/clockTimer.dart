@@ -244,7 +244,6 @@ class _State extends State<ClockTimer> {
                 child: ElevatedButton(
                   style: raiseButtonStyle,
                   onPressed: () {
-                    _isFav = !_isFav;
                     sendAnalyticsSetTime();
                   _showDialog();
                   },

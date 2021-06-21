@@ -26,16 +26,10 @@ class _NavigatorsState extends State<Navigators> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<DataProvider>(builder: (
-      context,
-      cart,
-      child,
-    ) {
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: MyHomePage(title: 'Save States in BottomNavigationBar'),
-      );
-    });
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MyHomePage(title: 'Save States in BottomNavigationBar'),
+    );
   }
 }
 
@@ -69,6 +63,9 @@ class _MyHomePageState extends State<MyHomePage> {
     /// Save state all screens
     _pageController = PageController(initialPage: _selectedPageIndex);
   }
+
+
+
 
   @override
   void dispose() {
@@ -129,8 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               BottomNavigationBarItem(
                 icon: cart.count <= 0
-                    ? Icon(Icons.surround_sound) :
-                      Lottie.asset('assets/lottieFiles/sounds_waves.json'),
+                    ? Icon(Icons.surround_sound)
+                    : Lottie.asset('assets/lottieFiles/sounds_waves.json'),
                 label: 'Active Sounds - ${cart.count.toString()}',
                 /*
                 icon: Icon(Icons.surround_sound,

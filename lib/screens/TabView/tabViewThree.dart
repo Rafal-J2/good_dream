@@ -63,16 +63,6 @@ class _State extends State<TabViewThree> {
                       arrays3[i].isFav = false;
                     }
                   }
-                  /*     log('Test audio ---------- ${
-                      arrays3[index].player.open(
-                          Audio(arrays3[index].sounds!),)
-                  }'
-                  );
-                  log('Test audio STOP 222222 ---------- ${
-                      arrays3[index].player.stop()
-                  }'
-                  );*/
-
                   if (cart.count2 <= 1 && arrays3[index].isFav == false && cart.count <= 5) {
                     arrays3[index].player.open(Audio(arrays3[index].sounds!),
                         volume: 0.5, loopMode: LoopMode.single);
@@ -90,7 +80,6 @@ class _State extends State<TabViewThree> {
                   if(cart.count == 6 && cart.count2 == 0) {
                     toast();
                   }
-
 
                   /// foregroundService START or STOP
                   if (cart.count2 == 1) {

@@ -96,13 +96,11 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
         ) {
       return ListView(
         children: <Widget>[
-
           /*      DrawerHeader(
               child: Text('Menu', style: TextStyle(color: Colors.white)),
             ),*/
           Column(
             children: [
-
               ListTile(
                 title: Text('Privacy Policy',
                     style: TextStyle(color: Colors.white)),
@@ -151,6 +149,7 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
               ),
               ListTile(
                 title: Text(
+
                   'Exit the application',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -158,36 +157,40 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
                   SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                 },
               ),
-              Container(
-                height: 200,
-                child: HomePage(
-                  // We pass it the current theme mode.
+              Column(
+                children: [
+                  Container(
+                    height: 200,
+                    child: HomePage(
+                      // We pass it the current theme mode.
              //    themeMode: themeMode,
-                   themeMode:  themeMode,
-                  // On the home page we can toggle theme mode between light and dark.
-                  onThemeModeChanged: (ThemeMode mode) {
-                    setState(() {
-                     themeMode = mode;
-                     checkStorage();
-                  //   switchThemeMode();
-                  //    dataStorage.write('intCheck', intCheck);
-              /*      if(themeMode == ThemeMode.light) {
-                       intCheck = 0;
-                     } else if (themeMode == ThemeMode.dark){
-                       intCheck = 1;
-                     } else {intCheck = 2;}
-                      log("intCheck $intCheck");
-                     log("themeMode $themeMode");*/
-                  //   dataStorage.write('key', mode);
-              //       dataStorage.write('key2', _counter);
-                 //   arrays4[0].themeMode = mode;
-                    arrays4[0].checkThemeMode = themeMode;
-                      cart.add3(arrays4[0]);
-                //  log("arrys[0] ${arrays4[0]}");
-                    });
-                  },
-                  flexSchemeData: FlexColor.schemes[FlexScheme.red],
-                ),
+                       themeMode:  themeMode,
+                      // On the home page we can toggle theme mode between light and dark.
+                      onThemeModeChanged: (ThemeMode mode) {
+                        setState(() {
+                         themeMode = mode;
+                         checkStorage();
+                      //   switchThemeMode();
+                      //    dataStorage.write('intCheck', intCheck);
+                  /*      if(themeMode == ThemeMode.light) {
+                           intCheck = 0;
+                         } else if (themeMode == ThemeMode.dark){
+                           intCheck = 1;
+                         } else {intCheck = 2;}
+                          log("intCheck $intCheck");
+                         log("themeMode $themeMode");*/
+                      //   dataStorage.write('key', mode);
+                  //       dataStorage.write('key2', _counter);
+                     //   arrays4[0].themeMode = mode;
+                        arrays4[0].checkThemeMode = themeMode;
+                          cart.add3(arrays4[0]);
+                    //  log("arrys[0] ${arrays4[0]}");
+                        });
+                      },
+                      flexSchemeData: FlexColor.schemes[FlexScheme.red],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -198,4 +201,7 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class TapboxB {
 }
