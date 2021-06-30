@@ -30,60 +30,50 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
 
   final dataStorage = GetStorage();
 
-
   void initState() {
     super.initState();
-  //  themeMode = ThemeMode.light;
-    intCheck = 1;
-    switchThemeMode();
     dataStorage.read('intCheck');
-    checkStorage();
- //   arrays4[0].checkThemeMode = themeMode;
- //   cart.add3(arrays4[0]);
+    log("what is inCheck in initState: $intCheck");
+   // dataStorage.read('intCheck');
+    log("dataStorage.read: ${dataStorage.read('intCheck')}");
+    _switchThemeMode();
+   // checkStorage();
 
-    log("intCheck***$intCheck");
-  //  switchThemeMode();
- //   arrays4[0].checkThemeMode = ThemeMode.light;
-  //   dataStorage.read('key');
- //    dataStorage.read('key2');
-   /* if(dataCount.read('key') != null) {
-       dataCount.read('key');
-    }*/
- //   log("initState controller ${dataStorage.read('key')}");
-  //  log("initState themeMode ${themeMode = controller.dataStorage.read('key')}");
   }
 
-   checkStorage() {
+  void _switchThemeMode(){
+    switch(dataStorage.read('intCheck')){
+      case 0 :
+      //  arrays4[0].checkThemeMode = ThemeMode.light;
+        themeMode = ThemeMode.light;
+        print('switchThemeMode - ThemeMode.light*');
+        break;
+      case 1 :
+     //   arrays4[0].checkThemeMode = ThemeMode.dark;
+      themeMode = ThemeMode.dark;
+        print('ThemeMode.dark*');
+        break;
+      case 2 :
+      //  arrays4[0].checkThemeMode = ThemeMode.system;
+       themeMode = ThemeMode.system;
+        print('ThemeMode.system*');
+    }
+  }
+
+   _checkStorage() {
   if(themeMode == ThemeMode.light) {
     intCheck = 0;
   } else if (themeMode == ThemeMode.dark){
     intCheck = 1;
   } else {intCheck = 2;}
   dataStorage.write('intCheck', intCheck);
-  log("intCheck $intCheck");
+  log("dataStorage.write ${dataStorage.write('intCheck', intCheck)}");
 }
 
-  void switchThemeMode(){
-    switch(intCheck){
-      case 0 :
-        themeMode = ThemeMode.light;
-        print('ThemeMode.light*');
-        break;
-      case 1 :
-        themeMode = ThemeMode.dark;
-        print('ThemeMode.dark*');
-        break;
-      case 2 :
-        themeMode = ThemeMode.system;
-        print('ThemeMode.system*');
-    }
-  }
-
-  late int intCheck;
-
- // late ThemeMode themeMode;
+    int intCheck = 2;
   late ThemeMode themeMode;
-//  ThemeMode themeMode = ThemeMode.light;
+// ThemeMode themeMode = ThemeMode.system;
+
   @override
   Widget build(BuildContext context) {
 //    final controller = Get.put(Controller());
@@ -149,7 +139,6 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
               ),
               ListTile(
                 title: Text(
-
                   'Exit the application',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -164,13 +153,15 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
                     child: HomePage(
                       // We pass it the current theme mode.
              //    themeMode: themeMode,
+                      /// The selected icon
+                      // themeMode: arrays4[0].checkThemeMode,
                        themeMode:  themeMode,
                       // On the home page we can toggle theme mode between light and dark.
                       onThemeModeChanged: (ThemeMode mode) {
                         setState(() {
                          themeMode = mode;
-                         checkStorage();
-                      //   switchThemeMode();
+                         _checkStorage();
+                    //    switchThemeMode();
                       //    dataStorage.write('intCheck', intCheck);
                   /*      if(themeMode == ThemeMode.light) {
                            intCheck = 0;
@@ -182,10 +173,11 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
                       //   dataStorage.write('key', mode);
                   //       dataStorage.write('key2', _counter);
                      //   arrays4[0].themeMode = mode;
-                        arrays4[0].checkThemeMode = themeMode;
+                          arrays4[0].checkThemeMode = mode;
                           cart.add3(arrays4[0]);
-                    //  log("arrys[0] ${arrays4[0]}");
                         });
+
+                        log("acart.add3(arrays4[0]");
                       },
                       flexSchemeData: FlexColor.schemes[FlexScheme.red],
                     ),
@@ -197,11 +189,14 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
         ],
       );
     });
+
   }
 
   @override
   bool get wantKeepAlive => true;
+
+
 }
 
-class TapboxB {
-}
+
+

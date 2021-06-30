@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:good_dream/fun/arrays_3-4.dart';
 import 'package:good_dream/fun/clockTimer.dart';
 import 'package:good_dream/services/admob_service.dart';
 import 'package:good_dream/models/DataProvider.dart';
@@ -8,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'TabView/tabVieFour.dart';
+
+import 'TabView/tabViewFour.dart';
 import 'TabView/tabViewOne.dart';
 import 'TabView/tabViewTwo.dart';
 import 'TabView/tabViewThree.dart';
@@ -52,15 +55,53 @@ class GoodDream extends StatefulWidget {
 }
 
 class _State extends State<GoodDream>   {
-  ThemeMode themeMode = ThemeMode.light;
   _State(
       // this.analytics,
       this.observer,
       );
-  //final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver? observer;
-
   final ams = AdMobService();
+
+
+  @override
+  void initState() {
+    super.initState();
+    _switchThemeMode();
+  }
+
+  final dataStorage = GetStorage();
+  late int intCheck;
+
+  _checkStorage() {
+    if(arrays4[0].checkThemeMode == ThemeMode.light) {
+      intCheck = 0;
+      dataStorage.write('intCheck', intCheck);
+    } else if (arrays4[0].checkThemeMode == ThemeMode.dark){
+      intCheck = 1;
+      dataStorage.write('intCheck', intCheck);
+    } else {
+      intCheck = 2;
+      dataStorage.write('intCheck', intCheck);
+    }
+  }
+
+  void _switchThemeMode(){
+    switch(dataStorage.read('intCheck')){
+      case 0 :
+        themeMode = ThemeMode.light;
+        print('switchThemeMode - ThemeMode.light*');
+        break;
+      case 1 :
+        themeMode = ThemeMode.dark;
+        print('ThemeMode.dark*');
+        break;
+      case 2 :
+        themeMode = ThemeMode.system;
+        print('ThemeMode.system*');
+    }
+  }
+
+  ThemeMode themeMode = ThemeMode.light;
 
   void startServiceInPlatform() async {
     if (Platform.isAndroid) {
@@ -69,6 +110,7 @@ class _State extends State<GoodDream>   {
       debugPrint(data);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     /// This is for verification
@@ -95,7 +137,10 @@ class _State extends State<GoodDream>   {
           onPrimary: Colors.white,
         )
             .toTheme,
-        themeMode: cart.basketItems3.isEmpty  ? ThemeMode.system : cart.basketItems3[0].checkThemeMode,
+    //   themeMode: arrays4[0].checkThemeMode,
+        themeMode: cart.basketItems3.isEmpty ? themeMode : arrays4[0].checkThemeMode,
+     //  themeMode: cart.basketItems3.isEmpty ? ThemeMode.system : cart.basketItems3[0].checkThemeMode,
+
         home: DefaultTabController(
           length: 4,
           child: WillPopScope(
@@ -136,7 +181,6 @@ class _State extends State<GoodDream>   {
                   children: [
                     Expanded(
                       child: TabBarView(
-
                         children: <Widget>[
                           ListView(
                             children: <Widget>[
@@ -145,7 +189,6 @@ class _State extends State<GoodDream>   {
                                 child: TabViewOne(
                                 ),
                               ),
-
                             ],
                           ),
                           ListView(
@@ -177,8 +220,8 @@ class _State extends State<GoodDream>   {
                         ],
                       ),
                     ),
+                  //  _checkStorage(),
                     ClockTimer(),
-
                   ],
                 ),
               ),

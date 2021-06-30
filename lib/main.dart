@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:good_dream/fun/splashScreen.dart';
+import 'package:good_dream/screens/navigators.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
+
 
 
 void main() async {
@@ -13,6 +15,7 @@ void main() async {
 // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
 // Firebase
@@ -26,7 +29,8 @@ class MyApp extends StatelessWidget {
     var materialApp = MaterialApp(
       debugShowCheckedModeBanner: false,
   //    navigatorObservers: <NavigatorObserver>[observer],
-      home: SplashScreen(),
+       home: Navigators(),
+  //    home: SplashScreen(),
      /* home: SplashScreen.navigate(
         name:'assets/intro2.flr',
        next: (context) => Navigators(

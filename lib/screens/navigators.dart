@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:good_dream/fun/arrays_3-4.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:good_dream/screens/mainScreen.dart';
 import 'package:good_dream/screens/mixes.dart';
@@ -8,7 +12,9 @@ import 'package:good_dream/screens/screenTwo.dart';
 import 'package:good_dream/services/admob_service.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+
 import 'menu.dart';
+
 
 class Navigators extends StatefulWidget {
   @override
@@ -16,13 +22,6 @@ class Navigators extends StatefulWidget {
 }
 
 class _NavigatorsState extends State<Navigators> {
-  // ThemeMode themeMode = ThemeMode.light;
-  bool? isDarkMode;
-
-  void initState() {
-    isDarkMode = false;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +47,12 @@ class _MyHomePageState extends State<MyHomePage> {
   PageController? _pageController;
 
   final ams = AdMobService();
+  final dataStorage = GetStorage();
 
   @override
   void initState() {
     super.initState();
+    _switchThemeMode();
     _selectedPageIndex = 0;
     _pages = [
       GoodDream(),
@@ -59,12 +60,25 @@ class _MyHomePageState extends State<MyHomePage> {
       Menu(),
       Mix(),
     ];
-
     /// Save state all screens
     _pageController = PageController(initialPage: _selectedPageIndex);
   }
 
-
+  void _switchThemeMode(){
+    switch(dataStorage.read('intCheck')){
+      case 0 :
+        themeMode = ThemeMode.light;
+        print('switchThemeMode - ThemeMode.light*');
+        break;
+      case 1 :
+        themeMode = ThemeMode.dark;
+        print('ThemeMode.dark*');
+        break;
+      case 2 :
+        themeMode = ThemeMode.system;
+        print('ThemeMode.system*');
+    }
+  }
 
 
   @override
@@ -93,7 +107,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 scheme: FlexScheme.red,
                 //   onSecondary: Colors.white,
                 scaffoldBackground: Color(0xFF20124d),
-
                 /// Colors Navigation Bar
                 background: Color(0xFF20124d))
             .toTheme,
@@ -102,11 +115,9 @@ class _MyHomePageState extends State<MyHomePage> {
           onPrimary: Colors.white,
           //  scaffoldBackground: Colors.black87,
         ).toTheme,
-        // themeMode: ThemeMode.system,
-        //   themeMode: cart.basketItems3.isEmpty  ? ThemeMode.dark : cart.basketItems3[0].themeMode,
-        themeMode: cart.basketItems3.isEmpty
-            ? ThemeMode.system
-            : cart.basketItems3[0].checkThemeMode,
+        //  themeMode: arrays4[0].checkThemeMode,
+      //  themeMode: cart.basketItems3.isEmpty ? ThemeMode.system : cart.basketItems3[0].checkThemeMode,
+        themeMode: cart.basketItems3.isEmpty ? themeMode : arrays4[0].checkThemeMode,
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: PageView(
@@ -125,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 label: 'Mix Sounds ',
               ),
               BottomNavigationBarItem(
-                icon: cart.count <= 0
+               icon: cart.count <= 0
                     ? Icon(Icons.surround_sound)
                     : Lottie.asset('assets/lottieFiles/sounds_waves.json'),
                 label: 'Active Sounds - ${cart.count.toString()}',

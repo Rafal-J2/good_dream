@@ -2,6 +2,8 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:good_dream/fun/arrays_3-4.dart';
 import 'package:good_dream/fun/foregroundService.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +16,34 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage>
     with AutomaticKeepAliveClientMixin {
- // ThemeMode themeMode = ThemeMode.light;
+
+  final dataStorage = GetStorage();
+
+  void initState(){
+    super.initState();
+    _switchThemeMode();
+  }
+
+  void _switchThemeMode(){
+    switch(dataStorage.read('intCheck')){
+      case 0 :
+      //  arrays4[0].checkThemeMode = ThemeMode.light;
+        themeMode = ThemeMode.light;
+        print('switchThemeMode - ThemeMode.light*');
+        break;
+      case 1 :
+      //   arrays4[0].checkThemeMode = ThemeMode.dark;
+        themeMode = ThemeMode.dark;
+        print('ThemeMode.dark*');
+        break;
+      case 2 :
+      //  arrays4[0].checkThemeMode = ThemeMode.system;
+        themeMode = ThemeMode.system;
+        print('ThemeMode.system*');
+    }
+  }
+
+ ThemeMode themeMode = ThemeMode.light;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +61,7 @@ class _CheckoutPageState extends State<CheckoutPage>
           darkTheme: FlexColorScheme.dark(
             scheme: FlexScheme.red,
           ).toTheme,
-          themeMode: cart.basketItems3.isEmpty
-              ? ThemeMode.system
-              : cart.basketItems3[0].checkThemeMode,
+          themeMode: cart.basketItems3.isEmpty ? themeMode : arrays4[0].checkThemeMode,
           home: Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(40.0),

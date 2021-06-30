@@ -46,7 +46,7 @@ class DataProvider extends ChangeNotifier {
 
   List<ViewModels> _items3 = [];
 
-  void add3(ViewModels item) {
+   add3(ViewModels item) {
     _items3.add(item);
     notifyListeners();
   }

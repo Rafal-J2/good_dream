@@ -1,6 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 
 class ViewModels {
+  final getStorage;
   bool? isFav;
   String? events;
   String? picOff;
@@ -23,8 +24,12 @@ class ViewModels {
   var opacityOn;
   double? vol = 0.5;
 
+
+
   ViewModels(
-      {this.events,
+      {
+        this.getStorage,
+        this.events,
         this.picOff,
         this.title,
         this.isFav,
