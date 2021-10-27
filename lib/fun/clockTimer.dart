@@ -8,8 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:good_dream/fun/toast.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:provider/provider.dart';
-import 'functions.dart';
-import 'package:good_dream/fun/functions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 void main() async {
   runApp(ChangeNotifierProvider(
@@ -41,9 +41,10 @@ class _State extends State<ClockTimer> {
 
   @override
   void initState() {
-    _analytics = FirebaseAnalytics();
     super.initState();
-    _resetRemainingTime5();
+    _analytics = FirebaseAnalytics();
+   // _loadCounter();
+    _loadSeconds();
 
 /*   Test Crash
     FirebaseCrashlytics.instance.crash();
@@ -78,92 +79,127 @@ class _State extends State<ClockTimer> {
   int? hoursDialog;
   bool counting = false;
   int _minutes = 0;
-  int _seconds = 3600;
+  int _seconds = 0;
   int _hours = 0;
+  bool  _isFav = false;
+ // int _setTime = 0;
 
-  _resetRemainingTime5() {
-    setState(() {
-      _seconds = 0;
+
+ // TODO;
+/*  void switchThemeMode(){
+    switch(_setTime){
+      case 5 :
+        _resetRemainingTime5();
+        _startTimer();
+        toast3();
+        log('setClock(5)');
+        break;
+      case 10 :
+        setClock();
+        _resetRemainingTime10();
+        _startTimer();
+        toast3();
+        log('setClock(10)');
+        break;
+      case 15 :
+        setClock();
+        _resetRemainingTime15();
+        _startTimer();
+        toast3();
+        log('setClock(15)');
+    }}*/
+
+  resetRemainingTime5() {
+    _isFav = true;
+    setState(()  {
+      _saveSeconds();
       _minutes = 5;
-      _hours = 0;
     });
   }
 
   _resetRemainingTime10() {
     _isFav = true;
     setState(() {
-      _seconds = 0;
+      _saveSeconds();
       _minutes = 10;
-      _hours = 0;
+
     });
   }
 
   _resetRemainingTime15() {
     _isFav = true;
     setState(() {
-      _seconds = 0;
+      _saveSeconds();
       _minutes = 15;
-      _hours = 0;
     });
   }
 
   _resetRemainingTime30() {
     _isFav = true;
     setState(() {
-      _seconds = 0;
+      _saveSeconds();
       _minutes = 30;
-      _hours = 0;
     });
   }
 
   _resetRemainingTime60() {
     _isFav = true;
     setState(() {
-      _seconds = 0;
+      _saveSeconds();
       _minutes = 60;
-      _hours = 0;
     });
   }
 
   _resetRemainingTime120() {
     _isFav = true;
     setState(() {
-      _seconds = 0;
+      _saveSeconds();
       _minutes = 120;
-      _hours = 0;
     });
   }
 
   _resetRemainingTime180() {
     _isFav = true;
     setState(() {
-      _seconds = 0;
+      _saveSeconds();
       _minutes = 180;
-      _hours = 0;
     });
   }
 
   _resetRemainingTime240() {
     _isFav = true;
     setState(() {
-      _seconds = 0;
+      _saveSeconds();
       _minutes = 240;
-      _hours = 0;
     });
   }
 
   _startTimer() {
     _seconds = _hours * 3600 + _minutes * 60;
-
     _cancelTimer();
     // _resetRemainingTime();
-
     timer = Timer.periodic(Duration(seconds: 1), (_) {
       _tick();
     });
   }
 
-  _renderClock() {
+  void _saveSeconds() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setInt('counter', _seconds);
+    });
+  }
+
+  //Incrementing counter after click
+  void _loadSeconds() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _seconds = (prefs.getInt('counter') ?? 3600);
+   //   prefs.setInt('counter', _counter);
+    });
+  }
+
+  _renderClock()  {
     final duration = Duration(seconds: _seconds);
     final hours = _twoDigits(duration.inHours.remainder(60));
     final minutes = _twoDigits(duration.inMinutes.remainder(60));
@@ -189,9 +225,9 @@ class _State extends State<ClockTimer> {
   _tick() {
     setState(() {
       _seconds -= 1;
+    //  _saveSeconds();
       if (_seconds <= 0) {
         _cancelTimer();
-        _resetRemainingTime5();
         SystemChannels.platform.invokeMethod('SystemNavigator.pop');
       }
     });
@@ -210,10 +246,10 @@ class _State extends State<ClockTimer> {
     //  final Size screenSize = MediaQuery.of(context).size;
 
     return Consumer<DataProvider>(builder: (
-      context,
-      cart,
-      child,
-    ) {
+        context,
+        cart,
+        child,
+        ) {
       return Column(
         children: [
           Row(
@@ -240,7 +276,7 @@ class _State extends State<ClockTimer> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.only(left: 30.0, right: 30.0, top: 15),
+                const EdgeInsets.only(left: 30.0, right: 30.0, top: 15),
                 child: ElevatedButton(
                   style: raiseButtonStyle,
                   onPressed: () {
@@ -392,5 +428,6 @@ class _State extends State<ClockTimer> {
         });
   }
 }
+
 
 

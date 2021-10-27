@@ -161,17 +161,6 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
                         setState(() {
                          themeMode = mode;
                          _checkStorage();
-                    //    switchThemeMode();
-                      //    dataStorage.write('intCheck', intCheck);
-                  /*      if(themeMode == ThemeMode.light) {
-                           intCheck = 0;
-                         } else if (themeMode == ThemeMode.dark){
-                           intCheck = 1;
-                         } else {intCheck = 2;}
-                          log("intCheck $intCheck");
-                         log("themeMode $themeMode");*/
-                      //   dataStorage.write('key', mode);
-                  //       dataStorage.write('key2', _counter);
                      //   arrays4[0].themeMode = mode;
                           arrays4[0].checkThemeMode = mode;
                           cart.add3(arrays4[0]);

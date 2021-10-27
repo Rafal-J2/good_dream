@@ -1,13 +1,69 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:good_dream/fun/arrays_1-2.dart';
+import 'package:good_dream/fun/foregroundService.dart';
+import 'package:good_dream/fun/toast.dart';
 import 'package:good_dream/models/ViewModels.dart';
 
 class DataProvider extends ChangeNotifier {
+  Map<int, int> _cart = {};
+
+  Map<int, int> get cart => _cart;
 
   List<ViewModels> _items = [];
   void add(ViewModels item) {
     _items.add(item);
-   // print(_items);
+  
     notifyListeners();
+  }
+
+  void addAll(index) async {
+    if (count <= 5) {
+      //Bool checking
+      arrays[index].isFav = !arrays[index].isFav!;
+      // Click_events - if isFav is true
+      // if (arrays[index].isFav!) {
+      //   await _analytics.logEvent(
+      //     name: arrays[index].events!,
+      //   );
+      // }
+      // Play or Stop sounds
+      arrays[index].isFav!
+          ? arrays[index].player.open(
+              Audio(
+                arrays[index].sounds!,
+              ),
+              volume: 0.5,
+              //  showNotification: true,
+              loopMode: LoopMode.single)
+          : arrays[index].player.pause();
+
+      //   cart.addTest2(index);
+      arrays[index].isFav! ? add(arrays[index]) : remove(arrays[index]);
+
+      //Add image to page two. If is isFav = true, add entire arrays.
+      // Table number is depends on from the selected item
+      // for example:  arrays[0].isFav = true.
+      // If is true add to cart provider entire items  "picOff, isFav, sounds, vol, player"
+      // basketItems is the receiver i find screenTwo.dart
+    } else if (count == 6) {
+      cart.remove(arrays[index]);
+      arrays[index].isFav = false;
+      arrays[index].player.pause();
+
+      //Toast Text
+      if (count == 6) {
+        toast();
+      }
+    }
+    // foregroundService START or STOP
+    if (count == 1) {
+      foregroundService();
+    } else if (count == 0 && count2 == 0) {
+      foregroundServiceStop();
+    }
   }
 
   void remove(ViewModels item) {
@@ -46,13 +102,12 @@ class DataProvider extends ChangeNotifier {
 
   List<ViewModels> _items3 = [];
 
-   add3(ViewModels item) {
+  add3(ViewModels item) {
     _items3.add(item);
     notifyListeners();
   }
 
   List<ViewModels> get basketItems3 {
     return _items3;
-
   }
 }
