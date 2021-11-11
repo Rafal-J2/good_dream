@@ -16,10 +16,8 @@ class ViewModels {
   final textStyle;
   final padding;
   final player;
-
   bool? isDarkMode;
   var checkThemeMode;
-
   var opacityOff;
   var opacityOn;
   double? vol = 0.5;

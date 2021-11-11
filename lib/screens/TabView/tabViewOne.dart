@@ -4,9 +4,12 @@ import 'package:good_dream/models/DataProvider.dart';
 import 'package:good_dream/fun/foregroundService.dart';
 import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+
+
 
 class TabViewOne extends StatefulWidget {
   TabViewOne({
@@ -21,6 +24,7 @@ class TabViewOne extends StatefulWidget {
 
   @override
   _State createState() => _State(analytics);
+
 }
 
 class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
@@ -38,7 +42,7 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
-    var cart = Provider.of<DataProvider>(context);
+   // var cart = Provider.of<DataProvider>(context);
     super.build(context);
     return Consumer<DataProvider>(builder: (
       context,
@@ -58,52 +62,7 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
                 onPressed: () async {
                   cart.addAll(index);
                 },
-                child: Column(
-                  children: [
-                    Image(
-                      fit: BoxFit.contain,
-                      height: 50,
-                      width: 120,
-                      image: AssetImage(arrays[index].isFav!
-                          ? arrays[index].picOn!
-                          : arrays[index].picOff!),
-                    ),
-                    Padding(padding: EdgeInsets.only(top: 8)),
-                    arrays[index].isFav!
-                        ? AnimatedOpacity(
-                            opacity: arrays[index].isFav!
-                                ? arrays[index].opacityOn
-                                : arrays[index].opacityOff,
-                            duration: Duration(milliseconds: 800),
-                            child: PlayerBuilder.volume(
-                                player: arrays[index].player,
-                                builder: (context, volume) {
-                                  return Shimmer.fromColors(
-                                    baseColor: Colors.white,
-                                    highlightColor: Colors.grey,
-                                    child: Slider(
-                                        value: volume,
-                                        min: 0,
-                                        max: 1,
-                                        divisions: 50,
-                                        onChanged: (v) {
-                                          setState(() {
-                                            arrays[index].player.setVolume(v);
-                                          });
-                                        }),
-                                  );
-                                }),
-                          )
-                        : Text(
-                            arrays[index].title!,
-                            style: TextStyle(
-                                fontSize: 12.0,
-                                //    height: 2.5,
-                                color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
-                  ],
-                ),
+                child: gridBuldier(index),
               ),
             ],
           );
@@ -111,6 +70,54 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
       );
     });
   }
+    Widget gridBuldier(int index) => Column(
+          children: [
+            Image(
+              fit: BoxFit.contain,
+              height: 50,
+              width: 120,
+              image: AssetImage(arrays[index].isFav!
+                  ? arrays[index].picOn!
+                  : arrays[index].picOff!),
+            ),
+            Padding(padding: EdgeInsets.only(top: 8)),
+            arrays[index].isFav!
+                ? AnimatedOpacity(
+                    opacity: arrays[index].isFav!
+                        ? arrays[index].opacityOn
+                        : arrays[index].opacityOff,
+                    duration: Duration(milliseconds: 800),
+                    child: PlayerBuilder.volume(
+                        player: arrays[index].player,
+                        builder: (context, volume) {
+                          return Shimmer.fromColors(
+                            baseColor: Colors.white,
+                            highlightColor: Colors.grey,
+                            child: Slider(
+                                value: volume,
+                                min: 0,
+                                max: 1,
+                                divisions: 50,
+                                onChanged: (v) {
+                                  setState(() {
+                                    arrays[index].player.setVolume(v);
+                                  });
+                                }),
+                          );
+                        }),
+                  )
+                : Text(
+                    arrays[index].title!,
+                    style: TextStyle(
+                        fontSize: 12.0,
+                        //    height: 2.5,
+                        color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+          ],
+        );
+
+
   @override
   bool get wantKeepAlive => true;
 }
