@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Lottie.asset('assets/lottieFiles/night.json',
+      body: Lottie.asset('assets/lottieFiles/day_night_cycle.json',
         width: double.infinity,
         fit: BoxFit.fitWidth,),
     );
