@@ -137,7 +137,9 @@ class _State extends State<GoodDream>   {
           onPrimary: Colors.white,
         )
             .toTheme,
+    //   themeMode: arrays4[0].checkThemeMode,
         themeMode: cart.basketItems3.isEmpty ? themeMode : arrays4[0].checkThemeMode,
+     //  themeMode: cart.basketItems3.isEmpty ? ThemeMode.system : cart.basketItems3[0].checkThemeMode,
 
         home: DefaultTabController(
           length: 4,

@@ -1,4 +1,4 @@
-
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 class ViewModels {
   final getStorage;
@@ -22,6 +22,8 @@ class ViewModels {
   var opacityOn;
   double? vol = 0.5;
 
+
+
   ViewModels(
       {
         this.getStorage,
@@ -44,4 +46,16 @@ class ViewModels {
         this.textStyle,
         this.isDarkMode,
         this.checkThemeMode});
+
+  playAudio00() {
+    player.open(
+      Audio("assets/audio/fire2.mp3"),
+      showNotification: true,
+    );
+  }
+
+  pauseAudio00() {
+    player.pause();
+    print(' player.pause();');
+  }
 }
