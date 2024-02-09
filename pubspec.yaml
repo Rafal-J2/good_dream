@@ -1,8 +1,7 @@
 name: good_dream
 description: Sleep sounds & Medtiation music.
-
 # The following line prevents the package from being accidentally published to
-# pub.dev using `pub publish`. This is preferred for private packages.
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
@@ -12,14 +11,22 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # build by specifying --build-name and --build-number, respectively.
 # In Android, build-name is used as versionName while build-number used as versionCode.
 # Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.12+13
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=3.2.6 <4.0.0'
 
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
     sdk: flutter
@@ -37,8 +44,6 @@ dependencies:
   shared_preferences: ^2.0.6
   get_storage: ^2.0.2
 
-
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -47,10 +52,17 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^2.0.0
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
-# The following section is specific to Flutter.
+# The following section is specific to Flutter packages.
 flutter:
 
   # The following line ensures that the Material Icons font is
@@ -64,117 +76,9 @@ flutter:
        - assets/wind_on.png
        - assets/bonfire2_w.png
        - assets/bonfire2_on.png
-       - assets/jungle_w.png
-       - assets/jungle_on.png
-       - assets/piano_w.png
-       - assets/piano_on.png
-       - assets/piano2_w.png
-       - assets/piano2_on.png
-       - assets/piano3_w.png
-       - assets/piano3_on.png
-       - assets/piano4_w.png
-       - assets/piano4_on.png
-       - assets/piano5_w.png
-       - assets/piano5_on.png
-       - assets/piano6_w.png
-       - assets/piano6_on.png
-       - assets/jungle_w.png
-       - assets/bird2_w.png
-       - assets/bird2_on.png
-       - assets/cricket_w.png
-       - assets/cricket_on.png
-       - assets/forest_w.png
-       - assets/forest_on.png
-       - assets/plane_w.png
-       - assets/plane_on.png
-       - assets/tent_on.png
-       - assets/tent_w.png
-       - assets/train_on.png
-       - assets/train_w.png
-       - assets/rain_w.png
-       - assets/rain_on.png
-       - assets/river_w.png
-       - assets/river_on.png
-       - assets/washing_machine_w.png
-       - assets/washing_machine_on.png
-       - assets/jacuzzi_w.png
-       - assets/jacuzzi_on.png
-       - assets/thunder_w.png
-       - assets/thunder_on.png
-       - assets/air_conditioner_on.png
-       - assets/air_conditioner_w.png
-       - assets/coming-soon.png
-       - assets/icons/dream_light.png
-       - assets/bus_w.png
-       - assets/bus_on.png
-       - assets/water_drop_w.png
-       - assets/water_drop_on.png
-       - assets/guitar_w.png
-       - assets/guitar_on.png
-       - assets/binaural_w.png
-       - assets/binaural_on.png
-       - assets/vacuum_cleaner_w.png
-       - assets/vacuum_cleaner_on.png
-       - assets/hair_dryer_w.png
-       - assets/hair_dryer_on.png
-       - assets/flute_w.png
-       - assets/flute_on.png
-       - assets/keyboard_w.png
-       - assets/keyboard_on.png
-       - assets/frog_w.png
-       - assets/frog_on.png
-       - assets/woodpecker_w.png
-       - assets/woodpecker_on.png
-       - assets/stork_w.png
-       - assets/stork_on.png
-       - assets/lotus_w.png
-       - assets/lotus_on.png
-       - assets/zen_w.png
-       - assets/zen_on.png
-       - assets/waterfall.ogg
-       - assets/raincoat_w.png
-       - assets/raincoat_on.png
-       - assets/rain_windows_w.png
-       - assets/rain_windows_on.png
-       - assets/waterfall_w.png
-       - assets/waterfall_on.png
-       - assets/rain_on_car_roof_w.png
-       - assets/rain_on_car_roof_on.png
-       - assets/car_w.png
-       - assets/car_on.png
-       - assets/sea_w.png
-       - assets/sea_on.png
-       - assets/cave_w.png
-       - assets/cave_on.png
-       - assets/city_park_w.png
-       - assets/city_park_on.png
-       - assets/fireplace_w.png
-       - assets/fireplace_on.png
-       - assets/fountain_park_w.png
-       - assets/fountain_park_on.png
-       - assets/windshield_w.png
-       - assets/windshield_on.png
-       - assets/creek_w.png
-       - assets/creek_on.png
-       - assets/yoga_w.png
-       - assets/yoga_on.png
-       - assets/om_w.png
-       - assets/om_on.png
-       - assets/healing_w.png
-       - assets/healing_on.png
-       - assets/audio/
-       - assets/splash.flr
-       - assets/intro.flr
-       - assets/intro2.flr
-       - assets/lottieFiles/night_splash.json
-       - assets/lottieFiles/sounds_waves.json
-       - assets/lottieFiles/yoga.json
-       - assets/lottieFiles/day_and_night.json
-       - assets/lottieFiles/relax.json
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware.
+  # https://flutter.dev/assets-and-images/#resolution-aware
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages

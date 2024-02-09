@@ -149,7 +149,7 @@ class _State extends State<GoodDream>   {
               appBar: PreferredSize(
                 preferredSize: Size.fromHeight(40.0),
                 child: AppBar(
-                  backwardsCompatibility: false,
+               //   backwardsCompatibility: false,
                   systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.black),
                   flexibleSpace: SizedBox(
                     child: TabBar(
