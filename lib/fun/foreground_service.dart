@@ -10,7 +10,7 @@ foregroundService(){
         metas: Metas(
           title:  "Currently playing",
       //    artist: "Press stop to close the application",
-          image: MetasImage.asset("assets/images/binaural_on.png"), //can be MetasImage.network
+          image: const MetasImage.asset("assets/images/binaural_on.png"), //can be MetasImage.network
         ),
       ),
       loopMode: LoopMode.single,

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:good_dream/fun/arrays_1-2.dart';
-import 'package:good_dream/fun/arrays_3-4.dart';
-import 'package:good_dream/models/DataProvider.dart';
+import 'package:good_dream/fun/arrays_3_4.dart';
+import 'package:good_dream/models/data_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:good_dream/fun/onlyMix.dart';
+import '../fun/arrays_1_2.dart';
+import '../fun/only_mix.dart';
 
 class Mix extends StatelessWidget {
+  const Mix({super.key});
   @override
   Widget build(BuildContext context) {
     return Consumer<DataProvider>(builder: (
@@ -16,7 +17,7 @@ class Mix extends StatelessWidget {
       return GridView.builder(
           itemCount: 4,
           gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+              const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
           itemBuilder: (context, index) {
             return Column(
               children: [
@@ -66,7 +67,7 @@ class Mix extends StatelessWidget {
                 ),
 
                 Text(arrays4[index].title!,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white
                 ),
                 ),

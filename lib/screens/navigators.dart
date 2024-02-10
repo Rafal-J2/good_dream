@@ -1,30 +1,28 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:good_dream/fun/arrays_3-4.dart';
-import 'package:good_dream/models/DataProvider.dart';
-import 'package:good_dream/screens/mainScreen.dart';
+import 'package:good_dream/fun/arrays_3_4.dart';
+import 'package:good_dream/models/data_provider.dart';
+import 'package:good_dream/screens/main_screen.dart';
 import 'package:good_dream/screens/mixes.dart';
-import 'package:good_dream/screens/screenTwo.dart';
+import 'package:good_dream/screens/screen_two.dart';
 import 'package:good_dream/services/admob_service.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-
 import 'menu.dart';
-
 
 class Navigators extends StatefulWidget {
   const Navigators({super.key});
 
   @override
-  _NavigatorsState createState() => _NavigatorsState();
+  NavigatorsState createState() => NavigatorsState();
 }
 
-class _NavigatorsState extends State<Navigators> {
+class NavigatorsState extends State<Navigators> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: MyHomePage(title: 'Save States in BottomNavigationBar'),
     );
@@ -32,14 +30,14 @@ class _NavigatorsState extends State<Navigators> {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, this.title}) : super(key: key);
+  const MyHomePage({Key? key, this.title}) : super(key: key);
   final String? title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+MyHomePageState createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
   ThemeMode themeMode = ThemeMode.light;
   late var _selectedPageIndex;
   late List<Widget> _pages;
@@ -54,10 +52,10 @@ class _MyHomePageState extends State<MyHomePage> {
     _switchThemeMode();
     _selectedPageIndex = 0;
     _pages = [
-      GoodDream(),
-      CheckoutPage(),
+      const GoodDream(),
+      const CheckoutPage(),
       const Menu(),
-      Mix(),
+      const Mix(),
     ];
     /// Save state all screens
     _pageController = PageController(initialPage: _selectedPageIndex);

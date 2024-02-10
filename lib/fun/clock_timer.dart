@@ -1,11 +1,11 @@
-import 'dart:async';
 
+import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:good_dream/fun/toast.dart';
-import 'package:good_dream/models/DataProvider.dart';
+import 'package:good_dream/models/data_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   runApp(ChangeNotifierProvider(
     create: (context) => DataProvider(),
-    child: ClockTimer(),
+    child: const ClockTimer(),
   ));
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
@@ -21,12 +21,13 @@ void main() async {
 }
 
 class ClockTimer extends StatefulWidget {
+  const ClockTimer({super.key});
 
 
 
 
   @override
-  _State createState() => _State();
+  State createState() => _State();
 }
 
 class _State extends State<ClockTimer> {
@@ -54,30 +55,6 @@ class _State extends State<ClockTimer> {
   bool  _isFav = false;
  // int _setTime = 0;
 
-
- // TODO;
-/*  void switchThemeMode(){
-    switch(_setTime){
-      case 5 :
-        _resetRemainingTime5();
-        _startTimer();
-        toast3();
-        log('setClock(5)');
-        break;
-      case 10 :
-        setClock();
-        _resetRemainingTime10();
-        _startTimer();
-        toast3();
-        log('setClock(10)');
-        break;
-      case 15 :
-        setClock();
-        _resetRemainingTime15();
-        _startTimer();
-        toast3();
-        log('setClock(15)');
-    }}*/
 
   resetRemainingTime5() {
     _isFav = true;
@@ -191,7 +168,6 @@ class _State extends State<ClockTimer> {
     });
   }
 
-  // TODO _tick
   _tick() {
     setState(() {
       _seconds -= 1;
@@ -208,7 +184,7 @@ class _State extends State<ClockTimer> {
   }
 
   final ButtonStyle raiseButtonStyle = ElevatedButton.styleFrom(
-    primary: Colors.black,
+    backgroundColor: Colors.black,
   );
 
   @override

@@ -18,18 +18,18 @@ class HomePage extends StatelessWidget {
     return ListView(
       children: [
         Container(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           height: 200,
           //width: 100,
           child: FlexThemeModeSwitch(
             height: 20,
             width: 20,
-            title: Text(
+            title: const Text(
               'Chose a Colors',
               style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 18.0),
             ),
-            selectedLabelStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.0),
-            unselectedLabelStyle: TextStyle(color: Colors.grey),
+            selectedLabelStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.0),
+            unselectedLabelStyle: const TextStyle(color: Colors.grey),
             themeMode: themeMode!,
             onThemeModeChanged: onThemeModeChanged!,
             flexSchemeData: flexSchemeData!,

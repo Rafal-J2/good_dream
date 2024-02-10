@@ -1,12 +1,11 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'arrays_dialogs.dart';
 import 'dialogs.dart';
 import 'launch_url.dart';
 
 Widget setupAlertDialogContainer() {
-  return Container(
+  return SizedBox(
     height: 300.0, // Change as per your requirement
     width: 300.0, // Change as per your requirement
     child: ListView.builder(
@@ -15,7 +14,7 @@ Widget setupAlertDialogContainer() {
       itemBuilder: (BuildContext context, int index) {
         return Column(
           children: [
-            Padding(padding: EdgeInsets.all(16.0),
+            Padding(padding: const EdgeInsets.all(16.0),
               child: arrays5[index].gestureDetector,),
             Text(
               arrays5[index].text!,
@@ -29,13 +28,13 @@ Widget setupAlertDialogContainer() {
 }
 
 Widget showMyDialog3() {
-  return Container(
+  return SizedBox(
     height: 300.0, // Change as per your requirement
     width: 300.0, // Change as per your requirement
     child: ListView(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(12.0),
+        const Padding(
+          padding: EdgeInsets.all(12.0),
           child: Text(
             'Acknowledgments',
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -51,7 +50,7 @@ Widget showMyDialog3() {
             left: 24.0,
           ),
           child: GestureDetector(
-            child: Text('•	www.flaticon.com',
+            child: const Text('•	www.flaticon.com',
                 style: TextStyle(
                     decoration: TextDecoration.underline,
                     color: Colors.blue)),

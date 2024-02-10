@@ -1,14 +1,13 @@
 import 'dart:developer';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:good_dream/fun/arrays_3-4.dart';
-import 'package:good_dream/fun/modeSwitch.dart';
-import 'package:good_dream/models/DataProvider.dart';
+import 'package:good_dream/fun/arrays_3_4.dart';
+import 'package:good_dream/fun/mode_switch.dart';
+import 'package:good_dream/models/data_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:good_dream/fun/showDialogs.dart';
+import 'package:good_dream/fun/show_dialogs.dart';
 
 /*class Controller extends GetxController {
   final dataStorage = GetStorage();
@@ -92,18 +91,18 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
           Column(
             children: [
               ListTile(
-                title: Text('Privacy Policy',
+                title: const Text('Privacy Policy',
                     style: TextStyle(color: Colors.white)),
                 onTap: () {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text('Privacy Policy'),
+                          title: const Text('Privacy Policy'),
                           content: setupAlertDialogContainer(),
                           actions: <Widget>[
                             TextButton(
-                              child: Text('Approve'),
+                              child: const Text('Approve'),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
@@ -114,7 +113,7 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
                 },
               ),
               ListTile(
-                title: Text(
+                title: const Text(
                   'Acknowledgments',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -123,11 +122,11 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text('Acknowledgments'),
+                          title: const Text('Acknowledgments'),
                           content: showMyDialog3(),
                           actions: <Widget>[
                             TextButton(
-                              child: Text('Approve'),
+                              child: const Text('Approve'),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
@@ -138,7 +137,7 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
                 },
               ),
               ListTile(
-                title: Text(
+                title: const Text(
                   'Exit the application',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -148,7 +147,7 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
               ),
               Column(
                 children: [
-                  Container(
+                  SizedBox(
                     height: 200,
                     child: HomePage(
                       // We pass it the current theme mode.

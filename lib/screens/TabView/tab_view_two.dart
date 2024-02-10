@@ -1,28 +1,24 @@
-import 'package:good_dream/fun/arrays_1-2.dart';
 import 'package:good_dream/fun/toast.dart';
-import 'package:good_dream/models/DataProvider.dart';
-import 'package:good_dream/fun/foregroundService.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:good_dream/models/data_provider.dart';
+import 'package:good_dream/fun/foreground_service.dart';
 import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../fun/arrays_1_2.dart';
 
 
 class TabViewTwo extends StatefulWidget {
   const TabViewTwo({super.key});
 
 
-
-
   @override
-  _State createState() => _State();
+  State createState() => _State();
 }
 
 class _State extends State<TabViewTwo> {
 
 
- 
 
   @override
   Widget build(BuildContext context) {

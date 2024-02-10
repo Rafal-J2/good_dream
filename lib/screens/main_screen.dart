@@ -1,18 +1,18 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:good_dream/fun/arrays_3-4.dart';
-import 'package:good_dream/fun/clockTimer.dart';
-import 'package:good_dream/models/DataProvider.dart';
+import 'package:good_dream/fun/arrays_3_4.dart';
+import 'package:good_dream/fun/clock_timer.dart';
+import 'package:good_dream/models/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-import 'TabView/tabViewFour.dart';
-import 'TabView/tabViewOne.dart';
-import 'TabView/tabViewTwo.dart';
-import 'TabView/tabViewThree.dart';
+import 'TabView/tab_view_four.dart';
+import 'TabView/tab_view_one.dart';
+import 'TabView/tab_view_two.dart';
+import 'TabView/tab_view_three.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 
@@ -49,7 +49,7 @@ class GoodDream extends StatefulWidget {
   final String? title;
 
   @override
-  _State createState() => _State();
+  State createState() => _State();
 }
 
 class _State extends State<GoodDream>   {
@@ -213,7 +213,7 @@ class _State extends State<GoodDream>   {
                       ),
                     ),
                   //  _checkStorage(),
-                    ClockTimer(),
+                    const ClockTimer(),
                   ],
                 ),
               ),

@@ -1,18 +1,18 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:good_dream/fun/arrays_1-2.dart';
-import 'package:good_dream/fun/foregroundService.dart';
+import 'package:good_dream/fun/foreground_service.dart';
 import 'package:good_dream/fun/toast.dart';
 import 'package:good_dream/models/ViewModels.dart';
 
+import '../fun/arrays_1_2.dart';
+
 class DataProvider extends ChangeNotifier {
-  Map<int, int> _cart = {};
+  final Map<int, int> _cart = {};
 
   Map<int, int> get cart => _cart;
 
-  List<ViewModels> _items = [];
+  final List<ViewModels> _items = [];
   void add(ViewModels item) {
     _items.add(item);
   
@@ -80,7 +80,7 @@ class DataProvider extends ChangeNotifier {
     return _items2.length;
   }
 
-  List<ViewModels> _items2 = [];
+  final List<ViewModels> _items2 = [];
 
   void add2(ViewModels item) {
     _items2.add(item);
@@ -100,7 +100,7 @@ class DataProvider extends ChangeNotifier {
     return _items;
   }
 
-  List<ViewModels> _items3 = [];
+  final List<ViewModels> _items3 = [];
 
   add3(ViewModels item) {
     _items3.add(item);
