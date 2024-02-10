@@ -7,35 +7,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 
 class TabViewThree extends StatefulWidget {
-  TabViewThree({
-    Key? key,
-    this.analytics,
-    //   this.observer,
-  }) : super(key: key);
-
-  // Firebase Analytics
-  final FirebaseAnalytics? analytics;
-//  final FirebaseAnalyticsObserver observer;
+  const TabViewThree({super.key});
 
   @override
-  _State createState() => _State(analytics);
+  _State createState() => _State();
 }
 
 class _State extends State<TabViewThree> {
   ThemeMode themeMode = ThemeMode.light;
-  // Firebase Analytics
-  late FirebaseAnalytics _analytics;
 
-  _State(FirebaseAnalytics? analytics);
-
-  @override
-  void initState() {
-    _analytics = FirebaseAnalytics();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +28,7 @@ class _State extends State<TabViewThree> {
     ) {
       return GridView.builder(
         itemCount: arrays3.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 1.0, crossAxisCount: 3),
         itemBuilder: (context, index) {
           return Column(
@@ -88,10 +70,7 @@ class _State extends State<TabViewThree> {
                     foregroundServiceStop();
                   }
                   // Click_events - if isFav is true
-                  if (arrays3[index].isFav!) {
-                    await _analytics.logEvent(
-                      name: arrays3[index].events!,
-                    );
+                  if (arrays3[index].isFav!) {           
                   }
                 },
                 child: Column(
@@ -104,10 +83,10 @@ class _State extends State<TabViewThree> {
                           ? arrays3[index].picOn!
                           : arrays3[index].picOff!),
                     ),
-                    Padding(padding: EdgeInsets.only(top: 10)),
+                    const Padding(padding: EdgeInsets.only(top: 10)),
                     arrays3[index].isFav!
                         ? AnimatedOpacity(
-                            duration: Duration(milliseconds: 700),
+                            duration: const Duration(milliseconds: 700),
                             opacity: arrays3[index].isFav!
                                 ? arrays3[index].opacityOn
                                 : arrays3[index].opacityOff,
@@ -129,7 +108,7 @@ class _State extends State<TabViewThree> {
                           )
                         : Text(
                             arrays3[index].title!,
-                            style: TextStyle(fontSize: 13, color: Colors.white),
+                            style: const TextStyle(fontSize: 13, color: Colors.white),
                             textAlign: TextAlign.center,
                           ),
                   ],

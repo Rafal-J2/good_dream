@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'package:firebase_analytics/firebase_analytics.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:good_dream/fun/toast.dart';
 import 'package:good_dream/models/DataProvider.dart';
@@ -22,56 +21,27 @@ void main() async {
 }
 
 class ClockTimer extends StatefulWidget {
-  ClockTimer({
-    Key? key,
-    this.analytics,
-    // this.observer,
-  }) : super(key: key);
 
-  final FirebaseAnalytics? analytics;
-// final FirebaseAnalyticsObserver observer;
+
+
 
   @override
-  _State createState() => _State(analytics);
+  _State createState() => _State();
 }
 
 class _State extends State<ClockTimer> {
-  late FirebaseAnalytics _analytics;
-  _State(FirebaseAnalytics? analytics);
+
 
   @override
   void initState() {
     super.initState();
-    _analytics = FirebaseAnalytics();
-   // _loadCounter();
     _loadSeconds();
-
-/*   Test Crash
-    FirebaseCrashlytics.instance.crash();
-    _showDialogStat = GlobalKey();*/
   }
 
-  sendAnalyticsTrackSounds() {
-    _analytics.logEvent(
-      name: 'click_trackSounds',
-    );
-  }
-
-  sendAnalyticsTrackPiano() {
-    _analytics.logEvent(
-      name: 'click_trackPiano',
-    );
-  }
-
-  sendAnalyticsSetTime() {
-    _analytics.logEvent(
-      name: 'set_times',
-    );
-  }
 
   setClock() {
     Navigator.of(context)
-        .pop(new Duration(hours: _hours, minutes: _minutes));
+        .pop(Duration(hours: _hours, minutes: _minutes));
   }
 
   Timer? timer;
@@ -80,7 +50,7 @@ class _State extends State<ClockTimer> {
   bool counting = false;
   int _minutes = 0;
   int _seconds = 0;
-  int _hours = 0;
+  final int _hours = 0;
   bool  _isFav = false;
  // int _setTime = 0;
 
@@ -178,7 +148,7 @@ class _State extends State<ClockTimer> {
     _seconds = _hours * 3600 + _minutes * 60;
     _cancelTimer();
     // _resetRemainingTime();
-    timer = Timer.periodic(Duration(seconds: 1), (_) {
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
       _tick();
     });
   }
@@ -207,7 +177,7 @@ class _State extends State<ClockTimer> {
 
     return Text(
       "$hours:$minutes:$seconds",
-      style: TextStyle(fontSize: 40.0, color: Colors.white),
+      style: const TextStyle(fontSize: 40.0, color: Colors.white),
     );
   }
 
@@ -271,7 +241,7 @@ class _State extends State<ClockTimer> {
                     }
 
                   },
-                  child: _isFav ? Text("Stop Time") : Text('Start Timer'),
+                  child: _isFav ? const Text("Stop Time") : const Text('Start Timer'),
                 ),
               ),
               Padding(
@@ -280,10 +250,9 @@ class _State extends State<ClockTimer> {
                 child: ElevatedButton(
                   style: raiseButtonStyle,
                   onPressed: () {
-                    sendAnalyticsSetTime();
                   _showDialog();
                   },
-                  child: Text("Set Time"),
+                  child: const Text("Set Time"),
                 ),
               ),
             ],
@@ -301,7 +270,7 @@ class _State extends State<ClockTimer> {
         builder: (BuildContext context) {
           return AlertDialog(
             //  backgroundColor: Colors.grey,
-            title: Center(child: Text('Set Time')),
+            title: const Center(child: Text('Set Time')),
             actions: [
               Center(
                 child: ElevatedButton(
@@ -310,9 +279,9 @@ class _State extends State<ClockTimer> {
                     _startTimer();
                     toast3();
                     Navigator.of(context)
-                        .pop(new Duration(hours: _hours, minutes: _minutes));
+                        .pop(Duration(hours: _hours, minutes: _minutes));
                   },
-                  child: Text('5 MINUTES'),
+                  child: const Text('5 MINUTES'),
                 ),
               ),
               Center(
@@ -322,57 +291,57 @@ class _State extends State<ClockTimer> {
                     _startTimer();
                     toast3();
                     Navigator.of(context)
-                        .pop(new Duration(hours: _hours, minutes: _minutes));
+                        .pop(Duration(hours: _hours, minutes: _minutes));
                   },
-                  child: Text('10 MINUTES'),
+                  child: const Text('10 MINUTES'),
                 ),
               ),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context)
-                        .pop(new Duration(hours: _hours, minutes: _minutes));
+                        .pop(Duration(hours: _hours, minutes: _minutes));
                     _resetRemainingTime15();
                     _startTimer();
                     toast3();
                   },
-                  child: Text('15 MINUTES'),
+                  child: const Text('15 MINUTES'),
                 ),
               ),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context)
-                        .pop(new Duration(hours: _hours, minutes: _minutes));
+                        .pop(Duration(hours: _hours, minutes: _minutes));
                     _resetRemainingTime30();
                     _startTimer();
                     toast3();
                   },
-                  child: Text('30 MINUTES'),
+                  child: const Text('30 MINUTES'),
                 ),
               ),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context)
-                        .pop(new Duration(hours: _hours, minutes: _minutes));
+                        .pop(Duration(hours: _hours, minutes: _minutes));
                     _resetRemainingTime60();
                     _startTimer();
                     toast3();
                   },
-                  child: Text('1 HOURS'),
+                  child: const Text('1 HOURS'),
                 ),
               ),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context)
-                        .pop(new Duration(hours: _hours, minutes: _minutes));
+                        .pop(Duration(hours: _hours, minutes: _minutes));
                     _resetRemainingTime120();
                     _startTimer();
                     toast3();
                   },
-                  child: Text('2 HOURS'),
+                  child: const Text('2 HOURS'),
                 ),
               ),
 
@@ -380,24 +349,24 @@ class _State extends State<ClockTimer> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context)
-                        .pop(new Duration(hours: _hours, minutes: _minutes));
+                        .pop(Duration(hours: _hours, minutes: _minutes));
                     _resetRemainingTime180();
                     _startTimer();
                     toast3();
                   },
-                  child: Text('3 HOURS'),
+                  child: const Text('3 HOURS'),
                 ),
               ),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context)
-                        .pop(new Duration(hours: _hours, minutes: _minutes));
+                        .pop(Duration(hours: _hours, minutes: _minutes));
                     _resetRemainingTime240();
                     _startTimer();
                     toast3();
                   },
-                  child: Text('4 HOURS'),
+                  child: const Text('4 HOURS'),
                 ),
               ),
               Padding(
@@ -408,7 +377,7 @@ class _State extends State<ClockTimer> {
                       padding: const EdgeInsets.only(right: 12.0),
                       child: TextButton(
                         onPressed: () => Navigator.of(context).pop(),
-                        child: Text('CLOSE'),
+                        child: const Text('CLOSE'),
                       ),
                     ),
                     ElevatedButton(
@@ -418,7 +387,7 @@ class _State extends State<ClockTimer> {
                         _isFav = false;
                         Navigator.of(context).pop();
                       },
-                      child: Text('STOP'),
+                      child: const Text('STOP'),
                     ),
                   ],
                 ),

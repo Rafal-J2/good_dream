@@ -7,34 +7,22 @@ import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
+
 
 class TabViewTwo extends StatefulWidget {
-  TabViewTwo({
-    Key? key,
-    this.analytics,
-    //   this.observer,
-  }) : super(key: key);
+  const TabViewTwo({super.key});
 
-  // Firebase Analytics
-  final FirebaseAnalytics? analytics;
-//  final FirebaseAnalyticsObserver observer;
+
+
 
   @override
-  _State createState() => _State(analytics);
+  _State createState() => _State();
 }
 
 class _State extends State<TabViewTwo> {
-  // Firebase Analytics
-  late FirebaseAnalytics _analytics;
 
-  _State(FirebaseAnalytics? analytics);
 
-  @override
-  void initState() {
-    _analytics = FirebaseAnalytics();
-    super.initState();
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +33,7 @@ class _State extends State<TabViewTwo> {
         ) {
       return GridView.builder(
         itemCount: arrays2.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 1.0, crossAxisCount: 3),
         itemBuilder: (context, index) {
           return Column(
@@ -56,11 +44,7 @@ class _State extends State<TabViewTwo> {
                     /// Bool checking
                     arrays2[index].isFav = !arrays2[index].isFav!;
                     // Click_events Analytics
-                    if (arrays2[index].isFav!) {
-                      await _analytics.logEvent(
-                        name: arrays2[index].events!,
-                      );
-                    }
+               
                     /// Play or Stop sounds
                     arrays2[index].isFav!
                         ? arrays2[index].player.open(
@@ -99,10 +83,10 @@ class _State extends State<TabViewTwo> {
                           ? arrays2[index].picOn!
                           : arrays2[index].picOff!),
                     ),
-                    Padding(padding: EdgeInsets.only(top: 8)),
+                    const Padding(padding: EdgeInsets.only(top: 8)),
                     arrays2[index].isFav!
                         ? AnimatedOpacity(
-                      duration: Duration(milliseconds: 800),
+                      duration: const Duration(milliseconds: 800),
                       opacity: arrays2[index].isFav!
                           ? arrays2[index].opacityOn
                           : arrays2[index].opacityOff,
@@ -127,7 +111,7 @@ class _State extends State<TabViewTwo> {
                     )
                         : Text(
                       arrays2[index].title!,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 13.0,
                           //   height: 2.5,
                           color: Colors.white),

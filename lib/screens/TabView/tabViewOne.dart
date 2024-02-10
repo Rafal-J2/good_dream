@@ -4,41 +4,22 @@ import 'package:good_dream/models/DataProvider.dart';
 import 'package:good_dream/fun/foregroundService.dart';
 import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
-
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-
 
 
 class TabViewOne extends StatefulWidget {
-  TabViewOne({
-    Key? key,
-    this.analytics,
-    //   this.observer,
-  }) : super(key: key);
-
-  // Firebase Analytics
-  final FirebaseAnalytics? analytics;
-//  final FirebaseAnalyticsObserver observer;
+  const TabViewOne({super.key});
 
   @override
-  _State createState() => _State(analytics);
+  _State createState() => _State();
 
 }
 
 class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
   final PageStorageBucket bucket = PageStorageBucket();
-  // Firebase Analytics
-  late FirebaseAnalytics _analytics;
 
-  _State(FirebaseAnalytics? analytics);
 
-  @override
-  void initState() {
-    _analytics = FirebaseAnalytics();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +32,7 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
     ) {
       return GridView.builder(
         itemCount: arrays.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 1.0, crossAxisCount: 3),
         itemBuilder: (context, index) {
           //   final shopList = snapshot.data["shop items"];
@@ -80,13 +61,13 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
                   ? arrays[index].picOn!
                   : arrays[index].picOff!),
             ),
-            Padding(padding: EdgeInsets.only(top: 8)),
+            const Padding(padding: EdgeInsets.only(top: 8)),
             arrays[index].isFav!
                 ? AnimatedOpacity(
                     opacity: arrays[index].isFav!
                         ? arrays[index].opacityOn
                         : arrays[index].opacityOff,
-                    duration: Duration(milliseconds: 800),
+                    duration: const Duration(milliseconds: 800),
                     child: PlayerBuilder.volume(
                         player: arrays[index].player,
                         builder: (context, volume) {
@@ -108,7 +89,7 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
                   )
                 : Text(
                     arrays[index].title!,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 12.0,
                         //    height: 2.5,
                         color: Colors.white),

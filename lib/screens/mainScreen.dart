@@ -1,10 +1,8 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/fun/arrays_3-4.dart';
 import 'package:good_dream/fun/clockTimer.dart';
-import 'package:good_dream/services/admob_service.dart';
 import 'package:good_dream/models/DataProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,7 +19,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 void main() async {
   runApp(ChangeNotifierProvider(
     create: (context) => DataProvider(),
-    child: GoodDream(),
+    child: const GoodDream(),
   ));
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   await Firebase.initializeApp();
@@ -29,12 +27,12 @@ void main() async {
 
 class GoodDream extends StatefulWidget {
   //Functions to Show Dialog
-  GoodDream({
+  const GoodDream({
     Key? key,
     this.confirmWidget,
     this.cancelWidget,
     this.title,
-    this.observer,
+
     this.themeMode,
     this.onThemeModeChanged,
   }) : super(key: key);
@@ -44,23 +42,17 @@ class GoodDream extends StatefulWidget {
 
 // Firebase Analytics
   //final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver? observer;
+
   // Dialogs global
   final Widget? confirmWidget;
   final Widget? cancelWidget;
   final String? title;
 
   @override
-  _State createState() => _State(observer);
+  _State createState() => _State();
 }
 
 class _State extends State<GoodDream>   {
-  _State(
-      // this.analytics,
-      this.observer,
-      );
-  final FirebaseAnalyticsObserver? observer;
-  final ams = AdMobService();
 
 
   @override
@@ -105,7 +97,7 @@ class _State extends State<GoodDream>   {
 
   void startServiceInPlatform() async {
     if (Platform.isAndroid) {
-      var methodChannel = MethodChannel("com.retroportalstudio.messages");
+      var methodChannel = const MethodChannel("com.retroportalstudio.messages");
       String? data = await methodChannel.invokeMethod("startService");
       debugPrint(data);
     }
@@ -129,7 +121,7 @@ class _State extends State<GoodDream>   {
         theme: FlexColorScheme
             .light(scheme: FlexScheme.red,
             onSecondary: Colors.white,
-            scaffoldBackground: Color(0xFF20124d)
+            scaffoldBackground: const Color(0xFF20124d)
         )
             .toTheme,
         darkTheme: FlexColorScheme
@@ -147,11 +139,11 @@ class _State extends State<GoodDream>   {
             onWillPop: () => onBackPressed(),
             child: Scaffold(
               appBar: PreferredSize(
-                preferredSize: Size.fromHeight(40.0),
+                preferredSize: const Size.fromHeight(40.0),
                 child: AppBar(
                //   backwardsCompatibility: false,
-                  systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.black),
-                  flexibleSpace: SizedBox(
+                  systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.black),
+                  flexibleSpace: const SizedBox(
                     child: TabBar(
                       isScrollable: true,
                       physics: ClampingScrollPhysics (),
@@ -175,7 +167,7 @@ class _State extends State<GoodDream>   {
                 ),
               ),
               body: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                 ),
                 child: Column(
                   children: [
@@ -184,36 +176,36 @@ class _State extends State<GoodDream>   {
                         children: <Widget>[
                           ListView(
                             children: <Widget>[
-                              Container(
+                              SizedBox(
                                 height: screenSize.height / 1.6,
-                                child: TabViewOne(
+                                child: const TabViewOne(
                                 ),
                               ),
                             ],
                           ),
                           ListView(
                             children: <Widget>[
-                              Container(
+                              SizedBox(
                                 // width: 50.0,
                                 height: screenSize.height / 1.6,
                                 //  color: Colors.black12,
-                                child: TabViewTwo(),
+                                child: const TabViewTwo(),
                               ),
                             ],
                           ),
                           ListView(
                             children: <Widget>[
-                              Container(
+                              SizedBox(
                                 height: screenSize.height / 1.6,
-                                child: TabViewThree(),
+                                child: const TabViewThree(),
                               ),
                             ],
                           ),
                           ListView(
                             children: <Widget>[
-                              Container(
+                              SizedBox(
                                 height: screenSize.height / 1.6,
-                                child: TabViewFour(),
+                                child: const TabViewFour(),
                               ),
                             ],
                           ),
@@ -237,17 +229,17 @@ class _State extends State<GoodDream>   {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Are you sure?'),
-          content: Text('Do you want to exit an App'),
+          title: const Text('Are you sure?'),
+          content: const Text('Do you want to exit an App'),
           actions: <Widget>[
             TextButton(
-              child: Text('No'),
+              child: const Text('No'),
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
             ),
             TextButton(
-              child: Text('Yes'),
+              child: const Text('Yes'),
               onPressed: () {
                 Navigator.of(context).pop(true);
               },
