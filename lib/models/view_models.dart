@@ -1,5 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 
+import '../main.dart';
+
 class ViewModels {
   final getStorage;
   bool? isFav;
@@ -56,6 +58,6 @@ class ViewModels {
 
   pauseAudio00() {
     player.pause();
-    print(' player.pause();');
+    logger.i(' player.pause();');
   }
 }

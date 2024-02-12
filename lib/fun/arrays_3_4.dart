@@ -1,9 +1,8 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:good_dream/models/ViewModels.dart';
+import 'package:good_dream/models/view_models.dart';
 
 List<ViewModels> get models3 => arrays3;
 final arrays3 = [
-
   ViewModels(
       events: 'click_the_meditations.',
       picOff: 'assets/images/lotus_w.png',
@@ -14,7 +13,6 @@ final arrays3 = [
       opacityOn: 1.0,
       sounds: "assets/audio/flowing_river2.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_healing_meditation',
       picOff: 'assets/images/healing_w.png',
@@ -95,8 +93,6 @@ final arrays3 = [
       opacityOn: 1.0,
       sounds: "assets/audio/background_guitar.ogg",
       player: AssetsAudioPlayer()),
-
-
   ViewModels(
       events: 'click_om',
       picOff: 'assets/images/om_w.png',

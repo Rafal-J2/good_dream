@@ -9,6 +9,8 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:good_dream/models/data_provider.dart';
 
+import '../main.dart';
+
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
 
@@ -32,17 +34,17 @@ class CheckoutPageState extends State<CheckoutPage>
       case 0 :
       //  arrays4[0].checkThemeMode = ThemeMode.light;
         themeMode = ThemeMode.light;
-        print('switchThemeMode - ThemeMode.light*');
+        logger.i('switchThemeMode - ThemeMode.light*');
         break;
       case 1 :
       //   arrays4[0].checkThemeMode = ThemeMode.dark;
         themeMode = ThemeMode.dark;
-        print('ThemeMode.dark*');
+        logger.i('ThemeMode.dark*');
         break;
       case 2 :
       //  arrays4[0].checkThemeMode = ThemeMode.system;
         themeMode = ThemeMode.system;
-        print('ThemeMode.system*');
+        logger.i('ThemeMode.system*');
     }
   }
 

@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:good_dream/fun/foreground_service.dart';
 import 'package:good_dream/fun/toast.dart';
-import 'package:good_dream/models/ViewModels.dart';
+import 'package:good_dream/models/view_models.dart';
 
 import '../fun/arrays_1_2.dart';
 
@@ -15,7 +15,7 @@ class DataProvider extends ChangeNotifier {
   final List<ViewModels> _items = [];
   void add(ViewModels item) {
     _items.add(item);
-  
+
     notifyListeners();
   }
 

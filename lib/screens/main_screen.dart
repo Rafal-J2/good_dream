@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
+import '../main.dart';
 import 'TabView/tab_view_four.dart';
 import 'TabView/tab_view_one.dart';
 import 'TabView/tab_view_two.dart';
@@ -81,15 +82,15 @@ class _State extends State<GoodDream>   {
     switch(dataStorage.read('intCheck')){
       case 0 :
         themeMode = ThemeMode.light;
-        print('switchThemeMode - ThemeMode.light*');
+        logger.i('switchThemeMode - ThemeMode.light*');
         break;
       case 1 :
         themeMode = ThemeMode.dark;
-        print('ThemeMode.dark*');
+        logger.i('ThemeMode.dark*');
         break;
       case 2 :
         themeMode = ThemeMode.system;
-        print('ThemeMode.system*');
+        logger.i('ThemeMode.system*');
     }
   }
 

@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'arrays_dialogs.dart';
 import 'dialogs.dart';
 import 'launch_url.dart';
+import 'privacy_policy.dart';
 
 Widget setupAlertDialogContainer() {
   return SizedBox(

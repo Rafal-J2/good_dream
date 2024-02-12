@@ -1,5 +1,5 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:good_dream/models/ViewModels.dart';
+import 'package:good_dream/models/view_models.dart';
 
 List<ViewModels> get models => arrays;
 final arrays = [
@@ -127,7 +127,7 @@ final arrays = [
 ];
 
 List<ViewModels> get models2 => arrays2;
-final arrays2 =[
+final arrays2 = [
   ViewModels(
       events: 'click_river',
       picOff: 'assets/images/river_w.png',
@@ -138,7 +138,6 @@ final arrays2 =[
       opacityOn: 1.0,
       sounds: "assets/audio/river.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_small_creek',
       picOff: 'assets/images/creek_w.png',
@@ -149,7 +148,6 @@ final arrays2 =[
       opacityOn: 1.0,
       sounds: "assets/audio/small_creek.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_rain',
       picOff: 'assets/images/rain_w.png',
@@ -200,7 +198,6 @@ final arrays2 =[
       opacityOn: 1.0,
       sounds: "assets/audio/rain_under_raincoat.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_rain_on_windows',
       picOff: 'assets/images/rain_windows_w.png',
@@ -211,7 +208,6 @@ final arrays2 =[
       opacityOn: 1.0,
       sounds: 'assets/audio/rain_on_windows.ogg',
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_sea',
       picOff: 'assets/images/sea_w.png',
@@ -222,7 +218,6 @@ final arrays2 =[
       opacityOn: 1.0,
       sounds: 'assets/audio/sea.ogg',
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_cave',
       picOff: 'assets/images/cave_w.png',
@@ -243,7 +238,6 @@ final arrays2 =[
       opacityOn: 1.0,
       sounds: "assets/audio/waterfall.ogg",
       player: AssetsAudioPlayer()),
-
   ViewModels(
       events: 'click_jacuzzi',
       picOff: 'assets/images/jacuzzi_w.png',
@@ -254,11 +248,4 @@ final arrays2 =[
       opacityOff: 0.0,
       opacityOn: 1.0,
       player: AssetsAudioPlayer()),
-
 ];
-
-
-
-
-
-

@@ -9,35 +9,26 @@ import 'package:good_dream/models/data_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:good_dream/fun/show_dialogs.dart';
 
-/*class Controller extends GetxController {
-  final dataStorage = GetStorage();
- //  get isThemeMode => dataStorage.read('key');
-}*/
+import '../main.dart';
 
 class Menu extends StatefulWidget {
-  const Menu({
-    Key? key,
-//    this.setDarkMode,
-  }) : super(key: key);
-//  final ValueChanged<bool>? setDarkMode;
+  const Menu({super.key});
 
   @override
-  _MenuState createState() => _MenuState();
+  MenuState createState() => MenuState();
 }
 
-class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
-
+class MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
   final dataStorage = GetStorage();
 
+  @override
   void initState() {
     super.initState();
     dataStorage.read('intCheck');
     log("what is inCheck in initState: $intCheck");
-   // dataStorage.read('intCheck');
+  
     log("dataStorage.read: ${dataStorage.read('intCheck')}");
     _switchThemeMode();
-   // checkStorage();
-
   }
 
   void _switchThemeMode(){
@@ -45,17 +36,17 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
       case 0 :
       //  arrays4[0].checkThemeMode = ThemeMode.light;
         themeMode = ThemeMode.light;
-        print('switchThemeMode - ThemeMode.light*');
+        logger.i('switchThemeMode - ThemeMode.light*');
         break;
       case 1 :
      //   arrays4[0].checkThemeMode = ThemeMode.dark;
       themeMode = ThemeMode.dark;
-        print('ThemeMode.dark*');
+        logger.i('ThemeMode.dark*');
         break;
       case 2 :
       //  arrays4[0].checkThemeMode = ThemeMode.system;
        themeMode = ThemeMode.system;
-        print('ThemeMode.system*');
+        logger.i('ThemeMode.system*');
     }
   }
 
@@ -70,8 +61,8 @@ class _MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
 }
 
     int intCheck = 2;
-  late ThemeMode themeMode;
-// ThemeMode themeMode = ThemeMode.system;
+  //late ThemeMode themeMode;
+ ThemeMode themeMode = ThemeMode.system;
 
   @override
   Widget build(BuildContext context) {
