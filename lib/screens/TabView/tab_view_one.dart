@@ -64,11 +64,11 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
             arrays[index].isFav!
                 ? AnimatedOpacity(
                     opacity: arrays[index].isFav!
-                        ? arrays[index].opacityOn
-                        : arrays[index].opacityOff,
+                        ? arrays[index].opacityOn!
+                        : arrays[index].opacityOff!,
                     duration: const Duration(milliseconds: 800),
                     child: PlayerBuilder.volume(
-                        player: arrays[index].player,
+                        player: arrays[index].player!,
                         builder: (context, volume) {
                           return Shimmer.fromColors(
                             baseColor: Colors.white,
@@ -80,7 +80,7 @@ class _State extends State<TabViewOne> with AutomaticKeepAliveClientMixin {
                                 divisions: 50,
                                 onChanged: (v) {
                                   setState(() {
-                                    arrays[index].player.setVolume(v);
+                                    arrays[index].player!.setVolume(v);
                                   });
                                 }),
                           );

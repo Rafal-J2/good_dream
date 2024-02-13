@@ -48,9 +48,9 @@ class Mix extends StatelessWidget {
 
                     } else {
                       debugPrint("Else it's work -------");
-                      arrays[0].player.pause();
-                      arrays[1].player.pause();
-                      arrays[2].player.pause();
+                      arrays[0].player!.pause();
+                      arrays[1].player!.pause();
+                      arrays[2].player!.pause();
 
                       cart.remove(arrays[0]);
                       cart.remove(arrays[1]);

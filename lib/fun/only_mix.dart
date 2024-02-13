@@ -5,7 +5,7 @@ import 'arrays_1_2.dart';
 bool isFav = false;
 
 mix1() {
-  arrays[0].player.open(
+  arrays[0].player!.open(
       Audio(
           arrays[0].sounds!
       )
@@ -15,7 +15,7 @@ mix1() {
 }
 
 mix2() {
-  arrays[1].player.open(
+  arrays[1].player!.open(
       Audio(
           arrays[1].sounds!
       )
@@ -23,7 +23,7 @@ mix2() {
 }
 
 mix3() {
-  arrays[2].player.open(
+  arrays[2].player!.open(
       Audio(
           arrays[2].sounds!
       )

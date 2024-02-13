@@ -98,8 +98,6 @@ class MyHomePageState extends State<MyHomePage> {
           onPrimary: Colors.white,
           //  scaffoldBackground: Colors.black87,
         ).toTheme,
-        //  themeMode: arrays4[0].checkThemeMode,
-        //  themeMode: cart.basketItems3.isEmpty ? ThemeMode.system : cart.basketItems3[0].checkThemeMode,
         themeMode:
             cart.basketItems3.isEmpty ? themeMode : arrays4[0].checkThemeMode,
         debugShowCheckedModeBanner: false,
@@ -124,19 +122,13 @@ class MyHomePageState extends State<MyHomePage> {
                     ? const Icon(Icons.surround_sound)
                     : Lottie.asset('assets/lottieFiles/sounds_waves.json'),
                 label: 'Active Sounds - ${cart.count.toString()}',
-                /*
-                icon: Icon(Icons.surround_sound,
-                    color: cart.count <= 0
-                        ? null
-                        : Colors.white),*/
+  
               ),
               const BottomNavigationBarItem(
                 icon: Icon(Icons.menu),
                 label: 'Settings',
               ),
             ],
-            //   selectedItemColor: Colors.white,
-            //   unselectedItemColor: Colors.blue,
             showSelectedLabels: true,
             currentIndex: _selectedPageIndex,
             onTap: (selectedPageIndex) {

@@ -116,17 +116,17 @@ class CheckoutPageState extends State<CheckoutPage>
                                         ),
                                       ),
                                       PlayerBuilder.volume(
-                                          player: cart.basketItems[index].player,
-                                          builder: (context, _vol) {
+                                          player: cart.basketItems[index].player!,
+                                          builder: (context, vol) {
                                             return Slider(
                                                 activeColor: Colors.white,
-                                                value: _vol,
+                                                value: vol,
                                                 min: 0,
                                                 max: 1,
                                                 divisions: 50,
                                                 onChanged: (v) {
                                                   setState(() {
-                                                    cart.basketItems[index].player
+                                                    cart.basketItems[index].player!
                                                         .setVolume(v);
                                                   });
                                                 });
@@ -139,7 +139,7 @@ class CheckoutPageState extends State<CheckoutPage>
                                         iconSize: 48.0,
                                         onPressed: () {
                                           // Pause sounds with page one
-                                          cart.basketItems[index].player.pause();
+                                          cart.basketItems[index].player!.pause();
                                           cart.basketItems[index].isFav = false;
                                           cart.remove(cart.basketItems[index]);
                                           //    cart.remove2(cart.basketItems2[index]);

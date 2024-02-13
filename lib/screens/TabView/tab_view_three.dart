@@ -38,21 +38,21 @@ class _State extends State<TabViewThree> {
                   if (cart.count2 == 1 &&
                       arrays3[index].isFav == false) {
                     for (int i = 0; i < arrays3.length; i++) {
-                      arrays3[i].player.stop();
+                      arrays3[i].player!.stop();
                       cart.remove2(arrays3[i]);
                       cart.remove(arrays3[i]);
                       arrays3[i].isFav = false;
                     }
                   }
                   if (cart.count2 <= 1 && arrays3[index].isFav == false && cart.count <= 5) {
-                    arrays3[index].player.open(Audio(arrays3[index].sounds!),
+                    arrays3[index].player!.open(Audio(arrays3[index].sounds!),
                         volume: 0.5, loopMode: LoopMode.single);
                     cart.add2(arrays3[index]);
                     cart.add(arrays3[index]);
                     arrays3[index].isFav = true;
                   } else {
-                    arrays3[index].player.pause();
-                    log('{arrays3[index].player.pause()} ${arrays3[index].player.pause()}');
+                    arrays3[index].player!.pause();
+                    log('{arrays3[index].player.pause()} ${arrays3[index].player!.pause()}');
                     cart.remove2(arrays3[index]);
                     cart.remove(arrays3[index]);
                     arrays3[index].isFav = false;
@@ -87,10 +87,10 @@ class _State extends State<TabViewThree> {
                         ? AnimatedOpacity(
                             duration: const Duration(milliseconds: 700),
                             opacity: arrays3[index].isFav!
-                                ? arrays3[index].opacityOn
-                                : arrays3[index].opacityOff,
+                                ? arrays3[index].opacityOn!
+                                : arrays3[index].opacityOff!,
                             child: PlayerBuilder.volume(
-                                player: arrays3[index].player,
+                                player: arrays3[index].player!,
                                 builder: (context, volume) {
                                   return Slider(
                                       activeColor: Colors.grey,
@@ -100,7 +100,7 @@ class _State extends State<TabViewThree> {
                                       divisions: 50,
                                       onChanged: (v) {
                                         setState(() {
-                                          arrays3[index].player.setVolume(v);
+                                          arrays3[index].player!.setVolume(v);
                                         });
                                       });
                                 }),

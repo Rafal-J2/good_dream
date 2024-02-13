@@ -31,14 +31,14 @@ class DataProvider extends ChangeNotifier {
       // }
       // Play or Stop sounds
       arrays[index].isFav!
-          ? arrays[index].player.open(
+          ? arrays[index].player!.open(
               Audio(
                 arrays[index].sounds!,
               ),
               volume: 0.5,
               //  showNotification: true,
               loopMode: LoopMode.single)
-          : arrays[index].player.pause();
+          : arrays[index].player!.pause();
 
       //   cart.addTest2(index);
       arrays[index].isFav! ? add(arrays[index]) : remove(arrays[index]);
@@ -51,7 +51,7 @@ class DataProvider extends ChangeNotifier {
     } else if (count == 6) {
       cart.remove(arrays[index]);
       arrays[index].isFav = false;
-      arrays[index].player.pause();
+      arrays[index].player!.pause();
 
       //Toast Text
       if (count == 6) {

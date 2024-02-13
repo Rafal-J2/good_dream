@@ -43,11 +43,11 @@ class _State extends State<TabViewTwo> {
                
                     /// Play or Stop sounds
                     arrays2[index].isFav!
-                        ? arrays2[index].player.open(
+                        ? arrays2[index].player!.open(
                         Audio(arrays2[index].sounds!),
                         volume: 0.5,
                         loopMode: LoopMode.single)
-                        : arrays2[index].player.pause();
+                        : arrays2[index].player!.pause();
 
                     /// Add image to page two
                     arrays2[index].isFav!
@@ -56,7 +56,7 @@ class _State extends State<TabViewTwo> {
                   } else if (cart.count == 6) {
                     cart.remove(arrays2[index]);
                     arrays2[index].isFav = false;
-                    arrays2[index].player.pause();
+                    arrays2[index].player!.pause();
                     //Toast Text
                     if (cart.count == 6) {
                       toast();
@@ -84,10 +84,10 @@ class _State extends State<TabViewTwo> {
                         ? AnimatedOpacity(
                       duration: const Duration(milliseconds: 800),
                       opacity: arrays2[index].isFav!
-                          ? arrays2[index].opacityOn
-                          : arrays2[index].opacityOff,
+                          ? arrays2[index].opacityOn!
+                          : arrays2[index].opacityOff!,
                       child: PlayerBuilder.volume(
-                          player: arrays2[index].player,
+                          player: arrays2[index].player!,
                           builder: (context, volume) {
                             return Shimmer.fromColors(
                               baseColor: Colors.white,
@@ -99,7 +99,7 @@ class _State extends State<TabViewTwo> {
                                   divisions: 50,
                                   onChanged: (v) {
                                     setState(() {
-                                      arrays2[index].player.setVolume(v);
+                                      arrays2[index].player!.setVolume(v);
                                     });
                                   }),
                             );

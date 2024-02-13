@@ -44,14 +44,14 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
 
                     // Play or Stop sounds
                     arrays4[index].isFav!
-                        ? arrays4[index].player.open(
+                        ? arrays4[index].player!.open(
                         Audio(
                           arrays4[index].sounds!,
                         ),
                         volume: 0.5,
                         //  showNotification: true,
                         loopMode: LoopMode.single)
-                        : arrays4[index].player.pause();
+                        : arrays4[index].player!.pause();
                     arrays4[index].isFav!
                         ? cart.add(arrays4[index])
                         : cart.remove(arrays4[index]);
@@ -63,7 +63,7 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
                   } else if (cart.count == 6) {
                     cart.remove(arrays4[index]);
                     arrays4[index].isFav = false;
-                    arrays4[index].player.pause();
+                    arrays4[index].player!.pause();
                     //Toast Text
                     if (cart.count == 6) {
                       toast();
@@ -90,11 +90,11 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
                     arrays4[index].isFav!
                         ? AnimatedOpacity(
                       opacity: arrays4[index].isFav!
-                          ? arrays4[index].opacityOn
-                          : arrays4[index].opacityOff,
+                          ? arrays4[index].opacityOn!
+                          : arrays4[index].opacityOff!,
                       duration: const Duration(milliseconds: 800),
                       child: PlayerBuilder.volume(
-                          player: arrays4[index].player,
+                          player: arrays4[index].player!,
                           builder: (context, volume) {
                             return Shimmer.fromColors(
                               baseColor: Colors.white,
@@ -106,7 +106,7 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
                                   divisions: 50,
                                   onChanged: (v) {
                                     setState(() {
-                                      arrays4[index].player.setVolume(v);
+                                      arrays4[index].player!.setVolume(v);
                                     });
                                   }),
                             );
