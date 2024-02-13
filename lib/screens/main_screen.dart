@@ -136,8 +136,9 @@ class _State extends State<GoodDream>   {
 
         home: DefaultTabController(
           length: 4,
-          child: WillPopScope(
-            onWillPop: () => onBackPressed(),
+          child: PopScope(
+            canPop: false,
+            onPopInvoked: (didPop) => onBackPressed(),
             child: Scaffold(
               appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(40.0),
