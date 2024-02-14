@@ -8,17 +8,17 @@ import 'package:good_dream/fun/mode_switch.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:good_dream/fun/show_dialogs.dart';
+import '../main_menu_navigator.dart';
 
-import '../main.dart';
-
-class Menu extends StatefulWidget {
-  const Menu({super.key});
+class SettingsController extends StatefulWidget {
+  const SettingsController({super.key});
 
   @override
-  MenuState createState() => MenuState();
+  SettingsControllerState createState() => SettingsControllerState();
 }
 
-class MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
+class SettingsControllerState extends State<SettingsController>
+    with AutomaticKeepAliveClientMixin {
   final dataStorage = GetStorage();
 
   @override
@@ -26,43 +26,45 @@ class MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
     super.initState();
     dataStorage.read('intCheck');
     log("what is inCheck in initState: $intCheck");
-  
+
     log("dataStorage.read: ${dataStorage.read('intCheck')}");
     _switchThemeMode();
   }
 
-  void _switchThemeMode(){
-    switch(dataStorage.read('intCheck')){
-      case 0 :
-      //  arrays4[0].checkThemeMode = ThemeMode.light;
+  void _switchThemeMode() {
+    switch (dataStorage.read('intCheck')) {
+      case 0:
+        //  arrays4[0].checkThemeMode = ThemeMode.light;
         themeMode = ThemeMode.light;
         logger.i('switchThemeMode - ThemeMode.light*');
         break;
-      case 1 :
-     //   arrays4[0].checkThemeMode = ThemeMode.dark;
-      themeMode = ThemeMode.dark;
+      case 1:
+        //   arrays4[0].checkThemeMode = ThemeMode.dark;
+        themeMode = ThemeMode.dark;
         logger.i('ThemeMode.dark*');
         break;
-      case 2 :
-      //  arrays4[0].checkThemeMode = ThemeMode.system;
-       themeMode = ThemeMode.system;
+      case 2:
+        //  arrays4[0].checkThemeMode = ThemeMode.system;
+        themeMode = ThemeMode.system;
         logger.i('ThemeMode.system*');
     }
   }
 
-   _checkStorage() {
-  if(themeMode == ThemeMode.light) {
-    intCheck = 0;
-  } else if (themeMode == ThemeMode.dark){
-    intCheck = 1;
-  } else {intCheck = 2;}
-  dataStorage.write('intCheck', intCheck);
-  log("dataStorage.write ${dataStorage.write('intCheck', intCheck)}");
-}
+  _checkStorage() {
+    if (themeMode == ThemeMode.light) {
+      intCheck = 0;
+    } else if (themeMode == ThemeMode.dark) {
+      intCheck = 1;
+    } else {
+      intCheck = 2;
+    }
+    dataStorage.write('intCheck', intCheck);
+    log("dataStorage.write ${dataStorage.write('intCheck', intCheck)}");
+  }
 
-    int intCheck = 2;
+  int intCheck = 2;
   //late ThemeMode themeMode;
- ThemeMode themeMode = ThemeMode.system;
+  ThemeMode themeMode = ThemeMode.system;
 
   @override
   Widget build(BuildContext context) {
@@ -70,15 +72,12 @@ class MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
     super.build(context);
     // const FlexScheme usedFlexScheme = FlexScheme.mandyRed;
     return Consumer<DataProvider>(builder: (
-        context,
-        cart,
-        child,
-        ) {
+      context,
+      cart,
+      child,
+    ) {
       return ListView(
         children: <Widget>[
-          /*      DrawerHeader(
-              child: Text('Menu', style: TextStyle(color: Colors.white)),
-            ),*/
           Column(
             children: [
               ListTile(
@@ -142,16 +141,16 @@ class MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
                     height: 200,
                     child: HomePage(
                       // We pass it the current theme mode.
-             //    themeMode: themeMode,
+                      //    themeMode: themeMode,
                       /// The selected icon
                       // themeMode: arrays4[0].checkThemeMode,
-                       themeMode:  themeMode,
+                      themeMode: themeMode,
                       // On the home page we can toggle theme mode between light and dark.
                       onThemeModeChanged: (ThemeMode mode) {
                         setState(() {
-                         themeMode = mode;
-                         _checkStorage();
-                     //   arrays4[0].themeMode = mode;
+                          themeMode = mode;
+                          _checkStorage();
+                          //   arrays4[0].themeMode = mode;
                           arrays4[0].checkThemeMode = mode;
                           cart.add3(arrays4[0]);
                         });
@@ -168,14 +167,8 @@ class MenuState extends State<Menu> with AutomaticKeepAliveClientMixin {
         ],
       );
     });
-
   }
 
   @override
   bool get wantKeepAlive => true;
-
-
 }
-
-
-

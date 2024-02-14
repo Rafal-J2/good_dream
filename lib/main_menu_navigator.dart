@@ -22,6 +22,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations(
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: SplashScreen.navigate(
         name: 'assets/intro2.flr',
-        next: (_) => const Navigators(),
+        next: (_) => const MainMenuNavigator(),
         until: () => Future.delayed(const Duration(seconds: 3)),
         startAnimation: 'intro',
         backgroundColor: const Color(0xff000000),

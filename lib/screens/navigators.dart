@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/fun/arrays_3_4.dart';
 import 'package:good_dream/models/data_provider.dart';
-import 'package:good_dream/screens/main_screen.dart';
+import 'package:good_dream/screens/main_tab_bar_controller.dart';
 import 'package:good_dream/screens/mixes.dart';
-import 'package:good_dream/screens/screen_two.dart';
+import 'package:good_dream/screens/playing_sounds_controller.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import '../main.dart';
-import 'settings.dart';
+import '../main_menu_navigator.dart';
+import 'settings_controller.dart';
 
-class Navigators extends StatelessWidget {
-  const Navigators({super.key});
+class MainMenuNavigator extends StatelessWidget {
+  const MainMenuNavigator({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return  const MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: MyHomePage(title: 'Save States in BottomNavigationBar'),
     );
@@ -36,7 +36,6 @@ class MyHomePageState extends State<MyHomePage> {
   int _selectedPageIndex = 0;
   late List<Widget> _pages;
   PageController? _pageController;
-
   final dataStorage = GetStorage();
 
   @override
@@ -45,9 +44,9 @@ class MyHomePageState extends State<MyHomePage> {
     _switchThemeMode();
     _selectedPageIndex = 0;
     _pages = [
-      const GoodDream(),
-      const CheckoutPage(),
-      const Menu(),
+      const MainTabBarController(),
+      const PlayingSoundsController(),
+      const SettingsController(),
       const Mix(),
     ];
 
@@ -122,7 +121,6 @@ class MyHomePageState extends State<MyHomePage> {
                     ? const Icon(Icons.surround_sound)
                     : Lottie.asset('assets/lottieFiles/sounds_waves.json'),
                 label: 'Active Sounds - ${cart.count.toString()}',
-  
               ),
               const BottomNavigationBarItem(
                 icon: Icon(Icons.menu),

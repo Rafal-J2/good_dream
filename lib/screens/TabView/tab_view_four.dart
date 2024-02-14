@@ -18,7 +18,6 @@ class TabViewFour extends StatefulWidget {
 class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
   final PageStorageBucket bucket = PageStorageBucket();
 
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -41,7 +40,6 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
                  if (cart.count <= 5) {
                     //Bool checking
                     arrays4[index].isFav = !arrays4[index].isFav!;
-
                     // Play or Stop sounds
                     arrays4[index].isFav!
                         ? arrays4[index].player!.open(
@@ -120,7 +118,6 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
                           color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
-
                   ],
                 ),
               ),
@@ -130,9 +127,6 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
       );
     });
   }
-
-
-
   @override
   bool get wantKeepAlive => true;
 }
