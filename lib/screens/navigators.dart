@@ -8,7 +8,7 @@ import 'package:good_dream/screens/mixes.dart';
 import 'package:good_dream/screens/playing_sounds_controller.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import '../main_menu_navigator.dart';
+import '../main.dart';
 import 'settings_controller.dart';
 
 class MainMenuNavigator extends StatelessWidget {
@@ -86,16 +86,12 @@ class MyHomePageState extends State<MyHomePage> {
       return MaterialApp(
         theme: FlexColorScheme.light(
                 scheme: FlexScheme.red,
-                //   onSecondary: Colors.white,
                 scaffoldBackground: const Color(0xFF20124d),
-
-                /// Colors Navigation Bar
                 background: const Color(0xFF20124d))
             .toTheme,
         darkTheme: FlexColorScheme.dark(
           scheme: FlexScheme.red,
           onPrimary: Colors.white,
-          //  scaffoldBackground: Colors.black87,
         ).toTheme,
         themeMode:
             cart.basketItems3.isEmpty ? themeMode : arrays4[0].checkThemeMode,
@@ -110,7 +106,6 @@ class MyHomePageState extends State<MyHomePage> {
             unselectedItemColor: Colors.white,
             selectedItemColor: Colors.red,
             selectedIconTheme: const IconThemeData(color: Colors.red),
-            //   backgroundColor: Color(0xFF20124d),
             items: [
               const BottomNavigationBarItem(
                 icon: Icon(Icons.home),

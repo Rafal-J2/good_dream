@@ -9,7 +9,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:good_dream/models/data_provider.dart';
 
-import '../main_menu_navigator.dart';
+import '../main.dart';
 
 class PlayingSoundsController extends StatefulWidget {
   const PlayingSoundsController({super.key});

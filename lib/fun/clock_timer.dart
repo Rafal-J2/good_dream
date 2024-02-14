@@ -1,7 +1,6 @@
 
 import 'dart:async';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:good_dream/fun/toast.dart';
@@ -10,21 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-void main() async {
-  runApp(ChangeNotifierProvider(
-    create: (context) => DataProvider(),
-    child: const ClockTimer(),
-  ));
-
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  await Firebase.initializeApp();
-}
-
 class ClockTimer extends StatefulWidget {
   const ClockTimer({super.key});
-
-
-
 
   @override
   State createState() => _State();
@@ -32,13 +18,11 @@ class ClockTimer extends StatefulWidget {
 
 class _State extends State<ClockTimer> {
 
-
   @override
   void initState() {
     super.initState();
     _loadSeconds();
   }
-
 
   setClock() {
     Navigator.of(context)
@@ -53,8 +37,6 @@ class _State extends State<ClockTimer> {
   int _seconds = 0;
   final int _hours = 0;
   bool  _isFav = false;
- // int _setTime = 0;
-
 
   resetRemainingTime5() {
     _isFav = true;
@@ -201,34 +183,37 @@ class _State extends State<ClockTimer> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding:
-                const EdgeInsets.only(left: 30.0, right: 30.0, top: 15),
-                child: ElevatedButton(
-                  style: raiseButtonStyle,
-                  onPressed: () {
-                    _isFav = !_isFav;
-                    if(_isFav) {
-                      _loadSeconds();
-                      _startTimer();
-                    } else {
-                      _cancelTimer();
-                      _loadSeconds();
-                    }
-
-                  },
-                  child: _isFav ? const Text("Stop Time") : const Text('Start Timer'),
+             Flexible(
+                // padding:
+                //  const EdgeInsets.only(left: 30.0, right: 30.0, top: 15),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 6),
+                  child: ElevatedButton(
+                    style: raiseButtonStyle,
+                    onPressed: () {
+                      _isFav = !_isFav;
+                      if(_isFav) {
+                        _loadSeconds();
+                        _startTimer();
+                      } else {
+                        _cancelTimer();
+                        _loadSeconds();
+                      }
+                    },
+                    child: _isFav ?  const Text("Stop Time") :  const Text('Start Timer'),
+                  ),
                 ),
               ),
-              Padding(
-                padding:
-                const EdgeInsets.only(left: 30.0, right: 30.0, top: 15),
-                child: ElevatedButton(
-                  style: raiseButtonStyle,
-                  onPressed: () {
-                  _showDialog();
-                  },
-                  child: const Text("Set Time"),
+              Flexible(            
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 6),
+                  child: ElevatedButton(
+                    style: raiseButtonStyle,
+                    onPressed: () {
+                    _showDialog();
+                    },
+                    child: const Text("Set Time"),
+                  ),
                 ),
               ),
             ],
@@ -245,7 +230,6 @@ class _State extends State<ClockTimer> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            //  backgroundColor: Colors.grey,
             title: const Center(child: Text('Set Time')),
             actions: [
               Center(

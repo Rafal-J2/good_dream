@@ -8,7 +8,7 @@ import 'package:good_dream/fun/mode_switch.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:good_dream/fun/show_dialogs.dart';
-import '../main_menu_navigator.dart';
+import '../main.dart';
 
 class SettingsController extends StatefulWidget {
   const SettingsController({super.key});

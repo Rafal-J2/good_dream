@@ -6,14 +6,12 @@ import 'package:good_dream/models/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../main_menu_navigator.dart';
+import '../main.dart';
 import 'TabView/tab_view_four.dart';
 import 'TabView/tab_view_one.dart';
 import 'TabView/tab_view_two.dart';
 import 'TabView/tab_view_three.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
-
-
 
 class MainTabBarController extends StatefulWidget {
   //Functions to Show Dialog
@@ -39,6 +37,8 @@ class MainTabBarController extends StatefulWidget {
 }
 
 class _State extends State<MainTabBarController> {
+ static const TextStyle _textStyle = TextStyle(fontSize: 15);
+
   @override
   void initState() {
     super.initState();
@@ -65,6 +65,7 @@ class _State extends State<MainTabBarController> {
   }
 
   ThemeMode themeMode = ThemeMode.light;
+
 
   void startServiceInPlatform() async {
     if (Platform.isAndroid) {
@@ -98,11 +99,8 @@ class _State extends State<MainTabBarController> {
           scheme: FlexScheme.red,
           onPrimary: Colors.white,
         ).toTheme,
-        //   themeMode: arrays4[0].checkThemeMode,
         themeMode:
             cart.basketItems3.isEmpty ? themeMode : arrays4[0].checkThemeMode,
-        //  themeMode: cart.basketItems3.isEmpty ? ThemeMode.system : cart.basketItems3[0].checkThemeMode,
-
         home: DefaultTabController(
           length: 4,
           child: PopScope(
@@ -110,32 +108,39 @@ class _State extends State<MainTabBarController> {
             onPopInvoked: (didPop) => onBackPressed(),
             child: Scaffold(
               appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(40.0),
+                preferredSize: const Size.fromHeight(50.0),
                 child: AppBar(
-                  //   backwardsCompatibility: false,
                   systemOverlayStyle:
                       const SystemUiOverlayStyle(statusBarColor: Colors.black),
-                  flexibleSpace: const SizedBox(
-                    child: TabBar(
-                      isScrollable: true,
-                      physics: ClampingScrollPhysics(),
-                      labelPadding:
-                          EdgeInsets.only(top: 28, left: 15, right: 15),
-                      tabs: [
-                        Tab(
-                          child: Text("Nature"),
+                  bottom:  const TabBar(
+                    isScrollable: true,
+                    physics: ClampingScrollPhysics(),
+                    tabs: [
+                       Tab(
+                        child: Text(
+                          "NATURE",
+                          style: _textStyle,
                         ),
-                        Tab(
-                          child: Text("Water"),
+                      ),
+                      Tab(
+                        child: Text(
+                          "WATER",
+                          style: _textStyle,
                         ),
-                        Tab(
-                          child: Text("Music"),
+                      ),
+                       Tab(
+                        child: Text(
+                          "MUSIC",
+                          style: _textStyle,
                         ),
-                        Tab(
-                          child: Text("Mechanical"),
+                      ),
+                       Tab(
+                        child: Text(
+                          "MECHANICAL",
+                          style: _textStyle,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -157,9 +162,7 @@ class _State extends State<MainTabBarController> {
                           ListView(
                             children: <Widget>[
                               SizedBox(
-                                // width: 50.0,
                                 height: screenSize.height / 1.6,
-                                //  color: Colors.black12,
                                 child: const TabViewTwo(),
                               ),
                             ],
@@ -183,7 +186,6 @@ class _State extends State<MainTabBarController> {
                         ],
                       ),
                     ),
-                    //  _checkStorage(),
                     const ClockTimer(),
                   ],
                 ),
