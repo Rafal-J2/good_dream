@@ -126,7 +126,7 @@ final arrays = [
       player: AssetsAudioPlayer()),
 ];
 
-List<ViewModels> get models2 => arrays2;
+List<ViewModels> get models2 => arrays;
 final arrays2 = [
   ViewModels(
       events: 'click_river',

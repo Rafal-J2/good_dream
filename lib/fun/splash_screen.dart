@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:good_dream/screens/navigators.dart';
+import 'package:good_dream/screens/main_menu_navigator.dart';
 import 'package:lottie/lottie.dart';
 
 class MySplashScreen extends StatefulWidget {

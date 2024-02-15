@@ -143,7 +143,6 @@ class SettingsControllerState extends State<SettingsController>
                       // We pass it the current theme mode.
                       //    themeMode: themeMode,
                       /// The selected icon
-                      // themeMode: arrays4[0].checkThemeMode,
                       themeMode: themeMode,
                       // On the home page we can toggle theme mode between light and dark.
                       onThemeModeChanged: (ThemeMode mode) {
@@ -154,8 +153,6 @@ class SettingsControllerState extends State<SettingsController>
                           arrays4[0].checkThemeMode = mode;
                           cart.add3(arrays4[0]);
                         });
-
-                        log("acart.add3(arrays4[0]");
                       },
                       flexSchemeData: FlexColor.schemes[FlexScheme.red],
                     ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/fun/config.dart';
 import 'package:good_dream/models/data_provider.dart';
-import 'package:good_dream/screens/navigators.dart';
+import 'package:good_dream/screens/main_menu_navigator.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';

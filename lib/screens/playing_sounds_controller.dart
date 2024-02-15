@@ -94,9 +94,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                         ? Lottie.asset('assets/lottieFiles/relax.json')
                         : null),
                 SizedBox(
-                  // width: 50.0,
                   height: screenSize.height,
-                  //   color: Colors.black12,
                   child: ListView.builder(
                       itemCount: cart.basketItems.length,
                       itemBuilder: (context, index) {
@@ -176,5 +174,3 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
   @override
   bool get wantKeepAlive => true;
 }
-
-//Center(child: cart.count == 0 ? Lottie.asset('assets/lottieFiles/night_and_day.json') : null)
