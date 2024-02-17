@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/fun/config.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:good_dream/screens/main_menu_navigator.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/services.dart';
 import 'package:flare_splash_screen/flare_splash_screen.dart';
 
 var logger = Logger();
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     var materialApp = MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen.navigate(

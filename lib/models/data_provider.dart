@@ -22,7 +22,7 @@ class DataProvider extends ChangeNotifier {
   void addAll(index) async {
     if (count <= 5) {
       //Bool checking
-      arrays[index].isFav = !arrays[index].isFav!;
+      arrays2[index].isFav = !arrays2[index].isFav!;
       // Click_events - if isFav is true
       // if (arrays[index].isFav!) {
       //   await _analytics.logEvent(
@@ -30,18 +30,18 @@ class DataProvider extends ChangeNotifier {
       //   );
       // }
       // Play or Stop sounds
-      arrays[index].isFav!
-          ? arrays[index].player!.open(
+      arrays2[index].isFav!
+          ? arrays2[index].player!.open(
               Audio(
-                arrays[index].sounds!,
+                arrays2[index].sounds!,
               ),
               volume: 0.5,
               //  showNotification: true,
               loopMode: LoopMode.single)
-          : arrays[index].player!.pause();
+          : arrays2[index].player!.pause();
 
       //   cart.addTest2(index);
-      arrays[index].isFav! ? add(arrays[index]) : remove(arrays[index]);
+      arrays2[index].isFav! ? add(arrays2[index]) : remove(arrays2[index]);
 
       //Add image to page two. If is isFav = true, add entire arrays.
       // Table number is depends on from the selected item
@@ -49,9 +49,9 @@ class DataProvider extends ChangeNotifier {
       // If is true add to cart provider entire items  "picOff, isFav, sounds, vol, player"
       // basketItems is the receiver i find screenTwo.dart
     } else if (count == 6) {
-      cart.remove(arrays[index]);
-      arrays[index].isFav = false;
-      arrays[index].player!.pause();
+      cart.remove(arrays2[index]);
+      arrays2[index].isFav = false;
+      arrays2[index].player!.pause();
 
       //Toast Text
       if (count == 6) {

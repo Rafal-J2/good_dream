@@ -16,8 +16,8 @@ class Mix extends StatelessWidget {
     ) {
       return GridView.builder(
           itemCount: 4,
-          gridDelegate:
-              const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2),
           itemBuilder: (context, index) {
             return Column(
               children: [
@@ -25,53 +25,49 @@ class Mix extends StatelessWidget {
                   onPressed: () {
                     isFav = !isFav;
                     if (isFav) {
-                      if (arrays[0].isFav!) {
+                      if (arrays2[0].isFav!) {
                         mix1();
-                        cart.add(arrays[0]);
-                        arrays[0].isFav = arrays[0].isFav;
+                        cart.add(arrays2[0]);
+                        arrays2[0].isFav = arrays2[0].isFav;
                         debugPrint('arrays[0]');
                       }
 
-                      if (arrays[1].isFav!) {
+                      if (arrays2[1].isFav!) {
                         mix2();
-                        cart.add(arrays[1]);
-                        arrays[1].isFav = arrays[1].isFav;
+                        cart.add(arrays2[1]);
+                        arrays2[1].isFav = arrays2[1].isFav;
                         debugPrint('arrays[1]');
                       }
 
-                      if (arrays[2].isFav!) {
+                      if (arrays2[2].isFav!) {
                         mix3();
-                        cart.add(arrays[2]);
-                        arrays[2].isFav = arrays[2].isFav;
+                        cart.add(arrays2[2]);
+                        arrays2[2].isFav = arrays2[2].isFav;
                         debugPrint('arrays[2]');
                       }
-
                     } else {
                       debugPrint("Else it's work -------");
-                      arrays[0].player!.pause();
-                      arrays[1].player!.pause();
-                      arrays[2].player!.pause();
+                      arrays2[0].player!.pause();
+                      arrays2[1].player!.pause();
+                      arrays2[2].player!.pause();
 
-                      cart.remove(arrays[0]);
-                      cart.remove(arrays[1]);
-                      cart.remove(arrays[2]);
+                      cart.remove(arrays2[0]);
+                      cart.remove(arrays2[1]);
+                      cart.remove(arrays2[2]);
 
-                      arrays[0].isFav = false;
-                      arrays[1].isFav = false;
-                      arrays[2].isFav = false;
+                      arrays2[0].isFav = false;
+                      arrays2[1].isFav = false;
+                      arrays2[2].isFav = false;
                     }
                   },
                   child: Image(
                     image: AssetImage(arrays4[index].image!),
                   ),
                 ),
-
-                Text(arrays4[index].title!,
-                style: const TextStyle(
-                  color: Colors.white
+                Text(
+                  arrays4[index].title!,
+                  style: const TextStyle(color: Colors.white),
                 ),
-                ),
-
               ],
             );
           });

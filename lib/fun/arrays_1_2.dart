@@ -1,7 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:good_dream/models/view_models.dart';
 
-List<ViewModels> get models => arrays;
+List<ViewModels> get models => arrays2;
 final arrays = [
   ViewModels(
       events: 'click_woodpecker',
@@ -126,7 +126,7 @@ final arrays = [
       player: AssetsAudioPlayer()),
 ];
 
-List<ViewModels> get models2 => arrays;
+List<ViewModels> get models2 => arrays2;
 final arrays2 = [
   ViewModels(
       events: 'click_river',

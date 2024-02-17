@@ -11,27 +11,15 @@ import 'package:provider/provider.dart';
 import '../main.dart';
 import 'settings_controller.dart';
 
-class MainMenuNavigator extends StatelessWidget {
-  const MainMenuNavigator({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MyHomePage(title: 'Save States in BottomNavigationBar'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, this.title}) : super(key: key);
+class MainMenuNavigator extends StatefulWidget {
+  const MainMenuNavigator({Key? key, this.title}) : super(key: key);
   final String? title;
 
   @override
-  MyHomePageState createState() => MyHomePageState();
+  MainMenuNavigatorState createState() => MainMenuNavigatorState();
 }
 
-class MyHomePageState extends State<MyHomePage> {
+class MainMenuNavigatorState extends State<MainMenuNavigator> {
   ThemeMode themeMode = ThemeMode.light;
   int _selectedPageIndex = 0;
   late List<Widget> _pages;
@@ -50,7 +38,6 @@ class MyHomePageState extends State<MyHomePage> {
       const Mix(),
     ];
 
-    /// Save state all screens
     _pageController = PageController(initialPage: _selectedPageIndex);
   }
 
