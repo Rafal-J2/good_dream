@@ -26,8 +26,8 @@ class _State extends State<TabViewThree> {
           padding: const EdgeInsets.only(top: 30.0),
           child: GridView.builder(
             itemCount: arrays3.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 1.0, crossAxisCount: 3),
+            gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: MediaQuery.of(context).size.width > 600 ? 1.25 : 1.0, crossAxisCount: 3),
             itemBuilder: (context, index) {
               return Column(
                 children: [
