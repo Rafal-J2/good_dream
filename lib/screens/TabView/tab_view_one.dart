@@ -7,6 +7,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../fun/arrays_1_2.dart';
 import '../../fun/foreground_service.dart';
 import '../../fun/toast.dart';
+import '../../main.dart';
 
 class TabViewOne extends StatefulWidget {
   const TabViewOne({super.key});
@@ -18,6 +19,8 @@ class _State extends State<TabViewOne> {
   @override
   Widget build(BuildContext context) {
     Map<String, double> imageSize = ThemeTextStyles.getImageSize(context);
+    double screenWidth = MediaQuery.of(context).size.width;
+    logger.i("Width screen $screenWidth");
     return Consumer<DataProvider>(
       builder: (
         context,
@@ -34,7 +37,7 @@ class _State extends State<TabViewOne> {
                 return Column(
                   children: [
                     InkWell(
-                      onTap: ()  {
+                      onTap: () {
                         if (cart.count <= 5) {
                           arrays[index].isFav = !arrays[index].isFav!;
                           arrays[index].isFav!
@@ -43,7 +46,6 @@ class _State extends State<TabViewOne> {
                                   volume: 0.5,
                                   loopMode: LoopMode.single)
                               : arrays[index].player!.pause();
-          
                           /// Add image to page two
                           arrays[index].isFav!
                               ? cart.add(arrays[index])
@@ -57,7 +59,6 @@ class _State extends State<TabViewOne> {
                             toast();
                           }
                         }
-          
                         /// foregroundService START or STOP
                         if (cart.count == 1) {
                           foregroundService();
@@ -100,13 +101,13 @@ class _State extends State<TabViewOne> {
                                 }),
                           )
                         : Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Text(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Text(
                               arrays[index].title!,
                               style: ThemeTextStyles.texStyle,
                               textAlign: TextAlign.center,
                             ),
-                        ),
+                          ),
                   ],
                 );
               }),

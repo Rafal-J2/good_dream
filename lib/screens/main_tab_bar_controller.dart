@@ -104,8 +104,17 @@ class _State extends State<MainTabBarController> {
         home: DefaultTabController(
           length: 4,
           child: PopScope(
-            canPop: false,
-            onPopInvoked: (didPop) => onBackPressed(),
+  canPop: false,
+  onPopInvoked: (didPop) async {
+    debugPrint("didPop1: $didPop");
+    if (didPop) {
+      return;
+    }
+    final bool shouldPop = await onBackPressed();
+    if (shouldPop) {
+      SystemNavigator.pop();
+    }
+  },
             child: Scaffold(
               appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(50.0),
