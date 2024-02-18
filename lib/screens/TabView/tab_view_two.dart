@@ -30,12 +30,10 @@ class _State extends State<TabViewTwo> {
           child: GridView.builder(
               itemCount: arrays2.length,
               gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: MediaQuery.of(context).size.width > 600 ? 1.25 : 1.0, crossAxisCount: 3),
+               childAspectRatio: MediaQuery.of(context).size.width > 450 ? 1.3 : 1.0, crossAxisCount: 3),
               itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
+                return GestureDetector(
+                    onTap: () {
                         if (cart.count <= 5) {
                           arrays2[index].isFav = !arrays2[index].isFav!;
                           arrays2[index].isFav!
@@ -43,8 +41,7 @@ class _State extends State<TabViewTwo> {
                                   Audio(arrays2[index].sounds!),
                                   volume: 0.5,
                                   loopMode: LoopMode.single)
-                              : arrays2[index].player!.pause();
-          
+                              : arrays2[index].player!.pause();    
                           /// Add image to page two
                           arrays2[index].isFav!
                               ? cart.add(arrays2[index])
@@ -58,7 +55,7 @@ class _State extends State<TabViewTwo> {
                             toast();
                           }
                         }
-          
+      
                         /// foregroundService START or STOP
                         if (cart.count == 1) {
                           foregroundService();
@@ -66,49 +63,51 @@ class _State extends State<TabViewTwo> {
                           foregroundServiceStop();
                         }
                       },
-                      child: Image(
+                  child: Column(
+                    children: [
+                      Image(
                         height: imageSize['height'],
                         width: imageSize['width'],
                         image: AssetImage(arrays2[index].isFav!
                             ? arrays2[index].picOn!
                             : arrays2[index].picOff!),
                       ),
-                    ),
-                    //     const Padding(padding: EdgeInsets.only(top: 8)),
-                    arrays2[index].isFav!
-                        ? AnimatedOpacity(
-                            duration: const Duration(milliseconds: 800),
-                            opacity: arrays2[index].isFav!
-                                ? arrays2[index].opacityOn!
-                                : arrays2[index].opacityOff!,
-                            child: PlayerBuilder.volume(
-                                player: arrays2[index].player!,
-                                builder: (context, volume) {
-                                  return Shimmer.fromColors(
-                                    baseColor: Colors.white,
-                                    highlightColor: Colors.grey,
-                                    child: Slider(
-                                        value: volume,
-                                        min: 0,
-                                        max: 1,
-                                        divisions: 50,
-                                        onChanged: (v) {
-                                          setState(() {
-                                            arrays2[index].player!.setVolume(v);
-                                          });
-                                        }),
-                                  );
-                                }),
-                          )
-                        : Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Text(
-                              arrays2[index].title!,
-                              style: ThemeTextStyles.texStyle,
-                              textAlign: TextAlign.center,
-                            ),
-                        ),
-                  ],
+                      //     const Padding(padding: EdgeInsets.only(top: 8)),
+                      arrays2[index].isFav!
+                          ? AnimatedOpacity(
+                              duration: const Duration(milliseconds: 800),
+                              opacity: arrays2[index].isFav!
+                                  ? arrays2[index].opacityOn!
+                                  : arrays2[index].opacityOff!,
+                              child: PlayerBuilder.volume(
+                                  player: arrays2[index].player!,
+                                  builder: (context, volume) {
+                                    return Shimmer.fromColors(
+                                      baseColor: Colors.white,
+                                      highlightColor: Colors.grey,
+                                      child: Slider(
+                                          value: volume,
+                                          min: 0,
+                                          max: 1,
+                                          divisions: 50,
+                                          onChanged: (v) {
+                                            setState(() {
+                                              arrays2[index].player!.setVolume(v);
+                                            });
+                                          }),
+                                    );
+                                  }),
+                            )
+                          : Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Text(
+                                arrays2[index].title!,
+                                style: ThemeTextStyles.texStyle,
+                                textAlign: TextAlign.center,
+                              ),
+                          ),
+                    ],
+                  ),
                 );
               }),
         );

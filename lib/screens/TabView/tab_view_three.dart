@@ -27,12 +27,10 @@ class _State extends State<TabViewThree> {
           child: GridView.builder(
             itemCount: arrays3.length,
             gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: MediaQuery.of(context).size.width > 600 ? 1.25 : 1.0, crossAxisCount: 3),
+                    childAspectRatio: MediaQuery.of(context).size.width > 450 ? 1.3 : 1.0, crossAxisCount: 3),
             itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  InkWell(
-                    onTap: () async {
+              return GestureDetector(
+                 onTap: () async {
                       if (cart.count2 == 1 && arrays3[index].isFav == false) {
                         for (int i = 0; i < arrays3.length; i++) {
                           arrays3[i].player?.pause();
@@ -63,45 +61,47 @@ class _State extends State<TabViewThree> {
                         foregroundServiceStop();
                       }
                     },
-                    child: Image(
+                child: Column(
+                  children: [
+                    Image(
                       height: imageSize['height'],
                       width: imageSize['width'],
                       image: AssetImage(arrays3[index].isFav!
                           ? arrays3[index].picOn!
                           : arrays3[index].picOff!),
                     ),
-                  ),
-                  arrays3[index].isFav!
-                      ? AnimatedOpacity(
-                          duration: const Duration(milliseconds: 700),
-                          opacity: arrays3[index].isFav!
-                              ? arrays3[index].opacityOn!
-                              : arrays3[index].opacityOff!,
-                          child: PlayerBuilder.volume(
-                              player: arrays3[index].player!,
-                              builder: (context, volume) {
-                                return Slider(
-                                    activeColor: Colors.grey,
-                                    value: volume,
-                                    min: 0,
-                                    max: 1,
-                                    divisions: 50,
-                                    onChanged: (v) {
-                                      setState(() {
-                                        arrays3[index].player!.setVolume(v);
+                    arrays3[index].isFav!
+                        ? AnimatedOpacity(
+                            duration: const Duration(milliseconds: 700),
+                            opacity: arrays3[index].isFav!
+                                ? arrays3[index].opacityOn!
+                                : arrays3[index].opacityOff!,
+                            child: PlayerBuilder.volume(
+                                player: arrays3[index].player!,
+                                builder: (context, volume) {
+                                  return Slider(
+                                      activeColor: Colors.grey,
+                                      value: volume,
+                                      min: 0,
+                                      max: 1,
+                                      divisions: 50,
+                                      onChanged: (v) {
+                                        setState(() {
+                                          arrays3[index].player!.setVolume(v);
+                                        });
                                       });
-                                    });
-                              }),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            arrays3[index].title!,
-                            style: ThemeTextStyles.texStyle,
-                            textAlign: TextAlign.center,
+                                }),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              arrays3[index].title!,
+                              style: ThemeTextStyles.texStyle,
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                        ),
-                ],
+                  ],
+                ),
               );
             },
           ));

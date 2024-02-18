@@ -32,12 +32,10 @@ class _State extends State<TabViewOne> {
           child: GridView.builder(
               itemCount: arrays.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: MediaQuery.of(context).size.width > 600 ? 1.25 : 1.0, crossAxisCount: 3),
+                  childAspectRatio: MediaQuery.of(context).size.width > 450 ? 1.3 : 1.0, crossAxisCount: 3),
               itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
+                return GestureDetector(
+                   onTap: () {
                         if (cart.count <= 5) {
                           arrays[index].isFav = !arrays[index].isFav!;
                           arrays[index].isFav!
@@ -66,49 +64,50 @@ class _State extends State<TabViewOne> {
                           foregroundServiceStop();
                         }
                       },
-                      child: Image(
+                  child: Column(
+                    children: [
+                      Image(
                         height: imageSize['height'],
                         width: imageSize['width'],
                         image: AssetImage(arrays[index].isFav!
                             ? arrays[index].picOn!
                             : arrays[index].picOff!),
                       ),
-                    ),
-                    //     const Padding(padding: EdgeInsets.only(top: 8)),
-                    arrays[index].isFav!
-                        ? AnimatedOpacity(
-                            duration: const Duration(milliseconds: 800),
-                            opacity: arrays[index].isFav!
-                                ? arrays[index].opacityOn!
-                                : arrays[index].opacityOff!,
-                            child: PlayerBuilder.volume(
-                                player: arrays[index].player!,
-                                builder: (context, volume) {
-                                  return Shimmer.fromColors(
-                                    baseColor: Colors.white,
-                                    highlightColor: Colors.grey,
-                                    child: Slider(
-                                        value: volume,
-                                        min: 0,
-                                        max: 1,
-                                        divisions: 50,
-                                        onChanged: (v) {
-                                          setState(() {
-                                            arrays[index].player!.setVolume(v);
-                                          });
-                                        }),
-                                  );
-                                }),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: Text(
-                              arrays[index].title!,
-                              style: ThemeTextStyles.texStyle,
-                              textAlign: TextAlign.center,
+                      arrays[index].isFav!
+                          ? AnimatedOpacity(
+                              duration: const Duration(milliseconds: 800),
+                              opacity: arrays[index].isFav!
+                                  ? arrays[index].opacityOn!
+                                  : arrays[index].opacityOff!,
+                              child: PlayerBuilder.volume(
+                                  player: arrays[index].player!,
+                                  builder: (context, volume) {
+                                    return Shimmer.fromColors(
+                                      baseColor: Colors.white,
+                                      highlightColor: Colors.grey,
+                                      child: Slider(
+                                          value: volume,
+                                          min: 0,
+                                          max: 1,
+                                          divisions: 50,
+                                          onChanged: (v) {
+                                            setState(() {
+                                              arrays[index].player!.setVolume(v);
+                                            });
+                                          }),
+                                    );
+                                  }),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Text(
+                                arrays[index].title!,
+                                style: ThemeTextStyles.texStyle,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                          ),
-                  ],
+                    ],
+                  ),
                 );
               }),
         );

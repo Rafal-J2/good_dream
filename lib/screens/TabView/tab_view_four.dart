@@ -34,12 +34,10 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
           child: GridView.builder(
               itemCount: arrays4.length,
               gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: MediaQuery.of(context).size.width > 600 ? 1.25 : 1.0, crossAxisCount: 3),
+                   childAspectRatio: MediaQuery.of(context).size.width > 450 ? 1.3 : 1.0, crossAxisCount: 3),
               itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
+                return GestureDetector(
+                   onTap: () {
                         if (cart.count <= 5) {
                           arrays4[index].isFav = !arrays4[index].isFav!;
                           arrays4[index].isFav!
@@ -56,8 +54,7 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
                         } else if (cart.count == 6) {
                           cart.remove(arrays4[index]);
                           arrays4[index].isFav = false;
-                          arrays4[index].player!.pause();
-                          //Toast Text
+                          arrays4[index].player!.pause();          
                           if (cart.count == 6) {
                             toast();
                           }
@@ -69,49 +66,51 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
                           foregroundServiceStop();
                         }
                       },
-                      child: Image(
+                  child: Column(
+                    children: [
+                      Image(
                         height: imageSize['height'],
                         width: imageSize['width'],
                         image: AssetImage(arrays4[index].isFav!
                             ? arrays4[index].picOn!
                             : arrays4[index].picOff!),
                       ),
-                    ),
-
-                    arrays4[index].isFav!
-                        ? AnimatedOpacity(
-                            duration: const Duration(milliseconds: 800),
-                            opacity: arrays4[index].isFav!
-                                ? arrays4[index].opacityOn!
-                                : arrays4[index].opacityOff!,
-                            child: PlayerBuilder.volume(
-                                player: arrays4[index].player!,
-                                builder: (context, volume) {
-                                  return Shimmer.fromColors(
-                                    baseColor: Colors.white,
-                                    highlightColor: Colors.grey,
-                                    child: Slider(
-                                        value: volume,
-                                        min: 0,
-                                        max: 1,
-                                        divisions: 50,
-                                        onChanged: (v) {
-                                          setState(() {
-                                            arrays4[index].player!.setVolume(v);
-                                          });
-                                        }),
-                                  );
-                                }),
-                          )
-                        : Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Text(
-                              arrays4[index].title!,
-                              style: ThemeTextStyles.texStyle,
-                              textAlign: TextAlign.center,
-                            ),
-                        ),
-                  ],
+                  
+                      arrays4[index].isFav!
+                          ? AnimatedOpacity(
+                              duration: const Duration(milliseconds: 800),
+                              opacity: arrays4[index].isFav!
+                                  ? arrays4[index].opacityOn!
+                                  : arrays4[index].opacityOff!,
+                              child: PlayerBuilder.volume(
+                                  player: arrays4[index].player!,
+                                  builder: (context, volume) {
+                                    return Shimmer.fromColors(
+                                      baseColor: Colors.white,
+                                      highlightColor: Colors.grey,
+                                      child: Slider(
+                                          value: volume,
+                                          min: 0,
+                                          max: 1,
+                                          divisions: 50,
+                                          onChanged: (v) {
+                                            setState(() {
+                                              arrays4[index].player!.setVolume(v);
+                                            });
+                                          }),
+                                    );
+                                  }),
+                            )
+                          : Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Text(
+                                arrays4[index].title!,
+                                style: ThemeTextStyles.texStyle,
+                                textAlign: TextAlign.center,
+                              ),
+                          ),
+                    ],
+                  ),
                 );
               }),
         );
