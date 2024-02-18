@@ -34,17 +34,14 @@ class SettingsControllerState extends State<SettingsController>
   void _switchThemeMode() {
     switch (dataStorage.read('intCheck')) {
       case 0:
-        //  arrays4[0].checkThemeMode = ThemeMode.light;
         themeMode = ThemeMode.light;
         logger.i('switchThemeMode - ThemeMode.light*');
         break;
       case 1:
-        //   arrays4[0].checkThemeMode = ThemeMode.dark;
         themeMode = ThemeMode.dark;
         logger.i('ThemeMode.dark*');
         break;
       case 2:
-        //  arrays4[0].checkThemeMode = ThemeMode.system;
         themeMode = ThemeMode.system;
         logger.i('ThemeMode.system*');
     }
@@ -63,12 +60,10 @@ class SettingsControllerState extends State<SettingsController>
   }
 
   int intCheck = 2;
-  //late ThemeMode themeMode;
   ThemeMode themeMode = ThemeMode.system;
 
   @override
   Widget build(BuildContext context) {
-//    final controller = Get.put(Controller());
     super.build(context);
     // const FlexScheme usedFlexScheme = FlexScheme.mandyRed;
     return Consumer<DataProvider>(builder: (
@@ -140,16 +135,12 @@ class SettingsControllerState extends State<SettingsController>
                   SizedBox(
                     height: 200,
                     child: HomePage(
-                      // We pass it the current theme mode.
-                      //    themeMode: themeMode,
-                      /// The selected icon
                       themeMode: themeMode,
                       // On the home page we can toggle theme mode between light and dark.
                       onThemeModeChanged: (ThemeMode mode) {
                         setState(() {
                           themeMode = mode;
                           _checkStorage();
-                          //   arrays4[0].themeMode = mode;
                           arrays4[0].checkThemeMode = mode;
                           cart.add3(arrays4[0]);
                         });

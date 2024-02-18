@@ -8,12 +8,10 @@ import 'package:good_dream/fun/foreground_service.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:good_dream/models/data_provider.dart';
-
 import '../main.dart';
 
 class PlayingSoundsController extends StatefulWidget {
   const PlayingSoundsController({super.key});
-
   @override
   PlayingSoundsControllerState createState() => PlayingSoundsControllerState();
 }
@@ -21,7 +19,6 @@ class PlayingSoundsController extends StatefulWidget {
 class PlayingSoundsControllerState extends State<PlayingSoundsController>
     with AutomaticKeepAliveClientMixin {
   final dataStorage = GetStorage();
-
   @override
   void initState() {
     super.initState();
@@ -31,28 +28,23 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
   void _switchThemeMode() {
     switch (dataStorage.read('intCheck')) {
       case 0:
-        //  arrays4[0].checkThemeMode = ThemeMode.light;
         themeMode = ThemeMode.light;
         logger.i('switchThemeMode - ThemeMode.light*');
         break;
       case 1:
-        //   arrays4[0].checkThemeMode = ThemeMode.dark;
         themeMode = ThemeMode.dark;
         logger.i('ThemeMode.dark*');
         break;
       case 2:
-        //  arrays4[0].checkThemeMode = ThemeMode.system;
         themeMode = ThemeMode.system;
         logger.i('ThemeMode.system*');
     }
   }
 
   ThemeMode themeMode = ThemeMode.light;
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final Size screenSize = MediaQuery.of(context).size;
     return Consumer<DataProvider>(
       builder: (context, cart, child) {
         return MaterialApp(
@@ -78,91 +70,87 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
             ),
             body: ListView(
               children: <Widget>[
-                Center(
-                  child: cart.count == 0
-                      ? const Padding(
-                          padding: EdgeInsets.only(top: 20.0),
-                          child: Text(
-                            'No active sounds',
-                            style: TextStyle(fontSize: 28, color: Colors.white),
+                if (cart.count == 0)
+                  const Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                      child: Text(
+                        'No active sounds',
+                        style: TextStyle(fontSize: 28.0, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                if (cart.count == 0)
+                  Center(
+                    child: Lottie.asset('assets/lottieFiles/relax.json'),
+                  ),
+                ...cart.basketItems.map((item) {
+                  return Container(
+                    margin: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.orange, width: 2.0),
+                        borderRadius: BorderRadius.circular(12.0)),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Image(
+                            height: 50.0,
+                            width: 50.0,
+                            image: AssetImage(item.picOff!),
                           ),
-                        )
-                      : null,
-                ),
-                Center(
-                    child: cart.count <= 0
-                        ? Lottie.asset('assets/lottieFiles/relax.json')
-                        : null),
-                SizedBox(
-                  height: screenSize.height,
-                  child: ListView.builder(
-                      itemCount: cart.basketItems.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Image(
-                                          height: 50.0,
-                                          width: 50.0,
-                                          image: AssetImage(
-                                            cart.basketItems[index].picOff!,
-                                          ),
-                                        ),
-                                      ),
-                                      PlayerBuilder.volume(
-                                          player:
-                                              cart.basketItems[index].player!,
-                                          builder: (context, vol) {
-                                            return Slider(
-                                                activeColor: Colors.white,
-                                                value: vol,
-                                                min: 0,
-                                                max: 1,
-                                                divisions: 50,
-                                                onChanged: (v) {
-                                                  setState(() {
-                                                    cart.basketItems[index]
-                                                        .player!
-                                                        .setVolume(v);
-                                                  });
-                                                });
-                                          }),
-                                      IconButton(
-                                        icon: const Icon(
-                                          Icons.delete_forever,
-                                          color: Colors.white,
-                                        ),
-                                        iconSize: 48.0,
-                                        onPressed: () {
-                                          // Pause sounds with page one
-                                          cart.basketItems[index].player!
-                                              .pause();
-                                          cart.basketItems[index].isFav = false;
-                                          cart.remove(cart.basketItems[index]);
-                                          //    cart.remove2(cart.basketItems2[index]);
-                                          //    cart.remove2(cart.basketItems2[index]);
-                                          if (cart.count == 0) {
-                                            foregroundServiceStop();
-                                          }
-                                        },
-                                      ),
-                                    ],
-                                  ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(left: 22.0, top: 12.0),
+                                child: Text(
+                                  'Volume',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 19.0),
                                 ),
-                              ],
-                            ),
-                          ],
-                        );
-                      }),
-                ),
+                              ),
+                              PlayerBuilder.volume(
+                                  player: item.player!,
+                                  builder: (context, vol) {
+                                    return Slider(
+                                        activeColor: Colors.orange,
+                                        inactiveColor:
+                                            Colors.orange.withOpacity(0.3),
+                                        value: vol,
+                                        min: 0,
+                                        max: 1,
+                                        divisions: 50,
+                                        onChanged: (volume) {
+                                          setState(() {
+                                            item.player!.setVolume(volume);
+                                          });
+                                        });
+                                  }),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.delete_forever,
+                            color: Colors.white,
+                          ),
+                          iconSize: 48.0,
+                          onPressed: () {
+                            item.player!.pause();
+                            item.isFav = false;
+                            cart.remove(item);
+                            if (cart.count == 0) {
+                              foregroundServiceStop();
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
               ],
             ),
           ),
