@@ -96,20 +96,19 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Image(
                             height: 50.0,
-                            width: 50.0,
-                            image: AssetImage(item.picOff!),
+                            image: AssetImage(item.picOn!),
                           ),
                         ),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(
-                                padding: EdgeInsets.only(left: 22.0, top: 12.0),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 22.0, top: 12.0),
                                 child: Text(
-                                  'Volume',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 19.0),
+                                  item.title!,
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 18.0),
                                 ),
                               ),
                               PlayerBuilder.volume(
@@ -117,8 +116,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                                   builder: (context, vol) {
                                     return Slider(
                                         activeColor: Colors.orange,
-                                        inactiveColor:
-                                            Colors.orange.withOpacity(0.3),
+                                        inactiveColor:Colors.orange.withOpacity(0.3),
                                         value: vol,
                                         min: 0,
                                         max: 1,
@@ -132,13 +130,8 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                             ],
                           ),
                         ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.delete_forever,
-                            color: Colors.white,
-                          ),
-                          iconSize: 48.0,
-                          onPressed: () {
+                       InkWell(
+                            onTap: () {
                             item.player!.pause();
                             item.isFav = false;
                             cart.remove(item);
@@ -146,7 +139,11 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                               foregroundServiceStop();
                             }
                           },
-                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 15.0),
+                          child: Image.asset('assets/images/circle_trash.png',
+                          height: 35),
+                        )),
                       ],
                     ),
                   );

@@ -7,7 +7,6 @@ void toast() {
   Fluttertoast.showToast(
 
       msg:"6 sounds can be played at the same time.",
-      // msg: "Jednocześnie można odtwarzać 6 dźwięków",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
@@ -19,7 +18,6 @@ void toast() {
 void toast3() {
   Fluttertoast.showToast(
       msg: "The time has started",
-      //  msg: "Czas wystartował",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.TOP,
       timeInSecForIosWeb: 1,
