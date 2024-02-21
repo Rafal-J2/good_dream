@@ -33,7 +33,7 @@ class DataProvider extends ChangeNotifier {
       arrays2[index].isFav!
           ? arrays2[index].player!.open(
               Audio(
-                arrays2[index].sounds!,
+                arrays2[index].audioFile!,
               ),
               volume: 0.5,
               //  showNotification: true,

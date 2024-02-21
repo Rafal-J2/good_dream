@@ -96,7 +96,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Image(
                             height: 50.0,
-                            image: AssetImage(item.picOn!),
+                            image: AssetImage(item.enableIcon!),
                           ),
                         ),
                         Expanded(
@@ -104,9 +104,10 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 22.0, top: 12.0),
+                                padding: const EdgeInsets.only(
+                                    left: 22.0, top: 12.0),
                                 child: Text(
-                                  item.title!,
+                                  item.iconTitleText!,
                                   style: const TextStyle(
                                       color: Colors.white, fontSize: 18.0),
                                 ),
@@ -116,7 +117,8 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                                   builder: (context, vol) {
                                     return Slider(
                                         activeColor: Colors.orange,
-                                        inactiveColor:Colors.orange.withOpacity(0.3),
+                                        inactiveColor:
+                                            Colors.orange.withOpacity(0.3),
                                         value: vol,
                                         min: 0,
                                         max: 1,
@@ -130,20 +132,21 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                             ],
                           ),
                         ),
-                       InkWell(
+                        InkWell(
                             onTap: () {
-                            item.player!.pause();
-                            item.isFav = false;
-                            cart.remove(item);
-                            if (cart.count == 0) {
-                              foregroundServiceStop();
-                            }
-                          },
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 15.0),
-                          child: Image.asset('assets/images/circle_trash.png',
-                          height: 35),
-                        )),
+                              item.player!.pause();
+                              item.isFav = false;
+                              cart.remove(item);
+                              if (cart.count == 0) {
+                                foregroundServiceStop();
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 15.0),
+                              child: Image.asset(
+                                  'assets/images/circle_trash.png',
+                                  height: 35),
+                            )),
                       ],
                     ),
                   );

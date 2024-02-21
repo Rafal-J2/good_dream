@@ -4,13 +4,13 @@ import 'arrays_1_2.dart';
 bool isFav = false;
 
 mix1() {
-  arrays2[0].player!.open(Audio(arrays2[0].sounds!));
+  arrays2[0].player!.open(Audio(arrays2[0].audioFile!));
 }
 
 mix2() {
-  arrays2[1].player!.open(Audio(arrays2[1].sounds!));
+  arrays2[1].player!.open(Audio(arrays2[1].audioFile!));
 }
 
 mix3() {
-  arrays2[2].player!.open(Audio(arrays2[2].sounds!));
+  arrays2[2].player!.open(Audio(arrays2[2].audioFile!));
 }

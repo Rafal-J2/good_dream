@@ -3,41 +3,37 @@ import 'package:flutter/material.dart';
 
 class ViewModels {
   bool? isFav;
-  String? events;
-  String? picOff;
-  String? picOn;
-  String? title;
-  String? sounds;
-  String? sounds2;
-  String? log;
-  String? text;
-  String? image;
+  double volumeControlSlider;
+  String? disableIcon;
+  String? enableIcon;
+  String? iconTitleText;
+  String? audioFile;
+  String? privacyPolicySections;
+  String? mainAppIcons;
   GestureDetector? gestureDetector;
-  TextStyle? textStyle;
+  TextStyle? policyHeaderTextStyle;
   AssetsAudioPlayer? player;
   bool? isDarkMode;
   ThemeMode? checkThemeMode;
   double? opacityOff;
   double? opacityOn;
-  double? vol = 0.5;
+  Text? text;
 
   ViewModels(
-      {this.events,
-      this.picOff,
-      this.title,
-      this.isFav,
-      this.picOn,
+      {this.isFav,
+      this.volumeControlSlider = 0.5,
+      this.disableIcon,
+      this.enableIcon,
+      this.iconTitleText,
       this.player,
-      this.sounds,
-      this.sounds2,
-      this.log,
+      this.audioFile,
       this.opacityOff,
       this.opacityOn,
-      this.vol,
       this.text,
-      this.image,
+      this.privacyPolicySections,
+      this.mainAppIcons,
       this.gestureDetector,
-      this.textStyle,
+      this.policyHeaderTextStyle,
       this.isDarkMode,
       this.checkThemeMode});
 }

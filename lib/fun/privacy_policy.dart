@@ -6,49 +6,49 @@ import 'launch_url.dart';
 List<ViewModels> get models5 => arrays5;
 final arrays5 = [
   ViewModels(
-    text: 'Privacy Policy',
-    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+    privacyPolicySections: 'Privacy Policy',
+    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
   ),
   ViewModels(
-    text: privacyPolicy,
+    privacyPolicySections: privacyPolicy,
   ),
   ViewModels(
-    text: "Consent",
-    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+    privacyPolicySections: "Consent",
+    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
   ),
   ViewModels(
-    text: consent,
+    privacyPolicySections: consent,
   ),
   ViewModels(
-    text: "ADS",
-    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+    privacyPolicySections: "ADS",
+    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
   ),
   ViewModels(
-    text: ads,
+    privacyPolicySections: ads,
   ),
   ViewModels(
-    text: 'Personal Information',
-    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+    privacyPolicySections: 'Personal Information',
+    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
   ),
   ViewModels(
-    text: personalInformation,
+    privacyPolicySections: personalInformation,
   ),
   ViewModels(
-    text: 'Links to Other Sites',
-    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+    privacyPolicySections: 'Links to Other Sites',
+    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
   ),
   ViewModels(
-    text: linksToOtherSitesGNU,
+    privacyPolicySections: linksToOtherSitesGNU,
   ),
   ViewModels(
-    text: 'Collection of Technical Data',
-    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+    privacyPolicySections: 'Collection of Technical Data',
+    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
   ),
   ViewModels(
-    text: collectionOfTechnicalData,
+    privacyPolicySections: collectionOfTechnicalData,
   ),
   ViewModels(
-      text: '',
+      privacyPolicySections: '',
       gestureDetector: GestureDetector(
         child: const Text('•	Google Play Services',
             style: TextStyle(
@@ -56,31 +56,31 @@ final arrays5 = [
         onTap: () => launchURL(),
       )),
   ViewModels(
-    text: "Children's Privacy Protection",
-    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+    privacyPolicySections: "Children's Privacy Protection",
+    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
   ),
   ViewModels(
-    text: childrensPrivacyGNU,
+    privacyPolicySections: childrensPrivacyGNU,
   ),
   ViewModels(
-    text: 'Cookies',
-    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+    privacyPolicySections: 'Cookies',
+    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
   ),
   ViewModels(
-    text: cookies,
+    privacyPolicySections: cookies,
   ),
   ViewModels(
-    text: 'Information security',
-    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+    privacyPolicySections: 'Information security',
+    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
   ),
   ViewModels(
-    text: informationSecurity,
+    privacyPolicySections: informationSecurity,
   ),
   ViewModels(
-    text: 'Contact Information ',
-    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+    privacyPolicySections: 'Contact Information ',
+    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
   ),
   ViewModels(
-    text: contactInformation,
+    privacyPolicySections: contactInformation,
   ),
 ];

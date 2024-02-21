@@ -32,46 +32,50 @@ class _State extends State<TabViewOne> {
           child: GridView.builder(
               itemCount: arrays.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: MediaQuery.of(context).size.width > 450 ? 1.3 : 1.0, crossAxisCount: 3),
+                  childAspectRatio:
+                      MediaQuery.of(context).size.width > 450 ? 1.3 : 1.0,
+                  crossAxisCount: 3),
               itemBuilder: (context, index) {
                 return GestureDetector(
-                   onTap: () {
-                        if (cart.count <= 5) {
-                          arrays[index].isFav = !arrays[index].isFav!;
-                          arrays[index].isFav!
-                              ? arrays[index].player!.open(
-                                  Audio(arrays[index].sounds!),
-                                  volume: 0.5,
-                                  loopMode: LoopMode.single)
-                              : arrays[index].player!.pause();
-                          /// Add image to page two
-                          arrays[index].isFav!
-                              ? cart.add(arrays[index])
-                              : cart.remove(arrays[index]);
-                        } else if (cart.count == 6) {
-                          cart.remove(arrays[index]);
-                          arrays[index].isFav = false;
-                          arrays[index].player!.pause();
-                          //Toast Text
-                          if (cart.count == 6) {
-                            toast();
-                          }
-                        }
-                        /// foregroundService START or STOP
-                        if (cart.count == 1) {
-                          foregroundService();
-                        } else if (cart.count == 0 && cart.count2 == 0) {
-                          foregroundServiceStop();
-                        }
-                      },
+                  onTap: () {
+                    if (cart.count <= 5) {
+                      arrays[index].isFav = !arrays[index].isFav!;
+                      arrays[index].isFav!
+                          ? arrays[index].player!.open(
+                              Audio(arrays[index].audioFile!),
+                              volume: 0.5,
+                              loopMode: LoopMode.single)
+                          : arrays[index].player!.pause();
+
+                      /// Add image to page two
+                      arrays[index].isFav!
+                          ? cart.add(arrays[index])
+                          : cart.remove(arrays[index]);
+                    } else if (cart.count == 6) {
+                      cart.remove(arrays[index]);
+                      arrays[index].isFav = false;
+                      arrays[index].player!.pause();
+                      //Toast Text
+                      if (cart.count == 6) {
+                        toast();
+                      }
+                    }
+
+                    /// foregroundService START or STOP
+                    if (cart.count == 1) {
+                      foregroundService();
+                    } else if (cart.count == 0 && cart.count2 == 0) {
+                      foregroundServiceStop();
+                    }
+                  },
                   child: Column(
                     children: [
                       Image(
                         height: imageSize['height'],
                         width: imageSize['width'],
                         image: AssetImage(arrays[index].isFav!
-                            ? arrays[index].picOn!
-                            : arrays[index].picOff!),
+                            ? arrays[index].enableIcon!
+                            : arrays[index].disableIcon!),
                       ),
                       arrays[index].isFav!
                           ? AnimatedOpacity(
@@ -92,7 +96,9 @@ class _State extends State<TabViewOne> {
                                           divisions: 50,
                                           onChanged: (v) {
                                             setState(() {
-                                              arrays[index].player!.setVolume(v);
+                                              arrays[index]
+                                                  .player!
+                                                  .setVolume(v);
                                             });
                                           }),
                                     );
@@ -101,7 +107,7 @@ class _State extends State<TabViewOne> {
                           : Padding(
                               padding: const EdgeInsets.only(top: 10.0),
                               child: Text(
-                                arrays[index].title!,
+                                arrays[index].iconTitleText!,
                                 style: ThemeTextStyles.texStyle,
                                 textAlign: TextAlign.center,
                               ),

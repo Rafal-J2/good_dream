@@ -61,11 +61,11 @@ class Mix extends StatelessWidget {
                     }
                   },
                   child: Image(
-                    image: AssetImage(arrays4[index].image!),
+                    image: AssetImage(arrays4[index].mainAppIcons!),
                   ),
                 ),
                 Text(
-                  arrays4[index].title!,
+                  arrays4[index].iconTitleText!,
                   style: const TextStyle(color: Colors.white),
                 ),
               ],

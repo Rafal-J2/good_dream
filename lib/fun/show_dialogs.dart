@@ -4,10 +4,10 @@ import 'dialogs.dart';
 import 'launch_url.dart';
 import 'privacy_policy.dart';
 
-Widget setupAlertDialogContainer() {
+Widget privacyPolicyDialog() {
   return SizedBox(
-    height: 300.0, // Change as per your requirement
-    width: 300.0, // Change as per your requirement
+    height: 300.0, 
+    width: 300.0, 
     child: ListView.builder(
       shrinkWrap: true,
       itemCount: arrays5.length,
@@ -17,8 +17,8 @@ Widget setupAlertDialogContainer() {
             Padding(padding: const EdgeInsets.all(16.0),
               child: arrays5[index].gestureDetector,),
             Text(
-              arrays5[index].text!,
-              style: arrays5[index].textStyle,
+              arrays5[index].privacyPolicySections!,
+              style: arrays5[index].policyHeaderTextStyle,
             ),
           ],
         );

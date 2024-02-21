@@ -84,7 +84,7 @@ class SettingsControllerState extends State<SettingsController>
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: const Text('Privacy Policy'),
-                          content: setupAlertDialogContainer(),
+                          content: privacyPolicyDialog(),
                           actions: <Widget>[
                             TextButton(
                               child: const Text('Approve'),
