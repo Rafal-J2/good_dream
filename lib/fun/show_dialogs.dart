@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'dialogs.dart';
 import 'launch_url.dart';
@@ -6,19 +5,23 @@ import 'privacy_policy.dart';
 
 Widget privacyPolicyDialog() {
   return SizedBox(
-    height: 300.0, 
-    width: 300.0, 
+    height: 300.0,
+    width: 300.0,
     child: ListView.builder(
       shrinkWrap: true,
-      itemCount: arrays5.length,
+      itemCount: privacyPolicyContent.length,
       itemBuilder: (BuildContext context, int index) {
         return Column(
           children: [
-            Padding(padding: const EdgeInsets.all(16.0),
-              child: arrays5[index].gestureDetector,),
-            Text(
-              arrays5[index].privacyPolicySections!,
-              style: arrays5[index].policyHeaderTextStyle,
+            GestureDetector(
+              onTap: privacyPolicyContent[index].onTap,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  privacyPolicyContent[index].privacyPolicyContent!,
+                  style: privacyPolicyContent[index].headerTextStyle,
+                ),
+              ),
             ),
           ],
         );
@@ -27,10 +30,10 @@ Widget privacyPolicyDialog() {
   );
 }
 
-Widget showMyDialog3() {
+Widget acknowledgmentsDialog() {
   return SizedBox(
-    height: 300.0, // Change as per your requirement
-    width: 300.0, // Change as per your requirement
+    height: 300.0, 
+    width: 300.0, 
     child: ListView(
       children: [
         const Padding(
@@ -52,9 +55,8 @@ Widget showMyDialog3() {
           child: GestureDetector(
             child: const Text('•	www.flaticon.com',
                 style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: Colors.blue)),
-            onTap: () => launchURL5(),
+                    decoration: TextDecoration.underline, color: Colors.blue)),
+            onTap: () => launchURL2(),
           ),
         ),
         Padding(

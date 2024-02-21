@@ -78,32 +78,26 @@ class _State extends State<TabViewOne> {
                             : arrays[index].disableIcon!),
                       ),
                       arrays[index].isFav!
-                          ? AnimatedOpacity(
-                              duration: const Duration(milliseconds: 800),
-                              opacity: arrays[index].isFav!
-                                  ? arrays[index].opacityOn!
-                                  : arrays[index].opacityOff!,
-                              child: PlayerBuilder.volume(
-                                  player: arrays[index].player!,
-                                  builder: (context, volume) {
-                                    return Shimmer.fromColors(
-                                      baseColor: Colors.white,
-                                      highlightColor: Colors.grey,
-                                      child: Slider(
-                                          value: volume,
-                                          min: 0,
-                                          max: 1,
-                                          divisions: 50,
-                                          onChanged: (v) {
-                                            setState(() {
-                                              arrays[index]
-                                                  .player!
-                                                  .setVolume(v);
-                                            });
-                                          }),
-                                    );
-                                  }),
-                            )
+                          ? PlayerBuilder.volume(
+                              player: arrays[index].player!,
+                              builder: (context, volume) {
+                                return Shimmer.fromColors(
+                                  baseColor: Colors.white,
+                                  highlightColor: Colors.grey,
+                                  child: Slider(
+                                      value: volume,
+                                      min: 0,
+                                      max: 1,
+                                      divisions: 50,
+                                      onChanged: (v) {
+                                        setState(() {
+                                          arrays[index]
+                                              .player!
+                                              .setVolume(v);
+                                        });
+                                      }),
+                                );
+                              })
                           : Padding(
                               padding: const EdgeInsets.only(top: 10.0),
                               child: Text(

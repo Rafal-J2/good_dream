@@ -1,86 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:good_dream/models/view_models.dart';
 import 'dialogs.dart';
 import 'launch_url.dart';
 
-List<ViewModels> get models5 => arrays5;
-final arrays5 = [
-  ViewModels(
-    privacyPolicySections: 'Privacy Policy',
-    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+class PrivacyPolicyContent {
+  String? privacyPolicyContent;
+
+  TextStyle? headerTextStyle;
+  VoidCallback? onTap;
+
+  PrivacyPolicyContent({
+    this.privacyPolicyContent,
+    this.headerTextStyle,
+    this.onTap,
+  });
+
+  factory PrivacyPolicyContent.withBoldHeader(
+      {String? privacyPolicyContent, VoidCallback? onTap}) {
+    return PrivacyPolicyContent(
+        privacyPolicyContent: privacyPolicyContent,
+        headerTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+        onTap: onTap);
+  }
+}
+
+final List<PrivacyPolicyContent> privacyPolicyContent = [
+  PrivacyPolicyContent.withBoldHeader(
+    privacyPolicyContent: 'Privacy Policy',
   ),
-  ViewModels(
-    privacyPolicySections: privacyPolicy,
+  PrivacyPolicyContent(
+    privacyPolicyContent: privacyPolicy,
   ),
-  ViewModels(
-    privacyPolicySections: "Consent",
-    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+  PrivacyPolicyContent.withBoldHeader(
+    privacyPolicyContent: "Consent",
   ),
-  ViewModels(
-    privacyPolicySections: consent,
+  PrivacyPolicyContent(
+    privacyPolicyContent: consent,
   ),
-  ViewModels(
-    privacyPolicySections: "ADS",
-    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+  PrivacyPolicyContent.withBoldHeader(
+    privacyPolicyContent: "ADS",
   ),
-  ViewModels(
-    privacyPolicySections: ads,
+  PrivacyPolicyContent(
+    privacyPolicyContent: ads,
   ),
-  ViewModels(
-    privacyPolicySections: 'Personal Information',
-    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+  PrivacyPolicyContent.withBoldHeader(
+    privacyPolicyContent: 'Personal Information',
   ),
-  ViewModels(
-    privacyPolicySections: personalInformation,
+  PrivacyPolicyContent(
+    privacyPolicyContent: personalInformation,
   ),
-  ViewModels(
-    privacyPolicySections: 'Links to Other Sites',
-    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+  PrivacyPolicyContent.withBoldHeader(
+    privacyPolicyContent: 'Links to Other Sites',
   ),
-  ViewModels(
-    privacyPolicySections: linksToOtherSitesGNU,
+  PrivacyPolicyContent(
+    privacyPolicyContent: linksToOtherSitesGNU,
   ),
-  ViewModels(
-    privacyPolicySections: 'Collection of Technical Data',
-    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+  PrivacyPolicyContent.withBoldHeader(
+    privacyPolicyContent: 'Collection of Technical Data',
   ),
-  ViewModels(
-    privacyPolicySections: collectionOfTechnicalData,
+  PrivacyPolicyContent(
+    privacyPolicyContent: collectionOfTechnicalData,
   ),
-  ViewModels(
-      privacyPolicySections: '',
-      gestureDetector: GestureDetector(
-        child: const Text('•	Google Play Services',
-            style: TextStyle(
-                decoration: TextDecoration.underline, color: Colors.blue)),
-        onTap: () => launchURL(),
-      )),
-  ViewModels(
-    privacyPolicySections: "Children's Privacy Protection",
-    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+  PrivacyPolicyContent(
+    privacyPolicyContent: '•	Google Play Services',
+    headerTextStyle: const TextStyle(
+        decoration: TextDecoration.underline, color: Colors.blue),
+    onTap: launchURL,
   ),
-  ViewModels(
-    privacyPolicySections: childrensPrivacyGNU,
+  PrivacyPolicyContent.withBoldHeader(
+    privacyPolicyContent: "Children's Privacy Protection",
   ),
-  ViewModels(
-    privacyPolicySections: 'Cookies',
-    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+  PrivacyPolicyContent(
+    privacyPolicyContent: childrensPrivacyGNU,
   ),
-  ViewModels(
-    privacyPolicySections: cookies,
+  PrivacyPolicyContent.withBoldHeader(
+    privacyPolicyContent: 'Cookies',
   ),
-  ViewModels(
-    privacyPolicySections: 'Information security',
-    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+  PrivacyPolicyContent(
+    privacyPolicyContent: cookies,
   ),
-  ViewModels(
-    privacyPolicySections: informationSecurity,
+  PrivacyPolicyContent.withBoldHeader(
+    privacyPolicyContent: 'Information security',
   ),
-  ViewModels(
-    privacyPolicySections: 'Contact Information ',
-    policyHeaderTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+  PrivacyPolicyContent(
+    privacyPolicyContent: informationSecurity,
   ),
-  ViewModels(
-    privacyPolicySections: contactInformation,
+  PrivacyPolicyContent.withBoldHeader(
+    privacyPolicyContent: 'Contact Information ',
+  ),
+  PrivacyPolicyContent(
+    privacyPolicyContent: contactInformation,
   ),
 ];

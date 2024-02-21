@@ -108,7 +108,7 @@ class SettingsControllerState extends State<SettingsController>
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: const Text('Acknowledgments'),
-                          content: showMyDialog3(),
+                          content: acknowledgmentsDialog(),
                           actions: <Widget>[
                             TextButton(
                               child: const Text('Approve'),

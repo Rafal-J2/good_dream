@@ -8,7 +8,7 @@ class ViewModels {
   String? enableIcon;
   String? iconTitleText;
   String? audioFile;
-  String? privacyPolicySections;
+ // String? privacyPolicySections;
   String? mainAppIcons;
   GestureDetector? gestureDetector;
   TextStyle? policyHeaderTextStyle;
@@ -30,7 +30,7 @@ class ViewModels {
       this.opacityOff,
       this.opacityOn,
       this.text,
-      this.privacyPolicySections,
+     // this.privacyPolicySections,
       this.mainAppIcons,
       this.gestureDetector,
       this.policyHeaderTextStyle,
