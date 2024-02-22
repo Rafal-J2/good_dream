@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:good_dream/fun/arrays_3_4.dart';
+import 'package:good_dream/sounds/mechanical_sounds.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:provider/provider.dart';
-import '../fun/arrays_1_2.dart';
+import '../sounds/water_sounds.dart';
 import '../fun/only_mix.dart';
 
 class Mix extends StatelessWidget {
@@ -25,47 +25,50 @@ class Mix extends StatelessWidget {
                   onPressed: () {
                     isFav = !isFav;
                     if (isFav) {
-                      if (arrays2[0].isFav!) {
+                      if (waterSounds[0].isControlActive!) {
                         mix1();
-                        cart.add(arrays2[0]);
-                        arrays2[0].isFav = arrays2[0].isFav;
+                        cart.add(waterSounds[0]);
+                        waterSounds[0].isControlActive =
+                            waterSounds[0].isControlActive;
                         debugPrint('arrays[0]');
                       }
 
-                      if (arrays2[1].isFav!) {
+                      if (waterSounds[1].isControlActive!) {
                         mix2();
-                        cart.add(arrays2[1]);
-                        arrays2[1].isFav = arrays2[1].isFav;
+                        cart.add(waterSounds[1]);
+                        waterSounds[1].isControlActive =
+                            waterSounds[1].isControlActive;
                         debugPrint('arrays[1]');
                       }
 
-                      if (arrays2[2].isFav!) {
+                      if (waterSounds[2].isControlActive!) {
                         mix3();
-                        cart.add(arrays2[2]);
-                        arrays2[2].isFav = arrays2[2].isFav;
+                        cart.add(waterSounds[2]);
+                        waterSounds[2].isControlActive =
+                            waterSounds[2].isControlActive;
                         debugPrint('arrays[2]');
                       }
                     } else {
                       debugPrint("Else it's work -------");
-                      arrays2[0].player!.pause();
-                      arrays2[1].player!.pause();
-                      arrays2[2].player!.pause();
+                      waterSounds[0].player!.pause();
+                      waterSounds[1].player!.pause();
+                      waterSounds[2].player!.pause();
 
-                      cart.remove(arrays2[0]);
-                      cart.remove(arrays2[1]);
-                      cart.remove(arrays2[2]);
+                      cart.remove(waterSounds[0]);
+                      cart.remove(waterSounds[1]);
+                      cart.remove(waterSounds[2]);
 
-                      arrays2[0].isFav = false;
-                      arrays2[1].isFav = false;
-                      arrays2[2].isFav = false;
+                      waterSounds[0].isControlActive = false;
+                      waterSounds[1].isControlActive = false;
+                      waterSounds[2].isControlActive = false;
                     }
                   },
                   child: Image(
-                    image: AssetImage(arrays4[index].mainAppIcons!),
+                    image: AssetImage(mechanicalSounds[index].mainAppIcons!),
                   ),
                 ),
                 Text(
-                  arrays4[index].iconTitleText!,
+                  mechanicalSounds[index].iconTitleText!,
                   style: const TextStyle(color: Colors.white),
                 ),
               ],

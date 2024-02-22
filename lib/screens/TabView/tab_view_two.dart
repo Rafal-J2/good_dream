@@ -6,8 +6,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:good_dream/style/theme_text_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-
-import '../../fun/arrays_1_2.dart';
+import '../../sounds/water_sounds.dart';
 
 class TabViewTwo extends StatefulWidget {
   const TabViewTwo({super.key});
@@ -27,7 +26,7 @@ class _State extends State<TabViewTwo> {
       return Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: GridView.builder(
-            itemCount: arrays2.length,
+            itemCount: waterSounds.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio:
                     MediaQuery.of(context).size.width > 450 ? 1.3 : 1.0,
@@ -36,22 +35,23 @@ class _State extends State<TabViewTwo> {
               return GestureDetector(
                 onTap: () {
                   if (cart.count <= 5) {
-                    arrays2[index].isFav = !arrays2[index].isFav!;
-                    arrays2[index].isFav!
-                        ? arrays2[index].player!.open(
-                            Audio(arrays2[index].audioFile!),
+                    waterSounds[index].isControlActive =
+                        !waterSounds[index].isControlActive!;
+                    waterSounds[index].isControlActive!
+                        ? waterSounds[index].player!.open(
+                            Audio(waterSounds[index].audioFile!),
                             volume: 0.5,
                             loopMode: LoopMode.single)
-                        : arrays2[index].player!.pause();
+                        : waterSounds[index].player!.pause();
 
                     /// Add image to page two
-                    arrays2[index].isFav!
-                        ? cart.add(arrays2[index])
-                        : cart.remove(arrays2[index]);
+                    waterSounds[index].isControlActive!
+                        ? cart.add(waterSounds[index])
+                        : cart.remove(waterSounds[index]);
                   } else if (cart.count == 6) {
-                    cart.remove(arrays2[index]);
-                    arrays2[index].isFav = false;
-                    arrays2[index].player!.pause();
+                    cart.remove(waterSounds[index]);
+                    waterSounds[index].isControlActive = false;
+                    waterSounds[index].player!.pause();
                     //Toast Text
                     if (cart.count == 6) {
                       toast();
@@ -70,40 +70,36 @@ class _State extends State<TabViewTwo> {
                     Image(
                       height: imageSize['height'],
                       width: imageSize['width'],
-                      image: AssetImage(arrays2[index].isFav!
-                          ? arrays2[index].enableIcon!
-                          : arrays2[index].disableIcon!),
+                      image: AssetImage(waterSounds[index].isControlActive!
+                          ? waterSounds[index].enableIcon!
+                          : waterSounds[index].disableIcon!),
                     ),
                     //     const Padding(padding: EdgeInsets.only(top: 8)),
-                    arrays2[index].isFav!
-                        ? AnimatedOpacity(
-                            duration: const Duration(milliseconds: 800),
-                            opacity: arrays2[index].isFav!
-                                ? arrays2[index].opacityOn!
-                                : arrays2[index].opacityOff!,
-                            child: PlayerBuilder.volume(
-                                player: arrays2[index].player!,
-                                builder: (context, volume) {
-                                  return Shimmer.fromColors(
-                                    baseColor: Colors.white,
-                                    highlightColor: Colors.grey,
-                                    child: Slider(
-                                        value: volume,
-                                        min: 0,
-                                        max: 1,
-                                        divisions: 50,
-                                        onChanged: (v) {
-                                          setState(() {
-                                            arrays2[index].player!.setVolume(v);
-                                          });
-                                        }),
-                                  );
-                                }),
-                          )
+                    waterSounds[index].isControlActive!
+                        ? PlayerBuilder.volume(
+                            player: waterSounds[index].player!,
+                            builder: (context, volume) {
+                              return Shimmer.fromColors(
+                                baseColor: Colors.white,
+                                highlightColor: Colors.grey,
+                                child: Slider(
+                                    value: volume,
+                                    min: 0,
+                                    max: 1,
+                                    divisions: 50,
+                                    onChanged: (v) {
+                                      setState(() {
+                                        waterSounds[index]
+                                            .player!
+                                            .setVolume(v);
+                                      });
+                                    }),
+                              );
+                            })
                         : Padding(
                             padding: const EdgeInsets.only(top: 10.0),
                             child: Text(
-                              arrays2[index].iconTitleText!,
+                              waterSounds[index].iconTitleText!,
                               style: ThemeTextStyles.texStyle,
                               textAlign: TextAlign.center,
                             ),

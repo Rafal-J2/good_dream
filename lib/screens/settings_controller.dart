@@ -3,7 +3,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:good_dream/fun/arrays_3_4.dart';
+import 'package:good_dream/sounds/mechanical_sounds.dart';
 import 'package:good_dream/fun/mode_switch.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:provider/provider.dart';
@@ -141,8 +141,8 @@ class SettingsControllerState extends State<SettingsController>
                         setState(() {
                           themeMode = mode;
                           _checkStorage();
-                          arrays4[0].checkThemeMode = mode;
-                          cart.add3(arrays4[0]);
+                          mechanicalSounds[0].checkThemeMode = mode;
+                          cart.add3(mechanicalSounds[0]);
                         });
                       },
                       flexSchemeData: FlexColor.schemes[FlexScheme.red],

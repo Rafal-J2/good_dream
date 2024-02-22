@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:get_storage/get_storage.dart';
-import 'package:good_dream/fun/arrays_3_4.dart';
+import 'package:good_dream/sounds/mechanical_sounds.dart';
 import 'package:good_dream/fun/clock_timer.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,7 @@ class MainTabBarController extends StatefulWidget {
 }
 
 class _State extends State<MainTabBarController> {
- static const TextStyle _textStyle = TextStyle(fontSize: 15);
+  static const TextStyle _textStyle = TextStyle(fontSize: 15);
 
   @override
   void initState() {
@@ -65,7 +65,6 @@ class _State extends State<MainTabBarController> {
   }
 
   ThemeMode themeMode = ThemeMode.light;
-
 
   void startServiceInPlatform() async {
     if (Platform.isAndroid) {
@@ -99,33 +98,34 @@ class _State extends State<MainTabBarController> {
           scheme: FlexScheme.red,
           onPrimary: Colors.white,
         ).toTheme,
-        themeMode:
-            cart.basketItems3.isEmpty ? themeMode : arrays4[0].checkThemeMode,
+        themeMode: cart.basketItems3.isEmpty
+            ? themeMode
+            : mechanicalSounds[0].checkThemeMode,
         home: DefaultTabController(
           length: 4,
           child: PopScope(
-  canPop: false,
-  onPopInvoked: (didPop) async {
-    debugPrint("didPop1: $didPop");
-    if (didPop) {
-      return;
-    }
-    final bool shouldPop = await onBackPressed();
-    if (shouldPop) {
-      SystemNavigator.pop();
-    }
-  },
+            canPop: false,
+            onPopInvoked: (didPop) async {
+              debugPrint("didPop1: $didPop");
+              if (didPop) {
+                return;
+              }
+              final bool shouldPop = await onBackPressed();
+              if (shouldPop) {
+                SystemNavigator.pop();
+              }
+            },
             child: Scaffold(
               appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(50.0),
                 child: AppBar(
                   systemOverlayStyle:
                       const SystemUiOverlayStyle(statusBarColor: Colors.black),
-                  bottom:  const TabBar(
+                  bottom: const TabBar(
                     isScrollable: true,
                     physics: ClampingScrollPhysics(),
                     tabs: [
-                       Tab(
+                      Tab(
                         child: Text(
                           "NATURE",
                           style: _textStyle,
@@ -137,13 +137,13 @@ class _State extends State<MainTabBarController> {
                           style: _textStyle,
                         ),
                       ),
-                       Tab(
+                      Tab(
                         child: Text(
                           "MUSIC",
                           style: _textStyle,
                         ),
                       ),
-                       Tab(
+                      Tab(
                         child: Text(
                           "MECHANICAL",
                           style: _textStyle,

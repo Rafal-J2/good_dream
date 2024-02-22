@@ -3,7 +3,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:good_dream/fun/arrays_3_4.dart';
+import 'package:good_dream/sounds/mechanical_sounds.dart';
 import 'package:good_dream/fun/foreground_service.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -57,8 +57,9 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
           darkTheme: FlexColorScheme.dark(
             scheme: FlexScheme.red,
           ).toTheme,
-          themeMode:
-              cart.basketItems3.isEmpty ? themeMode : arrays4[0].checkThemeMode,
+          themeMode: cart.basketItems3.isEmpty
+              ? themeMode
+              : mechanicalSounds[0].checkThemeMode,
           home: Scaffold(
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(40.0),
@@ -135,7 +136,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                         InkWell(
                             onTap: () {
                               item.player!.pause();
-                              item.isFav = false;
+                              item.isControlActive = false;
                               cart.remove(item);
                               if (cart.count == 0) {
                                 foregroundServiceStop();

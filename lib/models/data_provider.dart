@@ -3,17 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:good_dream/fun/foreground_service.dart';
 import 'package:good_dream/fun/toast.dart';
-import 'package:good_dream/models/view_models.dart';
+import 'package:good_dream/fun/models/audio_clip.dart';
 
-import '../fun/arrays_1_2.dart';
+import '../sounds/water_sounds.dart';
 
 class DataProvider extends ChangeNotifier {
   final Map<int, int> _cart = {};
 
   Map<int, int> get cart => _cart;
 
-  final List<ViewModels> _items = [];
-  void add(ViewModels item) {
+  final List<AudioClip> _items = [];
+  void add(AudioClip item) {
     _items.add(item);
 
     notifyListeners();
@@ -22,7 +22,7 @@ class DataProvider extends ChangeNotifier {
   void addAll(index) async {
     if (count <= 5) {
       //Bool checking
-      arrays2[index].isFav = !arrays2[index].isFav!;
+      waterSounds[index].isControlActive = !waterSounds[index].isControlActive!;
       // Click_events - if isFav is true
       // if (arrays[index].isFav!) {
       //   await _analytics.logEvent(
@@ -30,18 +30,20 @@ class DataProvider extends ChangeNotifier {
       //   );
       // }
       // Play or Stop sounds
-      arrays2[index].isFav!
-          ? arrays2[index].player!.open(
+      waterSounds[index].isControlActive!
+          ? waterSounds[index].player!.open(
               Audio(
-                arrays2[index].audioFile!,
+                waterSounds[index].audioFile!,
               ),
               volume: 0.5,
               //  showNotification: true,
               loopMode: LoopMode.single)
-          : arrays2[index].player!.pause();
+          : waterSounds[index].player!.pause();
 
       //   cart.addTest2(index);
-      arrays2[index].isFav! ? add(arrays2[index]) : remove(arrays2[index]);
+      waterSounds[index].isControlActive!
+          ? add(waterSounds[index])
+          : remove(waterSounds[index]);
 
       //Add image to page two. If is isFav = true, add entire arrays.
       // Table number is depends on from the selected item
@@ -49,9 +51,9 @@ class DataProvider extends ChangeNotifier {
       // If is true add to cart provider entire items  "picOff, isFav, sounds, vol, player"
       // basketItems is the receiver i find screenTwo.dart
     } else if (count == 6) {
-      cart.remove(arrays2[index]);
-      arrays2[index].isFav = false;
-      arrays2[index].player!.pause();
+      cart.remove(waterSounds[index]);
+      waterSounds[index].isControlActive = false;
+      waterSounds[index].player!.pause();
 
       //Toast Text
       if (count == 6) {
@@ -66,7 +68,7 @@ class DataProvider extends ChangeNotifier {
     }
   }
 
-  void remove(ViewModels item) {
+  void remove(AudioClip item) {
     _items.remove(item);
     notifyListeners();
   }
@@ -80,34 +82,34 @@ class DataProvider extends ChangeNotifier {
     return _items2.length;
   }
 
-  final List<ViewModels> _items2 = [];
+  final List<AudioClip> _items2 = [];
 
-  void add2(ViewModels item) {
+  void add2(AudioClip item) {
     _items2.add(item);
     notifyListeners();
   }
 
-  void remove2(ViewModels item) {
+  void remove2(AudioClip item) {
     _items2.remove(item);
     notifyListeners();
   }
 
-  List<ViewModels> get basketItems2 {
+  List<AudioClip> get basketItems2 {
     return _items2;
   }
 
-  List<ViewModels> get basketItems {
+  List<AudioClip> get basketItems {
     return _items;
   }
 
-  final List<ViewModels> _items3 = [];
+  final List<AudioClip> _items3 = [];
 
-  add3(ViewModels item) {
+  add3(AudioClip item) {
     _items3.add(item);
     notifyListeners();
   }
 
-  List<ViewModels> get basketItems3 {
+  List<AudioClip> get basketItems3 {
     return _items3;
   }
 }

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../fun/arrays_3_4.dart';
+import '../../sounds/mechanical_sounds.dart';
 import '../../style/theme_text_styles.dart';
 
 class TabViewFour extends StatefulWidget {
@@ -30,7 +30,7 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
       return Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: GridView.builder(
-            itemCount: arrays4.length,
+            itemCount: mechanicalSounds.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio:
                     MediaQuery.of(context).size.width > 450 ? 1.3 : 1.0,
@@ -39,22 +39,23 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
               return GestureDetector(
                 onTap: () {
                   if (cart.count <= 5) {
-                    arrays4[index].isFav = !arrays4[index].isFav!;
-                    arrays4[index].isFav!
-                        ? arrays4[index].player!.open(
-                            Audio(arrays4[index].audioFile!),
+                    mechanicalSounds[index].isControlActive =
+                        !mechanicalSounds[index].isControlActive!;
+                    mechanicalSounds[index].isControlActive!
+                        ? mechanicalSounds[index].player!.open(
+                            Audio(mechanicalSounds[index].audioFile!),
                             volume: 0.5,
                             loopMode: LoopMode.single)
-                        : arrays4[index].player!.pause();
+                        : mechanicalSounds[index].player!.pause();
 
                     /// Add image to page two
-                    arrays4[index].isFav!
-                        ? cart.add(arrays4[index])
-                        : cart.remove(arrays4[index]);
+                    mechanicalSounds[index].isControlActive!
+                        ? cart.add(mechanicalSounds[index])
+                        : cart.remove(mechanicalSounds[index]);
                   } else if (cart.count == 6) {
-                    cart.remove(arrays4[index]);
-                    arrays4[index].isFav = false;
-                    arrays4[index].player!.pause();
+                    cart.remove(mechanicalSounds[index]);
+                    mechanicalSounds[index].isControlActive = false;
+                    mechanicalSounds[index].player!.pause();
                     if (cart.count == 6) {
                       toast();
                     }
@@ -72,39 +73,35 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
                     Image(
                       height: imageSize['height'],
                       width: imageSize['width'],
-                      image: AssetImage(arrays4[index].isFav!
-                          ? arrays4[index].enableIcon!
-                          : arrays4[index].disableIcon!),
+                      image: AssetImage(mechanicalSounds[index].isControlActive!
+                          ? mechanicalSounds[index].enableIcon!
+                          : mechanicalSounds[index].disableIcon!),
                     ),
-                    arrays4[index].isFav!
-                        ? AnimatedOpacity(
-                            duration: const Duration(milliseconds: 800),
-                            opacity: arrays4[index].isFav!
-                                ? arrays4[index].opacityOn!
-                                : arrays4[index].opacityOff!,
-                            child: PlayerBuilder.volume(
-                                player: arrays4[index].player!,
-                                builder: (context, volume) {
-                                  return Shimmer.fromColors(
-                                    baseColor: Colors.white,
-                                    highlightColor: Colors.grey,
-                                    child: Slider(
-                                        value: volume,
-                                        min: 0,
-                                        max: 1,
-                                        divisions: 50,
-                                        onChanged: (v) {
-                                          setState(() {
-                                            arrays4[index].player!.setVolume(v);
-                                          });
-                                        }),
-                                  );
-                                }),
-                          )
+                    mechanicalSounds[index].isControlActive!
+                        ? PlayerBuilder.volume(
+                            player: mechanicalSounds[index].player!,
+                            builder: (context, volume) {
+                              return Shimmer.fromColors(
+                                baseColor: Colors.white,
+                                highlightColor: Colors.grey,
+                                child: Slider(
+                                    value: volume,
+                                    min: 0,
+                                    max: 1,
+                                    divisions: 50,
+                                    onChanged: (v) {
+                                      setState(() {
+                                        mechanicalSounds[index]
+                                            .player!
+                                            .setVolume(v);
+                                      });
+                                    }),
+                              );
+                            })
                         : Padding(
                             padding: const EdgeInsets.only(top: 10.0),
                             child: Text(
-                              arrays4[index].iconTitleText!,
+                              mechanicalSounds[index].iconTitleText!,
                               style: ThemeTextStyles.texStyle,
                               textAlign: TextAlign.center,
                             ),

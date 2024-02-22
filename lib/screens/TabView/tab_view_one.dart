@@ -4,10 +4,10 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:good_dream/style/theme_text_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../fun/arrays_1_2.dart';
 import '../../fun/foreground_service.dart';
 import '../../fun/toast.dart';
 import '../../main.dart';
+import '../../sounds/nature_sounds.dart';
 
 class TabViewOne extends StatefulWidget {
   const TabViewOne({super.key});
@@ -30,7 +30,7 @@ class _State extends State<TabViewOne> {
         return Padding(
           padding: const EdgeInsets.only(top: 30.0),
           child: GridView.builder(
-              itemCount: arrays.length,
+              itemCount: natureSounds.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio:
                       MediaQuery.of(context).size.width > 450 ? 1.3 : 1.0,
@@ -39,22 +39,23 @@ class _State extends State<TabViewOne> {
                 return GestureDetector(
                   onTap: () {
                     if (cart.count <= 5) {
-                      arrays[index].isFav = !arrays[index].isFav!;
-                      arrays[index].isFav!
-                          ? arrays[index].player!.open(
-                              Audio(arrays[index].audioFile!),
+                      natureSounds[index].isControlActive =
+                          !natureSounds[index].isControlActive!;
+                      natureSounds[index].isControlActive!
+                          ? natureSounds[index].player!.open(
+                              Audio(natureSounds[index].audioFile!),
                               volume: 0.5,
                               loopMode: LoopMode.single)
-                          : arrays[index].player!.pause();
+                          : natureSounds[index].player!.pause();
 
                       /// Add image to page two
-                      arrays[index].isFav!
-                          ? cart.add(arrays[index])
-                          : cart.remove(arrays[index]);
+                      natureSounds[index].isControlActive!
+                          ? cart.add(natureSounds[index])
+                          : cart.remove(natureSounds[index]);
                     } else if (cart.count == 6) {
-                      cart.remove(arrays[index]);
-                      arrays[index].isFav = false;
-                      arrays[index].player!.pause();
+                      cart.remove(natureSounds[index]);
+                      natureSounds[index].isControlActive = false;
+                      natureSounds[index].player!.pause();
                       //Toast Text
                       if (cart.count == 6) {
                         toast();
@@ -73,13 +74,13 @@ class _State extends State<TabViewOne> {
                       Image(
                         height: imageSize['height'],
                         width: imageSize['width'],
-                        image: AssetImage(arrays[index].isFav!
-                            ? arrays[index].enableIcon!
-                            : arrays[index].disableIcon!),
+                        image: AssetImage(natureSounds[index].isControlActive!
+                            ? natureSounds[index].enableIcon!
+                            : natureSounds[index].disableIcon!),
                       ),
-                      arrays[index].isFav!
+                      natureSounds[index].isControlActive!
                           ? PlayerBuilder.volume(
-                              player: arrays[index].player!,
+                              player: natureSounds[index].player!,
                               builder: (context, volume) {
                                 return Shimmer.fromColors(
                                   baseColor: Colors.white,
@@ -91,7 +92,7 @@ class _State extends State<TabViewOne> {
                                       divisions: 50,
                                       onChanged: (v) {
                                         setState(() {
-                                          arrays[index]
+                                          natureSounds[index]
                                               .player!
                                               .setVolume(v);
                                         });
@@ -101,7 +102,7 @@ class _State extends State<TabViewOne> {
                           : Padding(
                               padding: const EdgeInsets.only(top: 10.0),
                               child: Text(
-                                arrays[index].iconTitleText!,
+                                natureSounds[index].iconTitleText!,
                                 style: ThemeTextStyles.texStyle,
                                 textAlign: TextAlign.center,
                               ),
