@@ -32,7 +32,7 @@ class _State extends State<TabViewThree> {
                     MediaQuery.of(context).size.width > 450 ? 1.3 : 1.0,
                 crossAxisCount: 3),
             itemBuilder: (context, index) {
-              return GestureDetector(
+              return InkWell(
                 onTap: () async {
                   if (cart.count2 == 1 &&
                       musicSounds[index].isControlActive == false) {

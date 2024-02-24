@@ -36,7 +36,7 @@ class _State extends State<TabViewOne> {
                       MediaQuery.of(context).size.width > 450 ? 1.3 : 1.0,
                   crossAxisCount: 3),
               itemBuilder: (context, index) {
-                return GestureDetector(
+                return InkWell(
                   onTap: () {
                     if (cart.count <= 5) {
                       natureSounds[index].isControlActive =
