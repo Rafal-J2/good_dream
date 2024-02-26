@@ -16,13 +16,13 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 class MainTabBarController extends StatefulWidget {
   //Functions to Show Dialog
   const MainTabBarController({
-    Key? key,
+    super.key,
     this.confirmWidget,
     this.cancelWidget,
     this.title,
     this.themeMode,
     this.onThemeModeChanged,
-  }) : super(key: key);
+  });
 
   final ThemeMode? themeMode;
   final ValueChanged<ThemeMode>? onThemeModeChanged;

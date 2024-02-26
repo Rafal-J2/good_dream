@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
-    Key? key,
+    super.key,
     this.themeMode,
     this.onThemeModeChanged,
     this.flexSchemeData,
-  }) : super(key: key);
+  });
   final ThemeMode? themeMode;
   final ValueChanged<ThemeMode>? onThemeModeChanged;
   final FlexSchemeData? flexSchemeData;

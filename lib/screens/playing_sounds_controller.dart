@@ -151,7 +151,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                       ],
                     ),
                   );
-                }).toList(),
+                }),
               ],
             ),
           ),

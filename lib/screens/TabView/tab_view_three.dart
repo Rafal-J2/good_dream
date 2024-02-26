@@ -4,6 +4,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../fun/foreground_service.dart';
+import '../../fun/toast.dart';
 import '../../sounds/music_sounds.dart';
 import '../../style/theme_text_styles.dart';
 
@@ -32,40 +33,39 @@ class _State extends State<TabViewThree> {
                     MediaQuery.of(context).size.width > 450 ? 1.3 : 1.0,
                 crossAxisCount: 3),
             itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () async {
-                  if (cart.count2 == 1 &&
-                      musicSounds[index].isControlActive == false) {
-                    for (int i = 0; i < musicSounds.length; i++) {
-                      musicSounds[i].player?.pause();
-                      cart.remove2(musicSounds[i]);
-                      cart.remove(musicSounds[i]);
-                      musicSounds[i].isControlActive = false;
-                    }
-                  }
-                  if (cart.count2 <= 1 &&
-                      musicSounds[index].isControlActive == false) {
-                    musicSounds[index].player!.open(
-                        Audio(musicSounds[index].audioFile!),
-                        volume: 0.5,
-                        loopMode: LoopMode.single);
-                    cart.add2(musicSounds[index]);
-                    cart.add(musicSounds[index]);
-                    musicSounds[index].isControlActive = true;
-                  } else {
-                    musicSounds[index].player!.pause();
-                    cart.remove2(musicSounds[index]);
-                    cart.remove(musicSounds[index]);
-                    musicSounds[index].isControlActive = false;
-                  }
+               return InkWell(
+                  onTap: () {
+                    if (cart.count <= 5) {
+                      musicSounds[index].isControlActive =
+                          !musicSounds[index].isControlActive!;
+                      musicSounds[index].isControlActive!
+                          ? musicSounds[index].player!.open(
+                              Audio(musicSounds[index].audioFile!),
+                              volume: 0.5,
+                              loopMode: LoopMode.single)
+                          : musicSounds[index].player!.pause();
 
-                  /// foregroundService START or STOP
-                  if (cart.count2 == 1) {
-                    foregroundService();
-                  } else if (cart.count2 == 0 && cart.count == 0) {
-                    foregroundServiceStop();
-                  }
-                },
+                      /// Add image to page two
+                      musicSounds[index].isControlActive!
+                          ? cart.add(musicSounds[index])
+                          : cart.remove(musicSounds[index]);
+                    } else if (cart.count == 6) {
+                      cart.remove(musicSounds[index]);
+                      musicSounds[index].isControlActive = false;
+                      musicSounds[index].player!.pause();
+                      //Toast Text
+                      if (cart.count == 6) {
+                        toast();
+                      }
+                    }
+
+                    /// foregroundService START or STOP
+                    if (cart.count == 1) {
+                      foregroundService();
+                    } else if (cart.count == 0 && cart.count2 == 0) {
+                      foregroundServiceStop();
+                    }
+                  },
                 child: Column(
                   children: [
                     Image(

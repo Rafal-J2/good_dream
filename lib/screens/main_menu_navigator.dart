@@ -12,7 +12,7 @@ import '../main.dart';
 import 'settings_controller.dart';
 
 class MainMenuNavigator extends StatefulWidget {
-  const MainMenuNavigator({Key? key, this.title}) : super(key: key);
+  const MainMenuNavigator({super.key, this.title});
   final String? title;
 
   @override

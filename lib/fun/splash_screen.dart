@@ -5,13 +5,12 @@ import 'package:lottie/lottie.dart';
 
 class MySplashScreen extends StatefulWidget {
   const MySplashScreen(
-      {Key? key,
+      {super.key,
       required String name,
       required MainMenuNavigator Function(dynamic context) next,
       required Future Function() until,
       required String startAnimation,
-      required Color backgroundColor})
-      : super(key: key);
+      required Color backgroundColor});
 
   @override
   MySplashScreenState createState() => MySplashScreenState();
