@@ -25,7 +25,7 @@ class Mix extends StatelessWidget {
                   onPressed: () {
                     isFav = !isFav;
                     if (isFav) {
-                      if (waterSounds[0].isControlActive!) {
+                      if (waterSounds[0].isControlActive) {
                         mix1();
                         cart.add(waterSounds[0]);
                         waterSounds[0].isControlActive =
@@ -33,7 +33,7 @@ class Mix extends StatelessWidget {
                         debugPrint('arrays[0]');
                       }
 
-                      if (waterSounds[1].isControlActive!) {
+                      if (waterSounds[1].isControlActive) {
                         mix2();
                         cart.add(waterSounds[1]);
                         waterSounds[1].isControlActive =
@@ -41,7 +41,7 @@ class Mix extends StatelessWidget {
                         debugPrint('arrays[1]');
                       }
 
-                      if (waterSounds[2].isControlActive!) {
+                      if (waterSounds[2].isControlActive) {
                         mix3();
                         cart.add(waterSounds[2]);
                         waterSounds[2].isControlActive =
@@ -50,9 +50,9 @@ class Mix extends StatelessWidget {
                       }
                     } else {
                       debugPrint("Else it's work -------");
-                      waterSounds[0].player!.pause();
-                      waterSounds[1].player!.pause();
-                      waterSounds[2].player!.pause();
+                      waterSounds[0].player.pause();
+                      waterSounds[1].player.pause();
+                      waterSounds[2].player.pause();
 
                       cart.remove(waterSounds[0]);
                       cart.remove(waterSounds[1]);

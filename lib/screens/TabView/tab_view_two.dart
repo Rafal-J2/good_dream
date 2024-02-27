@@ -36,22 +36,22 @@ class _State extends State<TabViewTwo> {
                 onTap: () {
                   if (cart.count <= 5) {
                     waterSounds[index].isControlActive =
-                        !waterSounds[index].isControlActive!;
-                    waterSounds[index].isControlActive!
-                        ? waterSounds[index].player!.open(
+                        !waterSounds[index].isControlActive;
+                    waterSounds[index].isControlActive
+                        ? waterSounds[index].player.open(
                             Audio(waterSounds[index].audioFile!),
                             volume: 0.5,
                             loopMode: LoopMode.single)
-                        : waterSounds[index].player!.pause();
+                        : waterSounds[index].player.pause();
 
                     /// Add image to page two
-                    waterSounds[index].isControlActive!
+                    waterSounds[index].isControlActive
                         ? cart.add(waterSounds[index])
                         : cart.remove(waterSounds[index]);
                   } else if (cart.count == 6) {
                     cart.remove(waterSounds[index]);
                     waterSounds[index].isControlActive = false;
-                    waterSounds[index].player!.pause();
+                    waterSounds[index].player.pause();
                     //Toast Text
                     if (cart.count == 6) {
                       toast();
@@ -70,14 +70,14 @@ class _State extends State<TabViewTwo> {
                     Image(
                       height: imageSize['height'],
                       width: imageSize['width'],
-                      image: AssetImage(waterSounds[index].isControlActive!
+                      image: AssetImage(waterSounds[index].isControlActive
                           ? waterSounds[index].enableIcon!
                           : waterSounds[index].disableIcon!),
                     ),
                     //     const Padding(padding: EdgeInsets.only(top: 8)),
-                    waterSounds[index].isControlActive!
+                    waterSounds[index].isControlActive
                         ? PlayerBuilder.volume(
-                            player: waterSounds[index].player!,
+                            player: waterSounds[index].player,
                             builder: (context, volume) {
                               return Shimmer.fromColors(
                                 baseColor: Colors.white,
@@ -90,7 +90,7 @@ class _State extends State<TabViewTwo> {
                                     onChanged: (v) {
                                       setState(() {
                                         waterSounds[index]
-                                            .player!
+                                            .player
                                             .setVolume(v);
                                       });
                                     }),

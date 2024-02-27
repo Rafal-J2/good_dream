@@ -37,22 +37,22 @@ class _State extends State<TabViewThree> {
                   onTap: () {
                     if (cart.count <= 5) {
                       musicSounds[index].isControlActive =
-                          !musicSounds[index].isControlActive!;
-                      musicSounds[index].isControlActive!
-                          ? musicSounds[index].player!.open(
+                          !musicSounds[index].isControlActive;
+                      musicSounds[index].isControlActive
+                          ? musicSounds[index].player.open(
                               Audio(musicSounds[index].audioFile!),
                               volume: 0.5,
                               loopMode: LoopMode.single)
-                          : musicSounds[index].player!.pause();
+                          : musicSounds[index].player.pause();
 
                       /// Add image to page two
-                      musicSounds[index].isControlActive!
+                      musicSounds[index].isControlActive
                           ? cart.add(musicSounds[index])
                           : cart.remove(musicSounds[index]);
                     } else if (cart.count == 6) {
                       cart.remove(musicSounds[index]);
                       musicSounds[index].isControlActive = false;
-                      musicSounds[index].player!.pause();
+                      musicSounds[index].player.pause();
                       //Toast Text
                       if (cart.count == 6) {
                         toast();
@@ -71,13 +71,13 @@ class _State extends State<TabViewThree> {
                     Image(
                       height: imageSize['height'],
                       width: imageSize['width'],
-                      image: AssetImage(musicSounds[index].isControlActive!
+                      image: AssetImage(musicSounds[index].isControlActive
                           ? musicSounds[index].enableIcon!
                           : musicSounds[index].disableIcon!),
                     ),
-                    musicSounds[index].isControlActive!
+                    musicSounds[index].isControlActive
                         ? PlayerBuilder.volume(
-                            player: musicSounds[index].player!,
+                            player: musicSounds[index].player,
                             builder: (context, volume) {
                               return Shimmer.fromColors(
                                 baseColor: Colors.white,
@@ -90,7 +90,7 @@ class _State extends State<TabViewThree> {
                                     divisions: 50,
                                     onChanged: (v) {
                                       setState(() {
-                                        musicSounds[index].player!.setVolume(v);
+                                        musicSounds[index].player.setVolume(v);
                                       });
                                     }),
                               );

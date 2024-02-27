@@ -114,7 +114,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                                 ),
                               ),
                               PlayerBuilder.volume(
-                                  player: item.player!,
+                                  player: item.player,
                                   builder: (context, vol) {
                                     return Slider(
                                         activeColor: Colors.orange,
@@ -126,7 +126,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                                         divisions: 50,
                                         onChanged: (volume) {
                                           setState(() {
-                                            item.player!.setVolume(volume);
+                                            item.player.setVolume(volume);
                                           });
                                         });
                                   }),
@@ -135,7 +135,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                         ),
                         InkWell(
                             onTap: () {
-                              item.player!.pause();
+                              item.player.pause();
                               item.isControlActive = false;
                               cart.remove(item);
                               if (cart.count == 0) {

@@ -4,7 +4,7 @@ import 'package:good_dream/fun/models/audio_clip.dart';
 List<AudioClip> get mechanicalSounds => _mechanicalSounds;
 final _mechanicalSounds = [
   AudioClip(
-      checkThemeMode: null,
+    
       disableIcon: 'assets/images/plane_w.png',
       enableIcon: 'assets/images/plane_on.png',
       iconTitleText: 'Plane',
@@ -67,11 +67,4 @@ final _mechanicalSounds = [
       audioFile: "assets/audio/keyboard.ogg",
       isControlActive: false,
       player: AssetsAudioPlayer()),
-];
-
-List<AudioClip> get models0 => arrays0;
-final arrays0 = [
-  AudioClip(
-    isDarkMode: false,
-  ),
 ];

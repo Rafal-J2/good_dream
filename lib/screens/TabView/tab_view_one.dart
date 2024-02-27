@@ -40,22 +40,22 @@ class _State extends State<TabViewOne> {
                   onTap: () {
                     if (cart.count <= 5) {
                       natureSounds[index].isControlActive =
-                          !natureSounds[index].isControlActive!;
-                      natureSounds[index].isControlActive!
-                          ? natureSounds[index].player!.open(
+                          !natureSounds[index].isControlActive;
+                      natureSounds[index].isControlActive
+                          ? natureSounds[index].player.open(
                               Audio(natureSounds[index].audioFile!),
                               volume: 0.5,
                               loopMode: LoopMode.single)
-                          : natureSounds[index].player!.pause();
+                          : natureSounds[index].player.pause();
 
                       /// Add image to page two
-                      natureSounds[index].isControlActive!
+                      natureSounds[index].isControlActive
                           ? cart.add(natureSounds[index])
                           : cart.remove(natureSounds[index]);
                     } else if (cart.count == 6) {
                       cart.remove(natureSounds[index]);
                       natureSounds[index].isControlActive = false;
-                      natureSounds[index].player!.pause();
+                      natureSounds[index].player.pause();
                       //Toast Text
                       if (cart.count == 6) {
                         toast();
@@ -74,13 +74,13 @@ class _State extends State<TabViewOne> {
                       Image(
                         height: imageSize['height'],
                         width: imageSize['width'],
-                        image: AssetImage(natureSounds[index].isControlActive!
+                        image: AssetImage(natureSounds[index].isControlActive
                             ? natureSounds[index].enableIcon!
                             : natureSounds[index].disableIcon!),
                       ),
-                      natureSounds[index].isControlActive!
+                      natureSounds[index].isControlActive
                           ? PlayerBuilder.volume(
-                              player: natureSounds[index].player!,
+                              player: natureSounds[index].player,
                               builder: (context, volume) {
                                 return Shimmer.fromColors(
                                   baseColor: Colors.white,
@@ -93,7 +93,7 @@ class _State extends State<TabViewOne> {
                                       onChanged: (v) {
                                         setState(() {
                                           natureSounds[index]
-                                              .player!
+                                              .player
                                               .setVolume(v);
                                         });
                                       }),

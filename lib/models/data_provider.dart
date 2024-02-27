@@ -22,7 +22,7 @@ class DataProvider extends ChangeNotifier {
   void addAll(index) async {
     if (count <= 5) {
       //Bool checking
-      waterSounds[index].isControlActive = !waterSounds[index].isControlActive!;
+      waterSounds[index].isControlActive = !waterSounds[index].isControlActive;
       // Click_events - if isFav is true
       // if (arrays[index].isFav!) {
       //   await _analytics.logEvent(
@@ -30,18 +30,18 @@ class DataProvider extends ChangeNotifier {
       //   );
       // }
       // Play or Stop sounds
-      waterSounds[index].isControlActive!
-          ? waterSounds[index].player!.open(
+      waterSounds[index].isControlActive
+          ? waterSounds[index].player.open(
               Audio(
                 waterSounds[index].audioFile!,
               ),
               volume: 0.5,
               //  showNotification: true,
               loopMode: LoopMode.single)
-          : waterSounds[index].player!.pause();
+          : waterSounds[index].player.pause();
 
       //   cart.addTest2(index);
-      waterSounds[index].isControlActive!
+      waterSounds[index].isControlActive
           ? add(waterSounds[index])
           : remove(waterSounds[index]);
 
@@ -53,7 +53,7 @@ class DataProvider extends ChangeNotifier {
     } else if (count == 6) {
       cart.remove(waterSounds[index]);
       waterSounds[index].isControlActive = false;
-      waterSounds[index].player!.pause();
+      waterSounds[index].player.pause();
 
       //Toast Text
       if (count == 6) {

@@ -40,22 +40,22 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
                 onTap: () {
                   if (cart.count <= 5) {
                     mechanicalSounds[index].isControlActive =
-                        !mechanicalSounds[index].isControlActive!;
-                    mechanicalSounds[index].isControlActive!
-                        ? mechanicalSounds[index].player!.open(
+                        !mechanicalSounds[index].isControlActive;
+                    mechanicalSounds[index].isControlActive
+                        ? mechanicalSounds[index].player.open(
                             Audio(mechanicalSounds[index].audioFile!),
                             volume: 0.5,
                             loopMode: LoopMode.single)
-                        : mechanicalSounds[index].player!.pause();
+                        : mechanicalSounds[index].player.pause();
 
                     /// Add image to page two
-                    mechanicalSounds[index].isControlActive!
+                    mechanicalSounds[index].isControlActive
                         ? cart.add(mechanicalSounds[index])
                         : cart.remove(mechanicalSounds[index]);
                   } else if (cart.count == 6) {
                     cart.remove(mechanicalSounds[index]);
                     mechanicalSounds[index].isControlActive = false;
-                    mechanicalSounds[index].player!.pause();
+                    mechanicalSounds[index].player.pause();
                     if (cart.count == 6) {
                       toast();
                     }
@@ -73,13 +73,13 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
                     Image(
                       height: imageSize['height'],
                       width: imageSize['width'],
-                      image: AssetImage(mechanicalSounds[index].isControlActive!
+                      image: AssetImage(mechanicalSounds[index].isControlActive
                           ? mechanicalSounds[index].enableIcon!
                           : mechanicalSounds[index].disableIcon!),
                     ),
-                    mechanicalSounds[index].isControlActive!
+                    mechanicalSounds[index].isControlActive
                         ? PlayerBuilder.volume(
-                            player: mechanicalSounds[index].player!,
+                            player: mechanicalSounds[index].player,
                             builder: (context, volume) {
                               return Shimmer.fromColors(
                                 baseColor: Colors.white,
@@ -92,7 +92,7 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
                                     onChanged: (v) {
                                       setState(() {
                                         mechanicalSounds[index]
-                                            .player!
+                                            .player
                                             .setVolume(v);
                                       });
                                     }),
