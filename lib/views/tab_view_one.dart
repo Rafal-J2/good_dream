@@ -1,13 +1,14 @@
+import 'package:good_dream/bloc/nature_sounds/nature_sounds_cubit.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:good_dream/style/theme_text_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../fun/foreground_service.dart';
-import '../../fun/toast.dart';
-import '../../main.dart';
-import '../../sounds/nature_sounds.dart';
+import '../fun/foreground_service.dart';
+import '../fun/toast.dart';
+import '../main.dart';
+import '../sounds/nature_sounds.dart';
 
 class TabViewOne extends StatefulWidget {
   const TabViewOne({super.key});
@@ -39,8 +40,9 @@ class _State extends State<TabViewOne> {
                 return InkWell(
                   onTap: () {
                     if (cart.count <= 5) {
-                      natureSounds[index].isControlActive =
-                          !natureSounds[index].isControlActive;
+                      context
+                        .read<NatureSoundsCubit>()
+                        .toggleSound(natureSounds[index]);
                       natureSounds[index].isControlActive
                           ? natureSounds[index].player.open(
                               Audio(natureSounds[index].audioFile!),

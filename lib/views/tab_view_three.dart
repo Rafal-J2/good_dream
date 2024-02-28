@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../fun/foreground_service.dart';
-import '../../fun/toast.dart';
-import '../../sounds/music_sounds.dart';
-import '../../style/theme_text_styles.dart';
+import '../fun/foreground_service.dart';
+import '../fun/toast.dart';
+import '../sounds/music_sounds.dart';
+import '../style/theme_text_styles.dart';
 
 class TabViewThree extends StatefulWidget {
   const TabViewThree({super.key});

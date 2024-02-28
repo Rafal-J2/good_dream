@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:good_dream/fun/foreground_service.dart';
 import 'package:good_dream/fun/toast.dart';
-import 'package:good_dream/fun/models/audio_clip.dart';
+import 'package:good_dream/models/audio_clip.dart';
 
 import '../sounds/water_sounds.dart';
 

@@ -1,10 +1,9 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:good_dream/fun/models/audio_clip.dart';
+import 'package:good_dream/models/audio_clip.dart';
 
 List<AudioClip> get mechanicalSounds => _mechanicalSounds;
 final _mechanicalSounds = [
   AudioClip(
-    
       disableIcon: 'assets/images/plane_w.png',
       enableIcon: 'assets/images/plane_on.png',
       iconTitleText: 'Plane',

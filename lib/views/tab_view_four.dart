@@ -3,21 +3,25 @@ import 'package:good_dream/models/data_provider.dart';
 import 'package:good_dream/fun/foreground_service.dart';
 import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:good_dream/style/theme_text_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../sounds/water_sounds.dart';
+import '../sounds/mechanical_sounds.dart';
+import '../style/theme_text_styles.dart';
 
-class TabViewTwo extends StatefulWidget {
-  const TabViewTwo({super.key});
+class TabViewFour extends StatefulWidget {
+  const TabViewFour({super.key});
+
   @override
   State createState() => _State();
 }
 
-class _State extends State<TabViewTwo> {
+class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
+  final PageStorageBucket bucket = PageStorageBucket();
+
   @override
   Widget build(BuildContext context) {
     Map<String, double> imageSize = ThemeTextStyles.getImageSize(context);
+    super.build(context);
     return Consumer<DataProvider>(builder: (
       context,
       cart,
@@ -26,7 +30,7 @@ class _State extends State<TabViewTwo> {
       return Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: GridView.builder(
-            itemCount: waterSounds.length,
+            itemCount: mechanicalSounds.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio:
                     MediaQuery.of(context).size.width > 450 ? 1.3 : 1.0,
@@ -35,24 +39,23 @@ class _State extends State<TabViewTwo> {
               return InkWell(
                 onTap: () {
                   if (cart.count <= 5) {
-                    waterSounds[index].isControlActive =
-                        !waterSounds[index].isControlActive;
-                    waterSounds[index].isControlActive
-                        ? waterSounds[index].player.open(
-                            Audio(waterSounds[index].audioFile!),
+                    mechanicalSounds[index].isControlActive =
+                        !mechanicalSounds[index].isControlActive;
+                    mechanicalSounds[index].isControlActive
+                        ? mechanicalSounds[index].player.open(
+                            Audio(mechanicalSounds[index].audioFile!),
                             volume: 0.5,
                             loopMode: LoopMode.single)
-                        : waterSounds[index].player.pause();
+                        : mechanicalSounds[index].player.pause();
 
                     /// Add image to page two
-                    waterSounds[index].isControlActive
-                        ? cart.add(waterSounds[index])
-                        : cart.remove(waterSounds[index]);
+                    mechanicalSounds[index].isControlActive
+                        ? cart.add(mechanicalSounds[index])
+                        : cart.remove(mechanicalSounds[index]);
                   } else if (cart.count == 6) {
-                    cart.remove(waterSounds[index]);
-                    waterSounds[index].isControlActive = false;
-                    waterSounds[index].player.pause();
-                    //Toast Text
+                    cart.remove(mechanicalSounds[index]);
+                    mechanicalSounds[index].isControlActive = false;
+                    mechanicalSounds[index].player.pause();
                     if (cart.count == 6) {
                       toast();
                     }
@@ -70,14 +73,13 @@ class _State extends State<TabViewTwo> {
                     Image(
                       height: imageSize['height'],
                       width: imageSize['width'],
-                      image: AssetImage(waterSounds[index].isControlActive
-                          ? waterSounds[index].enableIcon!
-                          : waterSounds[index].disableIcon!),
+                      image: AssetImage(mechanicalSounds[index].isControlActive
+                          ? mechanicalSounds[index].enableIcon!
+                          : mechanicalSounds[index].disableIcon!),
                     ),
-                    //     const Padding(padding: EdgeInsets.only(top: 8)),
-                    waterSounds[index].isControlActive
+                    mechanicalSounds[index].isControlActive
                         ? PlayerBuilder.volume(
-                            player: waterSounds[index].player,
+                            player: mechanicalSounds[index].player,
                             builder: (context, volume) {
                               return Shimmer.fromColors(
                                 baseColor: Colors.white,
@@ -89,7 +91,7 @@ class _State extends State<TabViewTwo> {
                                     divisions: 50,
                                     onChanged: (v) {
                                       setState(() {
-                                        waterSounds[index]
+                                        mechanicalSounds[index]
                                             .player
                                             .setVolume(v);
                                       });
@@ -99,7 +101,7 @@ class _State extends State<TabViewTwo> {
                         : Padding(
                             padding: const EdgeInsets.only(top: 10.0),
                             child: Text(
-                              waterSounds[index].iconTitleText!,
+                              mechanicalSounds[index].iconTitleText!,
                               style: ThemeTextStyles.texStyle,
                               textAlign: TextAlign.center,
                             ),
@@ -111,4 +113,7 @@ class _State extends State<TabViewTwo> {
       );
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -1,5 +1,5 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:good_dream/fun/models/audio_clip.dart';
+import 'package:good_dream/models/audio_clip.dart';
 
 List<AudioClip> get natureSounds => _natureSounds;
 final _natureSounds = [
@@ -9,6 +9,7 @@ final _natureSounds = [
       iconTitleText: 'Woodpecker',
       audioFile: "assets/audio/woodpecker.ogg",
       isControlActive: false,
+      id: 'woodpecker',
       player: AssetsAudioPlayer()),
   AudioClip(
       disableIcon: 'assets/images/frog_w.png',
@@ -16,6 +17,7 @@ final _natureSounds = [
       iconTitleText: 'Frogs ambience',
       audioFile: "assets/audio/frogs_ambience.ogg",
       isControlActive: false,
+      id: 'frog',
       player: AssetsAudioPlayer()),
   AudioClip(
       disableIcon: 'assets/images/stork_w.png',
@@ -23,6 +25,7 @@ final _natureSounds = [
       iconTitleText: 'Stork',
       audioFile: "assets/audio/storks.ogg",
       isControlActive: false,
+      id: 'strok',
       player: AssetsAudioPlayer()),
   AudioClip(
       disableIcon: 'assets/images/city_park_w.png',
@@ -30,6 +33,7 @@ final _natureSounds = [
       iconTitleText: 'City park',
       audioFile: "assets/audio/city_park.ogg",
       isControlActive: false,
+      id: 'city_park',
       player: AssetsAudioPlayer()),
   AudioClip(
       disableIcon: 'assets/images/fireplace_w.png',
@@ -37,6 +41,7 @@ final _natureSounds = [
       iconTitleText: 'Fireplace',
       audioFile: "assets/audio/fireplace.ogg",
       isControlActive: false,
+      id: 'fireplace',
       player: AssetsAudioPlayer()),
   AudioClip(
       disableIcon: 'assets/images/bonfire2_w.png',
@@ -44,6 +49,7 @@ final _natureSounds = [
       iconTitleText: 'Bonfire',
       audioFile: "assets/audio/bonfire.ogg",
       isControlActive: false,
+      id: 'bonfire',
       volumeControlSlider: 0.5,
       player: AssetsAudioPlayer()),
   AudioClip(
@@ -52,6 +58,7 @@ final _natureSounds = [
       iconTitleText: 'Bird',
       audioFile: "assets/audio/bird.ogg",
       isControlActive: false,
+      id: 'bird',
       player: AssetsAudioPlayer()),
   AudioClip(
       disableIcon: 'assets/images/thunder_w.png',
@@ -59,6 +66,7 @@ final _natureSounds = [
       iconTitleText: 'Thunder',
       audioFile: "assets/audio/thunder_ambience.ogg",
       isControlActive: false,
+      id: 'thunder',
       player: AssetsAudioPlayer()),
   AudioClip(
       disableIcon: 'assets/images/cricket_w.png',
@@ -66,6 +74,7 @@ final _natureSounds = [
       iconTitleText: 'Cricket',
       audioFile: "assets/audio/cricket.ogg",
       isControlActive: false,
+      id: 'cricket',
       player: AssetsAudioPlayer()),
   AudioClip(
       disableIcon: 'assets/images/forest_w.png',
@@ -73,6 +82,7 @@ final _natureSounds = [
       iconTitleText: 'Forest',
       audioFile: "assets/audio/forest_ambience.ogg",
       isControlActive: false,
+      id: 'forest',
       player: AssetsAudioPlayer()),
   AudioClip(
       disableIcon: 'assets/images/wind_w.png',
@@ -80,6 +90,7 @@ final _natureSounds = [
       iconTitleText: 'Wind',
       audioFile: "assets/audio/wind.ogg",
       isControlActive: false,
+      id: 'wind',
       player: AssetsAudioPlayer()),
   AudioClip(
       disableIcon: 'assets/images/jungle_w.png',
@@ -87,5 +98,6 @@ final _natureSounds = [
       iconTitleText: 'Tropical',
       audioFile: "assets/audio/tropical_ambience.ogg",
       isControlActive: false,
+      id: 'jungle',
       player: AssetsAudioPlayer()),
 ];

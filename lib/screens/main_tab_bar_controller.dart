@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
-import 'TabView/tab_view_four.dart';
-import 'TabView/tab_view_one.dart';
-import 'TabView/tab_view_two.dart';
-import 'TabView/tab_view_three.dart';
+import '../views/tab_view_four.dart';
+import '../views/tab_view_one.dart';
+import '../views/tab_view_two.dart';
+import '../views/tab_view_three.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 class MainTabBarController extends StatefulWidget {

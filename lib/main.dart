@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:good_dream/bloc/nature_sounds/nature_sounds_cubit.dart';
 import 'package:good_dream/fun/config.dart';
+import 'package:good_dream/models/audio_clip.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:good_dream/screens/main_menu_navigator.dart';
+import 'package:good_dream/sounds/nature_sounds.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:flare_splash_screen/flare_splash_screen.dart';
@@ -26,15 +30,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations(
-    [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-    var materialApp = MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen.navigate(
-        name: 'assets/intro2.flr',
-        next: (_) => const MainMenuNavigator(),
-        until: () => Future.delayed(const Duration(seconds: 3)),
-        startAnimation: 'intro',
-        backgroundColor: const Color(0xff000000),
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+        final List<AudioClip> audioClpips = natureSounds;
+    var materialApp = BlocProvider(
+      
+      create: (context) => NatureSoundsCubit(audioClpips),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen.navigate(
+          name: 'assets/intro2.flr',
+          next: (_) => const MainMenuNavigator(),
+          until: () => Future.delayed(const Duration(seconds: 3)),
+          startAnimation: 'intro',
+          backgroundColor: const Color(0xff000000),
+        ),
       ),
     );
     return ChangeNotifierProvider(
