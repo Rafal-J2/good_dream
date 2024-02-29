@@ -1,3 +1,5 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:good_dream/bloc/mediaControlCubit/media_control_cubit_cubit.dart';
 import 'package:good_dream/bloc/nature_sounds/nature_sounds_cubit.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +24,8 @@ class _State extends State<TabViewOne> {
     Map<String, double> imageSize = ThemeTextStyles.getImageSize(context);
     double screenWidth = MediaQuery.of(context).size.width;
     logger.i("Width screen $screenWidth");
-    return Consumer<DataProvider>(
-      builder: (
-        context,
-        cart,
-        child,
-      ) {
+    return BlocBuilder<MediaControlCubit, MediaControlCubitState>(
+      builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.only(top: 30.0),
           child: GridView.builder(
@@ -39,35 +37,41 @@ class _State extends State<TabViewOne> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    if (cart.count <= 5) {
+                    if (context.read<MediaControlCubit>().selectedCount <= 5) {
                       context
-                        .read<NatureSoundsCubit>()
-                        .toggleSound(natureSounds[index]);
-                      natureSounds[index].isControlActive
-                          ? natureSounds[index].player.open(
-                              Audio(natureSounds[index].audioFile!),
-                              volume: 0.5,
-                              loopMode: LoopMode.single)
-                          : natureSounds[index].player.pause();
+                          .read<NatureSoundsCubit>()
+                          .toggleSound(natureSounds[index]);
 
                       /// Add image to page two
                       natureSounds[index].isControlActive
-                          ? cart.add(natureSounds[index])
-                          : cart.remove(natureSounds[index]);
-                    } else if (cart.count == 6) {
-                      cart.remove(natureSounds[index]);
+                          ? context
+                              .read<MediaControlCubit>()
+                              .addSound(natureSounds[index])
+                          : context
+                              .read<MediaControlCubit>()
+                              .removeSound(natureSounds[index]);
+                    } else if (context
+                            .read<MediaControlCubit>()
+                            .selectedCount == 6) {
+                      context
+                          .read<MediaControlCubit>()
+                          .removeSound(natureSounds[index]);
                       natureSounds[index].isControlActive = false;
                       natureSounds[index].player.pause();
                       //Toast Text
-                      if (cart.count == 6) {
+                      if (context.read<MediaControlCubit>().selectedCount ==
+                          6) {
                         toast();
                       }
                     }
 
                     /// foregroundService START or STOP
-                    if (cart.count == 1) {
+                    if (context.read<MediaControlCubit>().selectedCount == 1) {
                       foregroundService();
-                    } else if (cart.count == 0 && cart.count2 == 0) {
+                    } else if (context
+                            .read<MediaControlCubit>()
+                            .selectedCount ==
+                        0) {
                       foregroundServiceStop();
                     }
                   },
@@ -75,7 +79,7 @@ class _State extends State<TabViewOne> {
                     children: [
                       Image(
                         height: imageSize['height'],
-                        width: imageSize['width'],
+                        //  width: imageSize['width'],
                         image: AssetImage(natureSounds[index].isControlActive
                             ? natureSounds[index].enableIcon!
                             : natureSounds[index].disableIcon!),

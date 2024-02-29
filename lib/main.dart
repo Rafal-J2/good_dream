@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:good_dream/bloc/mediaControlCubit/media_control_cubit_cubit.dart';
 import 'package:good_dream/bloc/nature_sounds/nature_sounds_cubit.dart';
 import 'package:good_dream/fun/config.dart';
 import 'package:good_dream/models/audio_clip.dart';
@@ -28,13 +29,24 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
+  @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-        final List<AudioClip> audioClpips = natureSounds;
-    var materialApp = BlocProvider(
-      
-      create: (context) => NatureSoundsCubit(audioClpips),
+
+    final List<AudioClip> audioClips =
+        natureSounds; 
+    return MultiProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => NatureSoundsCubit(audioClips),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DataProvider(),
+        ),
+        BlocProvider(
+        create: ((context) => MediaControlCubit()))
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: SplashScreen.navigate(
@@ -45,10 +57,6 @@ class MyApp extends StatelessWidget {
           backgroundColor: const Color(0xff000000),
         ),
       ),
-    );
-    return ChangeNotifierProvider(
-      create: (context) => DataProvider(),
-      child: materialApp,
     );
   }
 }
