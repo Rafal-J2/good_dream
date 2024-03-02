@@ -1,15 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:good_dream/bloc/mediaControlCubit/media_control_cubit_cubit.dart';
-import 'package:good_dream/bloc/nature_sounds/nature_sounds_cubit.dart';
-import 'package:good_dream/models/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:good_dream/models/audio_clip.dart';
 import 'package:good_dream/style/theme_text_styles.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import '../fun/foreground_service.dart';
-import '../fun/toast.dart';
-import '../main.dart';
 import '../sounds/nature_sounds.dart';
 
 class TabViewOne extends StatefulWidget {
@@ -21,13 +16,11 @@ class TabViewOne extends StatefulWidget {
 class _State extends State<TabViewOne> {
   @override
   Widget build(BuildContext context) {
-    Map<String, double> imageSize = ThemeTextStyles.getImageSize(context);
-    double screenWidth = MediaQuery.of(context).size.width;
-    logger.i("Width screen $screenWidth");
+    Map<String, double> imageSize = MediaQuerySize.getImageSize(context);
     return BlocBuilder<MediaControlCubit, MediaControlCubitState>(
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.only(top: 30.0),
+          padding: AppPaddings.paddingTopForGridView,
           child: GridView.builder(
               itemCount: natureSounds.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -37,52 +30,18 @@ class _State extends State<TabViewOne> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    if (context.read<MediaControlCubit>().selectedCount <= 5) {
-                      context
-                          .read<NatureSoundsCubit>()
-                          .toggleSound(natureSounds[index]);
-
-                      /// Add image to page two
-                      natureSounds[index].isControlActive
-                          ? context
-                              .read<MediaControlCubit>()
-                              .addSound(natureSounds[index])
-                          : context
-                              .read<MediaControlCubit>()
-                              .removeSound(natureSounds[index]);
-                    } else if (context
-                            .read<MediaControlCubit>()
-                            .selectedCount == 6) {
-                      context
-                          .read<MediaControlCubit>()
-                          .removeSound(natureSounds[index]);
-                      natureSounds[index].isControlActive = false;
-                      natureSounds[index].player.pause();
-                      //Toast Text
-                      if (context.read<MediaControlCubit>().selectedCount ==
-                          6) {
-                        toast();
-                      }
-                    }
-
-                    /// foregroundService START or STOP
-                    if (context.read<MediaControlCubit>().selectedCount == 1) {
-                      foregroundService();
-                    } else if (context
-                            .read<MediaControlCubit>()
-                            .selectedCount ==
-                        0) {
-                      foregroundServiceStop();
-                    }
+                    AudioClip sound = natureSounds[index];
+                    context.read<MediaControlCubit>().toggleSound(sound);
                   },
                   child: Column(
                     children: [
                       Image(
                         height: imageSize['height'],
-                        //  width: imageSize['width'],
                         image: AssetImage(natureSounds[index].isControlActive
-                            ? natureSounds[index].enableIcon!
-                            : natureSounds[index].disableIcon!),
+                            ? natureSounds[index].enableIcon ??
+                                'assets/images/default_enabled_icon_on.png'
+                            : natureSounds[index].disableIcon ??
+                                'assets/images/default_enabled_icon_w.png'),
                       ),
                       natureSounds[index].isControlActive
                           ? PlayerBuilder.volume(
@@ -97,19 +56,29 @@ class _State extends State<TabViewOne> {
                                       max: 1,
                                       divisions: 50,
                                       onChanged: (v) {
-                                        setState(() {
-                                          natureSounds[index]
-                                              .player
-                                              .setVolume(v);
-                                        });
+                                        setState(
+                                          () {
+                                            natureSounds[index]
+                                                .player
+                                                .setVolume(v);
+                                          },
+                                        );
+                                      },
+                                      onChangeEnd: (v) {
+                                        String soundId =
+                                            natureSounds[index].audioFile!;
+                                        context
+                                            .read<MediaControlCubit>()
+                                            .setVolume(soundId, v);
                                       }),
                                 );
                               })
                           : Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
+                              padding:
+                                  AppPaddings.paddingTopBetweenTextAndImage,
                               child: Text(
                                 natureSounds[index].iconTitleText!,
-                                style: ThemeTextStyles.texStyle,
+                                style: ThemeTextStyles.textStyle,
                                 textAlign: TextAlign.center,
                               ),
                             ),

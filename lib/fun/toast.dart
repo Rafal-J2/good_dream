@@ -2,11 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-void toast() {
+void notifyMaxSoundsReached() {
   Fluttertoast.cancel();
   Fluttertoast.showToast(
-
-      msg:"6 sounds can be played at the same time.",
+      msg: "6 sounds can be played at the same time.",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,

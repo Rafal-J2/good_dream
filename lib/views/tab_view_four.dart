@@ -20,7 +20,7 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, double> imageSize = ThemeTextStyles.getImageSize(context);
+    Map<String, double> imageSize = MediaQuerySize.getImageSize(context);
     super.build(context);
     return Consumer<DataProvider>(builder: (
       context,
@@ -57,7 +57,7 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
                     mechanicalSounds[index].isControlActive = false;
                     mechanicalSounds[index].player.pause();
                     if (cart.count == 6) {
-                      toast();
+                      notifyMaxSoundsReached();
                     }
                   }
 
@@ -102,7 +102,7 @@ class _State extends State<TabViewFour> with AutomaticKeepAliveClientMixin {
                             padding: const EdgeInsets.only(top: 10.0),
                             child: Text(
                               mechanicalSounds[index].iconTitleText!,
-                              style: ThemeTextStyles.texStyle,
+                              style: ThemeTextStyles.textStyle,
                               textAlign: TextAlign.center,
                             ),
                           ),

@@ -17,7 +17,7 @@ class TabViewTwo extends StatefulWidget {
 class _State extends State<TabViewTwo> {
   @override
   Widget build(BuildContext context) {
-    Map<String, double> imageSize = ThemeTextStyles.getImageSize(context);
+    Map<String, double> imageSize = MediaQuerySize.getImageSize(context);
     return Consumer<DataProvider>(builder: (
       context,
       cart,
@@ -54,7 +54,7 @@ class _State extends State<TabViewTwo> {
                     waterSounds[index].player.pause();
                     //Toast Text
                     if (cart.count == 6) {
-                      toast();
+                      notifyMaxSoundsReached();
                     }
                   }
 
@@ -89,9 +89,7 @@ class _State extends State<TabViewTwo> {
                                     divisions: 50,
                                     onChanged: (v) {
                                       setState(() {
-                                        waterSounds[index]
-                                            .player
-                                            .setVolume(v);
+                                        waterSounds[index].player.setVolume(v);
                                       });
                                     }),
                               );
@@ -100,7 +98,7 @@ class _State extends State<TabViewTwo> {
                             padding: const EdgeInsets.only(top: 10.0),
                             child: Text(
                               waterSounds[index].iconTitleText!,
-                              style: ThemeTextStyles.texStyle,
+                              style: ThemeTextStyles.textStyle,
                               textAlign: TextAlign.center,
                             ),
                           ),

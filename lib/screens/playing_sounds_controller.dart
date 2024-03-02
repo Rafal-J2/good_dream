@@ -2,12 +2,11 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:good_dream/sounds/mechanical_sounds.dart';
+import 'package:good_dream/bloc/mediaControlCubit/media_control_cubit_cubit.dart';
 import 'package:good_dream/fun/foreground_service.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
-import 'package:good_dream/models/data_provider.dart';
 import '../main.dart';
 
 class PlayingSoundsController extends StatefulWidget {
@@ -45,8 +44,10 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Consumer<DataProvider>(
-      builder: (context, cart, child) {
+    return BlocBuilder<MediaControlCubit, MediaControlCubitState>(
+      builder: (context, state) {
+        final mediaControlCubit = context.read<MediaControlCubit>();
+        final selectedCount = mediaControlCubit.selectedCount;
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: FlexColorScheme.light(
@@ -57,9 +58,6 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
           darkTheme: FlexColorScheme.dark(
             scheme: FlexScheme.red,
           ).toTheme,
-          themeMode: cart.basketItems3.isEmpty
-              ? themeMode
-              : mechanicalSounds[0].checkThemeMode,
           home: Scaffold(
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(40.0),
@@ -71,7 +69,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
             ),
             body: ListView(
               children: <Widget>[
-                if (cart.count == 0)
+                if (selectedCount == 0)
                   const Center(
                     child: Padding(
                       padding: EdgeInsets.only(top: 20.0),
@@ -81,11 +79,11 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                       ),
                     ),
                   ),
-                if (cart.count == 0)
+                if (selectedCount == 0)
                   Center(
                     child: Lottie.asset('assets/lottieFiles/relax.json'),
                   ),
-                ...cart.basketItems.map((item) {
+                ...state.selectedSounds.map((item) {
                   return Container(
                     margin: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
@@ -137,8 +135,13 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                             onTap: () {
                               item.player.pause();
                               item.isControlActive = false;
-                              cart.remove(item);
-                              if (cart.count == 0) {
+                              context
+                                  .read<MediaControlCubit>()
+                                  .removeSound(item);
+                              if (context
+                                      .read<MediaControlCubit>()
+                                      .selectedCount ==
+                                  0) {
                                 foregroundServiceStop();
                               }
                             },

@@ -57,7 +57,7 @@ class DataProvider extends ChangeNotifier {
 
       //Toast Text
       if (count == 6) {
-        toast();
+        notifyMaxSoundsReached();
       }
     }
     // foregroundService START or STOP
