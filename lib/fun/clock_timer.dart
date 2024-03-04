@@ -1,12 +1,9 @@
-
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:good_dream/fun/toast.dart';
-import 'package:good_dream/models/data_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:numberpicker/numberpicker.dart';
 
 class ClockTimer extends StatefulWidget {
   const ClockTimer({super.key});
@@ -16,122 +13,45 @@ class ClockTimer extends StatefulWidget {
 }
 
 class _State extends State<ClockTimer> {
-
   @override
   void initState() {
     super.initState();
-    _loadSeconds();
+    _seconds = 4500;
   }
 
-  setClock() {
-    Navigator.of(context)
-        .pop(Duration(hours: _hours, minutes: _minutes));
+  @override
+  void dispose() {
+    _cancelTimer();
+    super.dispose();
   }
 
   Timer? timer;
-  int? minuteDialog;
-  int? hoursDialog;
-  bool counting = false;
-  int _minutes = 0;
-  int _seconds = 0;
-  final int _hours = 0;
-  bool  _isFav = false;
+  late int _seconds;
+  bool _isTimerRunning = false;
+  int _selectedHour = 1;
+  int _selectedMinute = 15;
 
-  resetRemainingTime5() {
-    _isFav = true;
-    setState(()  {
-      _saveSeconds();
-      _minutes = 5;
-    });
-  }
-
-  _resetRemainingTime10() {
-    _isFav = true;
+  void resetRemainingTime() {
     setState(() {
-      _saveSeconds();
-      _minutes = 10;
-
-    });
-  }
-
-  _resetRemainingTime15() {
-    _isFav = true;
-    setState(() {
-      _saveSeconds();
-      _minutes = 15;
-    });
-  }
-
-  _resetRemainingTime30() {
-    _isFav = true;
-    setState(() {
-      _saveSeconds();
-      _minutes = 30;
-    });
-  }
-
-  _resetRemainingTime60() {
-    _isFav = true;
-    setState(() {
-      _saveSeconds();
-      _minutes = 60;
-    });
-  }
-
-  _resetRemainingTime120() {
-    _isFav = true;
-    setState(() {
-      _saveSeconds();
-      _minutes = 120;
-    });
-  }
-
-  _resetRemainingTime180() {
-    _isFav = true;
-    setState(() {
-      _saveSeconds();
-      _minutes = 180;
-    });
-  }
-
-  _resetRemainingTime240() {
-    _isFav = true;
-    setState(() {
-      _saveSeconds();
-      _minutes = 240;
+      _isTimerRunning = true;
+      _seconds = _selectedHour * 3600 + _selectedMinute * 60;
     });
   }
 
   _startTimer() {
-    _seconds = _hours * 3600 + _minutes * 60;
     _cancelTimer();
-    // _resetRemainingTime();
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
       _tick();
     });
   }
 
-  void _saveSeconds() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      prefs.setInt('counter', _seconds);
-    });
-  }
-
-  //Incrementing counter after click
-  void _loadSeconds() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _seconds = (prefs.getInt('counter') ?? 3600);
-   //   prefs.setInt('counter', _counter);
-    });
-  }
-
-  _renderClock()  {
+  _renderClock() {
     final duration = Duration(seconds: _seconds);
-    final hours = _twoDigits(duration.inHours.remainder(60));
-    final minutes = _twoDigits(duration.inMinutes.remainder(60));
-    final seconds = _twoDigits(duration.inSeconds.remainder(60));
+    final hours = _formatNumberWithLeadingZero(duration.inHours.remainder(60));
+    final minutes =
+        _formatNumberWithLeadingZero(duration.inMinutes.remainder(60));
+    final seconds =
+        _formatNumberWithLeadingZero(duration.inSeconds.remainder(60));
 
     return Text(
       "$hours:$minutes:$seconds",
@@ -145,22 +65,21 @@ class _State extends State<ClockTimer> {
       timer = null;
     }
     setState(() {
-      counting = false;
+      _seconds = _selectedHour * 3600 + _selectedMinute * 60;
     });
   }
 
   _tick() {
     setState(() {
       _seconds -= 1;
-    //  _saveSeconds();
       if (_seconds <= 0) {
         _cancelTimer();
-        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        _exitApp();
       }
     });
   }
 
-  _twoDigits(int n) {
+  _formatNumberWithLeadingZero(int n) {
     return n.toString().padLeft(2, "0");
   }
 
@@ -170,192 +89,132 @@ class _State extends State<ClockTimer> {
 
   @override
   Widget build(BuildContext context) {
-    //  final Size screenSize = MediaQuery.of(context).size;
-
-    return Consumer<DataProvider>(builder: (
-        context,
-        cart,
-        child,
-        ) {
-      return Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-             Flexible(
-                // padding:
-                //  const EdgeInsets.only(left: 30.0, right: 30.0, top: 15),
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 6),
-                  child: ElevatedButton(
-                    style: raiseButtonStyle,
-                    onPressed: () {
-                      _isFav = !_isFav;
-                      if(_isFav) {
-                        _loadSeconds();
-                        _startTimer();
-                      } else {
-                        _cancelTimer();
-                        _loadSeconds();
-                      }
-                    },
-                    child: _isFav ?  const Text("Stop Time") :  const Text('Start Timer'),
-                  ),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 6),
+                child: ElevatedButton(
+                  style: raiseButtonStyle,
+                  onPressed: () {
+                    if (_isTimerRunning) {
+                      _cancelTimer();
+                      setState(() {
+                        _seconds = _selectedHour * 3600 + _selectedMinute * 60;
+                      });
+                    } else {
+                      _startTimer();
+                    }
+                    _isTimerRunning = !_isTimerRunning;
+                  },
+                  child: _isTimerRunning
+                      ? const Text("Reset Time")
+                      : const Text('Start Timer'),
                 ),
               ),
-              Flexible(            
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 6),
-                  child: ElevatedButton(
-                    style: raiseButtonStyle,
-                    onPressed: () {
-                    _showDialog();
-                    },
-                    child: const Text("Set Time"),
-                  ),
+            ),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: ElevatedButton(
+                  style: raiseButtonStyle,
+                  onPressed: () {
+                    _showModalBottomSheet();
+                  },
+                  child: const Text("Set Time"),
                 ),
               ),
-            ],
-          ),
-          _renderClock(),
-        ],
-      );
-    });
+            ),
+          ],
+        ),
+        _renderClock(),
+      ],
+    );
   }
 
-  Future<void> _showDialog() {
-    return showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Center(child: Text('Set Time')),
-            actions: [
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    resetRemainingTime5();
-                    _startTimer();
-                    toast3();
-                    Navigator.of(context)
-                        .pop(Duration(hours: _hours, minutes: _minutes));
-                  },
-                  child: const Text('5 MINUTES'),
-                ),
-              ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    _resetRemainingTime10();
-                    _startTimer();
-                    toast3();
-                    Navigator.of(context)
-                        .pop(Duration(hours: _hours, minutes: _minutes));
-                  },
-                  child: const Text('10 MINUTES'),
-                ),
-              ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pop(Duration(hours: _hours, minutes: _minutes));
-                    _resetRemainingTime15();
-                    _startTimer();
-                    toast3();
-                  },
-                  child: const Text('15 MINUTES'),
-                ),
-              ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pop(Duration(hours: _hours, minutes: _minutes));
-                    _resetRemainingTime30();
-                    _startTimer();
-                    toast3();
-                  },
-                  child: const Text('30 MINUTES'),
-                ),
-              ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pop(Duration(hours: _hours, minutes: _minutes));
-                    _resetRemainingTime60();
-                    _startTimer();
-                    toast3();
-                  },
-                  child: const Text('1 HOURS'),
-                ),
-              ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pop(Duration(hours: _hours, minutes: _minutes));
-                    _resetRemainingTime120();
-                    _startTimer();
-                    toast3();
-                  },
-                  child: const Text('2 HOURS'),
-                ),
-              ),
-
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pop(Duration(hours: _hours, minutes: _minutes));
-                    _resetRemainingTime180();
-                    _startTimer();
-                    toast3();
-                  },
-                  child: const Text('3 HOURS'),
-                ),
-              ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pop(Duration(hours: _hours, minutes: _minutes));
-                    _resetRemainingTime240();
-                    _startTimer();
-                    toast3();
-                  },
-                  child: const Text('4 HOURS'),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 65, top: 25),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 12.0),
-                      child: TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: const Text('CLOSE'),
+  Future<void> _showModalBottomSheet() async {
+    int selectedHour = _selectedHour;
+    int selectedMinute = _selectedMinute;
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'Custom Duration',
+                    style: TextStyle(fontSize: 24, color: Colors.white),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      NumberPicker(
+                        value: selectedHour,
+                        minValue: 0,
+                        maxValue: 8,
+                        onChanged: (value) =>
+                            setState(() => selectedHour = value),
                       ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        _cancelTimer();
-                        _loadSeconds();
-                        _isFav = false;
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('STOP'),
-                    ),
-                  ],
-                ),
+                      const Text(':',
+                          style: TextStyle(color: Colors.white, fontSize: 24)),
+                      NumberPicker(
+                        value: selectedMinute,
+                        minValue: 0,
+                        maxValue: 59,
+                        onChanged: (value) =>
+                            setState(() => selectedMinute = value),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Cancel',
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          setState(() {
+                            _selectedHour = selectedHour;
+                            _selectedMinute = selectedMinute;
+                            resetRemainingTime();
+                            _startTimer();
+                          });
+                          notificationStartCountdown();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                        ),
+                        child: const Text('Apply'),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          );
-        });
+            );
+          },
+        );
+      },
+    );
   }
 }
 
-
-
+void _exitApp() {
+  if (Platform.isAndroid) {
+    SystemNavigator.pop();
+  } else if (Platform.isIOS) {
+    exit(0);
+  }
+}

@@ -14,7 +14,7 @@ void notifyMaxSoundsReached() {
       fontSize: 16.0);
 }
 
-void toast3() {
+void notificationStartCountdown() {
   Fluttertoast.showToast(
       msg: "The time has started",
       toastLength: Toast.LENGTH_SHORT,
