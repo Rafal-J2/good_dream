@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import '../fun/foreground_service.dart';
-import '../fun/toast.dart';
+import '../services/foreground_service.dart';
+import '../utils/toast_notifications.dart';
 import '../sounds/music_sounds.dart';
 import '../style/theme_text_styles.dart';
 
@@ -61,9 +61,9 @@ class _State extends State<TabViewThree> {
 
                   /// foregroundService START or STOP
                   if (cart.count == 1) {
-                    foregroundService();
+                    startForegroundService();
                   } else if (cart.count == 0 && cart.count2 == 0) {
-                    foregroundServiceStop();
+                    stopForegroundService();
                   }
                 },
                 child: Column(

@@ -1,6 +1,6 @@
-import 'package:good_dream/fun/toast.dart';
+import 'package:good_dream/utils/toast_notifications.dart';
 import 'package:good_dream/models/data_provider.dart';
-import 'package:good_dream/fun/foreground_service.dart';
+import 'package:good_dream/services/foreground_service.dart';
 import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:good_dream/style/theme_text_styles.dart';
@@ -60,9 +60,9 @@ class _State extends State<TabViewTwo> {
 
                   /// foregroundService START or STOP
                   if (cart.count == 1) {
-                    foregroundService();
+                    startForegroundService();
                   } else if (cart.count == 0 && cart.count2 == 0) {
-                    foregroundServiceStop();
+                    stopForegroundService();
                   }
                 },
                 child: Column(

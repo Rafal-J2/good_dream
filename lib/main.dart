@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/bloc/mediaControlCubit/media_control_cubit_cubit.dart';
 import 'package:good_dream/bloc/nature_sounds/nature_sounds_cubit.dart';
-import 'package:good_dream/fun/config.dart';
+import 'package:good_dream/configuration/env_config.dart';
 import 'package:good_dream/models/audio_clip.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:good_dream/screens/main_menu_navigator.dart';

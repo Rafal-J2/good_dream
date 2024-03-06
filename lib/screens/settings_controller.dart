@@ -7,7 +7,7 @@ import 'package:good_dream/sounds/mechanical_sounds.dart';
 import 'package:good_dream/fun/mode_switch.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:good_dream/fun/show_dialogs.dart';
+import 'package:good_dream/views/show_dialogs.dart';
 import '../main.dart';
 
 class SettingsController extends StatefulWidget {
@@ -84,7 +84,7 @@ class SettingsControllerState extends State<SettingsController>
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: const Text('Privacy Policy'),
-                          content: privacyPolicyDialog(),
+                          content: privacyPolicyDialog(context),
                           actions: <Widget>[
                             TextButton(
                               child: const Text('Approve'),
@@ -108,7 +108,7 @@ class SettingsControllerState extends State<SettingsController>
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: const Text('Acknowledgments'),
-                          content: acknowledgmentsDialog(),
+                          content: acknowledgmentsDialog(context),
                           actions: <Widget>[
                             TextButton(
                               child: const Text('Approve'),
@@ -134,7 +134,7 @@ class SettingsControllerState extends State<SettingsController>
                 children: [
                   SizedBox(
                     height: 200,
-                    child: HomePage(
+                    child: ModeSwitch(
                       themeMode: themeMode,
                       // On the home page we can toggle theme mode between light and dark.
                       onThemeModeChanged: (ThemeMode mode) {

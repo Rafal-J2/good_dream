@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dialogs.dart';
-import 'launch_url.dart';
+import 'package:good_dream/style/theme_text_styles.dart';
+import '../constants/dialogs.dart';
+import '../services/launch_url.dart';
 
 class PrivacyPolicyContent {
   String? privacyPolicyContent;
-
   TextStyle? headerTextStyle;
   VoidCallback? onTap;
 
@@ -62,9 +62,8 @@ final List<PrivacyPolicyContent> privacyPolicyContent = [
   ),
   PrivacyPolicyContent(
     privacyPolicyContent: '•	Google Play Services',
-    headerTextStyle: const TextStyle(
-        decoration: TextDecoration.underline, color: Colors.blue),
-    onTap: launchURL,
+    headerTextStyle: ThemeTextStyles.textStyleForUrlLauncher,
+    onTap: UrlLauncherService().launchPrivacyPolicyUrl,
   ),
   PrivacyPolicyContent.withBoldHeader(
     privacyPolicyContent: "Children's Privacy Protection",

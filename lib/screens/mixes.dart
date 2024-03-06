@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import '../sounds/water_sounds.dart';
 import '../fun/only_mix.dart';
 
+
+
 class Mix extends StatelessWidget {
   const Mix({super.key});
   @override
@@ -15,6 +17,7 @@ class Mix extends StatelessWidget {
       child,
     ) {
       return GridView.builder(
+        
           itemCount: 4,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2),

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/sounds/mechanical_sounds.dart';
-import 'package:good_dream/fun/clock_timer.dart';
+import 'package:good_dream/services/clock_timer.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

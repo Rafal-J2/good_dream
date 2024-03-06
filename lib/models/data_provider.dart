@@ -1,8 +1,8 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:good_dream/fun/foreground_service.dart';
-import 'package:good_dream/fun/toast.dart';
+import 'package:good_dream/services/foreground_service.dart';
+import 'package:good_dream/utils/toast_notifications.dart';
 import 'package:good_dream/models/audio_clip.dart';
 
 import '../sounds/water_sounds.dart';
@@ -23,12 +23,6 @@ class DataProvider extends ChangeNotifier {
     if (count <= 5) {
       //Bool checking
       waterSounds[index].isControlActive = !waterSounds[index].isControlActive;
-      // Click_events - if isFav is true
-      // if (arrays[index].isFav!) {
-      //   await _analytics.logEvent(
-      //     name: arrays[index].events!,
-      //   );
-      // }
       // Play or Stop sounds
       waterSounds[index].isControlActive
           ? waterSounds[index].player.open(
@@ -62,9 +56,9 @@ class DataProvider extends ChangeNotifier {
     }
     // foregroundService START or STOP
     if (count == 1) {
-      foregroundService();
+      startForegroundService();
     } else if (count == 0 && count2 == 0) {
-      foregroundServiceStop();
+      stopForegroundService();
     }
   }
 

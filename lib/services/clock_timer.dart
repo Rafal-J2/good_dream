@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:good_dream/fun/toast.dart';
+import 'package:good_dream/utils/toast_notifications.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class ClockTimer extends StatefulWidget {
@@ -11,6 +11,12 @@ class ClockTimer extends StatefulWidget {
   @override
   State createState() => _State();
 }
+
+Timer? timer;
+late int _seconds;
+bool _isTimerRunning = false;
+int _selectedHour = 1;
+int _selectedMinute = 15;
 
 class _State extends State<ClockTimer> {
   @override
@@ -24,12 +30,6 @@ class _State extends State<ClockTimer> {
     _cancelTimer();
     super.dispose();
   }
-
-  Timer? timer;
-  late int _seconds;
-  bool _isTimerRunning = false;
-  int _selectedHour = 1;
-  int _selectedMinute = 15;
 
   void resetRemainingTime() {
     setState(() {

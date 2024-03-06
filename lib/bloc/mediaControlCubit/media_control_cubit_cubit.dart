@@ -2,8 +2,8 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:bloc/bloc.dart';
 import 'package:good_dream/models/audio_clip.dart';
 import 'package:meta/meta.dart';
-import '../../fun/foreground_service.dart';
-import '../../fun/toast.dart';
+import '../../services/foreground_service.dart';
+import '../../utils/toast_notifications.dart';
 part 'media_control_cubit_state.dart';
 
 class MediaControlCubit extends Cubit<MediaControlCubitState> {
@@ -59,9 +59,9 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
           : sound.player.pause();
 
       if (updatedSounds.isEmpty) {
-        foregroundServiceStop();
+        stopForegroundService();
       } else if (updatedSounds.length == 1) {
-        foregroundService();
+        startForegroundService();
       }
     } else if (selectedCount >= 6 && !sound.isControlActive) {
       notifyMaxSoundsReached();
