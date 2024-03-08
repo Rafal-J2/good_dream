@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/bloc/mediaControlCubit/media_control_cubit_cubit.dart';
 import 'package:good_dream/bloc/nature_sounds/nature_sounds_cubit.dart';
@@ -8,6 +9,7 @@ import 'package:good_dream/configuration/env_config.dart';
 import 'package:good_dream/models/audio_clip.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:good_dream/screens/main_menu_navigator.dart';
+import 'package:good_dream/services/timer_service.dart';
 import 'package:good_dream/sounds/nature_sounds.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +18,7 @@ import 'package:flare_splash_screen/flare_splash_screen.dart';
 var logger = Logger();
 
 void main() async {
+  setupGetIt();
   await GetStorage.init();
   const environment = 'development';
   final config = EnvConfig.fromEnvironment(environment);
@@ -25,17 +28,19 @@ void main() async {
   runApp(const MyApp());
 }
 
+void setupGetIt() {
+  GetIt.instance.registerSingleton<TimerService>(TimerService(0));
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-    final List<AudioClip> audioClips =
-        natureSounds; 
+    final List<AudioClip> audioClips = natureSounds;
     return MultiProvider(
       providers: [
         BlocProvider(
@@ -44,8 +49,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => DataProvider(),
         ),
-        BlocProvider(
-        create: ((context) => MediaControlCubit()))
+        BlocProvider(create: ((context) => MediaControlCubit()))
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

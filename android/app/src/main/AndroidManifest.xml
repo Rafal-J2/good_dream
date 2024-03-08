@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" tools:node="remove" />
     
     <application
-        android:label="good_dream"
+        android:label="Good dream"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

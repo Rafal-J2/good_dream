@@ -14,32 +14,25 @@ class ModeSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(20.0),
-          height: 200,
-          child: FlexThemeModeSwitch(
-            height: 20,
-            width: 20,
-            title: const Text(
-              'Choose a Color',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0),
-            ),
-            selectedLabelStyle: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0),
-            unselectedLabelStyle: const TextStyle(color: Colors.grey),
-            themeMode: themeMode!,
-            onThemeModeChanged: onThemeModeChanged!,
-            flexSchemeData: flexSchemeData!,
-          ),
+    return Container(
+      padding: const EdgeInsets.all(20.0),
+      child: FlexThemeModeSwitch(
+        title: const Text(
+          '',
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0),
         ),
-      ],
+        selectedLabelStyle: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 16.0),
+        unselectedLabelStyle: const TextStyle(color: Colors.grey),
+        themeMode: themeMode!,
+        onThemeModeChanged: onThemeModeChanged!,
+        flexSchemeData: flexSchemeData!,
+      ),
     );
   }
 }

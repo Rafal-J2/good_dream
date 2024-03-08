@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/sounds/mechanical_sounds.dart';
 import 'package:good_dream/fun/mode_switch.dart';
@@ -65,7 +64,6 @@ class SettingsControllerState extends State<SettingsController>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    // const FlexScheme usedFlexScheme = FlexScheme.mandyRed;
     return Consumer<DataProvider>(builder: (
       context,
       cart,
@@ -121,34 +119,27 @@ class SettingsControllerState extends State<SettingsController>
                       });
                 },
               ),
-              ListTile(
-                title: const Text(
-                  'Exit the application',
+              const ListTile(
+                title: Text(
+                  'Choose a theme color',
                   style: TextStyle(color: Colors.white),
-                ),
-                onTap: () {
-                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                },
+                ),      
               ),
-              Column(
-                children: [
-                  SizedBox(
-                    height: 200,
-                    child: ModeSwitch(
-                      themeMode: themeMode,
-                      // On the home page we can toggle theme mode between light and dark.
-                      onThemeModeChanged: (ThemeMode mode) {
-                        setState(() {
-                          themeMode = mode;
-                          _checkStorage();
-                          mechanicalSounds[0].checkThemeMode = mode;
-                          cart.add3(mechanicalSounds[0]);
-                        });
-                      },
-                      flexSchemeData: FlexColor.schemes[FlexScheme.red],
-                    ),
-                  ),
-                ],
+              SizedBox(
+                               //   height: 200,
+                child: ModeSwitch(
+                  themeMode: themeMode,
+                  // On the home page we can toggle theme mode between light and dark.
+                  onThemeModeChanged: (ThemeMode mode) {
+                    setState(() {
+                      themeMode = mode;
+                      _checkStorage();
+                      mechanicalSounds[0].checkThemeMode = mode;
+                      cart.add3(mechanicalSounds[0]);
+                    });
+                  },
+                  flexSchemeData: FlexColor.schemes[FlexScheme.red],
+                ),
               ),
             ],
           ),

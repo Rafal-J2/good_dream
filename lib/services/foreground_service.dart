@@ -10,9 +10,8 @@ startForegroundService() {
         "assets/audio/silence.mp3",
         metas: Metas(
           title: "Currently playing",
-          //    artist: "Press stop to close the application",
           image: const MetasImage.asset(
-              "assets/images/binaural_on.png"), //can be MetasImage.network
+              "assets/images/binaural_on.png"),
         ),
       ),
       loopMode: LoopMode.single,

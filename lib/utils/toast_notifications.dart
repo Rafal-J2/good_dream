@@ -1,4 +1,3 @@
-//show text
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -9,7 +8,7 @@ void notifyMaxSoundsReached() {
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
-      backgroundColor: Colors.black, //Colors.black45
+      backgroundColor: Colors.black, 
       textColor: Colors.white,
       fontSize: 16.0);
 }
@@ -20,7 +19,7 @@ void notificationStartCountdown() {
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.TOP,
       timeInSecForIosWeb: 1,
-      backgroundColor: Colors.white, //Colors.white70
+      backgroundColor: Colors.white,
       textColor: Colors.black,
       fontSize: 16.0);
 }

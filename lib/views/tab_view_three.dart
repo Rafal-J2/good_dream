@@ -44,7 +44,6 @@ class _State extends State<TabViewThree> {
                             volume: 0.5,
                             loopMode: LoopMode.single)
                         : musicSounds[index].player.pause();
-
                     /// Add image to page two
                     musicSounds[index].isControlActive
                         ? cart.add(musicSounds[index])
@@ -53,13 +52,10 @@ class _State extends State<TabViewThree> {
                     cart.remove(musicSounds[index]);
                     musicSounds[index].isControlActive = false;
                     musicSounds[index].player.pause();
-                    //Toast Text
                     if (cart.count == 6) {
                       notifyMaxSoundsReached();
                     }
                   }
-
-                  /// foregroundService START or STOP
                   if (cart.count == 1) {
                     startForegroundService();
                   } else if (cart.count == 0 && cart.count2 == 0) {

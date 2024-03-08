@@ -52,13 +52,12 @@ class _State extends State<TabViewTwo> {
                     cart.remove(waterSounds[index]);
                     waterSounds[index].isControlActive = false;
                     waterSounds[index].player.pause();
-                    //Toast Text
+   
                     if (cart.count == 6) {
                       notifyMaxSoundsReached();
                     }
                   }
 
-                  /// foregroundService START or STOP
                   if (cart.count == 1) {
                     startForegroundService();
                   } else if (cart.count == 0 && cart.count2 == 0) {
@@ -74,7 +73,6 @@ class _State extends State<TabViewTwo> {
                           ? waterSounds[index].enableIcon!
                           : waterSounds[index].disableIcon!),
                     ),
-                    //     const Padding(padding: EdgeInsets.only(top: 8)),
                     waterSounds[index].isControlActive
                         ? PlayerBuilder.volume(
                             player: waterSounds[index].player,

@@ -2,8 +2,12 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
+import 'package:good_dream/services/timer_service.dart';
 import 'package:good_dream/utils/toast_notifications.dart';
 import 'package:numberpicker/numberpicker.dart';
+
+import '../main.dart';
 
 class ClockTimer extends StatefulWidget {
   const ClockTimer({super.key});
@@ -12,41 +16,26 @@ class ClockTimer extends StatefulWidget {
   State createState() => _State();
 }
 
-Timer? timer;
-late int _seconds;
-bool _isTimerRunning = false;
-int _selectedHour = 1;
-int _selectedMinute = 15;
-
 class _State extends State<ClockTimer> {
-  @override
-  void initState() {
-    super.initState();
-    _seconds = 4500;
-  }
+  final TimerService _timerService = GetIt.I<TimerService>();
+  bool _isTimerRunning = true;
+  int _selectedHour = 1;
+  int _selectedMinute = 0;
+  int _remainingTime = 3600;
 
-  @override
-  void dispose() {
-    _cancelTimer();
-    super.dispose();
-  }
-
-  void resetRemainingTime() {
-    setState(() {
-      _isTimerRunning = true;
-      _seconds = _selectedHour * 3600 + _selectedMinute * 60;
-    });
-  }
-
-  _startTimer() {
-    _cancelTimer();
-    timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      _tick();
-    });
+  void updateUIFunction(int secondsRemaining) {
+    if (mounted) {
+      setState(() {
+        _remainingTime = secondsRemaining;
+        if (_remainingTime <= 0) {
+          _exitApp();
+        }
+      });
+    }
   }
 
   _renderClock() {
-    final duration = Duration(seconds: _seconds);
+    final duration = Duration(seconds: _remainingTime);
     final hours = _formatNumberWithLeadingZero(duration.inHours.remainder(60));
     final minutes =
         _formatNumberWithLeadingZero(duration.inMinutes.remainder(60));
@@ -57,26 +46,6 @@ class _State extends State<ClockTimer> {
       "$hours:$minutes:$seconds",
       style: const TextStyle(fontSize: 40.0, color: Colors.white),
     );
-  }
-
-  _cancelTimer() {
-    if (timer != null) {
-      timer!.cancel();
-      timer = null;
-    }
-    setState(() {
-      _seconds = _selectedHour * 3600 + _selectedMinute * 60;
-    });
-  }
-
-  _tick() {
-    setState(() {
-      _seconds -= 1;
-      if (_seconds <= 0) {
-        _cancelTimer();
-        _exitApp();
-      }
-    });
   }
 
   _formatNumberWithLeadingZero(int n) {
@@ -98,22 +67,24 @@ class _State extends State<ClockTimer> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 6),
                 child: ElevatedButton(
-                  style: raiseButtonStyle,
-                  onPressed: () {
-                    if (_isTimerRunning) {
-                      _cancelTimer();
-                      setState(() {
-                        _seconds = _selectedHour * 3600 + _selectedMinute * 60;
-                      });
-                    } else {
-                      _startTimer();
-                    }
-                    _isTimerRunning = !_isTimerRunning;
-                  },
-                  child: _isTimerRunning
-                      ? const Text("Reset Time")
-                      : const Text('Start Timer'),
-                ),
+                    style: raiseButtonStyle,
+                    onPressed: () {
+                      int newDurationInSeconds =
+                          _selectedHour * 3600 + _selectedMinute * 60;
+                      if (_isTimerRunning) {
+                        logger.i("timer start");
+                        _timerService.setAndStartTimer(
+                            newDurationInSeconds, updateUIFunction);
+                        _isTimerRunning = false;
+                      } else {
+                        logger.i("timer reset");
+                        _timerService.cancelTimer();
+                        _isTimerRunning = true;
+                        updateUIFunction(newDurationInSeconds);
+                      }
+                    },
+                    child:
+                        Text(_isTimerRunning ? "Start Timer" : "Reset Time")),
               ),
             ),
             Flexible(
@@ -136,8 +107,8 @@ class _State extends State<ClockTimer> {
   }
 
   Future<void> _showModalBottomSheet() async {
-    int selectedHour = _selectedHour;
-    int selectedMinute = _selectedMinute;
+  //  int selectedHour = _selectedHour;
+ //   int selectedMinute = _selectedMinute;
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -157,20 +128,20 @@ class _State extends State<ClockTimer> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       NumberPicker(
-                        value: selectedHour,
+                        value: _selectedHour,
                         minValue: 0,
                         maxValue: 8,
                         onChanged: (value) =>
-                            setState(() => selectedHour = value),
+                            setState(() => _selectedHour = value),
                       ),
                       const Text(':',
                           style: TextStyle(color: Colors.white, fontSize: 24)),
                       NumberPicker(
-                        value: selectedMinute,
+                        value: _selectedMinute,
                         minValue: 0,
                         maxValue: 59,
                         onChanged: (value) =>
-                            setState(() => selectedMinute = value),
+                            setState(() => _selectedMinute = value),
                       ),
                     ],
                   ),
@@ -186,12 +157,15 @@ class _State extends State<ClockTimer> {
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pop();
-                          setState(() {
-                            _selectedHour = selectedHour;
-                            _selectedMinute = selectedMinute;
-                            resetRemainingTime();
-                            _startTimer();
-                          });
+                          int newDurationInSeconds =
+                              _selectedHour * 3600 + _selectedMinute * 60;
+                          _timerService.setAndStartTimer(
+                              newDurationInSeconds, updateUIFunction);
+                          _isTimerRunning = false;
+                      //    setState(() {
+                         //   _selectedHour = selectedHour;
+                          //  _selectedMinute = selectedMinute;
+                      //    });
                           notificationStartCountdown();
                         },
                         style: ElevatedButton.styleFrom(
