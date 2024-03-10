@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:good_dream/bloc/mediaControlCubit/media_control_cubit_cubit.dart';
+import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:good_dream/services/foreground_service.dart';
 import 'package:lottie/lottie.dart';
 import '../main.dart';

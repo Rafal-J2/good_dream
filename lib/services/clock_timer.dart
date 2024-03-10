@@ -1,12 +1,12 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:good_dream/services/timer_service.dart';
 import 'package:good_dream/utils/toast_notifications.dart';
 import 'package:numberpicker/numberpicker.dart';
-
+import '../bloc/timer/timer_cubit.dart';
+import '../bloc/timer/timer_state.dart';
 import '../main.dart';
 
 class ClockTimer extends StatefulWidget {
@@ -21,36 +21,7 @@ class _State extends State<ClockTimer> {
   bool _isTimerRunning = true;
   int _selectedHour = 1;
   int _selectedMinute = 0;
-  int _remainingTime = 3600;
 
-  void updateUIFunction(int secondsRemaining) {
-    if (mounted) {
-      setState(() {
-        _remainingTime = secondsRemaining;
-        if (_remainingTime <= 0) {
-          _exitApp();
-        }
-      });
-    }
-  }
-
-  _renderClock() {
-    final duration = Duration(seconds: _remainingTime);
-    final hours = _formatNumberWithLeadingZero(duration.inHours.remainder(60));
-    final minutes =
-        _formatNumberWithLeadingZero(duration.inMinutes.remainder(60));
-    final seconds =
-        _formatNumberWithLeadingZero(duration.inSeconds.remainder(60));
-
-    return Text(
-      "$hours:$minutes:$seconds",
-      style: const TextStyle(fontSize: 40.0, color: Colors.white),
-    );
-  }
-
-  _formatNumberWithLeadingZero(int n) {
-    return n.toString().padLeft(2, "0");
-  }
 
   final ButtonStyle raiseButtonStyle = ElevatedButton.styleFrom(
     backgroundColor: Colors.black,
@@ -58,57 +29,59 @@ class _State extends State<ClockTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return BlocBuilder<TimerCubit, TimerState>(
+      builder: (context, state) {
+        return Column(
           children: [
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: ElevatedButton(
-                    style: raiseButtonStyle,
-                    onPressed: () {
-                      int newDurationInSeconds =
-                          _selectedHour * 3600 + _selectedMinute * 60;
-                      if (_isTimerRunning) {
-                        logger.i("timer start");
-                        _timerService.setAndStartTimer(
-                            newDurationInSeconds, updateUIFunction);
-                        _isTimerRunning = false;
-                      } else {
-                        logger.i("timer reset");
-                        _timerService.cancelTimer();
-                        _isTimerRunning = true;
-                        updateUIFunction(newDurationInSeconds);
-                      }
-                    },
-                    child:
-                        Text(_isTimerRunning ? "Start Timer" : "Reset Time")),
-              ),
-            ),
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 6),
-                child: ElevatedButton(
-                  style: raiseButtonStyle,
-                  onPressed: () {
-                    _showModalBottomSheet();
-                  },
-                  child: const Text("Set Time"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 6),
+                    child: ElevatedButton(
+                        style: raiseButtonStyle,
+                        onPressed: () {
+                          int newDurationInSeconds =
+                              _selectedHour * 3600 + _selectedMinute * 60;
+                          if (_isTimerRunning) {
+                            logger.i("timer start");
+                            context
+                                .read<TimerCubit>()
+                                .startTimer(newDurationInSeconds);
+                          _isTimerRunning = false;
+                          } else {
+                            logger.i("timer reset");
+                            context.read<TimerCubit>().cancelTimer();
+                          _isTimerRunning = true;
+                          }
+                        },
+                        child: Text(
+                            _isTimerRunning ? "Start Timer" : "Reset Time")),
+                  ),
                 ),
-              ),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 6),
+                    child: ElevatedButton(
+                      style: raiseButtonStyle,
+                      onPressed: () {
+                        _showModalBottomSheet();
+                      },
+                      child: const Text("Set Time"),
+                    ),
+                  ),
+                ),
+              ],
             ),
+            _timerService.renderClock(state),
           ],
-        ),
-        _renderClock(),
-      ],
+        );
+      },
     );
   }
 
   Future<void> _showModalBottomSheet() async {
-  //  int selectedHour = _selectedHour;
- //   int selectedMinute = _selectedMinute;
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -159,13 +132,10 @@ class _State extends State<ClockTimer> {
                           Navigator.of(context).pop();
                           int newDurationInSeconds =
                               _selectedHour * 3600 + _selectedMinute * 60;
-                          _timerService.setAndStartTimer(
-                              newDurationInSeconds, updateUIFunction);
+                          context
+                              .read<TimerCubit>()
+                              .startTimer(newDurationInSeconds);
                           _isTimerRunning = false;
-                      //    setState(() {
-                         //   _selectedHour = selectedHour;
-                          //  _selectedMinute = selectedMinute;
-                      //    });
                           notificationStartCountdown();
                         },
                         style: ElevatedButton.styleFrom(
@@ -185,10 +155,4 @@ class _State extends State<ClockTimer> {
   }
 }
 
-void _exitApp() {
-  if (Platform.isAndroid) {
-    SystemNavigator.pop();
-  } else if (Platform.isIOS) {
-    exit(0);
-  }
-}
+

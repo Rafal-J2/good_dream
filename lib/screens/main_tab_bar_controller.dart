@@ -78,10 +78,10 @@ class _State extends State<MainTabBarController> {
   Widget build(BuildContext context) {
     /// This is for verification
     final Size screenSize = MediaQuery.of(context).size;
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    //   DeviceOrientation.portraitDown,
+    // ]);
     return Consumer<DataProvider>(builder: (
       context,
       cart,
@@ -195,7 +195,7 @@ class _State extends State<MainTabBarController> {
                         ],
                       ),
                     ),
-                    const ClockTimer(),
+                 const ClockTimer(),
                   ],
                 ),
               ),

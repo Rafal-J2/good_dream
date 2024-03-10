@@ -1,4 +1,4 @@
-part of 'media_control_cubit_cubit.dart'; 
+part of 'media_control_cubit.dart'; 
 
 @immutable
 abstract class MediaControlCubitState {

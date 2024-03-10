@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:good_dream/bloc/mediaControlCubit/media_control_cubit_cubit.dart';
+import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:good_dream/models/audio_clip.dart';
