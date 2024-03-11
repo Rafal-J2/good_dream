@@ -8,6 +8,7 @@ import 'package:numberpicker/numberpicker.dart';
 import '../bloc/timer/timer_cubit.dart';
 import '../bloc/timer/timer_state.dart';
 import '../main.dart';
+import '../style/theme_text_styles.dart';
 
 class ClockTimer extends StatefulWidget {
   const ClockTimer({super.key});
@@ -18,14 +19,8 @@ class ClockTimer extends StatefulWidget {
 
 class _State extends State<ClockTimer> {
   final TimerService _timerService = GetIt.I<TimerService>();
-  bool _isTimerRunning = true;
   int _selectedHour = 1;
   int _selectedMinute = 0;
-
-
-  final ButtonStyle raiseButtonStyle = ElevatedButton.styleFrom(
-    backgroundColor: Colors.black,
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -40,31 +35,30 @@ class _State extends State<ClockTimer> {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 6),
                     child: ElevatedButton(
-                        style: raiseButtonStyle,
+                        style:  Button.buttonForTimer,
                         onPressed: () {
                           int newDurationInSeconds =
                               _selectedHour * 3600 + _selectedMinute * 60;
-                          if (_isTimerRunning) {
-                            logger.i("timer start");
+                          if (state.isTimerRunning) {
+                            logger.i('read state: ${state.isTimerRunning}');
+                             logger.i("timer start");
                             context
                                 .read<TimerCubit>()
                                 .startTimer(newDurationInSeconds);
-                          _isTimerRunning = false;
                           } else {
                             logger.i("timer reset");
-                            context.read<TimerCubit>().cancelTimer();
-                          _isTimerRunning = true;
+                            context.read<TimerCubit>().cancelTimer();                  
                           }
                         },
                         child: Text(
-                            _isTimerRunning ? "Start Timer" : "Reset Time")),
+                            state.isTimerRunning ? "Start Timer" : "Reset Time")),
                   ),
                 ),
                 Flexible(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 6),
                     child: ElevatedButton(
-                      style: raiseButtonStyle,
+                      style: Button.buttonForTimer,
                       onPressed: () {
                         _showModalBottomSheet();
                       },
@@ -134,8 +128,7 @@ class _State extends State<ClockTimer> {
                               _selectedHour * 3600 + _selectedMinute * 60;
                           context
                               .read<TimerCubit>()
-                              .startTimer(newDurationInSeconds);
-                          _isTimerRunning = false;
+                              .startTimer(newDurationInSeconds);                     
                           notificationStartCountdown();
                         },
                         style: ElevatedButton.styleFrom(

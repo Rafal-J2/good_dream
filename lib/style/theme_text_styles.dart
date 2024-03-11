@@ -8,6 +8,15 @@ class ThemeTextStyles {
       TextStyle(decoration: TextDecoration.underline, color: Colors.blue);
 }
 
+class Button {
+static ButtonStyle buttonForTimer = ElevatedButton.styleFrom(
+    backgroundColor: Colors.black,
+  );
+}
+
+ 
+
+
 class AppPaddings {
   static const EdgeInsets paddingTopBetweenTextAndImage =
       EdgeInsets.only(top: 10.0);

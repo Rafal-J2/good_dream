@@ -8,27 +8,16 @@ class TimerCubit extends Cubit<TimerState> {
   TimerCubit(this._timerService)
       : super(TimerState(remainingTime: _timerService.secondsRemaining));
 
-  void stopTimer() {
-    _timerService.stopTimer();
-    emit(state.copyWith(isTimerRunning: false));
-  }
-
   void startTimer(int seconds) {
     _timerService.setAndStartTimer(seconds, (secondsRemaining) {
       emit(state.copyWith(
-          remainingTime: secondsRemaining, isTimerRunning: true));
+          remainingTime: secondsRemaining, isTimerRunning: false));
     });
   }
 
-  void resetTimer(int seconds) {
-    _timerService.resetTimer(seconds, (secondsRemaining) {
-      emit(state.copyWith(
-          remainingTime: secondsRemaining, isTimerRunning: true));
-    });
-  }
-
-  void cancelTimer() {
+    void cancelTimer() {
     _timerService.cancelTimer();
-    emit(state.copyWith(isTimerRunning: false));
+    emit(state.copyWith(isTimerRunning: true));
   }
+
 }
