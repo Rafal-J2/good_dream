@@ -5,10 +5,12 @@ import 'package:good_dream/services/clock_timer.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:good_dream/views/audio_controler_center.dart';
+import 'package:good_dream/views/tab_view_one.dart';
 import 'package:provider/provider.dart';
+import '../bloc/media_control/sounds_cubit.dart';
 import '../main.dart';
 import '../views/tab_view_four.dart';
-import '../views/tab_view_one.dart';
 import '../views/tab_view_two.dart';
 import '../views/tab_view_three.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -78,10 +80,6 @@ class _State extends State<MainTabBarController> {
   Widget build(BuildContext context) {
     /// This is for verification
     final Size screenSize = MediaQuery.of(context).size;
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.portraitUp,
-    //   DeviceOrientation.portraitDown,
-    // ]);
     return Consumer<DataProvider>(builder: (
       context,
       cart,
@@ -106,7 +104,6 @@ class _State extends State<MainTabBarController> {
           child: PopScope(
             canPop: false,
             onPopInvoked: (didPop) async {
-              debugPrint("didPop1: $didPop");
               if (didPop) {
                 return;
               }
@@ -164,7 +161,7 @@ class _State extends State<MainTabBarController> {
                             children: <Widget>[
                               SizedBox(
                                 height: screenSize.height / 1.6,
-                                child: const TabViewOne(),
+                                child: AudioControlCenter(category: 'natureSounds', soundsByCategory: soundsByCategory),
                               ),
                             ],
                           ),
@@ -172,7 +169,8 @@ class _State extends State<MainTabBarController> {
                             children: <Widget>[
                               SizedBox(
                                 height: screenSize.height / 1.6,
-                                child: const TabViewTwo(),
+                                  child: AudioControlCenter(category: 'waterSounds', soundsByCategory: soundsByCategory),
+                                
                               ),
                             ],
                           ),
@@ -180,7 +178,7 @@ class _State extends State<MainTabBarController> {
                             children: <Widget>[
                               SizedBox(
                                 height: screenSize.height / 1.6,
-                                child: const TabViewThree(),
+                                child: AudioControlCenter(category: 'musicSounds', soundsByCategory: soundsByCategory),
                               ),
                             ],
                           ),
@@ -188,14 +186,14 @@ class _State extends State<MainTabBarController> {
                             children: <Widget>[
                               SizedBox(
                                 height: screenSize.height / 1.6,
-                                child: const TabViewFour(),
+                                child: AudioControlCenter(category: 'mechanicalSounds', soundsByCategory: soundsByCategory),
                               ),
                             ],
                           ),
                         ],
                       ),
                     ),
-                 const ClockTimer(),
+                    const ClockTimer(),
                   ],
                 ),
               ),

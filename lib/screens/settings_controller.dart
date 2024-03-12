@@ -126,10 +126,8 @@ class SettingsControllerState extends State<SettingsController>
                 ),      
               ),
               SizedBox(
-                               //   height: 200,
                 child: ModeSwitch(
                   themeMode: themeMode,
-                  // On the home page we can toggle theme mode between light and dark.
                   onThemeModeChanged: (ThemeMode mode) {
                     setState(() {
                       themeMode = mode;

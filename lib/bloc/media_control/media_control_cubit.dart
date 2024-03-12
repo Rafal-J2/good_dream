@@ -7,7 +7,8 @@ import '../../utils/toast_notifications.dart';
 part 'media_control_cubit_state.dart';
 
 class MediaControlCubit extends Cubit<MediaControlCubitState> {
-  MediaControlCubit() : super(MediaControlCubitInitial());
+  final Map<String, List<AudioClip>> soundsByCategory;
+  MediaControlCubit(this.soundsByCategory) : super(MediaControlCubitInitial());
 
   int get selectedCount => state.selectedSounds.length;
 
@@ -33,14 +34,12 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
     if (soundIndex != -1) {
       var updatedNatureSounds = List<AudioClip>.from(state.selectedSounds);
       var sound = updatedNatureSounds[soundIndex];
-
       sound.player.setVolume(volume);
-
       _updateAndEmitSoundList(updatedNatureSounds);
     }
   }
 
-  void toggleSound(AudioClip sound) {
+  void toggleSound(String category, AudioClip sound) {
     if (selectedCount < 6) {
       sound.isControlActive = !sound.isControlActive;
 
@@ -52,12 +51,10 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
         updatedSounds.removeWhere((s) => s.id == sound.id);
       }
       _updateAndEmitSoundList(updatedSounds);
-
       sound.isControlActive
           ? sound.player.open(Audio(sound.audioFile!),
               volume: 0.5, loopMode: LoopMode.single)
           : sound.player.pause();
-
       if (updatedSounds.isEmpty) {
         stopForegroundService();
       } else if (updatedSounds.length == 1) {

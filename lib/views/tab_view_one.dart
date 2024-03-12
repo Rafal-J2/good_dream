@@ -5,15 +5,19 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:good_dream/models/audio_clip.dart';
 import 'package:good_dream/style/theme_text_styles.dart';
 import 'package:shimmer/shimmer.dart';
+import '../bloc/media_control/sounds_cubit.dart';
 import '../sounds/nature_sounds.dart';
 
 class TabViewOne extends StatefulWidget {
-  const TabViewOne({super.key});
+  final String selectedCategory;
+  const TabViewOne({super.key, required this.selectedCategory, });
   @override
   State createState() => _State();
 }
 
 class _State extends State<TabViewOne> {
+  String selectedCategory = 'natureSounds';
+
   @override
   Widget build(BuildContext context) {
     Map<String, double> imageSize = MediaQuerySize.getImageSize(context);
@@ -30,8 +34,10 @@ class _State extends State<TabViewOne> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    AudioClip sound = natureSounds[index];
-                    context.read<MediaControlCubit>().toggleSound(sound);
+                    AudioClip sound = soundsByCategory[selectedCategory]![index];
+                    context
+                        .read<MediaControlCubit>()
+                        .toggleSound(selectedCategory, sound);
                   },
                   child: Column(
                     children: [
@@ -91,3 +97,6 @@ class _State extends State<TabViewOne> {
     );
   }
 }
+
+
+

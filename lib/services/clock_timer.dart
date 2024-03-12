@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:good_dream/services/timer_service.dart';
 import 'package:good_dream/utils/toast_notifications.dart';
 import 'package:numberpicker/numberpicker.dart';
 import '../bloc/timer/timer_cubit.dart';
@@ -18,9 +16,27 @@ class ClockTimer extends StatefulWidget {
 }
 
 class _State extends State<ClockTimer> {
-  final TimerService _timerService = GetIt.I<TimerService>();
+ // final TimerService _timerService = GetIt.I<TimerService>();
   int _selectedHour = 1;
   int _selectedMinute = 0;
+
+    formatNumberWithLeadingZero(int n) {
+    return n.toString().padLeft(2, "0");
+  }
+
+      Widget renderClock(TimerState state) {
+    final duration = Duration(seconds: state.remainingTime);
+    final hours = formatNumberWithLeadingZero(duration.inHours.remainder(24));
+    final minutes =
+        formatNumberWithLeadingZero(duration.inMinutes.remainder(60));
+    final seconds =
+        formatNumberWithLeadingZero(duration.inSeconds.remainder(60));
+    return Text(
+      "$hours:$minutes:$seconds",
+      style: const TextStyle(fontSize: 40.0, color: Colors.white),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +84,7 @@ class _State extends State<ClockTimer> {
                 ),
               ],
             ),
-            _timerService.renderClock(state),
+            renderClock(state),
           ],
         );
       },

@@ -4,14 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
-import 'package:good_dream/bloc/nature_sounds/nature_sounds_cubit.dart';
+import 'package:good_dream/bloc/media_control/sounds_cubit.dart';
 import 'package:good_dream/bloc/timer/timer_cubit.dart';
 import 'package:good_dream/configuration/env_config.dart';
-import 'package:good_dream/models/audio_clip.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:good_dream/screens/main_menu_navigator.dart';
 import 'package:good_dream/services/timer_service.dart';
-import 'package:good_dream/sounds/nature_sounds.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:flare_splash_screen/flare_splash_screen.dart';
@@ -32,9 +30,9 @@ void main() async {
 void setupGetIt() {
   final getIt = GetIt.instance;
   getIt.registerSingleton<TimerService>(TimerService(0));
-  getIt.registerFactory<TimerCubit>(() => TimerCubit(getIt.get<TimerService>()));
+  getIt
+      .registerFactory<TimerCubit>(() => TimerCubit(getIt.get<TimerService>()));
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -43,13 +41,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-    final List<AudioClip> audioClips = natureSounds;
     return MultiProvider(
       providers: [
-        BlocProvider(create: (context) => NatureSoundsCubit(audioClips)),
-         BlocProvider<TimerCubit>(create: (context) => GetIt.I<TimerCubit>()),
+        BlocProvider<TimerCubit>(create: (context) => GetIt.I<TimerCubit>()),
         ChangeNotifierProvider(create: (context) => DataProvider()),
-        BlocProvider(create: (context) => MediaControlCubit()),
+        BlocProvider(create: (context) => MediaControlCubit(soundsByCategory)),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
