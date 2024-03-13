@@ -1,10 +1,9 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shimmer/shimmer.dart';
 import '../bloc/media_control/media_control_cubit.dart';
 import '../models/audio_clip.dart';
 import '../style/theme_text_styles.dart';
+import 'widgets/volume_control.dart';
 
 class AudioControlCenter extends StatefulWidget {
   final String category;
@@ -16,7 +15,6 @@ class AudioControlCenter extends StatefulWidget {
   });
 
   @override
-  //_AudioControlCenterState createState() => _AudioControlCenterState();
   State createState() => _AudioControlCenterState();
 }
 
@@ -55,33 +53,10 @@ class _AudioControlCenterState extends State<AudioControlCenter> {
                               'assets/images/default_enabled_icon_w.png'),
                     ),
                     audioClips[index].isControlActive
-                        ? PlayerBuilder.volume(
+                        ? VolumeControl(
                             player: audioClips[index].player,
-                            builder: (context, volume) {
-                              return Shimmer.fromColors(
-                                baseColor: Colors.white,
-                                highlightColor: Colors.grey,
-                                child: Slider(
-                                    value: volume,
-                                    min: 0,
-                                    max: 1,
-                                    divisions: 50,
-                                    onChanged: (v) {
-                                      setState(
-                                        () {
-                                          audioClips[index].player.setVolume(v);
-                                        },
-                                      );
-                                    },
-                                    onChangeEnd: (v) {
-                                      String soundId =
-                                          audioClips[index].audioFile!;
-                                      context
-                                          .read<MediaControlCubit>()
-                                          .setVolume(soundId, v);
-                                    }),
-                              );
-                            })
+                            audioFileId: audioClips[index].audioFile!,
+                          )
                         : Padding(
                             padding: AppPaddings.paddingTopBetweenTextAndImage,
                             child: Text(
