@@ -39,29 +39,35 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
     }
   }
 
-  void toggleSound(String category, AudioClip sound) {
-    if (selectedCount < 6) {
-      sound.isControlActive = !sound.isControlActive;
+void toggleSound(String category, AudioClip sound) {
+  sound.isControlActive = !sound.isControlActive;
+  final List<AudioClip> updatedSounds = List<AudioClip>.from(state.selectedSounds);
 
-      final List<AudioClip> updatedSounds =
-          List<AudioClip>.from(state.selectedSounds);
-      if (sound.isControlActive) {
-        updatedSounds.add(sound);
-      } else {
-        updatedSounds.removeWhere((s) => s.id == sound.id);
-      }
-      _updateAndEmitSoundList(updatedSounds);
-      sound.isControlActive
-          ? sound.player.open(Audio(sound.audioFile!),
-              volume: 0.5, loopMode: LoopMode.single)
-          : sound.player.pause();
-      if (updatedSounds.isEmpty) {
-        stopForegroundService();
-      } else if (updatedSounds.length == 1) {
-        startForegroundService();
-      }
-    } else if (selectedCount >= 6 && !sound.isControlActive) {
+  if (sound.isControlActive) {
+    if (selectedCount < 6) {
+      updatedSounds.add(sound);
+    } else {
+      sound.isControlActive = !sound.isControlActive;
       notifyMaxSoundsReached();
+      return;
     }
+  } else {
+    updatedSounds.removeWhere((s) => s.id == sound.id);
   }
+
+  _updateAndEmitSoundList(updatedSounds);
+
+  if (sound.isControlActive) {
+    sound.player.open(Audio(sound.audioFile!), volume: 0.5, loopMode: LoopMode.single);
+  } else {
+    sound.player.pause();
+  }
+
+  if (updatedSounds.isEmpty) {
+    stopForegroundService();
+  } else if (updatedSounds.length == 1) {
+    startForegroundService();
+  }
+}
+
 }
