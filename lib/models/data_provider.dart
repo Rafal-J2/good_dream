@@ -5,7 +5,7 @@ import 'package:good_dream/services/foreground_service.dart';
 import 'package:good_dream/utils/toast_notifications.dart';
 import 'package:good_dream/models/audio_clip.dart';
 
-import '../sounds/water_sounds.dart';
+import '../audio_resources/water_sounds.dart';
 
 class DataProvider extends ChangeNotifier {
   final Map<int, int> _cart = {};

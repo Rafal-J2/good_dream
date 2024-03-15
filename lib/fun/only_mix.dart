@@ -1,5 +1,5 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import '../sounds/water_sounds.dart';
+import '../audio_resources/water_sounds.dart';
 
 bool isFav = false;
 

@@ -1,7 +1,7 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:good_dream/sounds/mechanical_sounds.dart';
+import 'package:good_dream/audio_resources/mechanical_sounds.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:good_dream/screens/main_tab_bar_controller.dart';
 import 'package:good_dream/screens/mixes.dart';

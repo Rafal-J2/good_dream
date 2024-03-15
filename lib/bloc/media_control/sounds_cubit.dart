@@ -1,9 +1,9 @@
-import 'package:good_dream/sounds/mechanical_sounds.dart';
+import 'package:good_dream/audio_resources/mechanical_sounds.dart';
 
 import '../../models/audio_clip.dart';
-import '../../sounds/music_sounds.dart';
-import '../../sounds/nature_sounds.dart';
-import '../../sounds/water_sounds.dart';
+import '../../audio_resources/music_sounds.dart';
+import '../../audio_resources/nature_sounds.dart';
+import '../../audio_resources/water_sounds.dart';
 
 Map<String, List<AudioClip>> soundsByCategory = {
   'natureSounds': natureSounds,

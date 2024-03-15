@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 final _assetsAudioPlayer = AssetsAudioPlayer();
 
-// Audio
+
 startForegroundService() {
   _assetsAudioPlayer.open(
       Audio(

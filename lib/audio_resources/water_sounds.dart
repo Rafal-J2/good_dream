@@ -4,6 +4,7 @@ import 'package:good_dream/models/audio_clip.dart';
 List<AudioClip> get waterSounds => _waterSounds;
 final _waterSounds = [
   AudioClip(
+      id: 'River',
       disableIcon: 'assets/images/river_w.png',
       enableIcon: 'assets/images/river_on.png',
       iconTitleText: 'River',
@@ -11,6 +12,7 @@ final _waterSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Small creek',
       disableIcon: 'assets/images/creek_w.png',
       enableIcon: 'assets/images/creek_on.png',
       iconTitleText: 'Small creek',
@@ -18,6 +20,7 @@ final _waterSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Rain',
       disableIcon: 'assets/images/rain_w.png',
       enableIcon: 'assets/images/rain_on.png',
       iconTitleText: 'Rain',
@@ -25,6 +28,7 @@ final _waterSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Rain on car roof',
       disableIcon: 'assets/images/rain_on_car_roof_w.png',
       enableIcon: 'assets/images/rain_on_car_roof_on.png',
       iconTitleText: 'Rain on car roof',
@@ -32,6 +36,7 @@ final _waterSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Rain on car windows',
       disableIcon: 'assets/images/windshield_w.png',
       enableIcon: 'assets/images/windshield_on.png',
       iconTitleText: 'Rain on car windows',
@@ -39,6 +44,7 @@ final _waterSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Fountain in park',
       disableIcon: 'assets/images/fountain_park_w.png',
       enableIcon: 'assets/images/fountain_park_on.png',
       iconTitleText: 'Fountain in park',
@@ -46,6 +52,7 @@ final _waterSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Rain under raincoat',
       disableIcon: 'assets/images/raincoat_w.png',
       enableIcon: 'assets/images/raincoat_on.png',
       iconTitleText: 'Rain under raincoat',
@@ -53,6 +60,7 @@ final _waterSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Rain on windows',
       disableIcon: 'assets/images/rain_windows_w.png',
       enableIcon: 'assets/images/rain_windows_on.png',
       iconTitleText: 'Rain on windows',
@@ -60,6 +68,7 @@ final _waterSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Sea',
       disableIcon: 'assets/images/sea_w.png',
       enableIcon: 'assets/images/sea_on.png',
       iconTitleText: 'Sea',
@@ -67,6 +76,7 @@ final _waterSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Cave',
       disableIcon: 'assets/images/cave_w.png',
       enableIcon: 'assets/images/cave_on.png',
       iconTitleText: 'Cave',
@@ -74,6 +84,7 @@ final _waterSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Waterfall',
       disableIcon: 'assets/images/waterfall_w.png',
       enableIcon: 'assets/images/waterfall_on.png',
       iconTitleText: 'Waterfall',
@@ -81,6 +92,7 @@ final _waterSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Jacuzzi',
       disableIcon: 'assets/images/jacuzzi_w.png',
       enableIcon: 'assets/images/jacuzzi_on.png',
       iconTitleText: 'Jacuzzi',

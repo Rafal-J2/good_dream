@@ -4,6 +4,7 @@ import 'package:good_dream/models/audio_clip.dart';
 List<AudioClip> get musicSounds => _musicSounds;
 final _musicSounds = [
   AudioClip(
+      id: 'Meditation',
       disableIcon: 'assets/images/lotus_w.png',
       enableIcon: 'assets/images/lotus_on.png',
       iconTitleText: 'Meditation',
@@ -11,6 +12,7 @@ final _musicSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Healing meditation',
       disableIcon: 'assets/images/healing_w.png',
       enableIcon: 'assets/images/healing_on.png',
       iconTitleText: 'Healing meditation',
@@ -18,6 +20,7 @@ final _musicSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Yoga',
       disableIcon: 'assets/images/yoga_w.png',
       enableIcon: 'assets/images/yoga_on.png',
       iconTitleText: 'Yoga',
@@ -25,6 +28,7 @@ final _musicSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Asian piano',
       disableIcon: 'assets/images/piano3_w.png',
       enableIcon: 'assets/images/piano3_on.png',
       iconTitleText: 'Asian piano',
@@ -32,6 +36,7 @@ final _musicSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Piano',
       disableIcon: 'assets/images/piano6_w.png',
       enableIcon: 'assets/images/piano6_on.png',
       iconTitleText: 'Piano',
@@ -39,6 +44,7 @@ final _musicSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Background Piano ',
       disableIcon: 'assets/images/piano5_w.png',
       enableIcon: 'assets/images/piano5_on.png',
       iconTitleText: 'Background Piano ',
@@ -46,6 +52,7 @@ final _musicSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Binaural',
       disableIcon: 'assets/images/binaural_w.png',
       enableIcon: 'assets/images/binaural_on.png',
       iconTitleText: 'Binaural',
@@ -53,6 +60,7 @@ final _musicSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Guitar Song',
       disableIcon: 'assets/images/guitar_w.png',
       enableIcon: 'assets/images/guitar_on.png',
       iconTitleText: 'Guitar Song',
@@ -60,6 +68,7 @@ final _musicSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Background Guitar',
       disableIcon: 'assets/images/guitar_w.png',
       enableIcon: 'assets/images/guitar_on.png',
       iconTitleText: 'Background Guitar',
@@ -67,6 +76,7 @@ final _musicSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Om surrounding',
       disableIcon: 'assets/images/om_w.png',
       enableIcon: 'assets/images/om_on.png',
       iconTitleText: 'Om surrounding',
@@ -74,6 +84,7 @@ final _musicSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Zen',
       disableIcon: 'assets/images/zen_w.png',
       enableIcon: 'assets/images/zen_on.png',
       iconTitleText: 'Zen',
@@ -81,6 +92,7 @@ final _musicSounds = [
       isControlActive: false,
       player: AssetsAudioPlayer()),
   AudioClip(
+      id: 'Flute',
       disableIcon: 'assets/images/flute_w.png',
       enableIcon: 'assets/images/flute_on.png',
       iconTitleText: 'Flute',

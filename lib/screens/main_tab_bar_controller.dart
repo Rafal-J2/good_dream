@@ -1,22 +1,17 @@
 import 'dart:io';
 import 'package:get_storage/get_storage.dart';
-import 'package:good_dream/sounds/mechanical_sounds.dart';
+import 'package:good_dream/audio_resources/mechanical_sounds.dart';
 import 'package:good_dream/services/clock_timer.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:good_dream/views/audio_controler_center.dart';
-import 'package:good_dream/views/tab_view_one.dart';
 import 'package:provider/provider.dart';
 import '../bloc/media_control/sounds_cubit.dart';
 import '../main.dart';
-import '../views/tab_view_four.dart';
-import '../views/tab_view_two.dart';
-import '../views/tab_view_three.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 class MainTabBarController extends StatefulWidget {
-  //Functions to Show Dialog
   const MainTabBarController({
     super.key,
     this.confirmWidget,
