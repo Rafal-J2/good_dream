@@ -11,13 +11,12 @@ class TimerCubit extends Cubit<TimerState> {
   void startTimer(int seconds) {
     _timerService.setAndStartTimer(seconds, (secondsRemaining) {
       emit(state.copyWith(
-          remainingTime: secondsRemaining, isTimerRunning: false));
+          remainingTime: secondsRemaining, isTimerRunning: true));
     });
   }
 
     void cancelTimer() {
     _timerService.cancelTimer();
-    emit(state.copyWith(isTimerRunning: true));
+    emit(state.copyWith(isTimerRunning: false));
   }
-
 }

@@ -7,6 +7,7 @@ import '../bloc/timer/timer_cubit.dart';
 import '../bloc/timer/timer_state.dart';
 import '../main.dart';
 import '../style/theme_text_styles.dart';
+import '../views/widgets/timer_display_widget.dart';
 
 class ClockTimer extends StatefulWidget {
   const ClockTimer({super.key});
@@ -16,26 +17,9 @@ class ClockTimer extends StatefulWidget {
 }
 
 class _State extends State<ClockTimer> {
- // final TimerService _timerService = GetIt.I<TimerService>();
   int _selectedHour = 1;
   int _selectedMinute = 0;
 
-    formatNumberWithLeadingZero(int n) {
-    return n.toString().padLeft(2, "0");
-  }
-
-      Widget renderClock(TimerState state) {
-    final duration = Duration(seconds: state.remainingTime);
-    final hours = formatNumberWithLeadingZero(duration.inHours.remainder(24));
-    final minutes =
-        formatNumberWithLeadingZero(duration.inMinutes.remainder(60));
-    final seconds =
-        formatNumberWithLeadingZero(duration.inSeconds.remainder(60));
-    return Text(
-      "$hours:$minutes:$seconds",
-      style: const TextStyle(fontSize: 40.0, color: Colors.white),
-    );
-  }
 
 
   @override
@@ -55,7 +39,7 @@ class _State extends State<ClockTimer> {
                         onPressed: () {
                           int newDurationInSeconds =
                               _selectedHour * 3600 + _selectedMinute * 60;
-                          if (state.isTimerRunning) {
+                          if (!state.isTimerRunning) {
                             logger.i('read state: ${state.isTimerRunning}');
                              logger.i("timer start");
                             context
@@ -67,7 +51,7 @@ class _State extends State<ClockTimer> {
                           }
                         },
                         child: Text(
-                            state.isTimerRunning ? "Start Timer" : "Reset Time")),
+                             state.isTimerRunning ? "Stop Timer" : "Start Timer")),
                   ),
                 ),
                 Flexible(
@@ -84,7 +68,7 @@ class _State extends State<ClockTimer> {
                 ),
               ],
             ),
-            renderClock(state),
+          TimerDisplayWidget(state: state)
           ],
         );
       },
@@ -116,6 +100,7 @@ class _State extends State<ClockTimer> {
                         maxValue: 8,
                         onChanged: (value) =>
                             setState(() => _selectedHour = value),
+                            textMapper: (numberText) => numberText.padLeft(2, '0'),
                       ),
                       const Text(':',
                           style: TextStyle(color: Colors.white, fontSize: 24)),
@@ -125,6 +110,7 @@ class _State extends State<ClockTimer> {
                         maxValue: 59,
                         onChanged: (value) =>
                             setState(() => _selectedMinute = value),
+                            textMapper: (numberText) => numberText.padLeft(2, '0'),
                       ),
                     ],
                   ),

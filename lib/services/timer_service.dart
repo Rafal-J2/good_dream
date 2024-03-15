@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/services.dart';
 
-
 class TimerService {
   TimerService(this._secondsRemaining);
   int _secondsRemaining;
@@ -31,17 +30,13 @@ class TimerService {
 
   void setAndStartTimer(int newSeconds, Function(int) onTick) {
     _secondsRemaining = newSeconds;
+    onTick(_secondsRemaining);
     startTimer(onTick);
   }
 
   void cancelTimer() {
     _timer?.cancel();
     _timer = null;
-  }
-
-  void resetTimer(int newSeconds, Function(int) onTick) {
-    _secondsRemaining = newSeconds;
-    startTimer(onTick);
   }
 
   int get secondsRemaining => _secondsRemaining;

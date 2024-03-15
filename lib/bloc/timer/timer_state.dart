@@ -5,7 +5,7 @@ class TimerState {
   final int remainingTime;
 
   TimerState({
-    this.isTimerRunning = true,
+    this.isTimerRunning = false,
     this.selectedHour = 1,
     this.selectedMinute = 0,
     this.remainingTime = 3600,
