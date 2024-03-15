@@ -33,12 +33,20 @@ class MainTabBarController extends StatefulWidget {
   State createState() => _State();
 }
 
-class _State extends State<MainTabBarController> {
+class _State extends State<MainTabBarController> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  final PageStorageKey _pageStorageKey = const PageStorageKey('tabBarDemoKey');
   static const TextStyle _textStyle = TextStyle(fontSize: 15);
 
   @override
   void initState() {
     super.initState();
+       _tabController = TabController(length: 4, vsync: this);
+    PageStorageBucket? bucket = PageStorage.of(context);
+    int? savedIndex = bucket?.readState(context, identifier: _pageStorageKey);
+    if (savedIndex != null) {
+      _tabController.index = savedIndex;
+    }
     _switchThemeMode();
   }
 
@@ -66,13 +74,17 @@ class _State extends State<MainTabBarController> {
   void startServiceInPlatform() async {
     if (Platform.isAndroid) {
       var methodChannel = const MethodChannel("com.retroportalstudio.messages");
-      String? data = await methodChannel.invokeMethod("startService");
+      String data = await methodChannel.invokeMethod("startService");
       debugPrint(data);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+       _tabController.addListener(() {
+      PageStorage.of(context).writeState(context, _tabController.index,
+          identifier: _pageStorageKey);
+    });
     /// This is for verification
     final Size screenSize = MediaQuery.of(context).size;
     return Consumer<DataProvider>(builder: (
@@ -108,15 +120,17 @@ class _State extends State<MainTabBarController> {
               }
             },
             child: Scaffold(
+              key: _pageStorageKey,
               appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(50.0),
                 child: AppBar(
                   systemOverlayStyle:
                       const SystemUiOverlayStyle(statusBarColor: Colors.black),
-                  bottom: const TabBar(
+                  bottom:  TabBar(
+                    controller: _tabController,
                     isScrollable: true,
-                    physics: ClampingScrollPhysics(),
-                    tabs: [
+                    physics: const ClampingScrollPhysics(),
+                    tabs: const [
                       Tab(
                         child: Text(
                           "NATURE",
@@ -145,52 +159,50 @@ class _State extends State<MainTabBarController> {
                   ),
                 ),
               ),
-              body: Container(
-                decoration: const BoxDecoration(),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TabBarView(
-                        children: <Widget>[
-                          ListView(
-                            children: <Widget>[
-                              SizedBox(
-                                height: screenSize.height / 1.6,
-                                child: AudioControlCenter(category: 'natureSounds', soundsByCategory: soundsByCategory),
-                              ),
-                            ],
-                          ),
-                          ListView(
-                            children: <Widget>[
-                              SizedBox(
-                                height: screenSize.height / 1.6,
-                                  child: AudioControlCenter(category: 'waterSounds', soundsByCategory: soundsByCategory),
-                                
-                              ),
-                            ],
-                          ),
-                          ListView(
-                            children: <Widget>[
-                              SizedBox(
-                                height: screenSize.height / 1.6,
-                                child: AudioControlCenter(category: 'musicSounds', soundsByCategory: soundsByCategory),
-                              ),
-                            ],
-                          ),
-                          ListView(
-                            children: <Widget>[
-                              SizedBox(
-                                height: screenSize.height / 1.6,
-                                child: AudioControlCenter(category: 'mechanicalSounds', soundsByCategory: soundsByCategory),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+              body: Column(
+                children: [
+                  Expanded(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: <Widget>[
+                        ListView(
+                          children: <Widget>[
+                            SizedBox(
+                              height: screenSize.height / 1.6,
+                              child: AudioControlCenter(category: 'natureSounds', soundsByCategory: soundsByCategory),
+                            ),
+                          ],
+                        ),
+                        ListView(
+                          children: <Widget>[
+                            SizedBox(
+                              height: screenSize.height / 1.6,
+                                child: AudioControlCenter(category: 'waterSounds', soundsByCategory: soundsByCategory),
+                              
+                            ),
+                          ],
+                        ),
+                        ListView(
+                          children: <Widget>[
+                            SizedBox(
+                              height: screenSize.height / 1.6,
+                              child: AudioControlCenter(category: 'musicSounds', soundsByCategory: soundsByCategory),
+                            ),
+                          ],
+                        ),
+                        ListView(
+                          children: <Widget>[
+                            SizedBox(
+                              height: screenSize.height / 1.6,
+                              child: AudioControlCenter(category: 'mechanicalSounds', soundsByCategory: soundsByCategory),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    const ClockTimer(),
-                  ],
-                ),
+                  ),
+                  const ClockTimer(),
+                ],
               ),
             ),
           ),
