@@ -69,5 +69,4 @@ void toggleSound(String category, AudioClip sound) {
     startForegroundService();
   }
 }
-
 }

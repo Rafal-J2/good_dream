@@ -7,7 +7,7 @@ import 'package:good_dream/views/widgets/mode_switch.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:good_dream/views/show_dialogs.dart';
-import '../main.dart';
+
 
 class SettingsController extends StatefulWidget {
   const SettingsController({super.key});
@@ -33,16 +33,12 @@ class SettingsControllerState extends State<SettingsController>
   void _switchThemeMode() {
     switch (dataStorage.read('intCheck')) {
       case 0:
-        themeMode = ThemeMode.light;
-        logger.i('switchThemeMode - ThemeMode.light*');
         break;
       case 1:
         themeMode = ThemeMode.dark;
-        logger.i('ThemeMode.dark*');
         break;
       case 2:
         themeMode = ThemeMode.system;
-        logger.i('ThemeMode.system*');
     }
   }
 

@@ -3,7 +3,7 @@ import 'package:good_dream/audio_resources/mechanical_sounds.dart';
 import 'package:good_dream/models/data_provider.dart';
 import 'package:provider/provider.dart';
 import '../audio_resources/water_sounds.dart';
-import '../fun/only_mix.dart';
+import 'only_mix.dart';
 
 
 

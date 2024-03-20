@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:good_dream/audio_resources/mechanical_sounds.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:good_dream/services/foreground_service.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import '../main.dart';
+import '../models/data_provider.dart';
 
 class PlayingSoundsController extends StatefulWidget {
   const PlayingSoundsController({super.key});
@@ -48,117 +51,122 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
       builder: (context, state) {
         final mediaControlCubit = context.read<MediaControlCubit>();
         final selectedCount = mediaControlCubit.selectedCount;
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: FlexColorScheme.light(
-            scheme: FlexScheme.red,
-            onSecondary: Colors.white,
-            scaffoldBackground: const Color(0xFF20124d),
-          ).toTheme,
-          darkTheme: FlexColorScheme.dark(
-            scheme: FlexScheme.red,
-          ).toTheme,
-          home: Scaffold(
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(40.0),
-              child: AppBar(
-                systemOverlayStyle:
-                    const SystemUiOverlayStyle(statusBarColor: Colors.black),
-                title: const Text('Active sounds'),
+        return Consumer<DataProvider>(builder: (context, cart, child) {
+          return
+          MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: FlexColorScheme.light(
+              scheme: FlexScheme.red,
+              onSecondary: Colors.white,
+              scaffoldBackground: const Color(0xFF20124d),
+            ).toTheme,
+            darkTheme: FlexColorScheme.dark(
+              scheme: FlexScheme.red,
+            ).toTheme,
+            themeMode:
+              cart.basketItems3.isEmpty ? themeMode : mechanicalSounds[0].checkThemeMode,
+            home: Scaffold(
+              appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(40.0),
+                child: AppBar(
+                  systemOverlayStyle:
+                      const SystemUiOverlayStyle(statusBarColor: Colors.black),
+                  title: const Text('Active sounds'),
+                ),
               ),
-            ),
-            body: ListView(
-              children: <Widget>[
-                if (selectedCount == 0)
-                  const Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                      child: Text(
-                        'No active sounds',
-                        style: TextStyle(fontSize: 28.0, color: Colors.white),
+              body: ListView(
+                children: <Widget>[
+                  if (selectedCount == 0)
+                    const Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 20.0),
+                        child: Text(
+                          'No active sounds',
+                          style: TextStyle(fontSize: 28.0, color: Colors.white),
+                        ),
                       ),
                     ),
-                  ),
-                if (selectedCount == 0)
-                  Center(
-                    child: Lottie.asset('assets/lottieFiles/relax.json'),
-                  ),
-                ...state.selectedSounds.map((item) {
-                  return Container(
-                    margin: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.orange, width: 2.0),
-                        borderRadius: BorderRadius.circular(12.0)),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Image(
-                            height: 50.0,
-                            image: AssetImage(item.enableIcon!),
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 22.0, top: 12.0),
-                                child: Text(
-                                  item.iconTitleText!,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 18.0),
-                                ),
-                              ),
-                              PlayerBuilder.volume(
-                                  player: item.player,
-                                  builder: (context, vol) {
-                                    return Slider(
-                                        activeColor: Colors.orange,
-                                        inactiveColor:
-                                            Colors.orange.withOpacity(0.3),
-                                        value: vol,
-                                        min: 0,
-                                        max: 1,
-                                        divisions: 50,
-                                        onChanged: (volume) {
-                                          setState(() {
-                                            item.player.setVolume(volume);
-                                          });
-                                        });
-                                  }),
-                            ],
-                          ),
-                        ),
-                        InkWell(
-                            onTap: () {
-                              item.player.pause();
-                              item.isControlActive = false;
-                              context
-                                  .read<MediaControlCubit>()
-                                  .removeSound(item);
-                              if (context
-                                      .read<MediaControlCubit>()
-                                      .selectedCount ==
-                                  0) {
-                                stopForegroundService();
-                              }
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 15.0),
-                              child: Image.asset(
-                                  'assets/images/circle_trash.png',
-                                  height: 35),
-                            )),
-                      ],
+                  if (selectedCount == 0)
+                    Center(
+                      child: Lottie.asset('assets/lottieFiles/relax.json'),
                     ),
-                  );
-                }),
-              ],
+                  ...state.selectedSounds.map((item) {
+                    return Container(
+                      margin: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.orange, width: 2.0),
+                          borderRadius: BorderRadius.circular(12.0)),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Image(
+                              height: 50.0,
+                              image: AssetImage(item.enableIcon!),
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 22.0, top: 12.0),
+                                  child: Text(
+                                    item.iconTitleText!,
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 18.0),
+                                  ),
+                                ),
+                                PlayerBuilder.volume(
+                                    player: item.player,
+                                    builder: (context, vol) {
+                                      return Slider(
+                                          activeColor: Colors.orange,
+                                          inactiveColor:
+                                              Colors.orange.withOpacity(0.3),
+                                          value: vol,
+                                          min: 0,
+                                          max: 1,
+                                          divisions: 50,
+                                          onChanged: (volume) {
+                                            setState(() {
+                                              item.player.setVolume(volume);
+                                            });
+                                          });
+                                    }),
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                              onTap: () {
+                                item.player.pause();
+                                item.isControlActive = false;
+                                context
+                                    .read<MediaControlCubit>()
+                                    .removeSound(item);
+                                if (context
+                                        .read<MediaControlCubit>()
+                                        .selectedCount ==
+                                    0) {
+                                  stopForegroundService();
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 15.0),
+                                child: Image.asset(
+                                    'assets/images/circle_trash.png',
+                                    height: 35),
+                              )),
+                        ],
+                      ),
+                    );
+                  }),
+                ],
+              ),
             ),
-          ),
-        );
+          );
+        });
       },
     );
   }

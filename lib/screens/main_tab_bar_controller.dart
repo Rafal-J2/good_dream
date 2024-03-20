@@ -33,7 +33,8 @@ class MainTabBarController extends StatefulWidget {
   State createState() => _State();
 }
 
-class _State extends State<MainTabBarController> with SingleTickerProviderStateMixin {
+class _State extends State<MainTabBarController>
+  with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final PageStorageKey _pageStorageKey = const PageStorageKey('tabBarDemoKey');
   static const TextStyle _textStyle = TextStyle(fontSize: 15);
@@ -41,9 +42,9 @@ class _State extends State<MainTabBarController> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
-       _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     PageStorageBucket? bucket = PageStorage.of(context);
-    int? savedIndex = bucket?.readState(context, identifier: _pageStorageKey);
+    int? savedIndex = bucket.readState(context, identifier: _pageStorageKey);
     if (savedIndex != null) {
       _tabController.index = savedIndex;
     }
@@ -57,15 +58,12 @@ class _State extends State<MainTabBarController> with SingleTickerProviderStateM
     switch (dataStorage.read('intCheck')) {
       case 0:
         themeMode = ThemeMode.light;
-        logger.i('switchThemeMode - ThemeMode.light*');
         break;
       case 1:
         themeMode = ThemeMode.dark;
-        logger.i('ThemeMode.dark*');
         break;
       case 2:
         themeMode = ThemeMode.system;
-        logger.i('ThemeMode.system*');
     }
   }
 
@@ -81,10 +79,11 @@ class _State extends State<MainTabBarController> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-       _tabController.addListener(() {
+    _tabController.addListener(() {
       PageStorage.of(context).writeState(context, _tabController.index,
           identifier: _pageStorageKey);
     });
+
     /// This is for verification
     final Size screenSize = MediaQuery.of(context).size;
     return Consumer<DataProvider>(builder: (
@@ -108,132 +107,81 @@ class _State extends State<MainTabBarController> with SingleTickerProviderStateM
             : mechanicalSounds[0].checkThemeMode,
         home: DefaultTabController(
           length: 4,
-          child: PopScope(
-            canPop: false,
-            onPopInvoked: (didPop) async {
-              if (didPop) {
-                return;
-              }
-              final bool shouldPop = await onBackPressed();
-              if (shouldPop) {
-                SystemNavigator.pop();
-              }
-            },
-            child: Scaffold(
-              key: _pageStorageKey,
-              appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(50.0),
-                child: AppBar(
-                  systemOverlayStyle:
-                      const SystemUiOverlayStyle(statusBarColor: Colors.black),
-                  bottom:  TabBar(
+          child: Scaffold(
+            key: _pageStorageKey,
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(50.0),
+              child: AppBar(
+                systemOverlayStyle:
+                    const SystemUiOverlayStyle(statusBarColor: Colors.black),
+                bottom: TabBar(
+                  controller: _tabController,
+                  isScrollable: true,
+                  physics: const ClampingScrollPhysics(),
+                  tabs: const [
+                    Tab(child: Text("NATURE", style: _textStyle)),
+                    Tab(child: Text("WATER", style: _textStyle)),
+                    Tab(child: Text("MUSIC", style: _textStyle)),
+                    Tab(child: Text("MECHANICAL", style: _textStyle)),
+                  ],
+                ),
+              ),
+            ),
+            body: Column(
+              children: [
+                Expanded(
+                  child: TabBarView(
                     controller: _tabController,
-                    isScrollable: true,
-                    physics: const ClampingScrollPhysics(),
-                    tabs: const [
-                      Tab(
-                        child: Text(
-                          "NATURE",
-                          style: _textStyle,
-                        ),
+                    children: <Widget>[
+                      ListView(
+                        children: <Widget>[
+                          SizedBox(
+                            height: screenSize.height / 1.6,
+                            child: AudioControlCenter(
+                                category: 'natureSounds',
+                                soundsByCategory: soundsByCategory),
+                          ),
+                        ],
                       ),
-                      Tab(
-                        child: Text(
-                          "WATER",
-                          style: _textStyle,
-                        ),
+                      ListView(
+                        children: <Widget>[
+                          SizedBox(
+                            height: screenSize.height / 1.6,
+                            child: AudioControlCenter(
+                                category: 'waterSounds',
+                                soundsByCategory: soundsByCategory),
+                          ),
+                        ],
                       ),
-                      Tab(
-                        child: Text(
-                          "MUSIC",
-                          style: _textStyle,
-                        ),
+                      ListView(
+                        children: <Widget>[
+                          SizedBox(
+                            height: screenSize.height / 1.6,
+                            child: AudioControlCenter(
+                                category: 'musicSounds',
+                                soundsByCategory: soundsByCategory),
+                          ),
+                        ],
                       ),
-                      Tab(
-                        child: Text(
-                          "MECHANICAL",
-                          style: _textStyle,
-                        ),
+                      ListView(
+                        children: <Widget>[
+                          SizedBox(
+                            height: screenSize.height / 1.6,
+                            child: AudioControlCenter(
+                                category: 'mechanicalSounds',
+                                soundsByCategory: soundsByCategory),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
-              ),
-              body: Column(
-                children: [
-                  Expanded(
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: <Widget>[
-                        ListView(
-                          children: <Widget>[
-                            SizedBox(
-                              height: screenSize.height / 1.6,
-                              child: AudioControlCenter(category: 'natureSounds', soundsByCategory: soundsByCategory),
-                            ),
-                          ],
-                        ),
-                        ListView(
-                          children: <Widget>[
-                            SizedBox(
-                              height: screenSize.height / 1.6,
-                                child: AudioControlCenter(category: 'waterSounds', soundsByCategory: soundsByCategory),
-                              
-                            ),
-                          ],
-                        ),
-                        ListView(
-                          children: <Widget>[
-                            SizedBox(
-                              height: screenSize.height / 1.6,
-                              child: AudioControlCenter(category: 'musicSounds', soundsByCategory: soundsByCategory),
-                            ),
-                          ],
-                        ),
-                        ListView(
-                          children: <Widget>[
-                            SizedBox(
-                              height: screenSize.height / 1.6,
-                              child: AudioControlCenter(category: 'mechanicalSounds', soundsByCategory: soundsByCategory),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const ClockTimer(),
-                ],
-              ),
+                const ClockTimer(),
+              ],
             ),
           ),
         ),
       );
     });
-  }
-
-  Future<bool> onBackPressed() {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Are you sure?'),
-          content: const Text('Do you want to exit an App'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('No'),
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-            ),
-            TextButton(
-              child: const Text('Yes'),
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-            )
-          ],
-        );
-      },
-    ).then((value) => value ?? false);
   }
 }

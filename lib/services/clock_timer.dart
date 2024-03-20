@@ -5,7 +5,6 @@ import 'package:good_dream/utils/toast_notifications.dart';
 import 'package:numberpicker/numberpicker.dart';
 import '../bloc/timer/timer_cubit.dart';
 import '../bloc/timer/timer_state.dart';
-import '../main.dart';
 import '../style/theme_text_styles.dart';
 import '../views/widgets/timer_display_widget.dart';
 
@@ -18,7 +17,7 @@ class ClockTimer extends StatefulWidget {
 
 class _State extends State<ClockTimer> {
   int _selectedHour = 1;
-  int _selectedMinute = 0;
+  int _selectedMinute = 1;
 
 
 
@@ -40,13 +39,10 @@ class _State extends State<ClockTimer> {
                           int newDurationInSeconds =
                               _selectedHour * 3600 + _selectedMinute * 60;
                           if (!state.isTimerRunning) {
-                            logger.i('read state: ${state.isTimerRunning}');
-                             logger.i("timer start");
                             context
                                 .read<TimerCubit>()
                                 .startTimer(newDurationInSeconds);
                           } else {
-                            logger.i("timer reset");
                             context.read<TimerCubit>().cancelTimer();                  
                           }
                         },
@@ -81,66 +77,68 @@ class _State extends State<ClockTimer> {
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-            return Container(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    'Custom Duration',
-                    style: TextStyle(fontSize: 24, color: Colors.white),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      NumberPicker(
-                        value: _selectedHour,
-                        minValue: 0,
-                        maxValue: 8,
-                        onChanged: (value) =>
-                            setState(() => _selectedHour = value),
-                            textMapper: (numberText) => numberText.padLeft(2, '0'),
-                      ),
-                      const Text(':',
-                          style: TextStyle(color: Colors.white, fontSize: 24)),
-                      NumberPicker(
-                        value: _selectedMinute,
-                        minValue: 0,
-                        maxValue: 59,
-                        onChanged: (value) =>
-                            setState(() => _selectedMinute = value),
-                            textMapper: (numberText) => numberText.padLeft(2, '0'),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('Cancel',
-                            style: TextStyle(color: Colors.white)),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          int newDurationInSeconds =
-                              _selectedHour * 3600 + _selectedMinute * 60;
-                          context
-                              .read<TimerCubit>()
-                              .startTimer(newDurationInSeconds);                     
-                          notificationStartCountdown();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
+            return SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Custom Duration',
+                      style: TextStyle(fontSize: 24, color: Colors.white),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        NumberPicker(
+                          value: _selectedHour,
+                          minValue: 0,
+                          maxValue: 8,
+                          onChanged: (value) =>
+                              setState(() => _selectedHour = value),
+                              textMapper: (numberText) => numberText.padLeft(2, '0'),
                         ),
-                        child: const Text('Apply'),
-                      ),
-                    ],
-                  ),
-                ],
+                        const Text(':',
+                            style: TextStyle(color: Colors.white, fontSize: 24)),
+                        NumberPicker(
+                          value: _selectedMinute,
+                          minValue: 1,
+                          maxValue: 59,
+                          onChanged: (value) =>
+                              setState(() => _selectedMinute = value),
+                              textMapper: (numberText) => numberText.padLeft(2, '0'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Cancel',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            int newDurationInSeconds =
+                                _selectedHour * 3600 + _selectedMinute * 60;
+                            context
+                                .read<TimerCubit>()
+                                .startTimer(newDurationInSeconds);                     
+                            notificationStartCountdown();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                          ),
+                          child: const Text('Apply'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             );
           },
