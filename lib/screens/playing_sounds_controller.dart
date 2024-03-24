@@ -9,7 +9,6 @@ import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:good_dream/services/foreground_service.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import '../main.dart';
 import '../models/data_provider.dart';
 
 class PlayingSoundsController extends StatefulWidget {
@@ -21,29 +20,8 @@ class PlayingSoundsController extends StatefulWidget {
 class PlayingSoundsControllerState extends State<PlayingSoundsController>
     with AutomaticKeepAliveClientMixin {
   final dataStorage = GetStorage();
-  @override
-  void initState() {
-    super.initState();
-    _switchThemeMode();
-  }
 
-  void _switchThemeMode() {
-    switch (dataStorage.read('intCheck')) {
-      case 0:
-        themeMode = ThemeMode.light;
-        logger.i('switchThemeMode - ThemeMode.light*');
-        break;
-      case 1:
-        themeMode = ThemeMode.dark;
-        logger.i('ThemeMode.dark*');
-        break;
-      case 2:
-        themeMode = ThemeMode.system;
-        logger.i('ThemeMode.system*');
-    }
-  }
-
-  ThemeMode themeMode = ThemeMode.light;
+  ThemeMode themeMode = ThemeMode.system;
   @override
   Widget build(BuildContext context) {
     super.build(context);

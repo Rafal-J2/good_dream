@@ -22,7 +22,7 @@ class MainMenuNavigator extends StatefulWidget {
 }
 
 class MainMenuNavigatorState extends State<MainMenuNavigator> {
-  ThemeMode themeMode = ThemeMode.light;
+  ThemeMode themeMode = ThemeMode.system;
   int _selectedPageIndex = 0;
   late List<Widget> _pages;
   PageController? _pageController;
@@ -31,7 +31,6 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
   @override
   void initState() {
     super.initState();
-    _switchThemeMode();
     _selectedPageIndex = 0;
     _pages = [
       const MainTabBarController(),
@@ -42,20 +41,6 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
 
     _pageController = PageController(initialPage: _selectedPageIndex);
   }
-
-  void _switchThemeMode() {
-    switch (dataStorage.read('intCheck')) {
-      case 0:
-        themeMode = ThemeMode.light;
-        break;
-      case 1:
-        themeMode = ThemeMode.dark;
-        break;
-      case 2:
-        themeMode = ThemeMode.system;
-    }
-  }
-
   @override
   void dispose() {
     _pageController!.dispose();
@@ -70,8 +55,7 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
       child,
     ) {
       return BlocBuilder<MediaControlCubit, MediaControlCubitState>(
-        builder: (context, state) {
-        
+        builder: (context, state) {    
           return PopScope(
                canPop: false,
             onPopInvoked: (didPop) async {
@@ -93,9 +77,9 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
                 scheme: FlexScheme.red,
                 onPrimary: Colors.white,
               ).toTheme,
-              themeMode: cart.basketItems3.isEmpty
-                  ? themeMode
-                  : mechanicalSounds[0].checkThemeMode,
+              themeMode:
+                 themeMode,
+                  
               debugShowCheckedModeBanner: false,
               home: Scaffold(
                 body: PageView(
