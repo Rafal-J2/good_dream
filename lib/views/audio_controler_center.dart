@@ -31,7 +31,7 @@ class _AudioControlCenterState extends State<AudioControlCenter> {
             itemCount: audioClips.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               childAspectRatio:
-                  MediaQuery.of(context).size.width > 450 ? 1.3 : 1.0,
+                  MediaQuery.sizeOf(context).width > 450 ? 1.3 : 1.0,
               crossAxisCount: 3,
             ),
             itemBuilder: (context, index) {

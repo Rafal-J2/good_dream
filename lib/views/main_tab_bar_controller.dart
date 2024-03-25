@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:good_dream/services/tab_service.dart';
 import 'package:good_dream/style/theme_text_styles.dart';
-import 'package:good_dream/views/audio_controler_center.dart';
 import '../bloc/media_control/sounds_cubit.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:get_it/get_it.dart';
 
+import 'widgets/audio_control_list.dart';
 
 class MainTabBarController extends StatefulWidget {
   const MainTabBarController({
@@ -36,32 +36,40 @@ class _State extends State<MainTabBarController>
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+
+    // Inicjalizacja zakładki z zapisanego stanu
     PageStorageBucket? bucket = PageStorage.of(context);
     int? savedIndex = bucket.readState(context, identifier: _pageStorageKey);
     if (savedIndex != null) {
       _tabController.index = savedIndex;
     }
-    _tabController.addListener(_onTabChanged);
-    GetIt.I<TabService>().addListener(_onServiceTabChanged);
+
+    _tabController.addListener(_saveTabIndex);
+  }
+
+  void _saveTabIndex() {
+    if (!_tabController.indexIsChanging) {
+      PageStorage.of(context).writeState(context, _tabController.index,
+          identifier: _pageStorageKey);
+    }
   }
 
   @override
   void dispose() {
-       _tabController.removeListener(_onTabChanged);
-    _tabController.dispose();
+    _tabController.removeListener(_onTabChanged);
     GetIt.I<TabService>().removeListener(_onServiceTabChanged);
     super.dispose();
   }
 
-    void _onTabChanged() {
+  void _onTabChanged() {
     if (!_tabController.indexIsChanging) {
-    GetIt.I<TabService>().changeTab(_tabController.index);
+      GetIt.I<TabService>().changeTab(_tabController.index);
     }
   }
 
-  void _onServiceTabChanged(){
+  void _onServiceTabChanged() {
     int newIndex = GetIt.I<TabService>().currentTabIndex;
-        if (_tabController.index != newIndex) {
+    if (_tabController.index != newIndex) {
       setState(() {
         _tabController.index = newIndex;
       });
@@ -70,13 +78,6 @@ class _State extends State<MainTabBarController>
 
   @override
   Widget build(BuildContext context) {
-    _tabController.addListener(() {
-      PageStorage.of(context).writeState(context, _tabController.index,
-          identifier: _pageStorageKey);
-    });
-
-    /// This is for verification
-    final Size screenSize = MediaQuery.of(context).size;
     return BlocBuilder<ThemeModeCubit, ThemeMode>(
       builder: (context, themeMode) {
         return MaterialApp(
@@ -121,56 +122,27 @@ class _State extends State<MainTabBarController>
             body: Column(
               children: [
                 Expanded(
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: <Widget>[
-                      ListView(
-                        key: const PageStorageKey('tab1'),
-                        children: <Widget>[
-                          SizedBox(
-                            height: screenSize.height / 1.6,
-                            child: AudioControlCenter(
-                                category: 'natureSounds',
-                                soundsByCategory: soundsByCategory),
-                          ),
-                        ],
-                      ),
-                      ListView(
-                        key: const PageStorageKey('tab2'),
-                        children: <Widget>[
-                          SizedBox(
-                            height: screenSize.height / 1.6,
-                            child: AudioControlCenter(
-                                category: 'waterSounds',
-                                soundsByCategory: soundsByCategory),
-                          ),
-                        ],
-                      ),
-                      ListView(
-                        key: const PageStorageKey('tab3'),
-                        children: <Widget>[
-                          SizedBox(
-                            height: screenSize.height / 1.6,
-                            child: AudioControlCenter(
-                                category: 'musicSounds',
-                                soundsByCategory: soundsByCategory),
-                          ),
-                        ],
-                      ),
-                      ListView(
-                        key: const PageStorageKey('tab4'),
-                        children: <Widget>[
-                          SizedBox(
-                            height: screenSize.height / 1.6,
-                            child: AudioControlCenter(
-                                category: 'mechanicalSounds',
-                                soundsByCategory: soundsByCategory),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                    child: TabBarView(
+                  controller: _tabController,
+                  children: <Widget>[
+                    AudioControlList(
+                      category: 'natureSounds',
+                      soundsByCategory: soundsByCategory,
+                    ),
+                    AudioControlList(
+                      category: 'waterSounds',
+                      soundsByCategory: soundsByCategory,
+                    ),
+                    AudioControlList(
+                      category: 'musicSounds',
+                      soundsByCategory: soundsByCategory,
+                    ),
+                    AudioControlList(
+                      category: 'mechanicalSounds',
+                      soundsByCategory: soundsByCategory,
+                    ),
+                  ],
+                )),
                 const ClockTimer(),
               ],
             ),
