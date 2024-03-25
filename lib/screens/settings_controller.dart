@@ -1,13 +1,12 @@
 import 'dart:developer';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:good_dream/audio_resources/mechanical_sounds.dart';
 import 'package:good_dream/views/widgets/mode_switch.dart';
-import 'package:good_dream/models/data_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:good_dream/views/show_dialogs.dart';
-
+import '../bloc/theme_mode/theme_mode_cubit.dart';
+import '../main.dart';
 
 class SettingsController extends StatefulWidget {
   const SettingsController({super.key});
@@ -25,33 +24,7 @@ class SettingsControllerState extends State<SettingsController>
     super.initState();
     dataStorage.read('intCheck');
     log("what is inCheck in initState: $intCheck");
-
     log("dataStorage.read: ${dataStorage.read('intCheck')}");
-    _switchThemeMode();
-  }
-
-  void _switchThemeMode() {
-    switch (dataStorage.read('intCheck')) {
-      case 0:
-        break;
-      case 1:
-        themeMode = ThemeMode.dark;
-        break;
-      case 2:
-        themeMode = ThemeMode.system;
-    }
-  }
-
-  _checkStorage() {
-    if (themeMode == ThemeMode.light) {
-      intCheck = 0;
-    } else if (themeMode == ThemeMode.dark) {
-      intCheck = 1;
-    } else {
-      intCheck = 2;
-    }
-    dataStorage.write('intCheck', intCheck);
-    log("dataStorage.write ${dataStorage.write('intCheck', intCheck)}");
   }
 
   int intCheck = 2;
@@ -60,86 +33,81 @@ class SettingsControllerState extends State<SettingsController>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Consumer<DataProvider>(builder: (
-      context,
-      cart,
-      child,
-    ) {
-      return ListView(
-        children: <Widget>[
-          Column(
-            children: [
-              ListTile(
-                title: const Text('Privacy Policy',
-                    style: TextStyle(color: Colors.white)),
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Privacy Policy'),
-                          content: privacyPolicyDialog(context),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text('Approve'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      });
-                },
-              ),
-              ListTile(
-                title: const Text(
-                  'Acknowledgments',
-                  style: TextStyle(color: Colors.white),
-                ),
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Acknowledgments'),
-                          content: acknowledgmentsDialog(context),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text('Approve'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      });
-                },
-              ),
-              const ListTile(
-                title: Text(
-                  'Choose a theme color',
-                  style: TextStyle(color: Colors.white),
-                ),      
-              ),
-              SizedBox(
-                child: ModeSwitch(
-                  themeMode: themeMode,
-                  onThemeModeChanged: (ThemeMode mode) {
-                    setState(() {
-                      themeMode = mode;
-                      _checkStorage();
-                      mechanicalSounds[0].checkThemeMode = mode;
-                      cart.add3(mechanicalSounds[0]);
-                    });
+    return BlocBuilder<ThemeModeCubit, ThemeMode>(
+      builder: (context, themeMode) {
+        return ListView(
+          children: <Widget>[
+            Column(
+              children: [
+                ListTile(
+                  title: const Text('Privacy Policy',
+                      style: TextStyle(color: Colors.white)),
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Privacy Policy'),
+                            content: privacyPolicyDialog(context),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('Approve'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        });
                   },
-                  flexSchemeData: FlexColor.schemes[FlexScheme.red],
                 ),
-              ),
-            ],
-          ),
-        ],
-      );
-    });
+                ListTile(
+                  title: const Text(
+                    'Acknowledgments',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Acknowledgments'),
+                            content: acknowledgmentsDialog(context),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('Approve'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                ),
+                const ListTile(
+                  title: Text(
+                    'Choose a theme color',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  child: ModeSwitch(
+                    themeMode: themeMode,
+                    onThemeModeChanged: (ThemeMode mode) {
+                      logger.i('Requesting themeMode change to: $mode');
+                      context.read<ThemeModeCubit>().changeThemeMode(mode);
+          
+                    },
+                    flexSchemeData: FlexColor.schemes[FlexScheme.red],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

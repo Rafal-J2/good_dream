@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:good_dream/audio_resources/mechanical_sounds.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
-import 'package:good_dream/models/data_provider.dart';
-import 'package:good_dream/screens/main_tab_bar_controller.dart';
 import 'package:good_dream/fun/mixes.dart';
 import 'package:good_dream/screens/playing_sounds_controller.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
-import '../screens/settings_controller.dart';
+import '../bloc/theme_mode/theme_mode_cubit.dart';
+import 'settings_controller.dart';
+import 'main_tab_bar_controller.dart';
 
 class MainMenuNavigator extends StatefulWidget {
   const MainMenuNavigator({super.key, this.title});
@@ -22,7 +20,6 @@ class MainMenuNavigator extends StatefulWidget {
 }
 
 class MainMenuNavigatorState extends State<MainMenuNavigator> {
-  ThemeMode themeMode = ThemeMode.system;
   int _selectedPageIndex = 0;
   late List<Widget> _pages;
   PageController? _pageController;
@@ -49,13 +46,10 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<DataProvider>(builder: (
-      context,
-      cart,
-      child,
-    ) {
       return BlocBuilder<MediaControlCubit, MediaControlCubitState>(
         builder: (context, state) {    
+               return BlocBuilder<ThemeModeCubit, ThemeMode>(
+        builder: (context, themeMode) {
           return PopScope(
                canPop: false,
             onPopInvoked: (didPop) async {
@@ -77,9 +71,7 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
                 scheme: FlexScheme.red,
                 onPrimary: Colors.white,
               ).toTheme,
-              themeMode:
-                 themeMode,
-                  
+              themeMode: themeMode,   
               debugShowCheckedModeBanner: false,
               home: Scaffold(
                 body: PageView(
@@ -120,9 +112,11 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
               ),
             ),
           );
+           },
+      );
         },
       );
-    });
+  
   }
 
   Future<bool> onBackPressed() {

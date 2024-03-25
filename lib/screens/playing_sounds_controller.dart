@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:good_dream/audio_resources/mechanical_sounds.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:good_dream/services/foreground_service.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
-import '../models/data_provider.dart';
+import '../bloc/theme_mode/theme_mode_cubit.dart';
+
 
 class PlayingSoundsController extends StatefulWidget {
   const PlayingSoundsController({super.key});
@@ -20,17 +19,16 @@ class PlayingSoundsController extends StatefulWidget {
 class PlayingSoundsControllerState extends State<PlayingSoundsController>
     with AutomaticKeepAliveClientMixin {
   final dataStorage = GetStorage();
-
-  ThemeMode themeMode = ThemeMode.system;
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return BlocBuilder<MediaControlCubit, MediaControlCubitState>(
       builder: (context, state) {
+         return BlocBuilder<ThemeModeCubit, ThemeMode>(
+        builder: (context, themeMode) {
         final mediaControlCubit = context.read<MediaControlCubit>();
         final selectedCount = mediaControlCubit.selectedCount;
-        return Consumer<DataProvider>(builder: (context, cart, child) {
-          return
+       return 
           MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: FlexColorScheme.light(
@@ -41,8 +39,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
             darkTheme: FlexColorScheme.dark(
               scheme: FlexScheme.red,
             ).toTheme,
-            themeMode:
-              cart.basketItems3.isEmpty ? themeMode : mechanicalSounds[0].checkThemeMode,
+            themeMode: themeMode,
             home: Scaffold(
               appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(40.0),
@@ -144,7 +141,9 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
               ),
             ),
           );
-        });
+        
+  },
+    );
       },
     );
   }
