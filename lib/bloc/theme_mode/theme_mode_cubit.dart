@@ -19,6 +19,6 @@ class ThemeModeCubit extends Cubit<ThemeMode> {
   void changeThemeMode(ThemeMode mode) {
     emit(mode);
     dataStorage.write('themeMode', mode.index);
-  }
+}
 }
 

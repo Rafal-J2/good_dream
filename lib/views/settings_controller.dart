@@ -1,13 +1,10 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:good_dream/utils/theme_mode_manager.dart';
 import 'package:good_dream/views/widgets/mode_switch.dart';
 import 'package:good_dream/views/show_dialogs.dart';
 import '../bloc/theme_mode/theme_mode_cubit.dart';
-import '../main.dart';
-import 'widgets/show_custom_dialog.dart';
+
 
 class SettingsController extends StatefulWidget {
   const SettingsController({super.key});
@@ -18,31 +15,6 @@ class SettingsController extends StatefulWidget {
 
 class SettingsControllerState extends State<SettingsController>
     with AutomaticKeepAliveClientMixin {
-  final dataStorage = GetStorage();
-  final themeModeManager = ThemeModeManager(dataStorage: GetStorage());
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      int savedThemeModeIndex = await themeModeManager.getSavedThemeMode();
-      logger.i("Saved theme mode index: $savedThemeModeIndex");
-      ThemeMode initialThemeMode = _switchThemeMode(savedThemeModeIndex);
-      if (!mounted) return;
-      context.read<ThemeModeCubit>().changeThemeMode(initialThemeMode);
-    });
-  }
-
-  ThemeMode _switchThemeMode(int check) {
-    switch (check) {
-      case 0:
-        return ThemeMode.light;
-      case 1:
-        return ThemeMode.dark;
-      default:
-        return ThemeMode.system;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,22 +29,46 @@ class SettingsControllerState extends State<SettingsController>
                   title: const Text('Privacy Policy',
                       style: TextStyle(color: Colors.white)),
                   onTap: () {
-                    showCustomDialog(
-                      context,
-                      'Privacy Policy',
-                      privacyPolicyDialog(context),
-                    );
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Privacy Policy'),
+                            content: privacyPolicyDialog(context),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('Approve'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        });
                   },
                 ),
                 ListTile(
-                  title: const Text('Acknowledgments',
-                      style: TextStyle(color: Colors.white)),
+                  title: const Text(
+                    'Acknowledgments',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   onTap: () {
-                    showCustomDialog(
-                      context,
-                      'Acknowledgments',
-                      acknowledgmentsDialog(context),
-                    );
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Acknowledgments'),
+                            content: acknowledgmentsDialog(context),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('Approve'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        });
                   },
                 ),
                 const ListTile(
