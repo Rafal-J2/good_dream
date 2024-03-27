@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 class ModeSwitch extends StatelessWidget {
   const ModeSwitch({
     super.key,
-    this.themeMode,
-    this.onThemeModeChanged,
+    required this.themeMode,
+    required this.onThemeModeChanged,
     this.flexSchemeData,
   });
-  final ThemeMode? themeMode;
-  final ValueChanged<ThemeMode>? onThemeModeChanged;
+  final ThemeMode themeMode;
+  final ValueChanged<ThemeMode> onThemeModeChanged;
   final FlexSchemeData? flexSchemeData;
 
   @override
@@ -29,8 +29,8 @@ class ModeSwitch extends StatelessWidget {
             fontWeight: FontWeight.bold,
             fontSize: 16.0),
         unselectedLabelStyle: const TextStyle(color: Colors.grey),
-        themeMode: themeMode!,
-        onThemeModeChanged: onThemeModeChanged!,
+        themeMode: themeMode,
+        onThemeModeChanged: onThemeModeChanged,
         flexSchemeData: flexSchemeData!,
       ),
     );
