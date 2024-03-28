@@ -1,4 +1,3 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,7 +5,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:good_dream/screens/playing_sounds_controller.dart';
 import 'package:lottie/lottie.dart';
-import '../bloc/theme_mode/theme_mode_cubit.dart';
 import 'settings_controller.dart';
 import 'main_tab_bar_controller.dart';
 
@@ -45,71 +43,56 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
   Widget build(BuildContext context) {
     return BlocBuilder<MediaControlCubit, MediaControlCubitState>(
       builder: (context, state) {
-        return BlocBuilder<ThemeModeCubit, ThemeMode>(
-          builder: (context, themeMode) {
-            return PopScope(
-              canPop: false,
-              onPopInvoked: (didPop) async {
-                if (didPop) {
-                  return;
-                }
-                final bool shouldPop = await onBackPressed();
-                if (shouldPop) {
-                  SystemNavigator.pop();
-                }
-              },
-              child: MaterialApp(
-                theme: FlexColorScheme.light(
-                        scheme: FlexScheme.red,
-                        scaffoldBackground: const Color(0xFF20124d),
-                        background: const Color(0xFF20124d)).toTheme,
-                darkTheme: FlexColorScheme.dark(
-                  scheme: FlexScheme.red,
-                  onPrimary: Colors.white,
-                ).toTheme,
-                themeMode: themeMode,
-                debugShowCheckedModeBanner: false,
-                home: Scaffold(
-                  body: PageView(
-                    controller: _pageController,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: _pages,
-                  ),
-                  bottomNavigationBar: BottomNavigationBar(
-                    unselectedItemColor: Colors.white,
-                    selectedItemColor: Colors.red,
-                    selectedIconTheme: const IconThemeData(color: Colors.red),
-                    items: [
-                      const BottomNavigationBarItem(
-                        icon: Icon(Icons.home),
-                        label: 'Mix Sounds ',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: state.selectedSounds.isEmpty
-                            ? const Icon(Icons.surround_sound)
-                            : Lottie.asset(
-                                'assets/lottieFiles/sounds_waves.json'),
-                        label:
-                            'Active Sounds - ${state.selectedSounds.length.toString()}',
-                      ),
-                      const BottomNavigationBarItem(
-                        icon: Icon(Icons.menu),
-                        label: 'Settings',
-                      ),
-                    ],
-                    showSelectedLabels: true,
-                    currentIndex: _selectedPageIndex,
-                    onTap: (selectedPageIndex) {
-                      setState(() {
-                        _selectedPageIndex = selectedPageIndex;
-                        _pageController.jumpToPage(selectedPageIndex);
-                      });
-                    },
-                  ),
-                ),
-              ),
-            );
+        return PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) async {
+            if (didPop) {
+              return;
+            }
+            final bool shouldPop = await onBackPressed();
+            if (shouldPop) {
+              SystemNavigator.pop();
+            }
           },
+          child: Scaffold(
+            body: PageView(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: _pages,
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            unselectedItemColor: Colors.white,
+              selectedItemColor: Colors.red,
+              selectedIconTheme: const IconThemeData(color: Colors.red),
+              items: [
+                const BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Mix Sounds ',
+                ),
+                BottomNavigationBarItem(
+                  icon: state.selectedSounds.isEmpty
+                      ? const Icon(Icons.surround_sound)
+                      : Lottie.asset(
+                          'assets/lottieFiles/sounds_waves.json'),
+                  label:
+                      'Active Sounds - ${state.selectedSounds.length.toString()}',
+                ),
+                const BottomNavigationBarItem(
+                  icon: Icon(Icons.menu),
+                  label: 'Settings',
+                ),
+              ],
+              showSelectedLabels: true,
+              currentIndex: _selectedPageIndex,
+              onTap: (selectedPageIndex) {
+                setState(() {
+                  _selectedPageIndex = selectedPageIndex;
+                  _pageController.jumpToPage(selectedPageIndex);
+                });
+              },
+            ),
+          ),
         );
       },
     );
