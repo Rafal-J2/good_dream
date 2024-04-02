@@ -1,18 +1,18 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
-import 'package:good_dream/bloc/media_control/sounds_cubit.dart';
+import 'package:good_dream/models/sounds_catalog.dart';
 import 'package:good_dream/bloc/theme_mode/theme_mode_cubit.dart';
 import 'package:good_dream/bloc/timer/timer_cubit.dart';
 import 'package:good_dream/configuration/env_config.dart';
-import 'package:good_dream/services/tab_service.dart';
-import 'package:good_dream/services/timer_service.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:flare_splash_screen/flare_splash_screen.dart';
+import 'core/injection_container.dart';
 import 'views/main_menu_navigator.dart';
 
 var logger = Logger();
@@ -26,14 +26,6 @@ void main() async {
     Logger.level = Level.off;
   }
   runApp(const MyApp());
-}
-
-void setupGetIt() {
-  final getIt = GetIt.instance;
-  getIt.registerSingleton<TabService>(TabService());
-  getIt.registerSingleton<TimerService>(TimerService(0));
-  getIt
-      .registerFactory<TimerCubit>(() => TimerCubit(getIt.get<TimerService>()));
 }
 
 class MyApp extends StatelessWidget {
@@ -56,8 +48,15 @@ class MyApp extends StatelessWidget {
           builder: (context, themeMode) {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
-              theme: ThemeData.light(),
-              darkTheme: ThemeData.dark(),
+              theme: FlexColorScheme.light(
+                      scheme: FlexScheme.red,
+                      surface: const Color(0xFF20124d),
+                      scaffoldBackground: const Color(0xFF20124d))
+                  .toTheme,
+              darkTheme: FlexColorScheme.dark(
+                scheme: FlexScheme.red,
+                onPrimary: Colors.white,
+              ).toTheme,
               themeMode: themeMode,
               home: SplashScreen.navigate(
                 name: 'assets/intro2.flr',

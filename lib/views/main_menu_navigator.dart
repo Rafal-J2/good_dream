@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
-import 'package:good_dream/screens/playing_sounds_controller.dart';
+import 'package:good_dream/views/playing_sounds_controller.dart';
 import 'package:lottie/lottie.dart';
 import 'settings_controller.dart';
 import 'main_tab_bar_controller.dart';
