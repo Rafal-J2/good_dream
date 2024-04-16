@@ -20,7 +20,6 @@ class _State extends State<ClockTimer> {
   int _selectedMinute = 1;
 
 
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TimerCubit, TimerState>(

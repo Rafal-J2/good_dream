@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThemeTextStyles {
-  static const TextStyle textStyle =
+  static const TextStyle textStyleTabBar =
       TextStyle(fontSize: 14, color: Colors.white);
 
   static const TextStyle textStyleForUrlLauncher =

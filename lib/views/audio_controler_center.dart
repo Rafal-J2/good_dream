@@ -61,7 +61,7 @@ class _AudioControlCenterState extends State<AudioControlCenter> {
                             padding: AppPaddings.paddingTopBetweenTextAndImage,
                             child: Text(
                               audioClips[index].iconTitleText!,
-                              style: ThemeTextStyles.textStyle,
+                              style: ThemeTextStyles.textStyleTabBar,
                               textAlign: TextAlign.center,
                             ),
                           ),
