@@ -47,6 +47,7 @@ dependencies:
   flex_color_scheme: ^7.3.1
   lottie: ^3.1.0
   flare_splash_screen: ^4.0.0
+  bloc_test: ^9.1.7
   
 
   
@@ -58,7 +59,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter  
   flutter_launcher_icons: ^0.13.1
+  build_runner: ^2.4.9
+  mockito: ^5.4.4
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
