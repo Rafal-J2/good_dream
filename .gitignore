@@ -31,11 +31,10 @@ migrate_working_dir/
 .pub/
 /build/
  # Generated files
- ios/Runner/GeneratedPluginRegistrant.swift
- **/generated_plugin_registrant.cc
- **/generated_plugin_registrant.h
-**/generated_plugins.cmake
-
+ **/linux/flutter/generated_plugin_registrant.cc
+ **/linux/flutter/generated_plugin_registrant.h
+ **/windows/flutter/generated_plugin_registrant.cc
+ **/windows/flutter/generated_plugin_registrant.h
 # Symbolication related
 app.*.symbols
 
