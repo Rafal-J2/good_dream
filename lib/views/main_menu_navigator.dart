@@ -1,16 +1,20 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:good_dream/views/playing_sounds_controller.dart';
 import 'package:lottie/lottie.dart';
-import 'settings_controller.dart';
+
 import 'main_tab_bar_controller.dart';
+import 'settings_controller.dart';
 
 class MainMenuNavigator extends StatefulWidget {
-  const MainMenuNavigator({super.key, this.title});
+  const MainMenuNavigator({super.key, this.title, });
   final String? title;
+
 
   @override
   MainMenuNavigatorState createState() => MainMenuNavigatorState();
@@ -26,9 +30,10 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
   @override
   void initState() {
     super.initState();
+     final AudioHandler audioHandler = GetIt.instance<AudioHandler>(); 
     _pages = [
       const MainTabBarController(),
-      const PlayingSoundsController(),
+      PlayingSoundsController(audioHandler: audioHandler), 
       const SettingsController(),
     ];
   }
