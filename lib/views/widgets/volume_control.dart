@@ -1,17 +1,19 @@
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../bloc/media_control/media_control_cubit.dart';
+
+import '../../main.dart';
 
 class VolumeControl extends StatefulWidget {
   final AudioPlayer player;
   final String audioFileId;
+  final Function(double) onChangeEnd;
 
   const VolumeControl({
     super.key,
     required this.player,
     required this.audioFileId,
+    required this.onChangeEnd,
   });
 
   @override
@@ -24,7 +26,19 @@ class VolumeControlState extends State<VolumeControl> {
   @override
   void initState() {
     super.initState();
-    widget.player.setVolume(_currentVolume);
+    widget.player.setVolume(_currentVolume).catchError((error) {
+      _handleVolumeError(error);
+    });
+  }
+
+  void _handleVolumeError(error) {
+    logger.i('Error setting volume: $error');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Volume setting error: $error'),
+        duration: const Duration(seconds: 3),
+      ),
+    );
   }
 
   @override
@@ -37,14 +51,15 @@ class VolumeControlState extends State<VolumeControl> {
         min: 0,
         max: 1,
         divisions: 50,
-        onChanged: (v) async {
-          await widget.player.setVolume(v);
-          setState(() {
-            _currentVolume = v;
+        onChanged: (v) {
+          widget.player.setVolume(v).then((_) {
+            setState(() {
+              _currentVolume = v;
+            });
+            widget.onChangeEnd(v);
+          }).catchError((error) {
+            _handleVolumeError(error);
           });
-        },
-        onChangeEnd: (v) async {
-          context.read<MediaControlCubit>().setVolume(widget.audioFileId, v);
         },
       ),
     );
