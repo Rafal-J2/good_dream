@@ -1,3 +1,5 @@
+
+import 'package:audio_service/audio_service.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +18,7 @@ import 'core/injection_container.dart';
 import 'views/main_menu_navigator.dart';
 
 var logger = Logger();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupGetIt();
@@ -40,8 +43,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           BlocProvider<TimerCubit>(create: (context) => GetIt.I<TimerCubit>()),
-          BlocProvider(
-              create: (context) => MediaControlCubit(soundsByCategory)),
+          BlocProvider( create: (context) => MediaControlCubit(soundsByCategory, GetIt.I<AudioHandler>())),
           BlocProvider(create: (context) => ThemeModeCubit(GetStorage())),
         ],
         child: BlocBuilder<ThemeModeCubit, ThemeMode>(

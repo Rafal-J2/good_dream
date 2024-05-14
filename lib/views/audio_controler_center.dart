@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import '../bloc/media_control/media_control_cubit.dart';
 import '../models/audio_clip.dart';
 import '../style/theme_text_styles.dart';
-import 'widgets/volume_control.dart';
-
 class AudioControlCenter extends StatefulWidget {
   final String category;
   final Map<String, List<AudioClip>> soundsByCategory;
@@ -53,9 +52,32 @@ class _AudioControlCenterState extends State<AudioControlCenter> {
                               'assets/images/default_enabled_icon_w.png'),
                     ),
                     audioClips[index].isControlActive
-                        ? VolumeControl(
-                            player: audioClips[index].player,
-                            audioFileId: audioClips[index].audioFile!,
+                        ? StreamBuilder<double>(
+                            stream: audioClips[index].player.volumeStream,
+                            builder: (context, snapshot) {
+                              double currentVolume = snapshot.data ??
+                                  0.5; 
+                              return Shimmer.fromColors(
+                                baseColor: Colors.white,
+                                highlightColor: Colors.grey,
+                                child: Slider(
+                                  value: currentVolume,
+                                  min: 0,
+                                  max: 1,
+                                  divisions: 50,
+                                  onChanged: (v) {
+                                    audioClips[index].player.setVolume(v);
+                                  },
+                                  onChangeEnd: (v) {
+                                    String soundId =
+                                        audioClips[index].audioFile!;
+                                    context
+                                        .read<MediaControlCubit>()
+                                        .setVolumeCubit(soundId, v);
+                                  },
+                                ),
+                              );
+                            },
                           )
                         : Padding(
                             padding: AppPaddings.paddingTopBetweenTextAndImage,

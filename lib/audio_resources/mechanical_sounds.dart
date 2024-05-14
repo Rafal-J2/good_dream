@@ -1,5 +1,5 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:good_dream/models/audio_clip.dart';
+import 'package:just_audio/just_audio.dart';
 
 List<AudioClip> get mechanicalSounds => _mechanicalSounds;
 final _mechanicalSounds = [
@@ -10,7 +10,7 @@ final _mechanicalSounds = [
       iconTitleText: 'Plane',
       audioFile: "assets/audio/plane.ogg",
       isControlActive: false,
-      player: AssetsAudioPlayer()),
+      player: AudioPlayer()),
   AudioClip(
       id: 'Train',
       disableIcon: 'assets/images/train_w.png',
@@ -18,7 +18,7 @@ final _mechanicalSounds = [
       iconTitleText: 'Train',
       audioFile: "assets/audio/train.ogg",
       isControlActive: false,
-      player: AssetsAudioPlayer()),
+      player: AudioPlayer()),
   AudioClip(
       id: 'Car Driving',
       disableIcon: 'assets/images/car_w.png',
@@ -26,7 +26,7 @@ final _mechanicalSounds = [
       iconTitleText: 'Car Driving',
       audioFile: "assets/audio/car_driving.ogg",
       isControlActive: false,
-      player: AssetsAudioPlayer()),
+      player: AudioPlayer()),
   AudioClip(
       id: 'Bus',
       disableIcon: 'assets/images/bus_w.png',
@@ -34,7 +34,7 @@ final _mechanicalSounds = [
       iconTitleText: 'Bus',
       audioFile: "assets/audio/fast_bus.ogg",
       isControlActive: false,
-      player: AssetsAudioPlayer()),
+      player: AudioPlayer()),
   AudioClip(
       id: 'Washing machine',
       disableIcon: 'assets/images/washing_machine_w.png',
@@ -42,7 +42,7 @@ final _mechanicalSounds = [
       iconTitleText: 'Washing machine',
       audioFile: "assets/audio/washing_machine.ogg",
       isControlActive: false,
-      player: AssetsAudioPlayer()),
+      player: AudioPlayer()),
   AudioClip(
       id: 'Air Conditioner',
       disableIcon: 'assets/images/air_conditioner_w.png',
@@ -50,7 +50,7 @@ final _mechanicalSounds = [
       iconTitleText: 'Air Conditioner',
       audioFile: "assets/audio/air_conditioner2.ogg",
       isControlActive: false,
-      player: AssetsAudioPlayer()),
+      player: AudioPlayer()),
   AudioClip(
       id: 'Vacuum cleaner',
       disableIcon: 'assets/images/vacuum_cleaner_w.png',
@@ -58,7 +58,7 @@ final _mechanicalSounds = [
       iconTitleText: 'Vacuum cleaner',
       audioFile: "assets/audio/vacuum_cleaner2.ogg",
       isControlActive: false,
-      player: AssetsAudioPlayer()),
+      player: AudioPlayer()),
   AudioClip(
       id: 'Hair dryer',
       disableIcon: 'assets/images/hair_dryer_w.png',
@@ -66,7 +66,7 @@ final _mechanicalSounds = [
       iconTitleText: 'Hair dryer',
       audioFile: "assets/audio/hair_dryer2.ogg",
       isControlActive: false,
-      player: AssetsAudioPlayer()),
+      player: AudioPlayer()),
   AudioClip(
       id: 'Keyboard',
       disableIcon: 'assets/images/keyboard_w.png',
@@ -74,5 +74,5 @@ final _mechanicalSounds = [
       iconTitleText: 'Keyboard',
       audioFile: "assets/audio/keyboard.ogg",
       isControlActive: false,
-      player: AssetsAudioPlayer()),
+      player: AudioPlayer()),
 ];

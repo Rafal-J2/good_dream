@@ -1,13 +1,13 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
-import 'package:good_dream/services/foreground_service.dart';
 import 'package:lottie/lottie.dart';
 
 class PlayingSoundsController extends StatefulWidget {
-  const PlayingSoundsController({super.key});
+  final AudioHandler audioHandler;
+  const PlayingSoundsController({super.key, required this.audioHandler});
   @override
   PlayingSoundsControllerState createState() => PlayingSoundsControllerState();
 }
@@ -44,7 +44,8 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                 ),
                 Center(
                   child: Lottie.asset('assets/lottieFiles/relax.json'),
-                )],
+                )
+              ],
               ...state.selectedSounds.map((item) {
                 return Container(
                   margin: const EdgeInsets.all(8.0),
@@ -73,21 +74,25 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                                     color: Colors.white, fontSize: 18.0),
                               ),
                             ),
-                            PlayerBuilder.volume(
-                                player: item.player,
-                                builder: (context, vol) {
-                                  return Slider(
-                                      activeColor: Colors.orange,                              
-                                      value: vol,
-                                      min: 0,
-                                      max: 1,
-                                      divisions: 50,
-                                      onChanged: (volume) {
-                                        setState(() {
-                                          item.player.setVolume(volume);
-                                        });
-                                      });
-                                }),
+                            StreamBuilder<double>(
+                              stream: item.player.volumeStream,
+                              builder: (context, snapshot) {
+                                double currentVolume = snapshot.data ??
+                                    0.5; 
+                                return Slider(
+                                  activeColor: Colors.orange,
+                                  value: currentVolume,
+                                  min: 0,
+                                  max: 1,
+                                  divisions: 50,
+                                  onChanged: (volume) {
+                                    setState(() {
+                                      item.player.setVolume(volume);
+                                    });
+                                  },
+                                );
+                              },
+                            )
                           ],
                         ),
                       ),
@@ -100,7 +105,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                                     .read<MediaControlCubit>()
                                     .selectedCount ==
                                 0) {
-                              stopForegroundService();
+                              widget.audioHandler.stop();
                             }
                           },
                           child: Padding(

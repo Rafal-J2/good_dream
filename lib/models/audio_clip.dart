@@ -1,10 +1,12 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:flutter/material.dart';
 
+
+//  TODO: Change to Equatable
 class AudioClip {
   double volumeControlSlider;
   bool isControlActive;
-  final AssetsAudioPlayer player;
+  final AudioPlayer player;
   final String? disableIcon;
   final String? enableIcon;
   final String? iconTitleText;
