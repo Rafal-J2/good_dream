@@ -1,6 +1,6 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:good_dream/audio_resources/nature_sounds.dart';
+import 'package:just_audio/just_audio.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +21,7 @@ void main() {
         expect(sound.iconTitleText, isNotEmpty);
         expect(sound.audioFile, isNotEmpty);
         expect(sound.isControlActive, isNotNull);
-        expect(sound.player, isA<AssetsAudioPlayer>());
+        expect(sound.player, isA<AudioPlayer>());
         expect(sound.audioFile, endsWith('.ogg'));
         expect(sound.disableIcon, endsWith('.png'));
         expect(sound.enableIcon, endsWith('.png'));
