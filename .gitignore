@@ -35,6 +35,7 @@ migrate_working_dir/
  **/linux/flutter/generated_plugin_registrant.h
  **/windows/flutter/generated_plugin_registrant.cc
  **/windows/flutter/generated_plugin_registrant.h
+ **/ios/Runner/GeneratedPluginRegistrant.swift  # Add this line
 # Symbolication related
 app.*.symbols
 

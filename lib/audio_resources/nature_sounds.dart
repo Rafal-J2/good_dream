@@ -50,7 +50,7 @@ final _natureSounds = [
       iconTitleText: 'Bonfire',
       audioFile: "assets/audio/bonfire.ogg",
       isControlActive: false,  
-      volumeControlSlider: 0.5,
+     
       player: AudioPlayer()),
   AudioClip(
       id: 'bird',

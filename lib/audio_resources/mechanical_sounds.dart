@@ -18,7 +18,8 @@ final _mechanicalSounds = [
       iconTitleText: 'Train',
       audioFile: "assets/audio/train.ogg",
       isControlActive: false,
-      player: AudioPlayer()),
+      player: AudioPlayer()
+      ),
   AudioClip(
       id: 'Car Driving',
       disableIcon: 'assets/images/car_w.png',

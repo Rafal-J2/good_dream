@@ -82,9 +82,9 @@ class _State extends State<ClockTimer> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
+                     Text(
                       'Custom Duration',
-                      style: TextStyle(fontSize: 24, color: Colors.white),
+                      style: TextStyle(fontSize: 24, color: Theme.of(context).textTheme.displayLarge?.color,),
                     ),
                     const SizedBox(height: 16),
                     Row(
@@ -114,10 +114,12 @@ class _State extends State<ClockTimer> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        TextButton(
+                        ElevatedButton(
                           onPressed: () => Navigator.pop(context),
-                          child: const Text('Cancel',
-                              style: TextStyle(color: Colors.white)),
+                         style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).primaryColor,
+                          ),
+                          child: const Text('Cancel'),
                         ),
                         ElevatedButton(
                           onPressed: () {
@@ -130,7 +132,7 @@ class _State extends State<ClockTimer> {
                             notificationStartCountdown();
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
+                            backgroundColor: Theme.of(context).primaryColor,
                           ),
                           child: const Text('Apply'),
                         ),

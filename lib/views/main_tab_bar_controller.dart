@@ -5,7 +5,6 @@ import 'package:good_dream/services/tab_service.dart';
 import 'package:good_dream/style/theme_text_styles.dart';
 import '../models/sounds_catalog.dart';
 import 'package:get_it/get_it.dart';
-
 import 'widgets/audio_control_list.dart';
 
 class MainTabBarController extends StatefulWidget {
@@ -34,7 +33,7 @@ class _State extends State<MainTabBarController>
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
 
-    // Inicjalizacja zakładki z zapisanego stanu
+
     PageStorageBucket? bucket = PageStorage.of(context);
     int? savedIndex = bucket.readState(context, identifier: _pageStorageKey);
     if (savedIndex != null) {
