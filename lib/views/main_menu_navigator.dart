@@ -50,7 +50,7 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
       builder: (context, state) {
         return PopScope(
           canPop: false,
-          onPopInvoked: (didPop) async {
+          onPopInvokedWithResult: (didPop, result) async {
             if (didPop) {
               return;
             }
