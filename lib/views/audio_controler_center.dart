@@ -45,11 +45,19 @@ class _AudioControlCenterState extends State<AudioControlCenter> {
                   children: [
                     Image(
                       height: imageSize['height'],
+                      fit: BoxFit.contain,
                       image: AssetImage(audioClips[index].isControlActive
                           ? audioClips[index].enableIcon ??
-                              'assets/images/default_enabled_icon_on.png'
+                              'assets/images/default_disabled_icon._on.png'
                           : audioClips[index].disableIcon ??
-                              'assets/images/default_enabled_icon_w.png'),
+                              'assets/images/default_disabled_icon_w.png'),
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(
+                          Icons.music_note,
+                          color: Colors.white,
+                          size: imageSize['height'] ?? 40,
+                        );
+                      },
                     ),
                     audioClips[index].isControlActive
                         ? StreamBuilder<double>(

@@ -73,16 +73,19 @@ void toggleSound(String category, AudioClip sound) {
     }
 }
 
-void disableAllSoundsAndIcons() async {
-    List<Future> pauseFutures = [];
-    for (var sound in state.selectedSounds) {
-        sound.isControlActive = false;
-        pauseFutures.add(sound.player.pause());
+  Future<void> disableAllSoundsAndIcons() async {
+    final allSounds = soundsByCategory.values.expand((sounds) => sounds);
+    final stopFutures = <Future<void>>[];
+
+    for (final sound in allSounds) {
+      sound.isControlActive = false;
+      stopFutures.add(sound.player.stop());
     }
-    await Future.wait(pauseFutures);
-    audioHandler.stop();
-    _updateAndEmitSoundList(state.selectedSounds);
-}
+
+    await Future.wait(stopFutures);
+    await audioHandler.stop();
+    _updateAndEmitSoundList(const []);
+  }
   MediaItem mediaItemFromSound(AudioClip sound) {
     return MediaItem(
       id: sound.id!,

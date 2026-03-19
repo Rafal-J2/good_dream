@@ -1,5 +1,10 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:good_dream/utils/toast_notifications.dart';
 import 'package:numberpicker/numberpicker.dart';
 import '../bloc/timer/timer_cubit.dart';
@@ -20,7 +25,14 @@ class _State extends State<ClockTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TimerCubit, TimerState>(
+    return BlocConsumer<TimerCubit, TimerState>(
+      listenWhen: (previous, current) =>
+          previous.isTimerRunning &&
+          !current.isTimerRunning &&
+          current.remainingTime == 0,
+      listener: (context, state) {
+        _closeAppAfterTimer(context);
+      },
       builder: (context, state) {
         return Column(
           children: [
@@ -66,6 +78,26 @@ class _State extends State<ClockTimer> {
         );
       },
     );
+  }
+
+  Future<void> _closeAppAfterTimer(BuildContext context) async {
+    final mediaControlCubit = context.read<MediaControlCubit>();
+    await mediaControlCubit.disableAllSoundsAndIcons();
+    await Future.delayed(const Duration(milliseconds: 150));
+    if (!mounted) {
+      return;
+    }
+    // Keep emulator/debug stable. Release still closes the app on timer end.
+    if (!kReleaseMode) {
+      return;
+    }
+    if (kIsWeb) {
+      return;
+    }
+    if (defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS) {
+      SystemNavigator.pop();
+    }
   }
 
   Future<void> _showModalBottomSheet() async {

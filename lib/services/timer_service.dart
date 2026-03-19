@@ -1,37 +1,50 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:flutter/services.dart';
+
+typedef TimerTick = void Function(int secondsRemaining);
+typedef TimerFinished = void Function();
 
 class TimerService {
   TimerService(this._secondsRemaining);
   int _secondsRemaining;
   Timer? _timer;
 
-  void startTimer(Function onTick) {
+  void startTimer({
+    required TimerTick onTick,
+    TimerFinished? onFinished,
+  }) {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (_secondsRemaining > 0) {
-        _secondsRemaining--;
-        onTick(_secondsRemaining);
-      } else {
+      if (_secondsRemaining <= 0) {
         cancelTimer();
-        _exitApp();
+        onFinished?.call();
+        return;
+      }
+
+      _secondsRemaining--;
+      onTick(_secondsRemaining);
+
+      if (_secondsRemaining == 0) {
+        cancelTimer();
+        onFinished?.call();
       }
     });
   }
 
-  void _exitApp() {
-    if (Platform.isAndroid) {
-      SystemNavigator.pop();
-    } else if (Platform.isIOS) {
-      exit(0);
-    }
-  }
-
-  void setAndStartTimer(int newSeconds, Function(int) onTick) {
+  void setAndStartTimer(
+    int newSeconds, {
+    required TimerTick onTick,
+    TimerFinished? onFinished,
+  }) {
     _secondsRemaining = newSeconds;
     onTick(_secondsRemaining);
-    startTimer(onTick);
+
+    if (_secondsRemaining <= 0) {
+      cancelTimer();
+      onFinished?.call();
+      return;
+    }
+
+    startTimer(onTick: onTick, onFinished: onFinished);
   }
 
   void cancelTimer() {
