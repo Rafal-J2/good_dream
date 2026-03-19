@@ -21,7 +21,7 @@ var logger = Logger();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setupGetIt();
+  await setupGetIt();
   await GetStorage.init();
   const environment = 'development';
   final config = EnvConfig.fromEnvironment(environment);

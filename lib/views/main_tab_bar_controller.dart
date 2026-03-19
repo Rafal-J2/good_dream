@@ -1,10 +1,8 @@
 import 'package:good_dream/services/clock_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:good_dream/services/tab_service.dart';
 import 'package:good_dream/style/theme_text_styles.dart';
 import '../models/sounds_catalog.dart';
-import 'package:get_it/get_it.dart';
 
 import 'widgets/audio_control_list.dart';
 
@@ -26,51 +24,49 @@ class MainTabBarController extends StatefulWidget {
 
 class _State extends State<MainTabBarController>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+  late final TabController _tabController;
   final PageStorageKey _pageStorageKey = const PageStorageKey('tabBarDemoKey');
+  bool _didRestoreTabIndex = false;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
-
-    // Inicjalizacja zakładki z zapisanego stanu
-    PageStorageBucket? bucket = PageStorage.of(context);
-    int? savedIndex = bucket.readState(context, identifier: _pageStorageKey);
-    if (savedIndex != null) {
-      _tabController.index = savedIndex;
-    }
-
     _tabController.addListener(_saveTabIndex);
   }
 
-  void _saveTabIndex() {
-    if (!_tabController.indexIsChanging) {
-      PageStorage.of(context).writeState(context, _tabController.index,
-          identifier: _pageStorageKey);
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didRestoreTabIndex) {
+      return;
     }
+
+    final bucket = PageStorage.maybeOf(context);
+    final savedIndex =
+        bucket?.readState(context, identifier: _pageStorageKey) as int?;
+
+    if (savedIndex != null && savedIndex >= 0 && savedIndex < _tabController.length) {
+      _tabController.index = savedIndex;
+    }
+
+    _didRestoreTabIndex = true;
+  }
+
+  void _saveTabIndex() {
+    if (_tabController.indexIsChanging) {
+      return;
+    }
+
+    final bucket = PageStorage.maybeOf(context);
+    bucket?.writeState(context, _tabController.index, identifier: _pageStorageKey);
   }
 
   @override
   void dispose() {
-    _tabController.removeListener(_onTabChanged);
-    GetIt.I<TabService>().removeListener(_onServiceTabChanged);
+    _tabController.removeListener(_saveTabIndex);
+    _tabController.dispose();
     super.dispose();
-  }
-
-  void _onTabChanged() {
-    if (!_tabController.indexIsChanging) {
-      GetIt.I<TabService>().changeTab(_tabController.index);
-    }
-  }
-
-  void _onServiceTabChanged() {
-    int newIndex = GetIt.I<TabService>().currentTabIndex;
-    if (_tabController.index != newIndex) {
-      setState(() {
-        _tabController.index = newIndex;
-      });
-    }
   }
 
   @override
@@ -78,7 +74,7 @@ class _State extends State<MainTabBarController>
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50.0),
-        child: AppBar( 
+        child: AppBar(
           systemOverlayStyle:
               const SystemUiOverlayStyle(statusBarColor: Colors.black),
           bottom: TabBar(

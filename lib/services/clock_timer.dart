@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:good_dream/utils/toast_notifications.dart';
@@ -19,7 +18,6 @@ class _State extends State<ClockTimer> {
   int _selectedHour = 1;
   int _selectedMinute = 1;
 
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TimerCubit, TimerState>(
@@ -33,7 +31,7 @@ class _State extends State<ClockTimer> {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 6),
                     child: ElevatedButton(
-                        style:  Button.buttonForTimer,
+                        style: Button.buttonForTimer,
                         onPressed: () {
                           int newDurationInSeconds =
                               _selectedHour * 3600 + _selectedMinute * 60;
@@ -42,11 +40,11 @@ class _State extends State<ClockTimer> {
                                 .read<TimerCubit>()
                                 .startTimer(newDurationInSeconds);
                           } else {
-                            context.read<TimerCubit>().cancelTimer();                  
+                            context.read<TimerCubit>().cancelTimer();
                           }
                         },
                         child: Text(
-                             state.isTimerRunning ? "Stop Timer" : "Start Timer")),
+                            state.isTimerRunning ? "Stop Timer" : "Start Timer")),
                   ),
                 ),
                 Flexible(
@@ -63,7 +61,7 @@ class _State extends State<ClockTimer> {
                 ),
               ],
             ),
-          TimerDisplayWidget(state: state)
+            TimerDisplayWidget(state: state)
           ],
         );
       },
@@ -73,18 +71,23 @@ class _State extends State<ClockTimer> {
   Future<void> _showModalBottomSheet() async {
     showModalBottomSheet<void>(
       context: context,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
+            final colorScheme = Theme.of(context).colorScheme;
+            final textColor = colorScheme.onSurface;
+            final mutedTextColor = textColor.withOpacity(0.7);
+
             return SingleChildScrollView(
               child: Container(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
+                    Text(
                       'Custom Duration',
-                      style: TextStyle(fontSize: 24, color: Colors.white),
+                      style: TextStyle(fontSize: 24, color: textColor),
                     ),
                     const SizedBox(height: 16),
                     Row(
@@ -96,17 +99,41 @@ class _State extends State<ClockTimer> {
                           maxValue: 8,
                           onChanged: (value) =>
                               setState(() => _selectedHour = value),
-                              textMapper: (numberText) => numberText.padLeft(2, '0'),
+                          textStyle: TextStyle(color: mutedTextColor),
+                          selectedTextStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 26,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              top: BorderSide(color: mutedTextColor),
+                              bottom: BorderSide(color: mutedTextColor),
+                            ),
+                          ),
+                          textMapper: (numberText) => numberText.padLeft(2, '0'),
                         ),
-                        const Text(':',
-                            style: TextStyle(color: Colors.white, fontSize: 24)),
+                        Text(':',
+                            style: TextStyle(color: textColor, fontSize: 24)),
                         NumberPicker(
                           value: _selectedMinute,
                           minValue: 1,
                           maxValue: 59,
                           onChanged: (value) =>
                               setState(() => _selectedMinute = value),
-                              textMapper: (numberText) => numberText.padLeft(2, '0'),
+                          textStyle: TextStyle(color: mutedTextColor),
+                          selectedTextStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 26,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              top: BorderSide(color: mutedTextColor),
+                              bottom: BorderSide(color: mutedTextColor),
+                            ),
+                          ),
+                          textMapper: (numberText) => numberText.padLeft(2, '0'),
                         ),
                       ],
                     ),
@@ -116,8 +143,7 @@ class _State extends State<ClockTimer> {
                       children: [
                         TextButton(
                           onPressed: () => Navigator.pop(context),
-                          child: const Text('Cancel',
-                              style: TextStyle(color: Colors.white)),
+                          child: Text('Cancel', style: TextStyle(color: textColor)),
                         ),
                         ElevatedButton(
                           onPressed: () {
@@ -126,13 +152,13 @@ class _State extends State<ClockTimer> {
                                 _selectedHour * 3600 + _selectedMinute * 60;
                             context
                                 .read<TimerCubit>()
-                                .startTimer(newDurationInSeconds);                     
+                                .startTimer(newDurationInSeconds);
                             notificationStartCountdown();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
                           ),
-                          child: const Text('Apply'),
+                          child: const Text('Apply', style: TextStyle(color: Colors.white)),
                         ),
                       ],
                     ),
@@ -146,5 +172,3 @@ class _State extends State<ClockTimer> {
     );
   }
 }
-
-
