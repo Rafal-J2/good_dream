@@ -26,16 +26,18 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
   }
 
 
-  void setVolumeCubit(String soundId, double volume) {
-    logger.i('Setting volume to $volume for $soundId');
-    var soundIndex =state.selectedSounds.indexWhere((index) => index.id == soundId);
+  void setVolumeCubit(String soundKey, double volume) {
+    logger.i('Setting volume to $volume for $soundKey');
+    var soundIndex = state.selectedSounds.indexWhere(
+      (index) => index.id == soundKey || index.audioFile == soundKey,
+    );
     if (soundIndex != -1) {
       var updatedNatureSounds = List<AudioClip>.from(state.selectedSounds);
       var sound = updatedNatureSounds[soundIndex];
       sound.player.setVolume(volume);
       _updateAndEmitSoundList(updatedNatureSounds);
     } else {
-      logger.e('Sound not found for $soundId');
+      logger.e('Sound not found for $soundKey');
     }
   }
 

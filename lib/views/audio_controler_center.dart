@@ -69,8 +69,12 @@ class _AudioControlCenterState extends State<AudioControlCenter> {
                                     audioClips[index].player.setVolume(v);
                                   },
                                   onChangeEnd: (v) {
-                                    String soundId =
-                                        audioClips[index].audioFile!;
+                                    final soundId =
+                                        audioClips[index].id ??
+                                            audioClips[index].audioFile;
+                                    if (soundId == null) {
+                                      return;
+                                    }
                                     context
                                         .read<MediaControlCubit>()
                                         .setVolumeCubit(soundId, v);
