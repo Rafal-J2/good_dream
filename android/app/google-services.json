@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "238258904158",
+    "project_id": "good-dream-3e9ec",
+    "storage_bucket": "good-dream-3e9ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238258904158:android:d5cebadfdf4bcd67c868cf",
+        "android_client_info": {
+          "package_name": "com.devsoftware.good_dream"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDH-HTG-t43BgvuGu99fmP1VkLsFj3Bfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
