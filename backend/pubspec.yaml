@@ -1,0 +1,17 @@
+name: good_dream_backend
+description: A Dart Shelf server powered by Gemini to support the Good Dream AI Assistant.
+version: 1.0.0
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+
+dependencies:
+  google_generative_ai: ^0.4.0
+  shelf: ^1.4.1
+  shelf_router: ^1.1.4
+  dotenv: ^4.2.0
+  http: ^1.2.0
+
+dev_dependencies:
+  lints: ^3.0.0

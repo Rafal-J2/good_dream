@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 
 import 'main_tab_bar_controller.dart';
 import 'settings_controller.dart';
+import 'ai_assistant_controller.dart';
 
 class MainMenuNavigator extends StatefulWidget {
   const MainMenuNavigator({super.key, this.title, });
@@ -31,6 +32,7 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
     _pages = [
       const MainTabBarController(),
       const PlayingSoundsController(), 
+      const AIAssistantController(),
       const SettingsController(),
     ];
   }
@@ -53,6 +55,9 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
             }
             final bool shouldPop = await onBackPressed();
             if (shouldPop) {
+              if (mounted) {
+                await context.read<MediaControlCubit>().disableAllSoundsAndIcons();
+              }
               SystemNavigator.pop();
             }
           },
@@ -79,6 +84,10 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
                           'assets/lottieFiles/sounds_waves.json'),
                   label:
                       'Active Sounds - ${state.activeSounds.length.toString()}',
+                ),
+                const BottomNavigationBarItem(
+                  icon: Icon(Icons.auto_awesome),
+                  label: 'Asystent AI',
                 ),
                 const BottomNavigationBarItem(
                   icon: Icon(Icons.menu),
