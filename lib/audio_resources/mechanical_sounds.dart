@@ -1,7 +1,6 @@
 import 'package:good_dream/models/audio_clip.dart';
 
-List<AudioClip> get mechanicalSounds => _mechanicalSounds;
-final _mechanicalSounds = [
+const List<AudioClip> mechanicalSounds = [
   AudioClip(
       id: 'Plane',
       disableIcon: 'assets/images/plane_w.png',

@@ -1,7 +1,6 @@
 import 'package:good_dream/models/audio_clip.dart';
 
-List<AudioClip> get musicSounds => _musicSounds;
-final _musicSounds = [
+const List<AudioClip> musicSounds = [
   AudioClip(
       id: 'Meditation',
       disableIcon: 'assets/images/lotus_w.png',

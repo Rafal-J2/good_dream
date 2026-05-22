@@ -1,10 +1,12 @@
-class TimerState {
+import 'package:equatable/equatable.dart';
+
+class TimerState extends Equatable {
   final bool isTimerRunning;
   final int selectedHour;
   final int selectedMinute;
   final int remainingTime;
 
-  TimerState({
+  const TimerState({
     this.isTimerRunning = false,
     this.selectedHour = 1,
     this.selectedMinute = 0,
@@ -24,4 +26,7 @@ class TimerState {
       remainingTime: remainingTime ?? this.remainingTime,
     );
   }
+
+  @override
+  List<Object?> get props => [isTimerRunning, selectedHour, selectedMinute, remainingTime];
 }

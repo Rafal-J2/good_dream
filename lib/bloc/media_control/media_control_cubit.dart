@@ -1,5 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:good_dream/models/active_sound.dart';
 import 'package:good_dream/models/audio_clip.dart';
@@ -41,7 +42,7 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
 
     final player = AudioPlayer();
     try {
-      await player.setAsset(clip.audioFile!);
+      await player.setAsset(clip.audioFile);
       await player.setVolume(0.5);
       await player.setLoopMode(LoopMode.one);
       player.play();
@@ -109,17 +110,6 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
 
     await audioHandler.stop();
     emit(MediaControlCubitLoaded(activeSounds: const []));
-  }
-
-  MediaItem mediaItemFromClip(AudioClip clip) {
-    return MediaItem(
-      id: clip.id,
-      album: "Sample Album",
-      title: clip.iconTitleText ?? 'Unknown',
-      artist: "Sample Artist",
-      artUri: Uri.parse(
-          "https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg"),
-    );
   }
 
   @override

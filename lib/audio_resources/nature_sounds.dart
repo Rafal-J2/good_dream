@@ -1,7 +1,6 @@
 import 'package:good_dream/models/audio_clip.dart';
 
-List<AudioClip> get natureSounds => _natureSounds;
-final _natureSounds = [
+const List<AudioClip> natureSounds = [
   AudioClip(
       id: 'woodpecker',
       disableIcon: 'assets/images/woodpecker_w.png',

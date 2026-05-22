@@ -16,10 +16,10 @@ class ClockTimer extends StatefulWidget {
   const ClockTimer({super.key});
 
   @override
-  State createState() => _State();
+  State createState() => _ClockTimerState();
 }
 
-class _State extends State<ClockTimer> {
+class _ClockTimerState extends State<ClockTimer> {
   int _selectedHour = 1;
   int _selectedMinute = 1;
 

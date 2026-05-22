@@ -19,10 +19,10 @@ class MainTabBarController extends StatefulWidget {
   final String? title;
 
   @override
-  State createState() => _State();
+  State createState() => _MainTabBarControllerState();
 }
 
-class _State extends State<MainTabBarController>
+class _MainTabBarControllerState extends State<MainTabBarController>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
   final PageStorageKey _pageStorageKey = const PageStorageKey('tabBarDemoKey');

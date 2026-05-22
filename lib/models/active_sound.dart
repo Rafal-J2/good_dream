@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'audio_clip.dart';
 
 /// Represents a sound currently being played by the user.
 /// Lives only inside MediaControlCubit state — not a data model.
-class ActiveSound {
+class ActiveSound extends Equatable {
   final AudioClip clip;
   final AudioPlayer player;
   final double volume;
@@ -21,4 +22,7 @@ class ActiveSound {
       volume: volume ?? this.volume,
     );
   }
+
+  @override
+  List<Object?> get props => [clip, player, volume];
 }

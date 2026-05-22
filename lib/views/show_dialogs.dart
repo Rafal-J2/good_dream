@@ -4,11 +4,9 @@ import '../constants/dialogs.dart';
 import '../services/launch_url.dart';
 import '../models/privacy_policy.dart';
 
-
-
-
 Widget privacyPolicyDialog(BuildContext context) {
-  Map<String, double> imageSize = MediaQuerySize.getImageSize(context);
+  final Map<String, double> imageSize = MediaQuerySize.getImageSize(context);
+  final launcher = UrlLauncherService();
   return SizedBox(
     height: imageSize['heightDialog'],
     width: imageSize['widthDialog'],
@@ -16,13 +14,32 @@ Widget privacyPolicyDialog(BuildContext context) {
       shrinkWrap: true,
       itemCount: privacyPolicyContent.length,
       itemBuilder: (BuildContext context, int index) {
+        final item = privacyPolicyContent[index];
+        TextStyle? textStyle;
+        VoidCallback? onTap;
+
+        switch (item.type) {
+          case PrivacyPolicyContentType.header:
+            textStyle = const TextStyle(fontWeight: FontWeight.bold);
+            break;
+          case PrivacyPolicyContentType.link:
+            textStyle = ThemeTextStyles.textStyleForUrlLauncher;
+            if (item.url == 'google_privacy') {
+              onTap = launcher.launchPrivacyPolicyUrl;
+            }
+            break;
+          case PrivacyPolicyContentType.body:
+            textStyle = null; // default style
+            break;
+        }
+
         return GestureDetector(
-          onTap: privacyPolicyContent[index].onTap,
+          onTap: onTap,
           child: Padding(
             padding: AppPaddings.paddingForDialogs,
             child: Text(
-              privacyPolicyContent[index].privacyPolicyContent ?? "Default content",
-              style: privacyPolicyContent[index].headerTextStyle,
+              item.text,
+              style: textStyle,
             ),
           ),
         );
@@ -32,7 +49,7 @@ Widget privacyPolicyDialog(BuildContext context) {
 }
 
 Widget acknowledgmentsDialog(BuildContext context) {
-  Map<String, double> imageSize = MediaQuerySize.getImageSize(context);
+  final Map<String, double> imageSize = MediaQuerySize.getImageSize(context);
   return SizedBox(
      height: imageSize['heightDialog'],
     width: imageSize['widthDialog'],

@@ -6,13 +6,13 @@ class UrlLauncherService {
 
   Future<void> launchPrivacyPolicyUrl() async {
     if (!await launchUrl(_privacyPolicyUrl)) {
-      throw 'Could not launch $_privacyPolicyUrl';
+      throw Exception('Could not launch $_privacyPolicyUrl');
     }
   }
 
   Future<void> launchFlaticonUrl() async {
     if (!await launchUrl(_flaticonUrl)) {
-      throw 'Could not launch $_flaticonUrl';
+      throw Exception('Could not launch $_flaticonUrl');
     }
   }
 }

@@ -5,9 +5,10 @@ import '../bloc/media_control/media_control_cubit.dart';
 import '../models/audio_clip.dart';
 import '../style/theme_text_styles.dart';
 
-class AudioControlCenter extends StatefulWidget {
+class AudioControlCenter extends StatelessWidget {
   final String category;
   final Map<String, List<AudioClip>> soundsByCategory;
+
   const AudioControlCenter({
     super.key,
     required this.category,
@@ -15,14 +16,9 @@ class AudioControlCenter extends StatefulWidget {
   });
 
   @override
-  State createState() => _AudioControlCenterState();
-}
-
-class _AudioControlCenterState extends State<AudioControlCenter> {
-  @override
   Widget build(BuildContext context) {
-    Map<String, double> imageSize = MediaQuerySize.getImageSize(context);
-    List<AudioClip> audioClips = widget.soundsByCategory[widget.category] ?? [];
+    final Map<String, double> imageSize = MediaQuerySize.getImageSize(context);
+    final List<AudioClip> audioClips = soundsByCategory[category] ?? [];
     return BlocBuilder<MediaControlCubit, MediaControlCubitState>(
       builder: (context, state) {
         final cubit = context.read<MediaControlCubit>();
@@ -45,18 +41,14 @@ class _AudioControlCenterState extends State<AudioControlCenter> {
 
               return InkWell(
                 onTap: () {
-                  cubit.toggleSound(widget.category, clip);
+                  cubit.toggleSound(category, clip);
                 },
                 child: Column(
                   children: [
                     Image(
                       height: imageSize['height'],
                       fit: BoxFit.contain,
-                      image: AssetImage(isActive
-                          ? clip.enableIcon ??
-                              'assets/images/default_disabled_icon._on.png'
-                          : clip.disableIcon ??
-                              'assets/images/default_disabled_icon_w.png'),
+                      image: AssetImage(isActive ? clip.enableIcon : clip.disableIcon),
                       errorBuilder: (context, error, stackTrace) {
                         return Icon(
                           Icons.music_note,
@@ -82,7 +74,7 @@ class _AudioControlCenterState extends State<AudioControlCenter> {
                         : Padding(
                             padding: AppPaddings.paddingTopBetweenTextAndImage,
                             child: Text(
-                              clip.iconTitleText!,
+                              clip.iconTitleText,
                               style: ThemeTextStyles.textStyleTabBar,
                               textAlign: TextAlign.center,
                             ),

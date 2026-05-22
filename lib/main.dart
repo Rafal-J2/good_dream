@@ -13,14 +13,15 @@ import 'package:good_dream/bloc/timer/timer_cubit.dart';
 import 'package:good_dream/configuration/env_config.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:flare_splash_screen/flare_splash_screen.dart';
+import 'views/lottie_splash_screen.dart';
 import 'core/injection_container.dart';
-import 'views/main_menu_navigator.dart';
 
 var logger = Logger();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await setupGetIt();
   await GetStorage.init();
   const environment = 'development';
@@ -38,8 +39,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MultiProvider(
         providers: [
           BlocProvider<TimerCubit>(create: (context) => GetIt.I<TimerCubit>()),
@@ -60,13 +59,7 @@ class MyApp extends StatelessWidget {
                 onPrimary: Colors.white,
               ).toTheme,
               themeMode: themeMode,
-              home: SplashScreen.navigate(
-                name: 'assets/intro2.flr',
-                next: (_) => const MainMenuNavigator(),
-                until: () => Future.delayed(const Duration(seconds: 3)),
-                startAnimation: 'intro',
-                backgroundColor: const Color(0xff000000),
-              ),
+              home: const LottieSplashScreen(),
             );
           },
         ));

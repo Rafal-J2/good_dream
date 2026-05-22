@@ -56,7 +56,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Image(
                           height: 50.0,
-                          image: AssetImage(activeSound.clip.enableIcon!),
+                          image: AssetImage(activeSound.clip.enableIcon),
                         ),
                       ),
                       Expanded(
@@ -67,7 +67,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                               padding:
                                   const EdgeInsets.only(left: 22.0, top: 12.0),
                               child: Text(
-                                activeSound.clip.iconTitleText!,
+                                activeSound.clip.iconTitleText,
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 18.0),
                               ),

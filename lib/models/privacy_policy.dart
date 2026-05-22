@@ -1,92 +1,97 @@
-import 'package:flutter/material.dart';
-import 'package:good_dream/style/theme_text_styles.dart';
 import '../constants/dialogs.dart';
-import '../services/launch_url.dart';
 
-class PrivacyPolicyContent {
-  String? privacyPolicyContent;
-  TextStyle? headerTextStyle;
-  VoidCallback? onTap;
-
-  PrivacyPolicyContent({
-    this.privacyPolicyContent,
-    this.headerTextStyle,
-    this.onTap,
-  });
-
-  factory PrivacyPolicyContent.withBoldHeader(
-      {String? privacyPolicyContent, VoidCallback? onTap}) {
-    return PrivacyPolicyContent(
-        privacyPolicyContent: privacyPolicyContent,
-        headerTextStyle: const TextStyle(fontWeight: FontWeight.bold),
-        onTap: onTap);
-  }
+enum PrivacyPolicyContentType {
+  header,
+  body,
+  link,
 }
 
-final List<PrivacyPolicyContent> privacyPolicyContent = [
-  PrivacyPolicyContent.withBoldHeader(
-    privacyPolicyContent: 'Privacy Policy',
+class PrivacyPolicyContent {
+  final String text;
+  final PrivacyPolicyContentType type;
+  final String? url;
+
+  const PrivacyPolicyContent({
+    required this.text,
+    this.type = PrivacyPolicyContentType.body,
+    this.url,
+  });
+}
+
+const List<PrivacyPolicyContent> privacyPolicyContent = [
+  PrivacyPolicyContent(
+    text: 'Privacy Policy',
+    type: PrivacyPolicyContentType.header,
   ),
   PrivacyPolicyContent(
-    privacyPolicyContent: privacyPolicy,
-  ),
-  PrivacyPolicyContent.withBoldHeader(
-    privacyPolicyContent: "Consent",
+    text: privacyPolicy,
   ),
   PrivacyPolicyContent(
-    privacyPolicyContent: consent,
-  ),
-  PrivacyPolicyContent.withBoldHeader(
-    privacyPolicyContent: "ADS",
+    text: "Consent",
+    type: PrivacyPolicyContentType.header,
   ),
   PrivacyPolicyContent(
-    privacyPolicyContent: ads,
-  ),
-  PrivacyPolicyContent.withBoldHeader(
-    privacyPolicyContent: 'Personal Information',
+    text: consent,
   ),
   PrivacyPolicyContent(
-    privacyPolicyContent: personalInformation,
-  ),
-  PrivacyPolicyContent.withBoldHeader(
-    privacyPolicyContent: 'Links to Other Sites',
+    text: "ADS",
+    type: PrivacyPolicyContentType.header,
   ),
   PrivacyPolicyContent(
-    privacyPolicyContent: linksToOtherSitesGNU,
-  ),
-  PrivacyPolicyContent.withBoldHeader(
-    privacyPolicyContent: 'Collection of Technical Data',
+    text: ads,
   ),
   PrivacyPolicyContent(
-    privacyPolicyContent: collectionOfTechnicalData,
+    text: 'Personal Information',
+    type: PrivacyPolicyContentType.header,
   ),
   PrivacyPolicyContent(
-    privacyPolicyContent: '•	Google Play Services',
-    headerTextStyle: ThemeTextStyles.textStyleForUrlLauncher,
-    onTap: UrlLauncherService().launchPrivacyPolicyUrl,
-  ),
-  PrivacyPolicyContent.withBoldHeader(
-    privacyPolicyContent: "Children's Privacy Protection",
+    text: personalInformation,
   ),
   PrivacyPolicyContent(
-    privacyPolicyContent: childrensPrivacyGNU,
-  ),
-  PrivacyPolicyContent.withBoldHeader(
-    privacyPolicyContent: 'Cookies',
+    text: 'Links to Other Sites',
+    type: PrivacyPolicyContentType.header,
   ),
   PrivacyPolicyContent(
-    privacyPolicyContent: cookies,
-  ),
-  PrivacyPolicyContent.withBoldHeader(
-    privacyPolicyContent: 'Information security',
+    text: linksToOtherSitesGNU,
   ),
   PrivacyPolicyContent(
-    privacyPolicyContent: informationSecurity,
-  ),
-  PrivacyPolicyContent.withBoldHeader(
-    privacyPolicyContent: 'Contact Information ',
+    text: 'Collection of Technical Data',
+    type: PrivacyPolicyContentType.header,
   ),
   PrivacyPolicyContent(
-    privacyPolicyContent: contactInformation,
+    text: collectionOfTechnicalData,
+  ),
+  PrivacyPolicyContent(
+    text: '•	Google Play Services',
+    type: PrivacyPolicyContentType.link,
+    url: 'google_privacy',
+  ),
+  PrivacyPolicyContent(
+    text: "Children's Privacy Protection",
+    type: PrivacyPolicyContentType.header,
+  ),
+  PrivacyPolicyContent(
+    text: childrensPrivacyGNU,
+  ),
+  PrivacyPolicyContent(
+    text: 'Cookies',
+    type: PrivacyPolicyContentType.header,
+  ),
+  PrivacyPolicyContent(
+    text: cookies,
+  ),
+  PrivacyPolicyContent(
+    text: 'Information security',
+    type: PrivacyPolicyContentType.header,
+  ),
+  PrivacyPolicyContent(
+    text: informationSecurity,
+  ),
+  PrivacyPolicyContent(
+    text: 'Contact Information ',
+    type: PrivacyPolicyContentType.header,
+  ),
+  PrivacyPolicyContent(
+    text: contactInformation,
   ),
 ];

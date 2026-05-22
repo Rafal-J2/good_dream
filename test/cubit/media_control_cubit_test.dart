@@ -10,6 +10,14 @@ import 'package:mocktail/mocktail.dart';
 class MockAudioHandler extends Mock implements AudioHandler {}
 class MockAudioPlayer extends Mock implements AudioPlayer {}
 
+MockAudioPlayer _createMockPlayer() {
+  final player = MockAudioPlayer();
+  registerFallbackValue(player);
+  when(() => player.stop()).thenAnswer((_) async {});
+  when(() => player.dispose()).thenAnswer((_) async {});
+  return player;
+}
+
 void main() {
   group('MediaControlCubit Tests', () {
     late MediaControlCubit mediaControlCubit;
@@ -29,19 +37,21 @@ void main() {
       audioFile: 'testFile.mp3',
       iconTitleText: 'Test Sound',
       enableIcon: 'assets/images/default_disabled_icon._on.png',
+      disableIcon: 'assets/images/default_disabled_icon_w.png',
     );
 
     blocTest<MediaControlCubit, MediaControlCubitState>(
       'removeSound should remove a sound from the activeSounds list',
       build: () => mediaControlCubit,
       seed: () => MediaControlCubitLoaded(activeSounds: [
-        ActiveSound(clip: testClip, player: MockAudioPlayer()),
+        ActiveSound(clip: testClip, player: _createMockPlayer()),
       ]),
       act: (cubit) {
         // Mock the player stop and dispose
         final activeSound = cubit.state.activeSounds.first;
         when(() => activeSound.player.stop()).thenAnswer((_) async {});
         when(() => activeSound.player.dispose()).thenAnswer((_) async {});
+        when(() => mockAudioHandler.stop()).thenAnswer((_) async {});
         return cubit.removeSound(testClip);
       },
       expect: () => [
@@ -52,12 +62,12 @@ void main() {
         ),
       ],
       verify: (_) {
-        when(() => mockAudioHandler.stop()).thenAnswer((_) async {});
+        verify(() => mockAudioHandler.stop()).called(1);
       },
     );
 
     test('isSoundActive returns true for active sounds', () {
-      final mockPlayer = MockAudioPlayer();
+      final mockPlayer = _createMockPlayer();
       mediaControlCubit.emit(MediaControlCubitLoaded(activeSounds: [
         ActiveSound(clip: testClip, player: mockPlayer),
       ]));
@@ -67,7 +77,7 @@ void main() {
 
     test('selectedCount returns correct count', () {
       expect(mediaControlCubit.selectedCount, equals(0));
-      final mockPlayer = MockAudioPlayer();
+      final mockPlayer = _createMockPlayer();
       mediaControlCubit.emit(MediaControlCubitLoaded(activeSounds: [
         ActiveSound(clip: testClip, player: mockPlayer),
       ]));

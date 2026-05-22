@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import '../../models/audio_clip.dart';
-import '../audio_controler_center.dart';
+import '../audio_controller_center.dart';
 
 class AudioControlList extends StatelessWidget {
   final String category;

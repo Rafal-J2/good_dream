@@ -1,7 +1,6 @@
 import 'package:good_dream/models/audio_clip.dart';
 
-List<AudioClip> get waterSounds => _waterSounds;
-final _waterSounds = [
+const List<AudioClip> waterSounds = [
   AudioClip(
       id: 'River',
       disableIcon: 'assets/images/river_w.png',
