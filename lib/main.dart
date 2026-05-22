@@ -2,6 +2,7 @@
 
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -27,7 +28,17 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Firebase initialization
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: defaultTargetPlatform == TargetPlatform.android
+        ? const FirebaseOptions(
+            apiKey: 'AIzaSyCDH-HTG-t43BgvuGu99fmP1VkLsFj3Bfo',
+            appId: '1:238258904158:android:d5cebadfdf4bcd67c868cf',
+            messagingSenderId: '238258904158',
+            projectId: 'good-dream-3e9ec',
+            storageBucket: 'good-dream-3e9ec.appspot.com',
+          )
+        : null,
+  );
 
   // Crashlytics: przechwytuj wszystkie błędy Flutter
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
