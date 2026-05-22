@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:good_dream/services/clock_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -72,29 +73,64 @@ class _MainTabBarControllerState extends State<MainTabBarController>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50.0),
-        child: AppBar(
-          systemOverlayStyle:
-              const SystemUiOverlayStyle(statusBarColor: Colors.black),
-          bottom: TabBar(
-            controller: _tabController,
-            isScrollable: true,
-            physics: const ClampingScrollPhysics(),
-            tabs: const [
-              Tab(
-                  child: Text("NATURE",
-                      style: ThemeTextStyles.textStyleTabBar)),
-              Tab(
-                  child: Text("WATER",
-                      style: ThemeTextStyles.textStyleTabBar)),
-              Tab(
-                  child: Text("MUSIC",
-                      style: ThemeTextStyles.textStyleTabBar)),
-              Tab(
-                  child: Text("MECHANICAL",
-                      style: ThemeTextStyles.textStyleTabBar)),
-            ],
+        preferredSize: const Size.fromHeight(60.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.01),
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.white.withOpacity(0.06),
+                width: 1.5,
+              ),
+            ),
+          ),
+          child: ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                titleSpacing: 0,
+                toolbarHeight: 0,
+                systemOverlayStyle: const SystemUiOverlayStyle(
+                  statusBarColor: Colors.transparent,
+                  statusBarIconBrightness: Brightness.light,
+                ),
+                bottom: PreferredSize(
+                  preferredSize: const Size.fromHeight(60.0),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: TabBar(
+                      controller: _tabController,
+                      isScrollable: false,
+                      physics: const ClampingScrollPhysics(),
+                      indicatorColor: Colors.amberAccent,
+                      indicatorWeight: 3,
+                      labelColor: Colors.amberAccent,
+                      unselectedLabelColor: Colors.white.withOpacity(0.5),
+                      indicatorSize: TabBarIndicatorSize.label,
+                      dividerColor: Colors.transparent,
+                      tabs: const [
+                        Tab(
+                            child: Text("NATURE",
+                                style: ThemeTextStyles.textStyleTabBar)),
+                        Tab(
+                            child: Text("WATER",
+                                style: ThemeTextStyles.textStyleTabBar)),
+                        Tab(
+                            child: Text("MUSIC",
+                                style: ThemeTextStyles.textStyleTabBar)),
+                        Tab(
+                            child: Text("MECHANICAL",
+                                style: ThemeTextStyles.textStyleTabBar)),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
       ),

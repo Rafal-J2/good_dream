@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,48 +62,126 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
               SystemNavigator.pop();
             }
           },
-          child: Scaffold(
-            body: PageView(
-              controller: _pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: _pages,
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Theme.of(context).colorScheme.surface,
-            unselectedItemColor: Colors.white,
-              selectedItemColor: Colors.red,
-              selectedIconTheme: const IconThemeData(color: Colors.red),
-              items: [
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Mix Sounds ',
+          child: Stack(
+            children: [
+              // 1. Global Deep Space Gradient Background
+              Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFF070514),
+                      Color(0xFF0F0B29),
+                      Color(0xFF1E1242),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
                 ),
-                BottomNavigationBarItem(
-                  icon: state.activeSounds.isEmpty
-                      ? const Icon(Icons.surround_sound)
-                      : Lottie.asset(
-                          'assets/lottieFiles/sounds_waves.json'),
-                  label:
-                      'Active Sounds - ${state.activeSounds.length.toString()}',
+              ),
+
+              // Decorative glowing sphere at top-right
+              Positioned(
+                top: -100,
+                right: -50,
+                child: ImageFiltered(
+                  imageFilter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+                  child: Container(
+                    width: 250,
+                    height: 250,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: const Color(0xFF6B4EFF).withOpacity(0.12),
+                    ),
+                  ),
                 ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.auto_awesome),
-                  label: 'Asystent AI',
+              ),
+
+              // Decorative glowing sphere at bottom-left
+              Positioned(
+                bottom: -120,
+                left: -100,
+                child: ImageFiltered(
+                  imageFilter: ImageFilter.blur(sigmaX: 70, sigmaY: 70),
+                  child: Container(
+                    width: 300,
+                    height: 300,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: const Color(0xFF00F2FE).withOpacity(0.08),
+                    ),
+                  ),
                 ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.menu),
-                  label: 'Settings',
+              ),
+
+              // 2. Scaffold on top of the background
+              Scaffold(
+                backgroundColor: Colors.transparent,
+                body: PageView(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: _pages,
                 ),
-              ],
-              showSelectedLabels: true,
-              currentIndex: _selectedPageIndex,
-              onTap: (selectedPageIndex) {
-                setState(() {
-                  _selectedPageIndex = selectedPageIndex;
-                  _pageController.jumpToPage(selectedPageIndex);
-                });
-              },
-            ),
+                bottomNavigationBar: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: Colors.white.withOpacity(0.06),
+                        width: 1.5,
+                      ),
+                    ),
+                  ),
+                  child: ClipRRect(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                      child: BottomNavigationBar(
+                        elevation: 0,
+                        type: BottomNavigationBarType.fixed,
+                        backgroundColor: Colors.white.withOpacity(0.02),
+                        unselectedItemColor: Colors.white.withOpacity(0.5),
+                        selectedItemColor: Colors.amberAccent,
+                        selectedIconTheme: const IconThemeData(color: Colors.amberAccent),
+                        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
+                        unselectedLabelStyle: const TextStyle(fontSize: 10),
+                        items: [
+                          const BottomNavigationBarItem(
+                            icon: Icon(Icons.home),
+                            label: 'Mix Sounds',
+                          ),
+                          BottomNavigationBarItem(
+                            icon: SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: state.activeSounds.isEmpty
+                                  ? const Icon(Icons.surround_sound)
+                                  : Lottie.asset(
+                                      'assets/lottieFiles/sounds_waves.json'),
+                            ),
+                            label:
+                                'Active (${state.activeSounds.length.toString()})',
+                          ),
+                          const BottomNavigationBarItem(
+                            icon: Icon(Icons.auto_awesome),
+                            label: 'Asystent AI',
+                          ),
+                          const BottomNavigationBarItem(
+                            icon: Icon(Icons.menu),
+                            label: 'Settings',
+                          ),
+                        ],
+                        showSelectedLabels: true,
+                        currentIndex: _selectedPageIndex,
+                        onTap: (selectedPageIndex) {
+                          setState(() {
+                            _selectedPageIndex = selectedPageIndex;
+                            _pageController.jumpToPage(selectedPageIndex);
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },

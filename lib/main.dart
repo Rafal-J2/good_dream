@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
                 scheme: FlexScheme.red,
                 onPrimary: Colors.white,
               ).toTheme,
-              themeMode: themeMode,
+              themeMode: ThemeMode.dark,
               home: const LottieSplashScreen(),
             );
           },

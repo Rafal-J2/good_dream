@@ -130,72 +130,36 @@ class _AIAssistantControllerState extends State<AIAssistantController>
     super.build(context);
 
     return Scaffold(
-      body: Stack(
-        children: [
-          // 1. Deep Space Atmospheric Gradient Background
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFF070514),
-                  Color(0xFF0F0B29),
-                  Color(0xFF1E1242),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-          ),
+      backgroundColor: Colors.transparent,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Custom Premium Glassmorphic Header
+            _buildAppBar(),
 
-          // Subtle background decorative glowing sphere
-          Positioned(
-            top: -100,
-            right: -50,
-            child: ImageFiltered(
-              imageFilter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-              child: Container(
-                width: 250,
-                height: 250,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: const Color(0xFF6B4EFF).withOpacity(0.12),
-                ),
-              ),
-            ),
-          ),
-
-          // 2. Main Content
-          SafeArea(
-            child: Column(
-              children: [
-                // Custom Premium Glassmorphic Header
-                _buildAppBar(),
-
-                Expanded(
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          if (!_isLoading && _advice == null && _errorMessage == null)
-                            _buildIntroView(),
-                          if (_isLoading)
-                            _buildLoadingView(),
-                          if (_errorMessage != null)
-                            _buildErrorView(),
-                          if (_advice != null && !_isLoading)
-                            _buildSuccessView(),
-                        ],
-                      ),
-                    ),
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (!_isLoading && _advice == null && _errorMessage == null)
+                        _buildIntroView(),
+                      if (_isLoading)
+                        _buildLoadingView(),
+                      if (_errorMessage != null)
+                        _buildErrorView(),
+                      if (_advice != null && !_isLoading)
+                        _buildSuccessView(),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

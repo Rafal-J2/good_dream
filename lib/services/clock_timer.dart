@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:good_dream/utils/toast_notifications.dart';
 import 'package:numberpicker/numberpicker.dart';
 import '../bloc/timer/timer_cubit.dart';
 import '../bloc/timer/timer_state.dart';
-import '../style/theme_text_styles.dart';
 import '../views/widgets/timer_display_widget.dart';
 
 class ClockTimer extends StatefulWidget {
@@ -43,7 +43,23 @@ class _ClockTimerState extends State<ClockTimer> {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 6),
                     child: ElevatedButton(
-                        style: Button.buttonForTimer,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: state.isTimerRunning 
+                              ? Colors.redAccent.withOpacity(0.8) 
+                              : Colors.white.withOpacity(0.04),
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          side: BorderSide(
+                            color: state.isTimerRunning 
+                                ? Colors.redAccent 
+                                : Colors.white.withOpacity(0.08),
+                            width: 1.5,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        ),
                         onPressed: () {
                           int newDurationInSeconds =
                               _selectedHour * 3600 + _selectedMinute * 60;
@@ -56,18 +72,34 @@ class _ClockTimerState extends State<ClockTimer> {
                           }
                         },
                         child: Text(
-                            state.isTimerRunning ? "Stop Timer" : "Start Timer")),
+                            state.isTimerRunning ? "Stop" : "Start",
+                            style: const TextStyle(fontWeight: FontWeight.bold))),
                   ),
                 ),
                 Flexible(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 6),
                     child: ElevatedButton(
-                      style: Button.buttonForTimer,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white.withOpacity(0.04),
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        side: BorderSide(
+                          color: Colors.white.withOpacity(0.08),
+                          width: 1.5,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
                       onPressed: () {
                         _showModalBottomSheet();
                       },
-                      child: const Text("Set Time"),
+                      child: const Text(
+                        "Ustaw czas",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
@@ -103,98 +135,159 @@ class _ClockTimerState extends State<ClockTimer> {
   Future<void> _showModalBottomSheet() async {
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      barrierColor: Colors.black.withOpacity(0.5),
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-            final colorScheme = Theme.of(context).colorScheme;
-            final textColor = colorScheme.onSurface;
-            final mutedTextColor = textColor.withOpacity(0.7);
+            final textColor = Colors.white;
+            final mutedTextColor = Colors.white.withOpacity(0.5);
 
-            return SingleChildScrollView(
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Custom Duration',
-                      style: TextStyle(fontSize: 24, color: textColor),
+            return ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(28),
+                topRight: Radius.circular(28),
+              ),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF0F0B29).withOpacity(0.75),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(28),
+                      topRight: Radius.circular(28),
                     ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.08),
+                      width: 1.5,
+                    ),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                  child: SafeArea(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        NumberPicker(
-                          value: _selectedHour,
-                          minValue: 0,
-                          maxValue: 8,
-                          onChanged: (value) =>
-                              setState(() => _selectedHour = value),
-                          textStyle: TextStyle(color: mutedTextColor),
-                          selectedTextStyle: TextStyle(
-                            color: textColor,
-                            fontSize: 26,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        Container(
+                          width: 40,
+                          height: 4,
+                          margin: const EdgeInsets.only(bottom: 16),
                           decoration: BoxDecoration(
-                            border: Border(
-                              top: BorderSide(color: mutedTextColor),
-                              bottom: BorderSide(color: mutedTextColor),
-                            ),
+                            color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(2),
                           ),
-                          textMapper: (numberText) => numberText.padLeft(2, '0'),
                         ),
-                        Text(':',
-                            style: TextStyle(color: textColor, fontSize: 24)),
-                        NumberPicker(
-                          value: _selectedMinute,
-                          minValue: 1,
-                          maxValue: 59,
-                          onChanged: (value) =>
-                              setState(() => _selectedMinute = value),
-                          textStyle: TextStyle(color: mutedTextColor),
-                          selectedTextStyle: TextStyle(
+                        Text(
+                          'Własny czas trwania',
+                          style: TextStyle(
+                            fontSize: 22, 
+                            fontWeight: FontWeight.bold,
                             color: textColor,
-                            fontSize: 26,
-                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.5,
                           ),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              top: BorderSide(color: mutedTextColor),
-                              bottom: BorderSide(color: mutedTextColor),
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            NumberPicker(
+                              value: _selectedHour,
+                              minValue: 0,
+                              maxValue: 8,
+                              onChanged: (value) =>
+                                  setState(() => _selectedHour = value),
+                              textStyle: TextStyle(color: mutedTextColor),
+                              selectedTextStyle: const TextStyle(
+                                color: Colors.amberAccent,
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(color: Colors.white.withOpacity(0.1)),
+                                  bottom: BorderSide(color: Colors.white.withOpacity(0.1)),
+                                ),
+                              ),
+                              textMapper: (numberText) => numberText.padLeft(2, '0'),
                             ),
-                          ),
-                          textMapper: (numberText) => numberText.padLeft(2, '0'),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text(':',
+                                  style: TextStyle(color: Colors.amberAccent, fontSize: 28, fontWeight: FontWeight.bold)),
+                            ),
+                            NumberPicker(
+                              value: _selectedMinute,
+                              minValue: 1,
+                              maxValue: 59,
+                              onChanged: (value) =>
+                                  setState(() => _selectedMinute = value),
+                              textStyle: TextStyle(color: mutedTextColor),
+                              selectedTextStyle: const TextStyle(
+                                color: Colors.amberAccent,
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(color: Colors.white.withOpacity(0.1)),
+                                  bottom: BorderSide(color: Colors.white.withOpacity(0.1)),
+                                ),
+                              ),
+                              textMapper: (numberText) => numberText.padLeft(2, '0'),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 28),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              style: TextButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                              ),
+                              child: Text(
+                                'Anuluj', 
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.7),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                int newDurationInSeconds =
+                                    _selectedHour * 3600 + _selectedMinute * 60;
+                                context
+                                    .read<TimerCubit>()
+                                    .startTimer(newDurationInSeconds);
+                                notificationStartCountdown();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.amberAccent,
+                                foregroundColor: Colors.black,
+                                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                elevation: 4,
+                                shadowColor: Colors.amberAccent.withOpacity(0.3),
+                              ),
+                              child: const Text(
+                                'Zastosuj', 
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('Cancel', style: TextStyle(color: textColor)),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            int newDurationInSeconds =
-                                _selectedHour * 3600 + _selectedMinute * 60;
-                            context
-                                .read<TimerCubit>()
-                                .startTimer(newDurationInSeconds);
-                            notificationStartCountdown();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                          ),
-                          child: const Text('Apply', style: TextStyle(color: Colors.white)),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ),
             );
