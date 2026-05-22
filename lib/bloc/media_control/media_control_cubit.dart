@@ -1,6 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:good_dream/models/active_sound.dart';
 import 'package:good_dream/models/audio_clip.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:meta/meta.dart';
@@ -11,88 +12,122 @@ part 'media_control_cubit_state.dart';
 class MediaControlCubit extends Cubit<MediaControlCubitState> {
   final AudioHandler audioHandler;
   final Map<String, List<AudioClip>> soundsByCategory;
-  MediaControlCubit(this.soundsByCategory, this.audioHandler) : super(MediaControlCubitInitial());
+  static const int maxActiveSounds = 6;
 
-  int get selectedCount => state.selectedSounds.length;
+  MediaControlCubit(this.soundsByCategory, this.audioHandler)
+      : super(MediaControlCubitInitial());
 
-  void _updateAndEmitSoundList(List<AudioClip> updatedSounds) {
-    emit(MediaControlCubitLoaded(selectedSounds: updatedSounds));
+  int get selectedCount => state.activeSounds.length;
+
+  /// Check if a sound with the given [soundId] is currently active.
+  bool isSoundActive(String soundId) {
+    return state.activeSounds.any((s) => s.clip.id == soundId);
   }
 
-  void removeSound(AudioClip sound) {
-    final newSounds =
-        state.selectedSounds.where((index) => index.id != sound.id).toList();
-    _updateAndEmitSoundList(newSounds);
-  }
-
-
-  void setVolumeCubit(String soundKey, double volume) {
-    logger.i('Setting volume to $volume for $soundKey');
-    var soundIndex = state.selectedSounds.indexWhere(
-      (index) => index.id == soundKey || index.audioFile == soundKey,
-    );
-    if (soundIndex != -1) {
-      var updatedNatureSounds = List<AudioClip>.from(state.selectedSounds);
-      var sound = updatedNatureSounds[soundIndex];
-      sound.player.setVolume(volume);
-      _updateAndEmitSoundList(updatedNatureSounds);
+  /// Toggle a sound on or off.
+  Future<void> toggleSound(String category, AudioClip clip) async {
+    if (isSoundActive(clip.id)) {
+      await _deactivateSound(clip.id);
     } else {
-      logger.e('Sound not found for $soundKey');
+      await _activateSound(clip);
     }
   }
 
-void toggleSound(String category, AudioClip sound) {
-    sound.isControlActive = !sound.isControlActive;
-    final List<AudioClip> updatedSounds = List<AudioClip>.from(state.selectedSounds);
-    if (sound.isControlActive) {
-        if (selectedCount < 6) {
-            updatedSounds.add(sound);
-            bool isFirstSound = selectedCount == 0;
-            sound.player.setAsset(sound.audioFile!).then((_) {
-                sound.player.play();
-                sound.player.setVolume(0.5);
-                sound.player.setLoopMode(LoopMode.one);
-                if (isFirstSound) {
-                    audioHandler.play();
-                }
-                _updateAndEmitSoundList(updatedSounds);
-            }).catchError((error) {
-                logger.e('Error setting asset or playing sound: ${sound.id}, Error: $error');
-            });
-        } else {
-            sound.isControlActive = !sound.isControlActive;
-            notifyMaxSoundsReached();
-        }
-    } else {
-        updatedSounds.removeWhere((s) => s.id == sound.id);
-        _updateAndEmitSoundList(updatedSounds);
-        if (updatedSounds.isEmpty) {
-            audioHandler.stop();
-        }
-        sound.player.pause();
+  Future<void> _activateSound(AudioClip clip) async {
+    if (selectedCount >= maxActiveSounds) {
+      notifyMaxSoundsReached();
+      return;
     }
-}
 
+    final player = AudioPlayer();
+    try {
+      await player.setAsset(clip.audioFile!);
+      await player.setVolume(0.5);
+      await player.setLoopMode(LoopMode.one);
+      player.play();
+
+      final newActive = ActiveSound(clip: clip, player: player);
+      final updated = List<ActiveSound>.from(state.activeSounds)..add(newActive);
+
+      if (updated.length == 1) {
+        audioHandler.play();
+      }
+      emit(MediaControlCubitLoaded(activeSounds: updated));
+    } catch (error) {
+      logger.e('Error playing sound: ${clip.id}, Error: $error');
+      await player.dispose();
+    }
+  }
+
+  Future<void> _deactivateSound(String soundId) async {
+    final updated = List<ActiveSound>.from(state.activeSounds);
+    final index = updated.indexWhere((s) => s.clip.id == soundId);
+    if (index == -1) return;
+
+    final removed = updated.removeAt(index);
+    await removed.player.stop();
+    await removed.player.dispose();
+
+    if (updated.isEmpty) {
+      await audioHandler.stop();
+    }
+    emit(MediaControlCubitLoaded(activeSounds: updated));
+  }
+
+  /// Remove a sound by its clip reference.
+  Future<void> removeSound(AudioClip clip) async {
+    await _deactivateSound(clip.id);
+  }
+
+  /// Set the volume for a specific active sound.
+  void setVolume(String soundId, double volume) {
+    final updated = List<ActiveSound>.from(state.activeSounds);
+    final index = updated.indexWhere((s) => s.clip.id == soundId);
+    if (index == -1) {
+      logger.e('Sound not found for $soundId');
+      return;
+    }
+
+    updated[index].player.setVolume(volume);
+    updated[index] = updated[index].copyWith(volume: volume);
+    emit(MediaControlCubitLoaded(activeSounds: updated));
+  }
+
+  /// Stop and dispose all active sounds.
   Future<void> disableAllSoundsAndIcons() async {
-    final allSounds = soundsByCategory.values.expand((sounds) => sounds);
     final stopFutures = <Future<void>>[];
-
-    for (final sound in allSounds) {
-      sound.isControlActive = false;
-      stopFutures.add(sound.player.stop());
+    for (final active in state.activeSounds) {
+      stopFutures.add(active.player.stop());
     }
-
     await Future.wait(stopFutures);
+
+    final disposeFutures = <Future<void>>[];
+    for (final active in state.activeSounds) {
+      disposeFutures.add(active.player.dispose());
+    }
+    await Future.wait(disposeFutures);
+
     await audioHandler.stop();
-    _updateAndEmitSoundList(const []);
+    emit(MediaControlCubitLoaded(activeSounds: const []));
   }
-  MediaItem mediaItemFromSound(AudioClip sound) {
+
+  MediaItem mediaItemFromClip(AudioClip clip) {
     return MediaItem(
-      id: sound.id!,
+      id: clip.id,
       album: "Sample Album",
-      title: sound.iconTitleText!,
+      title: clip.iconTitleText ?? 'Unknown',
       artist: "Sample Artist",
-      artUri: Uri.parse("https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg"),
+      artUri: Uri.parse(
+          "https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg"),
     );
+  }
+
+  @override
+  Future<void> close() async {
+    for (final active in state.activeSounds) {
+      await active.player.stop();
+      await active.player.dispose();
+    }
+    return super.close();
   }
 }

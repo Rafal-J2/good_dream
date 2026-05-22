@@ -1,4 +1,3 @@
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,8 +5,7 @@ import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:lottie/lottie.dart';
 
 class PlayingSoundsController extends StatefulWidget {
-  final AudioHandler audioHandler;
-  const PlayingSoundsController({super.key, required this.audioHandler});
+  const PlayingSoundsController({super.key});
   @override
   PlayingSoundsControllerState createState() => PlayingSoundsControllerState();
 }
@@ -19,8 +17,8 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
     super.build(context);
     return BlocBuilder<MediaControlCubit, MediaControlCubitState>(
       builder: (context, state) {
-        final mediaControlCubit = context.read<MediaControlCubit>();
-        final selectedCount = mediaControlCubit.selectedCount;
+        final cubit = context.read<MediaControlCubit>();
+        final selectedCount = cubit.selectedCount;
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(40.0),
@@ -46,7 +44,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                   child: Lottie.asset('assets/lottieFiles/relax.json'),
                 )
               ],
-              ...state.selectedSounds.map((item) {
+              ...state.activeSounds.map((activeSound) {
                 return Container(
                   margin: const EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
@@ -58,7 +56,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Image(
                           height: 50.0,
-                          image: AssetImage(item.enableIcon!),
+                          image: AssetImage(activeSound.clip.enableIcon!),
                         ),
                       ),
                       Expanded(
@@ -69,44 +67,27 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                               padding:
                                   const EdgeInsets.only(left: 22.0, top: 12.0),
                               child: Text(
-                                item.iconTitleText!,
+                                activeSound.clip.iconTitleText!,
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 18.0),
                               ),
                             ),
-                            StreamBuilder<double>(
-                              stream: item.player.volumeStream,
-                              builder: (context, snapshot) {
-                                double currentVolume = snapshot.data ??
-                                    0.5; 
-                                return Slider(
-                                  activeColor: Colors.orange,
-                                  value: currentVolume,
-                                  min: 0,
-                                  max: 1,
-                                  divisions: 50,
-                                  onChanged: (volume) {
-                                    setState(() {
-                                      item.player.setVolume(volume);
-                                    });
-                                  },
-                                );
+                            Slider(
+                              activeColor: Colors.orange,
+                              value: activeSound.volume,
+                              min: 0,
+                              max: 1,
+                              divisions: 50,
+                              onChanged: (volume) {
+                                cubit.setVolume(activeSound.clip.id, volume);
                               },
-                            )
+                            ),
                           ],
                         ),
                       ),
                       InkWell(
                           onTap: () {
-                            item.player.pause();
-                            item.isControlActive = false;
-                            context.read<MediaControlCubit>().removeSound(item);
-                            if (context
-                                    .read<MediaControlCubit>()
-                                    .selectedCount ==
-                                0) {
-                              widget.audioHandler.stop();
-                            }
+                            cubit.toggleSound('', activeSound.clip);
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(right: 15.0),

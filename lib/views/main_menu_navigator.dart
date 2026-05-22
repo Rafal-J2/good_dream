@@ -1,8 +1,6 @@
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:good_dream/views/playing_sounds_controller.dart';
@@ -30,10 +28,9 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
   @override
   void initState() {
     super.initState();
-     final AudioHandler audioHandler = GetIt.instance<AudioHandler>(); 
     _pages = [
       const MainTabBarController(),
-      PlayingSoundsController(audioHandler: audioHandler), 
+      const PlayingSoundsController(), 
       const SettingsController(),
     ];
   }
@@ -76,12 +73,12 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
                   label: 'Mix Sounds ',
                 ),
                 BottomNavigationBarItem(
-                  icon: state.selectedSounds.isEmpty
+                  icon: state.activeSounds.isEmpty
                       ? const Icon(Icons.surround_sound)
                       : Lottie.asset(
                           'assets/lottieFiles/sounds_waves.json'),
                   label:
-                      'Active Sounds - ${state.selectedSounds.length.toString()}',
+                      'Active Sounds - ${state.activeSounds.length.toString()}',
                 ),
                 const BottomNavigationBarItem(
                   icon: Icon(Icons.menu),

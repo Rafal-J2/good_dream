@@ -8,7 +8,7 @@ class EnvConfig {
     switch (environment) {
       case 'production':
         return EnvConfig(environment: environment, enableLogging: false);
-      case 'developemnt':
+      case 'development':
       default:
         return EnvConfig(environment: environment, enableLogging: true);
     }

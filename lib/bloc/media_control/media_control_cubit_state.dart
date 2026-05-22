@@ -2,17 +2,18 @@ part of 'media_control_cubit.dart';
 
 @immutable
 abstract class MediaControlCubitState {
-  List<AudioClip> get selectedSounds;
+  List<ActiveSound> get activeSounds;
 }
 
 class MediaControlCubitInitial extends MediaControlCubitState {
   @override
-  List<AudioClip> get selectedSounds => const [];
+  List<ActiveSound> get activeSounds => const [];
 }
 
 class MediaControlCubitLoaded extends MediaControlCubitState {
   @override
-  final List<AudioClip> selectedSounds;
+  final List<ActiveSound> activeSounds;
 
-  MediaControlCubitLoaded({this.selectedSounds = const []});
+  MediaControlCubitLoaded({this.activeSounds = const []});
 }
+

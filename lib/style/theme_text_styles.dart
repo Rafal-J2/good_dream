@@ -30,7 +30,7 @@ class AppPaddings {
 class MediaQuerySize {
   static Map<String, double> getImageSize(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     double imageWidth = screenWidth * 0.3;
     double imageHeight = screenHeight * 0.1;
     double imageWidthForDialog = screenWidth * 0.8;
