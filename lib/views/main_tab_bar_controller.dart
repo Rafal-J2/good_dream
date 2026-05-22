@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:good_dream/style/theme_text_styles.dart';
 import '../models/sounds_catalog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'widgets/audio_control_list.dart';
 
@@ -61,6 +62,7 @@ class _MainTabBarControllerState extends State<MainTabBarController>
 
     final bucket = PageStorage.maybeOf(context);
     bucket?.writeState(context, _tabController.index, identifier: _pageStorageKey);
+    setState(() {});
   }
 
   @override
@@ -70,12 +72,47 @@ class _MainTabBarControllerState extends State<MainTabBarController>
     super.dispose();
   }
 
+  Widget _buildTab(BuildContext context, {required int index, required String title, required String emoji}) {
+    final isSelected = _tabController.index == index;
+    return Tab(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.transparent : Colors.white.withOpacity(0.04),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected ? Colors.transparent : Colors.white.withOpacity(0.06),
+            width: 1.2,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              emoji, 
+              style: const TextStyle(fontSize: 16)
+            ),
+            const SizedBox(width: 8),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 14.5,
+                fontWeight: FontWeight.bold,
+                color: isSelected ? Colors.black : Colors.white.withOpacity(0.85),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60.0),
+        preferredSize: const Size.fromHeight(70.0),
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.01),
@@ -99,32 +136,27 @@ class _MainTabBarControllerState extends State<MainTabBarController>
                   statusBarIconBrightness: Brightness.light,
                 ),
                 bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(60.0),
+                  preferredSize: const Size.fromHeight(70.0),
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
+                    padding: const EdgeInsets.only(bottom: 10.0, left: 8.0, right: 8.0),
                     child: TabBar(
                       controller: _tabController,
-                      isScrollable: false,
-                      physics: const ClampingScrollPhysics(),
-                      indicatorColor: Colors.amberAccent,
-                      indicatorWeight: 3,
-                      labelColor: Colors.amberAccent,
-                      unselectedLabelColor: Colors.white.withOpacity(0.5),
+                      isScrollable: true,
+                      tabAlignment: TabAlignment.start,
+                      physics: const BouncingScrollPhysics(),
+                      indicator: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       indicatorSize: TabBarIndicatorSize.label,
+                      indicatorPadding: EdgeInsets.zero,
+                      labelPadding: const EdgeInsets.symmetric(horizontal: 6.0),
                       dividerColor: Colors.transparent,
-                      tabs: const [
-                        Tab(
-                            child: Text("NATURE",
-                                style: ThemeTextStyles.textStyleTabBar)),
-                        Tab(
-                            child: Text("WATER",
-                                style: ThemeTextStyles.textStyleTabBar)),
-                        Tab(
-                            child: Text("MUSIC",
-                                style: ThemeTextStyles.textStyleTabBar)),
-                        Tab(
-                            child: Text("MECHANICAL",
-                                style: ThemeTextStyles.textStyleTabBar)),
+                      tabs: [
+                        _buildTab(context, index: 0, title: AppLocalizations.of(context)!.nature, emoji: '🌲'),
+                        _buildTab(context, index: 1, title: AppLocalizations.of(context)!.water, emoji: '🌧️'),
+                        _buildTab(context, index: 2, title: AppLocalizations.of(context)!.music, emoji: '🎵'),
+                        _buildTab(context, index: 3, title: AppLocalizations.of(context)!.mechanical, emoji: '⚙️'),
                       ],
                     ),
                   ),

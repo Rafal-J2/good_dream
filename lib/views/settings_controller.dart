@@ -1,6 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:good_dream/bloc/locale/locale_cubit.dart';
 import 'package:good_dream/views/show_dialogs.dart';
 
 class SettingsController extends StatefulWidget {
@@ -41,9 +44,9 @@ class SettingsControllerState extends State<SettingsController>
                   statusBarColor: Colors.transparent,
                   statusBarIconBrightness: Brightness.light,
                 ),
-                title: const Text(
-                  'Ustawienia',
-                  style: TextStyle(
+                title: Text(
+                  AppLocalizations.of(context)!.settingsTitle,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -59,10 +62,22 @@ class SettingsControllerState extends State<SettingsController>
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
         children: <Widget>[
+          // Language Switcher Card
+          _buildSettingsCard(
+            title: AppLocalizations.of(context)!.changeLanguage,
+            subtitle: AppLocalizations.of(context)!.changeLanguageSub,
+            icon: Icons.translate_rounded,
+            color: Colors.lightBlueAccent,
+            onTap: () {
+              _showLanguageSelectionDialog(context);
+            },
+          ),
+          const SizedBox(height: 16.0),
+
           // Privacy Policy Card
           _buildSettingsCard(
-            title: 'Polityka prywatności',
-            subtitle: 'Przeczytaj nasze zasady ochrony prywatności',
+            title: AppLocalizations.of(context)!.privacyPolicy,
+            subtitle: AppLocalizations.of(context)!.privacyPolicySub,
             icon: Icons.privacy_tip_rounded,
             color: Colors.tealAccent,
             onTap: () {
@@ -70,11 +85,11 @@ class SettingsControllerState extends State<SettingsController>
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text('Polityka prywatności'),
+                    title: Text(AppLocalizations.of(context)!.privacyPolicy),
                     content: privacyPolicyDialog(context),
                     actions: <Widget>[
                       TextButton(
-                        child: const Text('Zatwierdź'),
+                        child: Text(AppLocalizations.of(context)!.approve),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -89,8 +104,8 @@ class SettingsControllerState extends State<SettingsController>
           
           // Acknowledgments Card
           _buildSettingsCard(
-            title: 'Podziękowania',
-            subtitle: 'Licencje i autorzy zewnętrznych zasobów',
+            title: AppLocalizations.of(context)!.acknowledgments,
+            subtitle: AppLocalizations.of(context)!.acknowledgmentsSub,
             icon: Icons.info_outline_rounded,
             color: Colors.amberAccent,
             onTap: () {
@@ -98,11 +113,11 @@ class SettingsControllerState extends State<SettingsController>
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text('Podziękowania'),
+                    title: Text(AppLocalizations.of(context)!.acknowledgments),
                     content: acknowledgmentsDialog(context),
                     actions: <Widget>[
                       TextButton(
-                        child: const Text('Zatwierdź'),
+                        child: Text(AppLocalizations.of(context)!.approve),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -138,9 +153,9 @@ class SettingsControllerState extends State<SettingsController>
                       size: 32,
                     ),
                     const SizedBox(height: 12),
-                    const Text(
-                      'Tryb Kosmiczny Aktywny',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizations.of(context)!.spaceModeTitle,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -148,7 +163,7 @@ class SettingsControllerState extends State<SettingsController>
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Aplikacja została na stałe dostosowana do klimatycznego, ciemnego motywu nocnego w celu zapewnienia maksymalnego komfortu relaksacyjnego.',
+                      AppLocalizations.of(context)!.spaceModeDesc,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.6),
@@ -162,6 +177,117 @@ class SettingsControllerState extends State<SettingsController>
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _showLanguageSelectionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+            child: Dialog(
+              backgroundColor: const Color(0xFF0F0B29).withOpacity(0.75),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+                side: BorderSide(
+                  color: Colors.white.withOpacity(0.08),
+                  width: 1.5,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.changeLanguage,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    _buildLanguageOption(context, 'pl', 'Polski', '🇵🇱'),
+                    const SizedBox(height: 12),
+                    _buildLanguageOption(context, 'en', 'English', '🇬🇧'),
+                    const SizedBox(height: 12),
+                    _buildLanguageOption(context, 'hi', 'हिन्दी', '🇮🇳'),
+                    const SizedBox(height: 24),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context)!.cancel,
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.7),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildLanguageOption(BuildContext context, String localeCode, String languageName, String flag) {
+    final currentLocale = context.read<LocaleCubit>().state;
+    final isSelected = currentLocale.languageCode == localeCode;
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Material(
+        color: isSelected ? Colors.amberAccent.withOpacity(0.12) : Colors.white.withOpacity(0.03),
+        child: InkWell(
+          onTap: () {
+            context.read<LocaleCubit>().changeLocale(localeCode);
+            Navigator.pop(context);
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: isSelected ? Colors.amberAccent.withOpacity(0.4) : Colors.white.withOpacity(0.06),
+                width: 1.5,
+              ),
+            ),
+            child: Row(
+              children: [
+                Text(flag, style: const TextStyle(fontSize: 24)),
+                const SizedBox(width: 16),
+                Text(
+                  languageName,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
+                const Spacer(),
+                if (isSelected)
+                  const Icon(
+                    Icons.check_circle_rounded,
+                    color: Colors.amberAccent,
+                    size: 22,
+                  ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

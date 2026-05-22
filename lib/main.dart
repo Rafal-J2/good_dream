@@ -19,6 +19,9 @@ import 'package:good_dream/bloc/timer/timer_cubit.dart';
 import 'package:good_dream/configuration/env_config.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:good_dream/bloc/locale/locale_cubit.dart';
 import 'views/lottie_splash_screen.dart';
 import 'core/injection_container.dart';
 
@@ -28,26 +31,32 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Firebase initialization
-  await Firebase.initializeApp(
-    options: defaultTargetPlatform == TargetPlatform.android
-        ? const FirebaseOptions(
-            apiKey: 'AIzaSyCDH-HTG-t43BgvuGu99fmP1VkLsFj3Bfo',
-            appId: '1:238258904158:android:d5cebadfdf4bcd67c868cf',
-            messagingSenderId: '238258904158',
-            projectId: 'good-dream-3e9ec',
-            storageBucket: 'good-dream-3e9ec.appspot.com',
-          )
-        : null,
-  );
+  try {
+    await Firebase.initializeApp(
+      options: kIsWeb || defaultTargetPlatform == TargetPlatform.android
+          ? const FirebaseOptions(
+              apiKey: 'AIzaSyCDH-HTG-t43BgvuGu99fmP1VkLsFj3Bfo',
+              appId: '1:238258904158:android:d5cebadfdf4bcd67c868cf',
+              messagingSenderId: '238258904158',
+              projectId: 'good-dream-3e9ec',
+              storageBucket: 'good-dream-3e9ec.appspot.com',
+            )
+          : null,
+    );
 
-  // Crashlytics: przechwytuj wszystkie błędy Flutter
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    if (!kIsWeb) {
+      // Crashlytics: przechwytuj wszystkie błędy Flutter
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
-  // Crashlytics: przechwytuj błędy asynchroniczne
-  PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
+      // Crashlytics: przechwytuj błędy asynchroniczne
+      PlatformDispatcher.instance.onError = (error, stack) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+        return true;
+      };
+    }
+  } catch (error) {
+    logger.e('Błąd podczas inicjalizacji Firebase / Crashlytics: $error');
+  }
 
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -73,22 +82,30 @@ class MyApp extends StatelessWidget {
           BlocProvider<TimerCubit>(create: (context) => GetIt.I<TimerCubit>()),
           BlocProvider( create: (context) => MediaControlCubit(soundsByCategory, GetIt.I<AudioHandler>())),
           BlocProvider(create: (context) => ThemeModeCubit(GetStorage())),
+          BlocProvider(create: (context) => LocaleCubit(GetStorage())),
         ],
-        child: BlocBuilder<ThemeModeCubit, ThemeMode>(
-          builder: (context, themeMode) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: FlexColorScheme.light(
-                      scheme: FlexScheme.red,
-                      surface: const Color(0xFF20124d),
-                      scaffoldBackground: const Color(0xFF20124d))
-                  .toTheme,
-              darkTheme: FlexColorScheme.dark(
-                scheme: FlexScheme.red,
-                onPrimary: Colors.white,
-              ).toTheme,
-              themeMode: ThemeMode.dark,
-              home: const LottieSplashScreen(),
+        child: BlocBuilder<LocaleCubit, Locale>(
+          builder: (context, locale) {
+            return BlocBuilder<ThemeModeCubit, ThemeMode>(
+              builder: (context, themeMode) {
+                return MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  locale: locale,
+                  supportedLocales: AppLocalizations.supportedLocales,
+                  localizationsDelegates: AppLocalizations.localizationsDelegates,
+                  theme: FlexColorScheme.light(
+                          scheme: FlexScheme.red,
+                          surface: const Color(0xFF20124d),
+                          scaffoldBackground: const Color(0xFF20124d))
+                      .toTheme,
+                  darkTheme: FlexColorScheme.dark(
+                    scheme: FlexScheme.red,
+                    onPrimary: Colors.white,
+                  ).toTheme,
+                  themeMode: ThemeMode.dark,
+                  home: const LottieSplashScreen(),
+                );
+              },
             );
           },
         ));

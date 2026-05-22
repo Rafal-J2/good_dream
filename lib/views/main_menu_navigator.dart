@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:good_dream/views/playing_sounds_controller.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'main_tab_bar_controller.dart';
 import 'settings_controller.dart';
@@ -143,9 +144,9 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
                         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
                         unselectedLabelStyle: const TextStyle(fontSize: 10),
                         items: [
-                          const BottomNavigationBarItem(
-                            icon: Icon(Icons.home),
-                            label: 'Mix Sounds',
+                          BottomNavigationBarItem(
+                            icon: const Icon(Icons.home),
+                            label: AppLocalizations.of(context)!.mixSounds,
                           ),
                           BottomNavigationBarItem(
                             icon: SizedBox(
@@ -156,16 +157,16 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
                                   : Lottie.asset(
                                       'assets/lottieFiles/sounds_waves.json'),
                             ),
-                            label:
-                                'Active (${state.activeSounds.length.toString()})',
+                            label: AppLocalizations.of(context)!
+                                .activeSoundsCount(state.activeSounds.length.toString()),
                           ),
-                          const BottomNavigationBarItem(
-                            icon: Icon(Icons.auto_awesome),
-                            label: 'Asystent AI',
+                          BottomNavigationBarItem(
+                            icon: const Icon(Icons.auto_awesome),
+                            label: AppLocalizations.of(context)!.aiAssistant,
                           ),
-                          const BottomNavigationBarItem(
-                            icon: Icon(Icons.menu),
-                            label: 'Settings',
+                          BottomNavigationBarItem(
+                            icon: const Icon(Icons.menu),
+                            label: AppLocalizations.of(context)!.settings,
                           ),
                         ],
                         showSelectedLabels: true,
@@ -192,18 +193,19 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
     return showDialog(
       context: context,
       builder: (context) {
+        final localizations = AppLocalizations.of(context)!;
         return AlertDialog(
-          title: const Text('Are you sure?'),
-          content: const Text('Do you want to exit an App'),
+          title: Text(localizations.exitConfirmTitle),
+          content: Text(localizations.exitConfirmContent),
           actions: <Widget>[
             TextButton(
-              child: const Text('No'),
+              child: Text(localizations.no),
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
             ),
             TextButton(
-              child: const Text('Yes'),
+              child: Text(localizations.yes),
               onPressed: () {
                 Navigator.of(context).pop(true);
               },

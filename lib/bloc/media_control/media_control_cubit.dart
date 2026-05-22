@@ -35,17 +35,17 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
   }
 
   /// Toggle a sound on or off.
-  Future<void> toggleSound(String category, AudioClip clip) async {
+  Future<void> toggleSound(String category, AudioClip clip, {String? maxSoundsMessage}) async {
     if (isSoundActive(clip.id)) {
       await _deactivateSound(clip.id);
     } else {
-      await _activateSound(clip);
+      await _activateSound(clip, maxSoundsMessage: maxSoundsMessage);
     }
   }
 
-  Future<void> _activateSound(AudioClip clip) async {
+  Future<void> _activateSound(AudioClip clip, {String? maxSoundsMessage}) async {
     if (selectedCount >= maxActiveSounds) {
-      notifyMaxSoundsReached();
+      notifyMaxSoundsReached(maxSoundsMessage);
       return;
     }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import '../services/audio/audio_player_handler.dart';
 import 'main_menu_navigator.dart';
 
 class LottieSplashScreen extends StatefulWidget {
@@ -17,7 +18,13 @@ class _LottieSplashScreenState extends State<LottieSplashScreen> {
   }
 
   void _navigateToNextScreen() async {
-    await Future.delayed(const Duration(seconds: 3));
+    final warmUpFuture = warmUpAudioEngine();
+
+    await Future.wait([
+      Future.delayed(const Duration(seconds: 3)),
+      warmUpFuture,
+    ]);
+
     if (mounted) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => const MainMenuNavigator()),

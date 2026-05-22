@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:good_dream/utils/toast_notifications.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -72,7 +73,9 @@ class _ClockTimerState extends State<ClockTimer> {
                           }
                         },
                         child: Text(
-                            state.isTimerRunning ? "Stop" : "Start",
+                            state.isTimerRunning 
+                                ? AppLocalizations.of(context)!.stop 
+                                : AppLocalizations.of(context)!.start,
                             style: const TextStyle(fontWeight: FontWeight.bold))),
                   ),
                 ),
@@ -96,9 +99,9 @@ class _ClockTimerState extends State<ClockTimer> {
                       onPressed: () {
                         _showModalBottomSheet();
                       },
-                      child: const Text(
-                        "Ustaw czas",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      child: Text(
+                        AppLocalizations.of(context)!.setDuration,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -178,7 +181,7 @@ class _ClockTimerState extends State<ClockTimer> {
                           ),
                         ),
                         Text(
-                          'Własny czas trwania',
+                          AppLocalizations.of(context)!.customDurationTitle,
                           style: TextStyle(
                             fontSize: 22, 
                             fontWeight: FontWeight.bold,
@@ -247,7 +250,7 @@ class _ClockTimerState extends State<ClockTimer> {
                                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                               ),
                               child: Text(
-                                'Anuluj', 
+                                AppLocalizations.of(context)!.cancel, 
                                 style: TextStyle(
                                   color: Colors.white.withOpacity(0.7),
                                   fontSize: 15,
@@ -257,13 +260,14 @@ class _ClockTimerState extends State<ClockTimer> {
                             ),
                             ElevatedButton(
                               onPressed: () {
+                                final startMsg = AppLocalizations.of(context)?.timeStarted;
                                 Navigator.of(context).pop();
                                 int newDurationInSeconds =
                                     _selectedHour * 3600 + _selectedMinute * 60;
                                 context
                                     .read<TimerCubit>()
                                     .startTimer(newDurationInSeconds);
-                                notificationStartCountdown();
+                                notificationStartCountdown(startMsg);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.amberAccent,
@@ -275,9 +279,9 @@ class _ClockTimerState extends State<ClockTimer> {
                                 elevation: 4,
                                 shadowColor: Colors.amberAccent.withOpacity(0.3),
                               ),
-                              child: const Text(
-                                'Zastosuj', 
-                                style: TextStyle(
+                              child: Text(
+                                AppLocalizations.of(context)!.apply, 
+                                style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                 ),

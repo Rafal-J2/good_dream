@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:good_dream/models/audio_clip.dart';
 
 class PlayingSoundsController extends StatefulWidget {
   const PlayingSoundsController({super.key});
@@ -45,9 +47,9 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                       statusBarColor: Colors.transparent,
                       statusBarIconBrightness: Brightness.light,
                     ),
-                    title: const Text(
-                      'Aktywne Dźwięki',
-                      style: TextStyle(
+                    title: Text(
+                      AppLocalizations.of(context)!.activeSoundsTitle,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -64,12 +66,12 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
             padding: const EdgeInsets.only(top: 16.0, bottom: 24.0),
             children: <Widget>[
               if (selectedCount == 0) ...[
-                const Center(
+                Center(
                   child: Padding(
-                    padding: EdgeInsets.only(top: 40.0, bottom: 20.0),
+                    padding: const EdgeInsets.only(top: 40.0, bottom: 20.0),
                     child: Text(
-                      'Brak aktywnych dźwięków',
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.noActiveSounds,
+                      style: const TextStyle(
                         fontSize: 22.0, 
                         fontWeight: FontWeight.bold,
                         color: Colors.white70,
@@ -128,7 +130,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    activeSound.clip.iconTitleText,
+                                    activeSound.clip.getLocalizedName(context),
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16.0,

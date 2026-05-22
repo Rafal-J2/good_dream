@@ -6,6 +6,7 @@ import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:good_dream/models/audio_clip.dart';
 import 'package:good_dream/models/sounds_catalog.dart';
 import 'package:good_dream/services/ai_assistant_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AIAssistantController extends StatefulWidget {
   const AIAssistantController({super.key});
@@ -25,47 +26,50 @@ class _AIAssistantControllerState extends State<AIAssistantController>
 
   late final AnimationController _pulseController;
 
-  final List<Map<String, dynamic>> _categories = [
-    {
-      'title': '🧘 Wyciszenie i Stres',
-      'icon': Icons.spa_rounded,
-      'color': Colors.tealAccent,
-      'items': [
-        {'label': 'Stresujący dzień w pracy', 'emoji': '💼'},
-        {'label': 'Gonitwa myśli przed snem', 'emoji': '🤯'},
-        {'label': 'Niepokój i napięcie', 'emoji': '😔'},
-      ],
-    },
-    {
-      'title': '😴 Problem ze Snem',
-      'icon': Icons.bedtime_rounded,
-      'color': Colors.amberAccent,
-      'items': [
-        {'label': 'Trudności z zaśnięciem', 'emoji': '🛌'},
-        {'label': 'Nagłe przebudzenie w nocy', 'emoji': '🕰️'},
-        {'label': 'Potrzeba krótkiej drzemki', 'emoji': '🔋'},
-      ],
-    },
-    {
-      'title': '🌌 Medytacja i Natura',
-      'icon': Icons.terrain_rounded,
-      'color': Colors.lightGreenAccent,
-      'items': [
-        {'label': 'Głęboka medytacja', 'emoji': '✨'},
-        {'label': 'Skupienie i wyciszenie', 'emoji': '📚'},
-        {'label': 'Spacer po cichym lesie', 'emoji': '🌲'},
-      ],
-    },
-    {
-      'title': '👶 Dla Najmłodszych',
-      'icon': Icons.child_care_rounded,
-      'color': Colors.pinkAccent,
-      'items': [
-        {'label': 'Usypianie niemowlaka (szumy)', 'emoji': '🍼'},
-        {'label': 'Wyciszenie dziecka po zabawie', 'emoji': '🧸'},
-      ],
-    },
-  ];
+  List<Map<String, dynamic>> _getCategories(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    return [
+      {
+        'title': localizations.categoryStress,
+        'icon': Icons.spa_rounded,
+        'color': Colors.tealAccent,
+        'items': [
+          {'label': localizations.itemStressDay, 'emoji': '💼'},
+          {'label': localizations.itemRacingThoughts, 'emoji': '🤯'},
+          {'label': localizations.itemAnxiety, 'emoji': '😔'},
+        ],
+      },
+      {
+        'title': localizations.categorySleep,
+        'icon': Icons.bedtime_rounded,
+        'color': Colors.amberAccent,
+        'items': [
+          {'label': localizations.itemTroubleSleeping, 'emoji': '🛌'},
+          {'label': localizations.itemNightAwakening, 'emoji': '🕰️'},
+          {'label': localizations.itemPowerNap, 'emoji': '🔋'},
+        ],
+      },
+      {
+        'title': localizations.categoryNature,
+        'icon': Icons.terrain_rounded,
+        'color': Colors.lightGreenAccent,
+        'items': [
+          {'label': localizations.itemDeepMeditation, 'emoji': '✨'},
+          {'label': localizations.itemFocusCalm, 'emoji': '📚'},
+          {'label': localizations.itemQuietForest, 'emoji': '🌲'},
+        ],
+      },
+      {
+        'title': localizations.categoryKids,
+        'icon': Icons.child_care_rounded,
+        'color': Colors.pinkAccent,
+        'items': [
+          {'label': localizations.itemBabySleep, 'emoji': '🍼'},
+          {'label': localizations.itemCalmKids, 'emoji': '🧸'},
+        ],
+      },
+    ];
+  }
 
   @override
   void initState() {
@@ -187,9 +191,9 @@ class _AIAssistantControllerState extends State<AIAssistantController>
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Asystent Snu AI',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.aiAssistantTitle,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -197,7 +201,7 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                 ),
               ),
               Text(
-                'Twój osobisty doradca nocny',
+                AppLocalizations.of(context)!.aiAssistantSub,
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.6),
                   fontSize: 12,
@@ -256,10 +260,10 @@ class _AIAssistantControllerState extends State<AIAssistantController>
           ),
         ),
         const SizedBox(height: 18),
-        const Text(
-          'Wybierz swój dzisiejszy cel:',
+        Text(
+          AppLocalizations.of(context)!.chooseGoal,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -268,7 +272,7 @@ class _AIAssistantControllerState extends State<AIAssistantController>
         ),
         const SizedBox(height: 8),
         Text(
-          'Sztuczna inteligencja przygotuje dla Ciebie spersonalizowaną poradę relaksacyjną oraz zaprojektuje zbalansowane tło dźwiękowe.',
+          AppLocalizations.of(context)!.aiAssistantIntro,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 13,
@@ -279,7 +283,7 @@ class _AIAssistantControllerState extends State<AIAssistantController>
         const SizedBox(height: 28),
 
         // Beautiful keyboard-less category sections
-        ..._categories.map((cat) {
+        ..._getCategories(context).map((cat) {
           final String title = cat['title'] as String;
           final IconData icon = cat['icon'] as IconData;
           final Color accentColor = cat['color'] as Color;
@@ -368,9 +372,9 @@ class _AIAssistantControllerState extends State<AIAssistantController>
           builder: (context, child) {
             return Opacity(
               opacity: 0.5 + (_pulseController.value * 0.5),
-              child: const Text(
-                'AI projektuje Twój profil wyciszenia...',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context)!.loadingTitle,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -384,7 +388,7 @@ class _AIAssistantControllerState extends State<AIAssistantController>
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Text(
-            'Dobieramy idealne proporcje głośności i układamy spersonalizowane ćwiczenia oddechowe, by pomóc Ci się odprężyć.',
+            AppLocalizations.of(context)!.loadingDesc,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white.withOpacity(0.6),
@@ -412,9 +416,9 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                 size: 60,
               ),
               const SizedBox(height: 18),
-              const Text(
-                'Połączenie nieudane',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.connectionFailed,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -446,7 +450,7 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                     side: BorderSide(color: Colors.white.withOpacity(0.2)),
                   ),
                 ),
-                child: const Text('Spróbuj ponownie'),
+                child: Text(AppLocalizations.of(context)!.tryAgain),
               ),
             ],
           ),
@@ -487,9 +491,9 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                 });
               },
               icon: const Icon(Icons.arrow_back_rounded, color: Colors.white70, size: 20),
-              label: const Text(
-                'Wróć do celów',
-                style: TextStyle(color: Colors.white70, fontSize: 14),
+              label: Text(
+                AppLocalizations.of(context)!.backToGoals,
+                style: const TextStyle(color: Colors.white70, fontSize: 14),
               ),
             ),
             const Icon(
@@ -507,13 +511,13 @@ class _AIAssistantControllerState extends State<AIAssistantController>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Row(
+              Row(
                 children: [
-                  Icon(Icons.self_improvement_rounded, color: Colors.tealAccent, size: 22),
-                  SizedBox(width: 8),
+                  const Icon(Icons.self_improvement_rounded, color: Colors.tealAccent, size: 22),
+                  const SizedBox(width: 8),
                   Text(
-                    'Porada Relaksacyjna AI',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.aiAdviceTitle,
+                    style: const TextStyle(
                       color: Colors.tealAccent,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -544,13 +548,13 @@ class _AIAssistantControllerState extends State<AIAssistantController>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Row(
+              Row(
                 children: [
-                  Icon(Icons.spatial_audio_rounded, color: Colors.amberAccent, size: 22),
-                  SizedBox(width: 8),
+                  const Icon(Icons.spatial_audio_rounded, color: Colors.amberAccent, size: 22),
+                  const SizedBox(width: 8),
                   Text(
-                    'Spersonalizowany Miks AI',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.aiMixTitle,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -560,7 +564,7 @@ class _AIAssistantControllerState extends State<AIAssistantController>
               ),
               const SizedBox(height: 8),
               Text(
-                'Zaprojektowane proporcje głośności dla ułatwienia relaksu:',
+                AppLocalizations.of(context)!.aiMixSub,
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.6),
                   fontSize: 12,
@@ -571,7 +575,7 @@ class _AIAssistantControllerState extends State<AIAssistantController>
               // Visual pills of recommended sounds with their precise volume levels
               if (recommendedClipsWithVolumes.isEmpty)
                 Text(
-                  'Brak dostępnych dopasowań dźwiękowych w katalogu.',
+                  AppLocalizations.of(context)!.noSoundMatch,
                   style: TextStyle(color: Colors.white.withOpacity(0.4), fontSize: 13),
                 )
               else
@@ -602,7 +606,7 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                           Image.asset(clip.enableIcon, height: 22, width: 22),
                           const SizedBox(width: 8),
                           Text(
-                            '${clip.iconTitleText} ($volumePercentage%)',
+                            '${clip.getLocalizedName(context)} ($volumePercentage%)',
                             style: TextStyle(
                               color: isActive ? Colors.orangeAccent.shade100 : Colors.white,
                               fontSize: 13,
@@ -670,8 +674,8 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                             const SizedBox(width: 8),
                             Text(
                               isMixActive
-                                  ? 'Zatrzymaj Miks Ambient'
-                                  : 'Odtwórz Miks Ambient AI',
+                                  ? AppLocalizations.of(context)!.stopAiMix
+                                  : AppLocalizations.of(context)!.playAiMix,
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,

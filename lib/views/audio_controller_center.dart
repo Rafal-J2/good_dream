@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../bloc/media_control/media_control_cubit.dart';
 import '../models/audio_clip.dart';
 
@@ -59,7 +60,11 @@ class AudioControlCenter extends StatelessWidget {
                       ),
                       child: InkWell(
                         onTap: () {
-                          cubit.toggleSound(category, clip);
+                          cubit.toggleSound(
+                            category,
+                            clip,
+                            maxSoundsMessage: AppLocalizations.of(context)?.maxSoundsReached,
+                          );
                         },
                         borderRadius: BorderRadius.circular(16.0),
                         child: Padding(
@@ -118,7 +123,7 @@ class AudioControlCenter extends StatelessWidget {
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 4.0),
                                           child: Text(
-                                            clip.iconTitleText,
+                                            clip.getLocalizedName(context),
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 11.5,

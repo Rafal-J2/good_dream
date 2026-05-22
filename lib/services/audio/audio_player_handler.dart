@@ -1,4 +1,15 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:just_audio/just_audio.dart';
+
+Future<void> warmUpAudioEngine() async {
+  try {
+    final player = AudioPlayer();
+    await player.setVolume(0.0);
+    await player.dispose();
+  } catch (e) {
+    // Silently ignore warm-up exceptions
+  }
+}
 
 class AudioPlayerHandler extends BaseAudioHandler {
   AudioPlayerHandler() {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-void notifyMaxSoundsReached() {
+void notifyMaxSoundsReached([String? message]) {
   Fluttertoast.cancel();
   Fluttertoast.showToast(
-      msg: "6 sounds can be played at the same time.",
+      msg: message ?? "6 sounds can be played at the same time.",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
@@ -13,9 +13,9 @@ void notifyMaxSoundsReached() {
       fontSize: 16.0);
 }
 
-void notificationStartCountdown() {
+void notificationStartCountdown([String? message]) {
   Fluttertoast.showToast(
-      msg: "The time has started",
+      msg: message ?? "The time has started",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.TOP,
       timeInSecForIosWeb: 1,
@@ -23,3 +23,4 @@ void notificationStartCountdown() {
       textColor: Colors.black,
       fontSize: 16.0);
 }
+
