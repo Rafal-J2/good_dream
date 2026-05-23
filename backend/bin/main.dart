@@ -197,7 +197,11 @@ ${availableSoundIds.join(', ')}
       })
       .addHandler(router.call);
 
+  // Get port from environment (essential for cloud deployment like Render/Railway)
+  final portStr = Platform.environment['PORT'] ?? '3400';
+  final port = int.tryParse(portStr) ?? 3400;
+
   // Start the server
-  final server = await io.serve(handler, '0.0.0.0', 3400);
+  final server = await io.serve(handler, '0.0.0.0', port);
   print('Good Dream AI Backend running on port ${server.port}');
 }
