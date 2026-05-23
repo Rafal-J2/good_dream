@@ -4,9 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
-import 'package:good_dream/views/playing_sounds_controller.dart';
+import 'package:good_dream/views/favorites_controller.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:good_dream/views/widgets/active_sounds_bottom_bar.dart';
 
 import 'main_tab_bar_controller.dart';
 import 'settings_controller.dart';
@@ -33,7 +35,7 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
     super.initState();
     _pages = [
       const MainTabBarController(),
-      const PlayingSoundsController(), 
+      const FavoritesController(), 
       const AIAssistantController(),
       const SettingsController(),
     ];
@@ -122,64 +124,62 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
                   physics: const NeverScrollableScrollPhysics(),
                   children: _pages,
                 ),
-                bottomNavigationBar: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                        color: Colors.white.withOpacity(0.06),
-                        width: 1.5,
+                bottomNavigationBar: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const ActiveSoundsBottomBar(),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          top: BorderSide(
+                            color: Colors.white.withOpacity(0.06),
+                            width: 1.5,
+                          ),
+                        ),
+                      ),
+                      child: ClipRRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                          child: BottomNavigationBar(
+                            elevation: 0,
+                            type: BottomNavigationBarType.fixed,
+                            backgroundColor: Colors.white.withOpacity(0.02),
+                            unselectedItemColor: Colors.white.withOpacity(0.5),
+                            selectedItemColor: Colors.amberAccent,
+                            selectedIconTheme: const IconThemeData(color: Colors.amberAccent),
+                            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
+                            unselectedLabelStyle: const TextStyle(fontSize: 10),
+                            items: [
+                              BottomNavigationBarItem(
+                                icon: const Icon(Icons.home),
+                                label: AppLocalizations.of(context)!.mixSounds,
+                              ),
+                              BottomNavigationBarItem(
+                                icon: const Icon(Icons.favorite_rounded),
+                                label: 'Ulubione',
+                              ),
+                              BottomNavigationBarItem(
+                                icon: const Icon(Icons.auto_awesome),
+                                label: AppLocalizations.of(context)!.aiAssistant,
+                              ),
+                              BottomNavigationBarItem(
+                                icon: const Icon(Icons.menu),
+                                label: AppLocalizations.of(context)!.settings,
+                              ),
+                            ],
+                            showSelectedLabels: true,
+                            currentIndex: _selectedPageIndex,
+                            onTap: (selectedPageIndex) {
+                              setState(() {
+                                _selectedPageIndex = selectedPageIndex;
+                                _pageController.jumpToPage(selectedPageIndex);
+                              });
+                            },
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  child: ClipRRect(
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-                      child: BottomNavigationBar(
-                        elevation: 0,
-                        type: BottomNavigationBarType.fixed,
-                        backgroundColor: Colors.white.withOpacity(0.02),
-                        unselectedItemColor: Colors.white.withOpacity(0.5),
-                        selectedItemColor: Colors.amberAccent,
-                        selectedIconTheme: const IconThemeData(color: Colors.amberAccent),
-                        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
-                        unselectedLabelStyle: const TextStyle(fontSize: 10),
-                        items: [
-                          BottomNavigationBarItem(
-                            icon: const Icon(Icons.home),
-                            label: AppLocalizations.of(context)!.mixSounds,
-                          ),
-                          BottomNavigationBarItem(
-                            icon: SizedBox(
-                              height: 24,
-                              width: 24,
-                              child: state.activeSounds.isEmpty
-                                  ? const Icon(Icons.surround_sound)
-                                  : Lottie.asset(
-                                      'assets/lottieFiles/sounds_waves.json'),
-                            ),
-                            label: AppLocalizations.of(context)!
-                                .activeSoundsCount(state.activeSounds.length.toString()),
-                          ),
-                          BottomNavigationBarItem(
-                            icon: const Icon(Icons.auto_awesome),
-                            label: AppLocalizations.of(context)!.aiAssistant,
-                          ),
-                          BottomNavigationBarItem(
-                            icon: const Icon(Icons.menu),
-                            label: AppLocalizations.of(context)!.settings,
-                          ),
-                        ],
-                        showSelectedLabels: true,
-                        currentIndex: _selectedPageIndex,
-                        onTap: (selectedPageIndex) {
-                          setState(() {
-                            _selectedPageIndex = selectedPageIndex;
-                            _pageController.jumpToPage(selectedPageIndex);
-                          });
-                        },
-                      ),
-                    ),
-                  ),
+                  ],
                 ),
               ),
             ],

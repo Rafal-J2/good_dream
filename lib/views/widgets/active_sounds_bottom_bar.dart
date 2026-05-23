@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,18 +8,18 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:good_dream/utils/toast_notifications.dart';
 import 'package:numberpicker/numberpicker.dart';
-import '../bloc/timer/timer_cubit.dart';
-import '../bloc/timer/timer_state.dart';
-import '../views/widgets/timer_display_widget.dart';
+import '../../bloc/timer/timer_cubit.dart';
+import '../../bloc/timer/timer_state.dart';
+import '../playing_sounds_controller.dart';
 
-class ClockTimer extends StatefulWidget {
-  const ClockTimer({super.key});
+class ActiveSoundsBottomBar extends StatefulWidget {
+  const ActiveSoundsBottomBar({super.key});
 
   @override
-  State createState() => _ClockTimerState();
+  State<ActiveSoundsBottomBar> createState() => _ActiveSoundsBottomBarState();
 }
 
-class _ClockTimerState extends State<ClockTimer> {
+class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
   int _selectedHour = 1;
   int _selectedMinute = 1;
 
@@ -31,88 +30,134 @@ class _ClockTimerState extends State<ClockTimer> {
           previous.isTimerRunning &&
           !current.isTimerRunning &&
           current.remainingTime == 0,
-      listener: (context, state) {
+      listener: (context, timerState) {
         _closeAppAfterTimer(context);
       },
-      builder: (context, state) {
-        return Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 6),
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: state.isTimerRunning 
-                              ? Colors.redAccent.withOpacity(0.8) 
-                              : Colors.white.withOpacity(0.04),
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          side: BorderSide(
-                            color: state.isTimerRunning 
-                                ? Colors.redAccent 
-                                : Colors.white.withOpacity(0.08),
-                            width: 1.5,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        onPressed: () {
-                          int newDurationInSeconds =
-                              _selectedHour * 3600 + _selectedMinute * 60;
-                          if (!state.isTimerRunning) {
-                            context
-                                .read<TimerCubit>()
-                                .startTimer(newDurationInSeconds);
-                          } else {
-                            context.read<TimerCubit>().cancelTimer();
-                          }
-                        },
-                        child: Text(
-                            state.isTimerRunning 
-                                ? AppLocalizations.of(context)!.stop 
-                                : AppLocalizations.of(context)!.start,
-                            style: const TextStyle(fontWeight: FontWeight.bold))),
-                  ),
-                ),
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 6),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white.withOpacity(0.04),
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        side: BorderSide(
-                          color: Colors.white.withOpacity(0.08),
+      builder: (context, timerState) {
+        return BlocBuilder<MediaControlCubit, MediaControlCubitState>(
+          builder: (context, mediaState) {
+            final activeCount = mediaState.activeSounds.length;
+            final isVisible = activeCount > 0 || timerState.isTimerRunning;
+
+            return AnimatedSize(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.fastOutSlowIn,
+              child: !isVisible
+                  ? const SizedBox.shrink()
+                  : Container(
+                      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0F0B29).withOpacity(0.85),
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.12),
                           width: 1.5,
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.25),
+                            blurRadius: 15,
+                            offset: const Offset(0, 5),
+                          )
+                        ],
                       ),
-                      onPressed: () {
-                        _showModalBottomSheet();
-                      },
-                      child: Text(
-                        AppLocalizations.of(context)!.setDuration,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(24),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Lewa strona - tylko cyfry wg wytycznych
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: ElevatedButton(
+                                      onPressed: () => _showActiveSoundsModal(),
+                                      child: Text(
+                                        'Aktywne: $activeCount / ${MediaControlCubit.maxActiveSounds}',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold, 
+                                          fontSize: 13,
+                                          letterSpacing: 0.3,
+                                        ),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white.withOpacity(0.1),
+                                        foregroundColor: Colors.white,
+                                        elevation: 0,
+                                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
+                                        minimumSize: const Size(0, 38),
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                // Środek - Przycisk STOP
+                                IconButton(
+                                  icon: const Icon(Icons.stop_circle_rounded, color: Colors.redAccent, size: 30),
+                                  onPressed: () {
+                                    context.read<MediaControlCubit>().disableAllSoundsAndIcons();
+                                  },
+                                ),
+                                const SizedBox(width: 8),
+                                // Prawa strona - Timer
+                                _buildTimerButton(context, timerState),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ],
-            ),
-            TimerDisplayWidget(state: state)
-          ],
+            );
+          },
         );
       },
     );
+  }
+
+  Widget _buildTimerButton(BuildContext context, TimerState timerState) {
+    if (timerState.isTimerRunning) {
+      final duration = Duration(seconds: timerState.remainingTime);
+      final h = duration.inHours > 0 ? '${duration.inHours}:' : '';
+      final m = duration.inMinutes.remainder(60).toString().padLeft(2, "0");
+      final s = duration.inSeconds.remainder(60).toString().padLeft(2, "0");
+      final timeStr = "$h$m:$s";
+
+      return ElevatedButton(
+        onPressed: () {
+          context.read<TimerCubit>().cancelTimer();
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.redAccent.withOpacity(0.2),
+          foregroundColor: Colors.redAccent,
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+          minimumSize: const Size(80, 36),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          side: BorderSide(color: Colors.redAccent.withOpacity(0.5), width: 1.5),
+        ),
+        child: Text(timeStr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+      );
+    } else {
+      return ElevatedButton(
+        onPressed: () => _showModalBottomSheet(),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white.withOpacity(0.1),
+          foregroundColor: Colors.white,
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+          minimumSize: const Size(80, 36),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        ),
+        child: const Text(
+          'Timer', 
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)
+        ),
+      );
+    }
   }
 
   Future<void> _closeAppAfterTimer(BuildContext context) async {
@@ -122,17 +167,48 @@ class _ClockTimerState extends State<ClockTimer> {
     if (!mounted) {
       return;
     }
-    // Keep emulator/debug stable. Release still closes the app on timer end.
-    if (!kReleaseMode) {
-      return;
-    }
-    if (kIsWeb) {
-      return;
-    }
+    if (!kReleaseMode) return;
+    if (kIsWeb) return;
     if (defaultTargetPlatform == TargetPlatform.android ||
         defaultTargetPlatform == TargetPlatform.iOS) {
       SystemNavigator.pop();
     }
+  }
+
+  Future<void> _showActiveSoundsModal() async {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      isScrollControlled: true,
+      barrierColor: Colors.black.withOpacity(0.5),
+      builder: (BuildContext context) {
+        return ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(28),
+            topRight: Radius.circular(28),
+          ),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.65,
+              decoration: BoxDecoration(
+                color: const Color(0xFF0F0B29).withOpacity(0.85),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(28),
+                  topRight: Radius.circular(28),
+                ),
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.08),
+                  width: 1.5,
+                ),
+              ),
+              child: const PlayingSoundsController(),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _showModalBottomSheet() async {
@@ -143,7 +219,7 @@ class _ClockTimerState extends State<ClockTimer> {
       barrierColor: Colors.black.withOpacity(0.5),
       builder: (BuildContext context) {
         return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
+          builder: (BuildContext context, StateSetter setModalState) {
             final textColor = Colors.white;
             final mutedTextColor = Colors.white.withOpacity(0.5);
 
@@ -198,7 +274,7 @@ class _ClockTimerState extends State<ClockTimer> {
                               minValue: 0,
                               maxValue: 8,
                               onChanged: (value) =>
-                                  setState(() => _selectedHour = value),
+                                  setModalState(() => _selectedHour = value),
                               textStyle: TextStyle(color: mutedTextColor),
                               selectedTextStyle: const TextStyle(
                                 color: Colors.amberAccent,
@@ -223,7 +299,7 @@ class _ClockTimerState extends State<ClockTimer> {
                               minValue: 1,
                               maxValue: 59,
                               onChanged: (value) =>
-                                  setState(() => _selectedMinute = value),
+                                  setModalState(() => _selectedMinute = value),
                               textStyle: TextStyle(color: mutedTextColor),
                               selectedTextStyle: const TextStyle(
                                 color: Colors.amberAccent,

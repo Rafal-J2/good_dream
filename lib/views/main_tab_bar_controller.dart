@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:good_dream/services/clock_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:good_dream/style/theme_text_styles.dart';
@@ -56,13 +55,13 @@ class _MainTabBarControllerState extends State<MainTabBarController>
   }
 
   void _saveTabIndex() {
+    setState(() {}); // Always rebuild to trigger AnimatedContainer
     if (_tabController.indexIsChanging) {
       return;
     }
 
     final bucket = PageStorage.maybeOf(context);
     bucket?.writeState(context, _tabController.index, identifier: _pageStorageKey);
-    setState(() {});
   }
 
   @override
@@ -75,7 +74,9 @@ class _MainTabBarControllerState extends State<MainTabBarController>
   Widget _buildTab(BuildContext context, {required int index, required String title, required String emoji}) {
     final isSelected = _tabController.index == index;
     return Tab(
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOut,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected ? Colors.transparent : Colors.white.withOpacity(0.04),
@@ -95,10 +96,9 @@ class _MainTabBarControllerState extends State<MainTabBarController>
             const SizedBox(width: 8),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14.5,
                 fontWeight: FontWeight.bold,
-                color: isSelected ? Colors.black : Colors.white.withOpacity(0.85),
               ),
             ),
           ],
@@ -152,6 +152,8 @@ class _MainTabBarControllerState extends State<MainTabBarController>
                       indicatorPadding: EdgeInsets.zero,
                       labelPadding: const EdgeInsets.symmetric(horizontal: 6.0),
                       dividerColor: Colors.transparent,
+                      labelColor: Colors.black,
+                      unselectedLabelColor: Colors.white.withOpacity(0.85),
                       tabs: [
                         _buildTab(context, index: 0, title: AppLocalizations.of(context)!.nature, emoji: '🌲'),
                         _buildTab(context, index: 1, title: AppLocalizations.of(context)!.water, emoji: '🌧️'),
@@ -169,28 +171,28 @@ class _MainTabBarControllerState extends State<MainTabBarController>
       body: Column(
         children: [
           Expanded(
-              child: TabBarView(
-            controller: _tabController,
-            children: <Widget>[
-              AudioControlList(
-                category: 'natureSounds',
-                soundsByCategory: soundsByCategory,
-              ),
-              AudioControlList(
-                category: 'waterSounds',
-                soundsByCategory: soundsByCategory,
-              ),
-              AudioControlList(
-                category: 'musicSounds',
-                soundsByCategory: soundsByCategory,
-              ),
-              AudioControlList(
-                category: 'mechanicalSounds',
-                soundsByCategory: soundsByCategory,
-              ),
-            ],
-          )),
-          const ClockTimer(),
+            child: TabBarView(
+              controller: _tabController,
+              children: <Widget>[
+                AudioControlList(
+                  category: 'natureSounds',
+                  soundsByCategory: soundsByCategory,
+                ),
+                AudioControlList(
+                  category: 'waterSounds',
+                  soundsByCategory: soundsByCategory,
+                ),
+                AudioControlList(
+                  category: 'musicSounds',
+                  soundsByCategory: soundsByCategory,
+                ),
+                AudioControlList(
+                  category: 'mechanicalSounds',
+                  soundsByCategory: soundsByCategory,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

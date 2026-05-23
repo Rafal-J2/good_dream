@@ -22,21 +22,26 @@ class AIAssistantService {
 
   /// Sends a request to the backend Gemini AI flow to get sleep advice
   /// and obtain recommended matching catalog sound IDs with custom volume levels.
-  Future<Map<String, dynamic>> generateSleepSession(String mood) async {
+  Future<Map<String, dynamic>> generateSleepSession(String mood, {List<String>? rejectedSounds}) async {
     final url = Uri.parse('$baseUrl/generateSleepSession');
     try {
+      final bodyData = <String, dynamic>{'mood': mood};
+      if (rejectedSounds != null && rejectedSounds.isNotEmpty) {
+        bodyData['rejectedSounds'] = rejectedSounds;
+      }
+
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'mood': mood}),
+        body: jsonEncode(bodyData),
       ).timeout(const Duration(seconds: 45));
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> decoded = jsonDecode(response.body);
         return {
           'success': true,
-          'advice': decoded['advice'] as String? ?? 'Oddychaj spokojnie...',
           'recommendedSounds': decoded['recommendedSounds'] as List<dynamic>? ?? [],
+          'proposedNames': decoded['proposedNames'] as List<dynamic>? ?? [],
         };
       } else {
         String errorMsg = 'Wystąpił nieznany błąd serwera.';

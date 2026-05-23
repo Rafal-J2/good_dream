@@ -39,6 +39,15 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
     if (isSoundActive(clip.id)) {
       await _deactivateSound(clip.id);
     } else {
+      // If the user selects a music sound, disable any already playing music sound (max 1 music track).
+      if (category == 'musicSounds') {
+        final musicClips = soundsByCategory['musicSounds'] ?? [];
+        for (final active in state.activeSounds.toList()) {
+          if (musicClips.any((c) => c.id == active.clip.id)) {
+            await _deactivateSound(active.clip.id);
+          }
+        }
+      }
       await _activateSound(clip, maxSoundsMessage: maxSoundsMessage);
     }
   }
@@ -52,11 +61,16 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
     final player = AudioPlayer();
     try {
       await player.setAsset(clip.audioFile);
-      await player.setVolume(0.5);
+      
+      double defaultVolume = 0.5;
+      if (clip.id == 'forest') defaultVolume = 0.4;
+      if (clip.id == 'cave') defaultVolume = 1.0;
+      
+      await player.setVolume(defaultVolume);
       await player.setLoopMode(LoopMode.one);
       player.play();
 
-      final newActive = ActiveSound(clip: clip, player: player);
+      final newActive = ActiveSound(clip: clip, player: player, volume: defaultVolume);
       final updated = List<ActiveSound>.from(state.activeSounds)..add(newActive);
 
       if (updated.length == 1) {

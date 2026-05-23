@@ -15,7 +15,7 @@ class TimerDisplayWidget extends StatelessWidget {
 
     return Text(
       "$hours:$minutes:$seconds",
-      style: const TextStyle(fontSize: 40.0, color: Colors.white),
+      style: const TextStyle(fontSize: 16.0, color: Colors.white, fontWeight: FontWeight.bold),
     );
   }
 

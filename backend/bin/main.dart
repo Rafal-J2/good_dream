@@ -45,39 +45,32 @@ void main() async {
       final body = await request.readAsString();
       final Map<String, dynamic> jsonBody = jsonDecode(body);
       final mood = jsonBody['mood'] as String? ?? 'spokojny sen';
+      final rejectedSounds = jsonBody['rejectedSounds'] as List<dynamic>? ?? [];
 
       if (apiKey == null || apiKey.isEmpty || apiKey == 'YOUR_GEMINI_API_KEY_HERE' || apiKey == 'YOUR_DEEPSEEK_API_KEY_HERE') {
         throw Exception('API Key is missing. Please set DEEPSEEK_API_KEY in your backend/.env file.');
       }
 
       final systemInstruction = '''
-You are a peaceful sleep, mindfulness, and relaxation coach.
-Your goal is to analyze the user's current sleep/relaxation need (e.g., stress, difficulty sleeping, concentration, putting a baby to sleep) and:
-1. Write a highly comforting, short, empathetic advice or a quick mindfulness/breathing micro-exercise in Polish (max 80-100 words).
-2. Design a custom soundscape mix selecting 1 to 4 matching sound IDs from the available sound IDs list below, assigning a volume level of exactly 0.5 (representing 50%) to each selected sound to create a balanced ambient background.
+You are an AI that designs custom soundscape mixes based on user mood/need.
 
-Instructions for advice:
-- The advice must be in Polish.
-- It must be warm, reassuring, and practical (e.g. "Oddychaj spokojnie...", "Wyobraź sobie...", "Rozluźnij ramiona...").
-- Keep it concise, soothing, and easy to read (max 80-100 words).
-
-Instructions for sounds & volumes:
-- Select 1 to 4 matching sounds from the list of available sound IDs below.
+Instructions for sounds:
+- Select 1 to 4 matching sound IDs from the list below.
 - Choose ONLY from: ${availableSoundIds.join(', ')}.
-- Assign exactly 0.5 as the volume for each selected sound.
-- IMPORTANT RULE FOR MUSIC SOUNDS: Do NOT select more than ONE sound from the Music category. Selecting multiple music sounds at the same time (e.g., combining Zen and Piano) creates chaotic noise. You can mix one music sound with nature or water sounds, but never mix multiple music tracks together.
+- IMPORTANT RULE FOR MUSIC SOUNDS: Do NOT select more than ONE sound from the Music category. Mixing multiple music tracks creates chaotic noise. You can mix one music sound with nature/water, but never multiple music tracks together.
 
 Format your final output strictly as a JSON object with two keys:
-1. "advice": (string) containing the personalized comfort advice or quick micro-exercise in Polish.
-2. "recommendedSounds": (array of objects) where each object represents a recommended sound and has two keys:
-   - "id": (string) chosen ONLY from the list of available sound IDs below.
-   - "volume": (double) exactly 0.5.
+1. "recommendedSounds": (array of strings) The exact IDs of the chosen sounds (e.g. ["Rain", "Piano"]).
+2. "proposedNames": (array of exactly 3 strings) Provide exactly 3 short, poetic names in Polish for this mix (e.g. "Spokojny Las", "Nocny Relaks").
 
 Available sound IDs:
 ${availableSoundIds.join(', ')}
 ''';
 
-      final userPrompt = 'Create a custom sleep coach recommendations mix based on user mood/setting request: "$mood"';
+      String userPrompt = 'Create a custom sleep coach recommendations mix based on user mood/setting request: "$mood"';
+      if (rejectedSounds.isNotEmpty) {
+        userPrompt += '\nIMPORTANT CONSTRAINT: The user rejected the following sounds previously: ${rejectedSounds.join(', ')}. You MUST provide a completely different combination of sounds!';
+      }
 
       String? responseText;
       int retries = 3;
@@ -135,65 +128,42 @@ ${availableSoundIds.join(', ')}
       final Map<String, dynamic> decoded = jsonDecode(responseText);
       
       // Parse with fallback validation
-      final advice = decoded['advice'] as String? ?? decoded['story'] as String? ?? 'Oddychaj spokojnie i pozwól sobie na odpoczynek...';
       final rawSounds = decoded['recommendedSounds'] as List<dynamic>? ?? [];
+      final proposedNamesRaw = decoded['proposedNames'] as List<dynamic>? ?? ['Twój miks 1', 'Twój miks 2', 'Twój miks 3'];
+      final List<String> proposedNames = proposedNamesRaw.map((e) => e.toString()).take(3).toList();
       
       final List<Map<String, dynamic>> recommendedSounds = [];
       bool hasAddedMusic = false;
 
       for (final item in rawSounds) {
-        if (item is Map) {
-          final id = item['id']?.toString() ?? '';
-          // Try to match the case-insensitive or exact ID from our available list
-          final matchingId = availableSoundIds.firstWhere(
-            (availableId) => availableId.toLowerCase() == id.toLowerCase(),
-            orElse: () => '',
+        final id = (item is Map) ? (item['id']?.toString() ?? '') : item.toString();
+        // Try to match the case-insensitive or exact ID from our available list
+        final matchingId = availableSoundIds.firstWhere(
+          (availableId) => availableId.toLowerCase() == id.toLowerCase(),
+          orElse: () => '',
+        );
+        
+        if (matchingId.isNotEmpty) {
+          final isMusic = musicSoundIds.any(
+            (musicId) => musicId.toLowerCase() == matchingId.toLowerCase()
           );
-          
-          if (matchingId.isNotEmpty) {
-            final isMusic = musicSoundIds.any(
-              (musicId) => musicId.toLowerCase() == matchingId.toLowerCase()
-            );
-            if (isMusic) {
-              if (hasAddedMusic) {
-                // Skip subsequent music tracks to avoid mixing them
-                continue;
-              }
-              hasAddedMusic = true;
+          if (isMusic) {
+            if (hasAddedMusic) {
+              continue;
             }
-            recommendedSounds.add({
-              'id': matchingId,
-              'volume': 0.5, // Always set to 50% (0.5) as requested
-            });
+            hasAddedMusic = true;
           }
-        } else if (item is String) {
-          // Fallback if model returned just string IDs instead of objects
-          final matchingId = availableSoundIds.firstWhere(
-            (availableId) => availableId.toLowerCase() == item.toLowerCase(),
-            orElse: () => '',
-          );
-          if (matchingId.isNotEmpty) {
-            final isMusic = musicSoundIds.any(
-              (musicId) => musicId.toLowerCase() == matchingId.toLowerCase()
-            );
-            if (isMusic) {
-              if (hasAddedMusic) {
-                continue;
-              }
-              hasAddedMusic = true;
-            }
-            recommendedSounds.add({
-              'id': matchingId,
-              'volume': 0.5, // Always set to 50% (0.5) as requested
-            });
-          }
+          recommendedSounds.add({
+            'id': matchingId,
+            'volume': 0.5, // Attach 0.5 volume manually on the server side
+          });
         }
       }
 
       return Response.ok(
         jsonEncode({
-          'advice': advice,
           'recommendedSounds': recommendedSounds,
+          'proposedNames': proposedNames,
         }),
         headers: {'Content-Type': 'application/json'},
       );

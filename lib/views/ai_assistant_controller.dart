@@ -7,6 +7,7 @@ import 'package:good_dream/models/audio_clip.dart';
 import 'package:good_dream/models/sounds_catalog.dart';
 import 'package:good_dream/services/ai_assistant_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get_storage/get_storage.dart';
 
 class AIAssistantController extends StatefulWidget {
   const AIAssistantController({super.key});
@@ -20,9 +21,18 @@ class _AIAssistantControllerState extends State<AIAssistantController>
   final AIAssistantService _aiService = AIAssistantService();
 
   bool _isLoading = false;
-  String? _advice;
   List<Map<String, dynamic>> _recommendedSounds = [];
+  List<String> _proposedNames = [];
   String? _errorMessage;
+
+  // Feedback state
+  int _retryCount = 0;
+  String? _currentMoodQuery;
+  List<String> _rejectedMixes = [];
+  bool _accepted = false;
+  bool _wantsToSave = false;
+  bool _hasSaved = false;
+  bool _hasPlayedMix = false;
 
   late final AnimationController _pulseController;
 
@@ -98,22 +108,35 @@ class _AIAssistantControllerState extends State<AIAssistantController>
     return null;
   }
 
-  Future<void> _generateSession(String query) async {
+  Future<void> _generateSession(String query, {bool isRetry = false}) async {
     setState(() {
+      if (!isRetry) {
+        _retryCount = 0;
+        _currentMoodQuery = query;
+        _rejectedMixes = [];
+      }
+      _accepted = false;
+      _wantsToSave = false;
+      _hasSaved = false;
+      _hasPlayedMix = false;
       _isLoading = true;
       _errorMessage = null;
-      _advice = null;
       _recommendedSounds = [];
     });
 
-    final result = await _aiService.generateSleepSession(query);
+    final result = await _aiService.generateSleepSession(query, rejectedSounds: _rejectedMixes);
 
     if (mounted) {
       setState(() {
         _isLoading = false;
         if (result['success'] == true) {
-          _advice = result['advice'];
           final rawSounds = result['recommendedSounds'] as List<dynamic>? ?? [];
+          final rawNames = result['proposedNames'] as List<dynamic>? ?? [];
+          _proposedNames = rawNames.map((e) => e.toString()).toList();
+          if (_proposedNames.isEmpty) {
+            _proposedNames = ['Spokojny Sen', 'Nocny Relaks', 'Głęboki Oddech'];
+          }
+          
           _recommendedSounds = rawSounds.map((item) {
             if (item is Map) {
               return Map<String, dynamic>.from(item);
@@ -149,13 +172,13 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      if (!_isLoading && _advice == null && _errorMessage == null)
+                      if (!_isLoading && _recommendedSounds.isEmpty && _errorMessage == null)
                         _buildIntroView(),
                       if (_isLoading)
                         _buildLoadingView(),
                       if (_errorMessage != null)
                         _buildErrorView(),
-                      if (_advice != null && !_isLoading)
+                      if (_recommendedSounds.isNotEmpty && !_isLoading)
                         _buildSuccessView(),
                     ],
                   ),
@@ -486,7 +509,6 @@ class _AIAssistantControllerState extends State<AIAssistantController>
             TextButton.icon(
               onPressed: () {
                 setState(() {
-                  _advice = null;
                   _recommendedSounds = [];
                 });
               },
@@ -505,42 +527,7 @@ class _AIAssistantControllerState extends State<AIAssistantController>
         ),
         const SizedBox(height: 10),
 
-        // Beautiful glass card containing mindfulness advice / exercise
-        _buildGlassCard(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 26),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                children: [
-                  const Icon(Icons.self_improvement_rounded, color: Colors.tealAccent, size: 22),
-                  const SizedBox(width: 8),
-                  Text(
-                    AppLocalizations.of(context)!.aiAdviceTitle,
-                    style: const TextStyle(
-                      color: Colors.tealAccent,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              SelectableText(
-                _advice ?? '',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                  height: 1.6,
-                  letterSpacing: 0.25,
-                ),
-              ),
-            ],
-          ),
-        ),
 
-        const SizedBox(height: 24),
 
         // Ambient sound mix recommendation card
         _buildGlassCard(
@@ -584,8 +571,14 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                   runSpacing: 10,
                   children: recommendedClipsWithVolumes.map((entry) {
                     final clip = entry.key;
-                    final volumePercentage = (entry.value * 100).toInt();
                     final isActive = cubit.isSoundActive(clip.id);
+                    
+                    int volumePercentage = (entry.value * 100).toInt();
+                    if (isActive) {
+                      final activeSound = cubit.state.activeSounds.firstWhere((s) => s.clip.id == clip.id);
+                      volumePercentage = (activeSound.volume * 100).toInt();
+                    }
+                    
                     return Container(
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                       decoration: BoxDecoration(
@@ -650,6 +643,9 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                           if (isMixActive) {
                             await cubit.disableAllSoundsAndIcons();
                           } else {
+                            setState(() {
+                              _hasPlayedMix = true;
+                            });
                             await cubit.playSoundMixWithVolumes(recommendedClipsWithVolumes);
                           }
                         },
@@ -687,6 +683,236 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                     );
                   },
                 ),
+                
+              // Feedback Loop Section
+              AnimatedSize(
+                duration: const Duration(milliseconds: 600),
+                curve: Curves.fastOutSlowIn,
+                child: (recommendedClipsWithVolumes.isNotEmpty && _hasPlayedMix)
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 24),
+                          const Divider(color: Colors.white12),
+                          const SizedBox(height: 16),
+                          
+                          if (!_accepted)
+                            ...[
+                              const Text(
+                                'Czy pasuje Ci ten dźwięk?',
+                                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: OutlinedButton(
+                                      onPressed: () async {
+                                        if (_retryCount >= 3) {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('Osiągnięto limit 3 prób. Spróbuj innej kategorii.', style: TextStyle(color: Colors.white)),
+                                              backgroundColor: Color(0xFF1E1242),
+                                              behavior: SnackBarBehavior.floating,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(Radius.circular(16)),
+                                              ),
+                                            ),
+                                          );
+                                          return;
+                                        }
+                                        final cubit = context.read<MediaControlCubit>();
+                                        await cubit.disableAllSoundsAndIcons();
+                                        
+                                        final rejectedIds = recommendedClipsWithVolumes.map((e) => e.key.id).toList();
+                                        _rejectedMixes.addAll(rejectedIds);
+                                        _retryCount++;
+                                        
+                                        if (_currentMoodQuery != null) {
+                                          await _generateSession(_currentMoodQuery!, isRetry: true);
+                                          
+                                          final List<MapEntry<AudioClip, double>> newClips = [];
+                                          for (final item in _recommendedSounds) {
+                                            final id = item['id'] as String? ?? '';
+                                            final volume = (item['volume'] as num? ?? 0.5).toDouble();
+                                            final clip = _findClipById(id);
+                                            if (clip != null) {
+                                              newClips.add(MapEntry(clip, volume));
+                                            }
+                                          }
+                                          if (newClips.isNotEmpty && mounted) {
+                                            setState(() {
+                                              _hasPlayedMix = true;
+                                            });
+                                            await cubit.playSoundMixWithVolumes(newClips);
+                                          }
+                                        }
+                                      },
+                                      style: OutlinedButton.styleFrom(
+                                        foregroundColor: Colors.white70,
+                                        side: const BorderSide(color: Colors.white24),
+                                        padding: const EdgeInsets.symmetric(vertical: 12),
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                      ),
+                                      child: const Text('❌ Nie, zmień', style: TextStyle(fontSize: 14)),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _accepted = true;
+                                        });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.tealAccent.withOpacity(0.2),
+                                        foregroundColor: Colors.tealAccent,
+                                        elevation: 0,
+                                        padding: const EdgeInsets.symmetric(vertical: 12),
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                      ),
+                                      child: const Text('✅ Tak, idealnie', style: TextStyle(fontSize: 14)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ]
+                          else if (!_wantsToSave && !_hasSaved)
+                            ...[
+                              const Text(
+                                'Czy chcesz dodać ten dźwięk do ulubionych?',
+                                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: OutlinedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _hasSaved = true; // Skip saving
+                                        });
+                                      },
+                                      style: OutlinedButton.styleFrom(
+                                        foregroundColor: Colors.white70,
+                                        side: const BorderSide(color: Colors.white24),
+                                        padding: const EdgeInsets.symmetric(vertical: 12),
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                      ),
+                                      child: const Text('Nie', style: TextStyle(fontSize: 14)),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        final storage = GetStorage();
+                                        List favs = storage.read<List>('favorites') ?? [];
+                                        if (favs.length >= 6) {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('Osiągnięto limit 6 ulubionych. Usuń coś najpierw.', style: TextStyle(color: Colors.white)),
+                                              backgroundColor: Color(0xFF1E1242),
+                                              behavior: SnackBarBehavior.floating,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(Radius.circular(16)),
+                                              ),
+                                            ),
+                                          );
+                                          setState(() => _hasSaved = true);
+                                          return;
+                                        }
+                                        setState(() {
+                                          _wantsToSave = true;
+                                        });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.amberAccent.withOpacity(0.2),
+                                        foregroundColor: Colors.amberAccent,
+                                        elevation: 0,
+                                        padding: const EdgeInsets.symmetric(vertical: 12),
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                      ),
+                                      child: const Text('Tak, zapisz', style: TextStyle(fontSize: 14)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ]
+                          else if (_wantsToSave && !_hasSaved)
+                            ...[
+                              const Text(
+                                'Wybierz nazwę dla tego miksu:',
+                                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(height: 12),
+                              Wrap(
+                                spacing: 10,
+                                runSpacing: 10,
+                                alignment: WrapAlignment.center,
+                                children: _proposedNames.map((name) {
+                                  return ElevatedButton(
+                                    onPressed: () {
+                                      final storage = GetStorage();
+                                      List favs = storage.read<List>('favorites') ?? [];
+                                      final mixData = {
+                                        'name': name,
+                                        'sounds': recommendedClipsWithVolumes.map((e) {
+                                          final isActive = cubit.isSoundActive(e.key.id);
+                                          double currentVolume = e.value;
+                                          if (isActive) {
+                                            final activeSound = cubit.state.activeSounds.firstWhere((s) => s.clip.id == e.key.id);
+                                            currentVolume = activeSound.volume;
+                                          }
+                                          return {
+                                            'id': e.key.id,
+                                            'volume': currentVolume
+                                          };
+                                        }).toList(),
+                                      };
+                                      favs.add(mixData);
+                                      storage.write('favorites', favs);
+                                      
+                                      setState(() {
+                                        _hasSaved = true;
+                                      });
+                                      
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text('Zapisano "$name" do ulubionych!', style: const TextStyle(color: Colors.white)),
+                                          backgroundColor: const Color(0xFF0F0B29),
+                                          behavior: SnackBarBehavior.floating,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: const BorderRadius.all(Radius.circular(16)),
+                                            side: BorderSide(color: Colors.amberAccent.withOpacity(0.5), width: 1.5),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.white.withOpacity(0.08),
+                                      foregroundColor: Colors.white,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                    ),
+                                    child: Text(name),
+                                  );
+                                }).toList(),
+                              ),
+                            ]
+                          else if (_hasSaved)
+                            ...[
+                              const Icon(Icons.check_circle_outline, color: Colors.greenAccent, size: 36),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'Gotowe!',
+                                style: TextStyle(color: Colors.white70, fontSize: 14),
+                              ),
+                            ]
+                        ],
+                      )
+                    : const SizedBox.shrink(),
+              ),
             ],
           ),
         ),
