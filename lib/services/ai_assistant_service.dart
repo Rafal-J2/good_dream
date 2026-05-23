@@ -5,13 +5,18 @@ import 'package:http/http.dart' as http;
 
 class AIAssistantService {
   String get baseUrl {
+    // In release mode (production builds for testers), connect to the cloud server.
+    // Replace the URL below with your actual URL when you deploy the backend on Render/Railway.
+    if (kReleaseMode) {
+      return 'https://good-dream-backend.onrender.com'; 
+    }
+
     if (kIsWeb) {
       return 'http://localhost:3400';
     }
     try {
       if (Platform.isAndroid) {
         // For physical device testing, use the host machine's local IP.
-        // For emulator only, you would use 'http://10.0.2.2:3400'
         return 'http://192.168.100.167:3400';
       }
     } catch (_) {
