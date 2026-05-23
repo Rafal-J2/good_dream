@@ -47,6 +47,13 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
     super.dispose();
   }
 
+  void selectPage(int index) {
+    setState(() {
+      _selectedPageIndex = index;
+      _pageController.jumpToPage(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MediaControlCubit, MediaControlCubitState>(
@@ -152,7 +159,7 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
                             items: [
                               BottomNavigationBarItem(
                                 icon: const Icon(Icons.favorite_rounded),
-                                label: 'Dźwięki',
+                                label: AppLocalizations.of(context)!.soundsTitle,
                               ),
                               BottomNavigationBarItem(
                                 icon: const Icon(Icons.auto_awesome),

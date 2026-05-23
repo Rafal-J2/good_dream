@@ -9,7 +9,7 @@
       }
     }
   },
-  "aiAssistant": "AI Assistant",
+  "aiAssistant": "AI Composer",
   "settings": "Settings",
   "nature": "NATURE",
   "water": "WATER",
@@ -31,10 +31,10 @@
   "approve": "Approve",
   "changeLanguage": "Select Language",
   "changeLanguageSub": "Change the application language (Polski / English / Hindi)",
-  "aiAssistantTitle": "AI Sleep Assistant",
-  "aiAssistantSub": "Your personal night advisor",
+  "aiAssistantTitle": "AI Sleep Composer",
+  "aiAssistantSub": "Generate perfect background for sleep",
   "chooseGoal": "Choose your goal for today:",
-  "aiAssistantIntro": "Artificial intelligence will prepare a personalized relaxation advice and design a balanced ambient soundscape for you.",
+  "aiAssistantIntro": "Artificial intelligence will design a personalized, perfectly balanced ambient soundscape for you.",
   "connectionFailed": "Connection failed",
   "tryAgain": "Try again",
   "backToGoals": "Back to goals",
@@ -114,5 +114,38 @@
   "sound_air_conditioner": "Air Conditioner",
   "sound_vacuum_cleaner": "Vacuum cleaner",
   "sound_hair_dryer": "Hair dryer",
-  "sound_keyboard": "Keyboard"
+  "sound_keyboard": "Keyboard",
+  "soundsTitle": "Sounds",
+  "favoriteMixes": "Favorite mixes",
+  "readyMixes": "Ready mixes",
+  "noFavoriteMixes": "No favorite mixes",
+  "useAiToCreateMix": "Use AI Assistant to create and save the perfect mix.",
+  "mix_deep_sleep": "Deep Sleep",
+  "mix_forest_silence": "Forest Silence",
+  "mix_evening_bonfire": "Evening Bonfire",
+  "mix_deep_meditation": "Deep Meditation",
+  "mix_calm_piano": "Calm Piano",
+  "mix_white_rain_noise": "White Rain Noise",
+  "mix_heavenly_zen": "Heavenly Zen",
+  "mix_train_journey": "Train Journey",
+  "createWithAi": "Create with AI",
+  "inhale": "Inhale",
+  "exhale": "Exhale",
+  "aiMixFeedbackQuestion": "Does this sound suit you?",
+  "aiMixFeedbackNo": "No, change it",
+  "aiMixFeedbackYes": "Yes, perfect",
+  "aiMixSaveQuestion": "Do you want to add this sound to your favorites?",
+  "aiMixSaveYes": "Yes, save it",
+  "aiMixSaveNo": "No",
+  "aiMixNameChoice": "Choose a name for this mix:",
+  "aiMixCoverChoice": "Choose a cover for your mix:",
+  "aiMixSaveLimit": "Limit of 6 favorites reached. Remove something first.",
+  "aiMixSavedSuccess": "Saved \"{name}\" to favorites!",
+  "@aiMixSavedSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }

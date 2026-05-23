@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:good_dream/models/audio_clip.dart';
 import 'package:good_dream/models/sounds_catalog.dart';
@@ -33,6 +32,83 @@ class _AIAssistantControllerState extends State<AIAssistantController>
   bool _wantsToSave = false;
   bool _hasSaved = false;
   bool _hasPlayedMix = false;
+
+  String _selectedCover = 'default_cover.webp';
+
+  final List<String> _allCovers = [
+    'sleep_cover.webp',
+    'forest_cover.webp',
+    'bonfire_cover.webp',
+    'meditation_cover.webp',
+    'piano_cover.webp',
+    'rain_cover.webp',
+    'zen_cover.webp',
+    'train_cover.webp',
+    'ocean_cover.webp',
+    'waterfall_cover.webp',
+    'storm_cover.webp',
+    'fireplace_cover.webp',
+    'meadow_cover.webp',
+    'noise_cover.webp',
+  ];
+
+  String _getCoverForMix(List<Map<String, dynamic>> sounds) {
+    final soundIds = sounds.map((s) {
+      final id = s['id'] as String? ?? '';
+      return id.toLowerCase();
+    }).toList();
+
+    for (final id in soundIds) {
+      if (id.contains('sea') || id.contains('ocean')) {
+        return 'ocean_cover.webp';
+      }
+      if (id.contains('waterfall')) {
+        return 'waterfall_cover.webp';
+      }
+      if (id.contains('thunder') || id.contains('storm')) {
+        return 'storm_cover.webp';
+      }
+      if (id.contains('fireplace')) {
+        return 'fireplace_cover.webp';
+      }
+      if (id.contains('cricket')) {
+        return 'meadow_cover.webp';
+      }
+      if (id.contains('noise') ||
+          id.contains('vacuum') ||
+          id.contains('hair') ||
+          id.contains('conditioner') ||
+          id.contains('washing')) {
+        return 'noise_cover.webp';
+      }
+      if (id.contains('rain')) {
+        return 'rain_cover.webp';
+      }
+      if (id.contains('forest') || id.contains('bird') || id.contains('creek')) {
+        return 'forest_cover.webp';
+      }
+      if (id.contains('bonfire') || id.contains('fire')) {
+        return 'bonfire_cover.webp';
+      }
+      if (id.contains('meditation') || id.contains('binaural')) {
+        return 'meditation_cover.webp';
+      }
+      if (id.contains('piano')) {
+        return 'piano_cover.webp';
+      }
+      if (id.contains('zen') || id.contains('flute')) {
+        return 'zen_cover.webp';
+      }
+      if (id.contains('train')) {
+        return 'train_cover.webp';
+      }
+      if (id.contains('sleep') || id.contains('wind')) {
+        return 'sleep_cover.webp';
+      }
+    }
+
+    return 'default_cover.webp';
+  }
 
   late final AnimationController _pulseController;
 
@@ -87,7 +163,7 @@ class _AIAssistantControllerState extends State<AIAssistantController>
     _pulseController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
-    )..repeat(reverse: true);
+    );
   }
 
   @override
@@ -124,6 +200,8 @@ class _AIAssistantControllerState extends State<AIAssistantController>
       _recommendedSounds = [];
     });
 
+    _pulseController.repeat(reverse: true);
+
     final result = await _aiService.generateSleepSession(query, rejectedSounds: _rejectedMixes);
 
     if (mounted) {
@@ -141,12 +219,35 @@ class _AIAssistantControllerState extends State<AIAssistantController>
             if (item is Map) {
               return Map<String, dynamic>.from(item);
             } else if (item is String) {
-              return {'id': item, 'volume': 0.5};
+              return {'id': item, 'volume': 0.9};
             }
             return <String, dynamic>{};
           }).where((m) => m.isNotEmpty).toList();
+
+          _selectedCover = _getCoverForMix(_recommendedSounds);
+
+          // Play immediately on successful generation
+          final List<MapEntry<AudioClip, double>> clipsToPlay = [];
+          for (final s in _recommendedSounds) {
+            final id = s['id'] as String? ?? '';
+            final volume = (s['volume'] as num? ?? 0.5).toDouble();
+            final clip = _findClipById(id);
+            if (clip != null) {
+              clipsToPlay.add(MapEntry(clip, volume));
+            }
+          }
+
+          if (clipsToPlay.isNotEmpty) {
+            _hasPlayedMix = true;
+            Future.microtask(() {
+              if (mounted) {
+                context.read<MediaControlCubit>().playSoundMixWithVolumes(clipsToPlay);
+              }
+            });
+          }
         } else {
           _errorMessage = result['error'] ?? 'Wystąpił nieoczekiwany błąd.';
+          _pulseController.stop();
         }
       });
     }
@@ -384,39 +485,128 @@ class _AIAssistantControllerState extends State<AIAssistantController>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const SizedBox(height: 40),
-        SizedBox(
-          height: 180,
-          child: Lottie.asset('assets/lottieFiles/relax.json'),
-        ),
-        const SizedBox(height: 30),
+        const SizedBox(height: 50),
+        
+        // Premium Interactive Breathing Circle
         AnimatedBuilder(
           animation: _pulseController,
           builder: (context, child) {
-            return Opacity(
-              opacity: 0.5 + (_pulseController.value * 0.5),
-              child: Text(
-                AppLocalizations.of(context)!.loadingTitle,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.5,
+            final double value = _pulseController.value;
+            final bool isInhale = _pulseController.status == AnimationStatus.forward;
+            final String breatheText = isInhale 
+                ? (AppLocalizations.of(context)!.inhale) 
+                : (AppLocalizations.of(context)!.exhale);
+
+            return Column(
+              children: [
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // Outer Faint Glowing Aura
+                    Container(
+                      width: 170 + (value * 45),
+                      height: 170 + (value * 45),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: const Color(0xFF6B4EFF).withOpacity(0.04 * (1.0 - value + 0.2)),
+                        border: Border.all(
+                          color: const Color(0xFF00F2FE).withOpacity(0.12 * value),
+                          width: 1.5,
+                        ),
+                      ),
+                    ),
+                    
+                    // Middle Pulsing Ring
+                    Container(
+                      width: 140 + (value * 30),
+                      height: 140 + (value * 30),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: const Color(0xFF6B4EFF).withOpacity(0.08 * (1.0 - value * 0.5)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF6B4EFF).withOpacity(0.2 * value),
+                            blurRadius: 20 + (value * 10),
+                            spreadRadius: value * 2,
+                          ),
+                        ],
+                      ),
+                    ),
+                    
+                    // Core Interactive Gradient Circle
+                    Container(
+                      width: 110 + (value * 15),
+                      height: 110 + (value * 15),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFF6B4EFF),
+                            Color(0xFF00F2FE),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF00F2FE).withOpacity(0.3 * value),
+                            blurRadius: 15,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          breatheText,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black38,
+                                offset: Offset(0, 1.5),
+                                blurRadius: 3.0,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+                
+                const SizedBox(height: 50),
+                
+                // Pulsing title
+                Opacity(
+                  opacity: 0.6 + (value * 0.4),
+                  child: Text(
+                    AppLocalizations.of(context)!.loadingTitle,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+              ],
             );
           },
         ),
+        
         const SizedBox(height: 12),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 32.0),
           child: Text(
             AppLocalizations.of(context)!.loadingDesc,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.6),
+              color: Colors.white.withOpacity(0.55),
               fontSize: 13,
-              height: 1.5,
+              height: 1.6,
             ),
           ),
         ),
@@ -511,6 +701,7 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                 setState(() {
                   _recommendedSounds = [];
                 });
+                _pulseController.stop();
               },
               icon: const Icon(Icons.arrow_back_rounded, color: Colors.white70, size: 20),
               label: Text(
@@ -697,9 +888,9 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                           
                           if (!_accepted)
                             ...[
-                              const Text(
-                                'Czy pasuje Ci ten dźwięk?',
-                                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
+                              Text(
+                                AppLocalizations.of(context)!.aiMixFeedbackQuestion,
+                                style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
                               ),
                               const SizedBox(height: 16),
                               Row(
@@ -709,11 +900,14 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                                       onPressed: () async {
                                         if (_retryCount >= 3) {
                                           ScaffoldMessenger.of(context).showSnackBar(
-                                            const SnackBar(
-                                              content: Text('Osiągnięto limit 3 prób. Spróbuj innej kategorii.', style: TextStyle(color: Colors.white)),
-                                              backgroundColor: Color(0xFF1E1242),
+                                            SnackBar(
+                                              content: Text(
+                                                AppLocalizations.of(context)!.tryAgain,
+                                                style: const TextStyle(color: Colors.white),
+                                              ),
+                                              backgroundColor: const Color(0xFF1E1242),
                                               behavior: SnackBarBehavior.floating,
-                                              shape: RoundedRectangleBorder(
+                                              shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(Radius.circular(16)),
                                               ),
                                             ),
@@ -729,22 +923,6 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                                         
                                         if (_currentMoodQuery != null) {
                                           await _generateSession(_currentMoodQuery!, isRetry: true);
-                                          
-                                          final List<MapEntry<AudioClip, double>> newClips = [];
-                                          for (final item in _recommendedSounds) {
-                                            final id = item['id'] as String? ?? '';
-                                            final volume = (item['volume'] as num? ?? 0.5).toDouble();
-                                            final clip = _findClipById(id);
-                                            if (clip != null) {
-                                              newClips.add(MapEntry(clip, volume));
-                                            }
-                                          }
-                                          if (newClips.isNotEmpty && mounted) {
-                                            setState(() {
-                                              _hasPlayedMix = true;
-                                            });
-                                            await cubit.playSoundMixWithVolumes(newClips);
-                                          }
                                         }
                                       },
                                       style: OutlinedButton.styleFrom(
@@ -753,7 +931,10 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                                         padding: const EdgeInsets.symmetric(vertical: 12),
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                       ),
-                                      child: const Text('❌ Nie, zmień', style: TextStyle(fontSize: 14)),
+                                      child: Text(
+                                        '❌ ${AppLocalizations.of(context)!.aiMixFeedbackNo}',
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(width: 12),
@@ -771,7 +952,10 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                                         padding: const EdgeInsets.symmetric(vertical: 12),
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                       ),
-                                      child: const Text('✅ Tak, idealnie', style: TextStyle(fontSize: 14)),
+                                      child: Text(
+                                        '✅ ${AppLocalizations.of(context)!.aiMixFeedbackYes}',
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -779,9 +963,9 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                             ]
                           else if (!_wantsToSave && !_hasSaved)
                             ...[
-                              const Text(
-                                'Czy chcesz dodać ten dźwięk do ulubionych?',
-                                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
+                              Text(
+                                AppLocalizations.of(context)!.aiMixSaveQuestion,
+                                style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
                               ),
                               const SizedBox(height: 16),
                               Row(
@@ -799,7 +983,10 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                                         padding: const EdgeInsets.symmetric(vertical: 12),
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                       ),
-                                      child: const Text('Nie', style: TextStyle(fontSize: 14)),
+                                      child: Text(
+                                        AppLocalizations.of(context)!.aiMixSaveNo,
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(width: 12),
@@ -810,11 +997,14 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                                         List favs = storage.read<List>('favorites') ?? [];
                                         if (favs.length >= 6) {
                                           ScaffoldMessenger.of(context).showSnackBar(
-                                            const SnackBar(
-                                              content: Text('Osiągnięto limit 6 ulubionych. Usuń coś najpierw.', style: TextStyle(color: Colors.white)),
-                                              backgroundColor: Color(0xFF1E1242),
+                                            SnackBar(
+                                              content: Text(
+                                                AppLocalizations.of(context)!.aiMixSaveLimit,
+                                                style: const TextStyle(color: Colors.white),
+                                              ),
+                                              backgroundColor: const Color(0xFF1E1242),
                                               behavior: SnackBarBehavior.floating,
-                                              shape: RoundedRectangleBorder(
+                                              shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(Radius.circular(16)),
                                               ),
                                             ),
@@ -833,7 +1023,10 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                                         padding: const EdgeInsets.symmetric(vertical: 12),
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                       ),
-                                      child: const Text('Tak, zapisz', style: TextStyle(fontSize: 14)),
+                                      child: Text(
+                                        AppLocalizations.of(context)!.aiMixSaveYes,
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -841,9 +1034,103 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                             ]
                           else if (_wantsToSave && !_hasSaved)
                             ...[
-                              const Text(
-                                'Wybierz nazwę dla tego miksu:',
-                                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
+                              // Visual Cover Selection Section
+                              Text(
+                                AppLocalizations.of(context)!.aiMixCoverChoice,
+                                style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(height: 12),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                physics: const BouncingScrollPhysics(),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 8),
+                                  child: Row(
+                                    children: _allCovers.map((cover) {
+                                      final isSelected = _selectedCover == cover;
+                                      final aiRecommendedCover = _getCoverForMix(_recommendedSounds);
+                                      final isAiRecommended = cover == aiRecommendedCover;
+
+                                      return GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _selectedCover = cover;
+                                          });
+                                        },
+                                        child: AnimatedContainer(
+                                          duration: const Duration(milliseconds: 250),
+                                          margin: const EdgeInsets.symmetric(horizontal: 6),
+                                          width: 80,
+                                          height: 80,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(16),
+                                            border: Border.all(
+                                              color: isSelected 
+                                                  ? const Color(0xFF00F2FE) 
+                                                  : Colors.white.withOpacity(0.08),
+                                              width: isSelected ? 2.5 : 1.2,
+                                            ),
+                                            boxShadow: isSelected 
+                                                ? [
+                                                    BoxShadow(
+                                                      color: const Color(0xFF00F2FE).withOpacity(0.35),
+                                                      blurRadius: 8,
+                                                      spreadRadius: 1,
+                                                    )
+                                                  ]
+                                                : [],
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(14),
+                                            child: Stack(
+                                              children: [
+                                                Positioned.fill(
+                                                  child: Image.asset(
+                                                    'assets/images/$cover',
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                if (isSelected)
+                                                  Positioned.fill(
+                                                    child: Container(
+                                                      color: const Color(0xFF00F2FE).withOpacity(0.12),
+                                                    ),
+                                                  ),
+                                                if (isAiRecommended)
+                                                  Positioned(
+                                                    top: 4,
+                                                    right: 4,
+                                                    child: Container(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.amberAccent.withOpacity(0.85),
+                                                        borderRadius: BorderRadius.circular(6),
+                                                      ),
+                                                      child: const Text(
+                                                        'AI',
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 9,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+
+                              // Name Selection Section
+                              Text(
+                                AppLocalizations.of(context)!.aiMixNameChoice,
+                                style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
                               ),
                               const SizedBox(height: 12),
                               Wrap(
@@ -857,6 +1144,7 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                                       List favs = storage.read<List>('favorites') ?? [];
                                       final mixData = {
                                         'name': name,
+                                        'image': _selectedCover,
                                         'sounds': recommendedClipsWithVolumes.map((e) {
                                           final isActive = cubit.isSoundActive(e.key.id);
                                           double currentVolume = e.value;
@@ -879,7 +1167,10 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                                       
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
-                                          content: Text('Zapisano "$name" do ulubionych!', style: const TextStyle(color: Colors.white)),
+                                          content: Text(
+                                            AppLocalizations.of(context)!.aiMixSavedSuccess(name),
+                                            style: const TextStyle(color: Colors.white),
+                                          ),
                                           backgroundColor: const Color(0xFF0F0B29),
                                           behavior: SnackBarBehavior.floating,
                                           shape: RoundedRectangleBorder(
@@ -904,9 +1195,9 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                             ...[
                               const Icon(Icons.check_circle_outline, color: Colors.greenAccent, size: 36),
                               const SizedBox(height: 8),
-                              const Text(
-                                'Gotowe!',
-                                style: TextStyle(color: Colors.white70, fontSize: 14),
+                              Text(
+                                AppLocalizations.of(context)!.approve,
+                                style: const TextStyle(color: Colors.white70, fontSize: 14),
                               ),
                             ]
                         ],

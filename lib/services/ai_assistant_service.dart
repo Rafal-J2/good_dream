@@ -16,8 +16,8 @@ class AIAssistantService {
     }
     try {
       if (Platform.isAndroid) {
-        // For physical device testing, use the host machine's local IP.
-        return 'http://192.168.100.167:3400';
+        // Używamy localhost, co pozwala na stabilne tunelowanie USB przez 'adb reverse tcp:3400 tcp:3400'
+        return 'http://localhost:3400';
       }
     } catch (_) {
       // Fallback for platform exceptions if Platform is not supported on Web

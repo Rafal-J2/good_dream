@@ -9,7 +9,7 @@
       }
     }
   },
-  "aiAssistant": "एआई सहायक",
+  "aiAssistant": "एआई कंपोजर",
   "settings": "सेटिंग्स",
   "nature": "प्रकृति",
   "water": "पानी",
@@ -31,10 +31,10 @@
   "approve": "स्वीकार करें",
   "changeLanguage": "भाषा चुनें",
   "changeLanguageSub": "ऐप की भाषा बदलें (Polski / English / Hindi)",
-  "aiAssistantTitle": "एआई स्लीप असिस्टेंट",
-  "aiAssistantSub": "आपका व्यक्तिगत रात्रि सलाहकार",
+  "aiAssistantTitle": "एआई स्लीप कंपोजर",
+  "aiAssistantSub": "नींद के लिए सही पृष्ठभूमि उत्पन्न करें",
   "chooseGoal": "आज के लिए अपना लक्ष्य चुनें:",
-  "aiAssistantIntro": "आर्टिफिशियल इंटेलिजेंस आपके लिए एक व्यक्तिगत विश्राम सलाह तैयार करेगा और एक संतुलित परिवेश ध्वनि पृष्ठभूमि तैयार करेगा।",
+  "aiAssistantIntro": "आर्टिफिशियल इंटेलिजेंस आपके लिए एक व्यक्तिगत, पूरी तरह से संतुलित परिवेशी ध्वनि परिदृश्य तैयार करेगा।",
   "connectionFailed": "कनेक्शन विफल रहा",
   "tryAgain": "पुनः प्रयास करें",
   "backToGoals": "लक्ष्यों पर वापस जाएं",
@@ -114,5 +114,38 @@
   "sound_air_conditioner": "एयर कंडीशनर",
   "sound_vacuum_cleaner": "वैक्यूम क्लीनर",
   "sound_hair_dryer": "हेयर ड्रायर",
-  "sound_keyboard": "कीबोर्ड"
+  "sound_keyboard": "कीबोर्ड",
+  "soundsTitle": "ध्वनि",
+  "favoriteMixes": "पसंदीदा मिक्स",
+  "readyMixes": "तैयार मिक्स",
+  "noFavoriteMixes": "कोई पसंदीदा मिक्स नहीं",
+  "useAiToCreateMix": "सही मिक्स बनाने और सहेजने के लिए AI सहायक का उपयोग करें।",
+  "mix_deep_sleep": "गहरी नींद",
+  "mix_forest_silence": "जंगल की शांति",
+  "mix_evening_bonfire": "शाम का अलाव",
+  "mix_deep_meditation": "गहन ध्यान",
+  "mix_calm_piano": "शांत पियानो",
+  "mix_white_rain_noise": "सफेद बारिश का शोर",
+  "mix_heavenly_zen": "दिव्य ज़ेन",
+  "mix_train_journey": "ट्रेन यात्रा",
+  "createWithAi": "एआई के साथ बनाएं",
+  "inhale": "सांस अंदर",
+  "exhale": "सांस बाहर",
+  "aiMixFeedbackQuestion": "क्या यह ध्वनि आपको पसंद आई?",
+  "aiMixFeedbackNo": "नहीं, बदलें",
+  "aiMixFeedbackYes": "हाँ, बिल्कुल सही",
+  "aiMixSaveQuestion": "क्या आप इस ध्वनि को अपने पसंदीदा में जोड़ना चाहते हैं?",
+  "aiMixSaveYes": "हाँ, सहेजें",
+  "aiMixSaveNo": "नहीं",
+  "aiMixNameChoice": "इस मिक्स के लिए एक नाम चुनें:",
+  "aiMixCoverChoice": "अपने मिक्स के लिए एक कवर चुनें:",
+  "aiMixSaveLimit": "पसंदीदा की अधिकतम सीमा 6 तक पहुँच गई है। पहले कुछ हटाएँ।",
+  "aiMixSavedSuccess": "पसंदीदा में \"{name}\" सहेजा गया!",
+  "@aiMixSavedSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }

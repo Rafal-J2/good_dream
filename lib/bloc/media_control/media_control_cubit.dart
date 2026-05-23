@@ -62,9 +62,7 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
     try {
       await player.setAsset(clip.audioFile);
       
-      double defaultVolume = 0.5;
-      if (clip.id == 'forest') defaultVolume = 0.4;
-      if (clip.id == 'cave') defaultVolume = 1.0;
+      double defaultVolume = 0.9;
       
       await player.setVolume(defaultVolume);
       await player.setLoopMode(LoopMode.one);
@@ -145,7 +143,7 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
     emit(MediaControlCubitLoaded(activeSounds: updated));
   }
 
-  /// Stop and dispose all active sounds.
+  /// Stop and dispose all active sounds with a gentle fade-out in the background.
   Future<void> disableAllSoundsAndIcons() async {
     final soundsToStop = List<ActiveSound>.from(state.activeSounds);
     if (soundsToStop.isEmpty) return;
@@ -153,17 +151,10 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
     // Emit empty state immediately to update the UI and prevent recursive calls from the playbackState listener
     emit(MediaControlCubitLoaded(activeSounds: const []));
 
-    final stopFutures = <Future<void>>[];
+    // Gentle fade out and dispose for all players concurrently in the background
     for (final active in soundsToStop) {
-      stopFutures.add(active.player.stop());
+      _fadeOutAndDispose(active.player, active.volume);
     }
-    await Future.wait(stopFutures);
-
-    final disposeFutures = <Future<void>>[];
-    for (final active in soundsToStop) {
-      disposeFutures.add(active.player.dispose());
-    }
-    await Future.wait(disposeFutures);
 
     await audioHandler.stop();
   }

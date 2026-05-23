@@ -9,7 +9,7 @@
       }
     }
   },
-  "aiAssistant": "Asystent AI",
+  "aiAssistant": "Kompozytor AI",
   "settings": "Ustawienia",
   "nature": "NATURA",
   "water": "WODA",
@@ -31,10 +31,10 @@
   "approve": "Zatwierdź",
   "changeLanguage": "Wybierz język",
   "changeLanguageSub": "Zmień język aplikacji (Polski / English / Hindi)",
-  "aiAssistantTitle": "Asystent Snu AI",
-  "aiAssistantSub": "Twój osobisty doradca nocny",
+  "aiAssistantTitle": "Kompozytor Snu AI",
+  "aiAssistantSub": "Generuj idealne tło do snu",
   "chooseGoal": "Wybierz swój dzisiejszy cel:",
-  "aiAssistantIntro": "Sztuczna inteligencja przygotuje dla Ciebie spersonalizowaną poradę relaksacyjną oraz zaprojektuje zbalansowane tło dźwiękowe.",
+  "aiAssistantIntro": "Sztuczna inteligencja zaprojektuje dla Ciebie spersonalizowany, idealnie zbalansowany miks relaksacyjnych dźwięków.",
   "connectionFailed": "Połączenie nieudane",
   "tryAgain": "Spróbuj ponownie",
   "backToGoals": "Wróć do celów",
@@ -114,5 +114,38 @@
   "sound_air_conditioner": "Klimatyzator",
   "sound_vacuum_cleaner": "Odkurzacz",
   "sound_hair_dryer": "Suszarka do włosów",
-  "sound_keyboard": "Klawiatura"
+  "sound_keyboard": "Klawiatura",
+  "soundsTitle": "Dźwięki",
+  "favoriteMixes": "Ulubione utwory",
+  "readyMixes": "Gotowe mixy",
+  "noFavoriteMixes": "Brak ulubionych miksów",
+  "useAiToCreateMix": "Użyj Asystenta AI, aby stworzyć i zapisać idealny miks.",
+  "mix_deep_sleep": "Głęboki Sen",
+  "mix_forest_silence": "Leśna Cisza",
+  "mix_evening_bonfire": "Wieczorne Ognisko",
+  "mix_deep_meditation": "Głęboka Medytacja",
+  "mix_calm_piano": "Spokojne Piano",
+  "mix_white_rain_noise": "Biały Szum Deszczu",
+  "mix_heavenly_zen": "Niebiański Zen",
+  "mix_train_journey": "Podróż Pociągiem",
+  "createWithAi": "Stwórz z AI",
+  "inhale": "Wdech",
+  "exhale": "Wydech",
+  "aiMixFeedbackQuestion": "Czy pasuje Ci ten dźwięk?",
+  "aiMixFeedbackNo": "Nie, zmień",
+  "aiMixFeedbackYes": "Tak, idealnie",
+  "aiMixSaveQuestion": "Czy chcesz dodać ten dźwięk do ulubionych?",
+  "aiMixSaveYes": "Tak, zapisz",
+  "aiMixSaveNo": "Nie",
+  "aiMixNameChoice": "Wybierz nazwę dla tego miksu:",
+  "aiMixCoverChoice": "Wybierz okładkę dla swojego miksu:",
+  "aiMixSaveLimit": "Osiągnięto limit 6 ulubionych. Usuń coś najpierw.",
+  "aiMixSavedSuccess": "Zapisano \"{name}\" do ulubionych!",
+  "@aiMixSavedSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }

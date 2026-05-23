@@ -44,68 +44,74 @@ class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
               curve: Curves.fastOutSlowIn,
               child: !isVisible
                   ? const SizedBox.shrink()
-                  : Container(
-                      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF0F0B29).withOpacity(0.85),
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.12),
-                          width: 1.5,
+                  : SafeArea(
+                      bottom: true,
+                      top: false,
+                      left: false,
+                      right: false,
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF0F0B29).withOpacity(0.85),
+                          borderRadius: BorderRadius.circular(24),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.12),
+                            width: 1.5,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.25),
+                              blurRadius: 15,
+                              offset: const Offset(0, 5),
+                            )
+                          ],
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.25),
-                            blurRadius: 15,
-                            offset: const Offset(0, 5),
-                          )
-                        ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(24),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Lewa strona - tylko cyfry wg wytycznych
-                                Expanded(
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: ElevatedButton(
-                                      onPressed: () => _showActiveSoundsModal(),
-                                      child: Text(
-                                        'Aktywne: $activeCount / ${MediaControlCubit.maxActiveSounds}',
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold, 
-                                          fontSize: 13,
-                                          letterSpacing: 0.3,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(24),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Lewa strona - tylko cyfry wg wytycznych
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: ElevatedButton(
+                                        onPressed: () => _showActiveSoundsModal(),
+                                        child: Text(
+                                          'Aktywne: $activeCount / ${MediaControlCubit.maxActiveSounds}',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold, 
+                                            fontSize: 13,
+                                            letterSpacing: 0.3,
+                                          ),
                                         ),
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white.withOpacity(0.1),
-                                        foregroundColor: Colors.white,
-                                        elevation: 0,
-                                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
-                                        minimumSize: const Size(0, 38),
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.white.withOpacity(0.1),
+                                          foregroundColor: Colors.white,
+                                          elevation: 0,
+                                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
+                                          minimumSize: const Size(0, 38),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                // Środek - Przycisk STOP
-                                IconButton(
-                                  icon: const Icon(Icons.stop_circle_rounded, color: Colors.redAccent, size: 30),
-                                  onPressed: () {
-                                    context.read<MediaControlCubit>().disableAllSoundsAndIcons();
-                                  },
-                                ),
-                                const SizedBox(width: 8),
-                                // Prawa strona - Timer
-                                _buildTimerButton(context, timerState),
-                              ],
+                                  // Środek - Przycisk STOP
+                                  IconButton(
+                                    icon: const Icon(Icons.stop_circle_rounded, color: Colors.redAccent, size: 30),
+                                    onPressed: () {
+                                      context.read<MediaControlCubit>().disableAllSoundsAndIcons();
+                                    },
+                                  ),
+                                  const SizedBox(width: 8),
+                                  // Prawa strona - Timer
+                                  _buildTimerButton(context, timerState),
+                                ],
+                              ),
                             ),
                           ),
                         ),

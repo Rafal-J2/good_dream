@@ -155,7 +155,7 @@ ${availableSoundIds.join(', ')}
           }
           recommendedSounds.add({
             'id': matchingId,
-            'volume': 0.5, // Attach 0.5 volume manually on the server side
+            'volume': 0.9, // Attach 0.9 volume manually on the server side
           });
         }
       }
