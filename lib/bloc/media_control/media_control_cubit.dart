@@ -89,13 +89,41 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
     if (index == -1) return;
 
     final removed = updated.removeAt(index);
-    await removed.player.stop();
-    await removed.player.dispose();
+    
+    // Emit the new state immediately so the UI updates and feels ultra-responsive
+    emit(MediaControlCubitLoaded(activeSounds: updated));
 
     if (updated.isEmpty) {
       await audioHandler.stop();
     }
-    emit(MediaControlCubitLoaded(activeSounds: updated));
+
+    // Gentle fade out in the background
+    _fadeOutAndDispose(removed.player, removed.volume);
+  }
+
+  /// Fades out the player's volume from [startVolume] to 0 over 1 second, then stops and disposes it.
+  Future<void> _fadeOutAndDispose(AudioPlayer player, double startVolume) async {
+    try {
+      const duration = Duration(milliseconds: 1000); // 1 second fade-out is perfect (gentle yet responsive)
+      const steps = 10;
+      final stepDuration = duration ~/ steps;
+
+      for (int i = 0; i < steps; i++) {
+        // Calculate the next volume level
+        final currentVolume = startVolume * (1 - (i + 1) / steps);
+        await player.setVolume(currentVolume.clamp(0.0, 1.0));
+        await Future.delayed(stepDuration);
+      }
+    } catch (error) {
+      logger.e('Error during fade out: $error');
+    } finally {
+      try {
+        await player.stop();
+        await player.dispose();
+      } catch (error) {
+        logger.e('Error disposing player after fade out: $error');
+      }
+    }
   }
 
   /// Remove a sound by its clip reference.
