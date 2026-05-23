@@ -42,7 +42,8 @@ Przeniesienie funkcji AI na wyższy poziom zaawansowania architektury:
 ## 📴 4. Niezawodność i Działanie Offline (Offline First)
 Zapewnienie pełnej niezawodności aplikacji niezależnie od połączenia sieciowego:
 
-* **💾 Lokalna Baza Danych (Hive / Isar):**
-  * Przechowywanie zapisanych miksów ulubionych w lokalnej, szybkiej bazie NoSQL na telefonie, aby nie polegać wyłącznie na pamięci tymczasowej.
-* **✈️ Tryb Offline:**
-  * Zapewnienie, że wszystkie podstawowe funkcje odtwarzacza i ulubionych działają bez dostępu do sieci (np. w podróży samolotem).
+* **💾 Migracja na zaawansowaną bazę (Hive / Isar):**
+  * Obecnie z powodzeniem używamy prostego, szybkiego magazynu **`GetStorage`** (klucz-wartość) do zapisywania ulubionych miksów, wybranego języka oraz motywu graficznego.
+  * W przyszłości, przy rozbudowie aplikacji o historię czatów z AI lub zaawansowane wyszukiwanie i filtrowanie zapisanych miksów, możemy zmigrować na obiektową bazę **Hive** lub **Isar**. Pozwoli to na silne typowanie obiektów (Type Safety) oraz zaawansowane zapytania (Queries).
+* **✈️ Pełny tryb Offline:**
+  * Zapewnienie, że wszystkie podstawowe funkcje odtwarzacza i wczytywanie zapisanych lokalnie miksów działają całkowicie bez dostępu do sieci (np. w podróży samolotem).
