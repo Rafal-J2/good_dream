@@ -8,7 +8,7 @@ class AIAssistantService {
     // In release mode (production builds for testers), connect to the cloud server.
     // Replace the URL below with your actual URL when you deploy the backend on Render/Railway.
     if (kReleaseMode) {
-      return 'https://good-dream-backend.onrender.com'; 
+      return 'https://good-dream.onrender.com'; 
     }
 
     if (kIsWeb) {
