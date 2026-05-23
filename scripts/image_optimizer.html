@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌌 Good Dream - Lekki Optymalizator WebP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #070514;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-color: #6B4EFF;
+            --accent-color: #FFC107;
+            --text-color: #FFFFFF;
+            --text-muted: rgba(255, 255, 255, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-color);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 80% 20%, rgba(107, 78, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 10% 80%, rgba(0, 242, 254, 0.1) 0%, transparent 40%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #FFF, var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Drag and Drop Zone */
+        .drop-zone {
+            border: 2px dashed rgba(107, 78, 255, 0.4);
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.01);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: var(--primary-color);
+            background: rgba(107, 78, 255, 0.05);
+            box-shadow: 0 0 20px rgba(107, 78, 255, 0.1);
+        }
+
+        .drop-zone-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .drop-zone h3 {
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+        }
+
+        .drop-zone p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Workspace Grid */
+        .workspace {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+            opacity: 0;
+            pointer-events: none;
+            height: 0;
+            overflow: hidden;
+            transition: opacity 0.5s ease;
+        }
+
+        .workspace.active {
+            opacity: 1;
+            pointer-events: auto;
+            height: auto;
+            overflow: visible;
+        }
+
+        /* Left Side - Preview & Crop Box */
+        .preview-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .preview-wrapper {
+            position: relative;
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #srcImage {
+            max-width: 100%;
+            max-height: 400px;
+            display: block;
+        }
+
+        /* Overlay selection box to visualize crop */
+        .crop-overlay {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            border: 2px solid var(--accent-color);
+            background: rgba(255, 193, 7, 0.15);
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
+            pointer-events: none;
+            transition: top 0.05s linear, height 0.05s linear;
+        }
+
+        /* Right Side - Controls */
+        .controls-card {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-left: 3px solid var(--primary-color);
+            padding-left: 10px;
+            margin-bottom: 5px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+        }
+
+        .control-header span:last-child {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: 2px solid #FFF;
+            transition: transform 0.1s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .num-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 4px 8px;
+            width: 75px;
+            text-align: right;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .num-input:focus {
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .num-input::-webkit-outer-spin-button,
+        .num-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Stats Card */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            background: rgba(107, 78, 255, 0.05);
+            border: 1px solid rgba(107, 78, 255, 0.15);
+            border-radius: 16px;
+            padding: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .stat-item span {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .stat-saving {
+            grid-column: 1 / -1;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: 8px;
+            padding-top: 8px;
+            font-weight: 700;
+            color: #4CAF50;
+            font-size: 1.1rem;
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--primary-color);
+            border: none;
+            border-radius: 16px;
+            padding: 16px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(107, 78, 255, 0.3);
+        }
+
+        .btn:hover {
+            background: #5533FF;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(107, 78, 255, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Canvas Hidden */
+        #hiddenCanvas {
+            display: none;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🌌 Good Dream - Lekki Optymalizator WebP</h1>
+        <p>Przeciągnij ciężki plik PNG/JPG, by błyskawicznie go pociąć, przeskalować i zapisać jako ultralekki plik WebP bezpośrednio w przeglądarce!</p>
+    </header>
+
+    <!-- Drop Zone -->
+    <div id="dropZone" class="drop-zone">
+        <input type="file" id="fileInput" accept="image/png, image/jpeg" style="display: none;">
+        <span class="drop-zone-icon">📁</span>
+        <h3>Przeciągnij i upuść plik graficzny</h3>
+        <p>lub kliknij tutaj, aby wybrać z komputera (obsługuje PNG i JPG)</p>
+    </div>
+
+    <!-- Workspace -->
+    <div id="workspace" class="workspace">
+        <!-- Left Column: Source View & Crop Mask -->
+        <div class="preview-card">
+            <h4 class="section-title" style="align-self: flex-start; margin-bottom: 15px;">Podgląd wycinka kadru</h4>
+            <div class="preview-wrapper">
+                <img id="srcImage" alt="Plik wejściowy">
+                <div id="cropOverlay" class="crop-overlay"></div>
+            </div>
+        </div>
+
+        <!-- Right Column: Settings & Download -->
+        <div class="controls-card">
+            <h4 class="section-title">Parametry optymalizacji</h4>
+
+            <!-- Slider Quality -->
+            <div class="control-group">
+                <div class="control-header" style="align-items: center; margin-bottom: 4px;">
+                    <span>Jakość kompresji (Quality %):</span>
+                    <input type="number" id="numQuality" min="10" max="100" value="80" class="num-input">
+                </div>
+                <input type="range" id="rngQuality" min="10" max="100" value="80">
+            </div>
+
+            <!-- Slider Width -->
+            <div class="control-group">
+                <div class="control-header" style="align-items: center; margin-bottom: 4px;">
+                    <span>Maksymalna szerokość (Width px):</span>
+                    <input type="number" id="numWidth" min="200" max="1600" step="50" value="800" class="num-input">
+                </div>
+                <input type="range" id="rngWidth" min="200" max="1600" step="50" value="800">
+            </div>
+
+            <!-- Slider Crop Top (Y-offset %) -->
+            <div class="control-group">
+                <div class="control-header" style="align-items: center; margin-bottom: 4px;">
+                    <span>Pozycja pionowa kadru (Y-offset %):</span>
+                    <input type="number" id="numCropTop" min="0" max="80" value="5" class="num-input">
+                </div>
+                <input type="range" id="rngCropTop" min="0" max="80" value="5">
+            </div>
+
+            <!-- Slider Crop Height Ratio -->
+            <div class="control-group">
+                <div class="control-header" style="align-items: center; margin-bottom: 4px;">
+                    <span>Wysokość kadru (Height %):</span>
+                    <input type="number" id="numCropHeight" min="20" max="100" value="55" class="num-input">
+                </div>
+                <input type="range" id="rngCropHeight" min="20" max="100" value="55">
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <label>Oryginalny rozmiar</label>
+                    <span id="valOrigSize">0.0 KB</span>
+                </div>
+                <div class="stat-item">
+                    <label>Zoptymalizowany WebP</label>
+                    <span id="valNewSize">0.0 KB</span>
+                </div>
+                <div id="valSaving" class="stat-saving">
+                    Redukcja wagi: -0%
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <button id="btnDownload" class="btn">
+                <span>⬇️</span> Pobierz gotowy WebP
+            </button>
+        </div>
+    </div>
+</div>
+
+<canvas id="hiddenCanvas"></canvas>
+
+<footer>
+    Good Dream Developer Utilities • 100% lokalna kompresja w przeglądarce • Bez przesyłania plików na zewnętrzne serwery
+</footer>
+
+<script>
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const workspace = document.getElementById('workspace');
+    const srcImage = document.getElementById('srcImage');
+    const cropOverlay = document.getElementById('cropOverlay');
+    const canvas = document.getElementById('hiddenCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Controls
+    const rngQuality = document.getElementById('rngQuality');
+    const numQuality = document.getElementById('numQuality');
+    const rngWidth = document.getElementById('rngWidth');
+    const numWidth = document.getElementById('numWidth');
+    const rngCropTop = document.getElementById('rngCropTop');
+    const numCropTop = document.getElementById('numCropTop');
+    const rngCropHeight = document.getElementById('rngCropHeight');
+    const numCropHeight = document.getElementById('numCropHeight');
+
+    // Stats & Actions
+    const valOrigSize = document.getElementById('valOrigSize');
+    const valNewSize = document.getElementById('valNewSize');
+    const valSaving = document.getElementById('valSaving');
+    const btnDownload = document.getElementById('btnDownload');
+
+    let originalFile = null;
+    let originalImageName = "sounds_banner";
+
+    // Setup drag and drop
+    dropZone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) {
+            handleFile(e.dataTransfer.files[0]);
+        }
+    });
+
+    function handleFile(file) {
+        if (!file || !file.type.match('image.*')) return;
+        originalFile = file;
+        
+        // Extract base name
+        const dotIndex = file.name.lastIndexOf('.');
+        originalImageName = dotIndex !== -1 ? file.name.substring(0, dotIndex) : "optimized_image";
+
+        valOrigSize.innerText = (file.size / 1024).toFixed(1) + " KB";
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            srcImage.src = e.target.result;
+            srcImage.onload = () => {
+                workspace.classList.add('active');
+                updateCropOverlay();
+                processImage();
+            };
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Helper to link slider and number input
+    function linkInput(slider, numberInput, onUpdate) {
+        slider.addEventListener('input', () => {
+            numberInput.value = slider.value;
+            onUpdate();
+        });
+        numberInput.addEventListener('change', () => {
+            let val = parseInt(numberInput.value);
+            const min = parseInt(slider.min);
+            const max = parseInt(slider.max);
+            
+            if (isNaN(val)) val = min;
+            if (val < min) val = min;
+            if (val > max) val = max;
+            
+            numberInput.value = val;
+            slider.value = val;
+            onUpdate();
+        });
+    }
+
+    // Sliders & Number inputs bindings
+    linkInput(rngQuality, numQuality, processImage);
+    linkInput(rngWidth, numWidth, processImage);
+    
+    linkInput(rngCropTop, numCropTop, () => {
+        updateCropOverlay();
+        processImage();
+    });
+    
+    linkInput(rngCropHeight, numCropHeight, () => {
+        updateCropOverlay();
+        processImage();
+    });
+
+    function updateCropOverlay() {
+        if (!srcImage.complete || srcImage.naturalHeight === 0) return;
+        
+        const topPercent = parseInt(rngCropTop.value);
+        const heightPercent = parseInt(rngCropHeight.value);
+        
+        cropOverlay.style.top = topPercent + "%";
+        cropOverlay.style.height = heightPercent + "%";
+    }
+
+    function processImage() {
+        if (!srcImage.complete || srcImage.naturalHeight === 0) return;
+
+        // Image original metrics
+        const origWidth = srcImage.naturalWidth;
+        const origHeight = srcImage.naturalHeight;
+
+        // Selection variables
+        const topPercent = parseInt(rngCropTop.value) / 100;
+        const heightPercent = parseInt(rngCropHeight.value) / 100;
+
+        // Calculations for source crop bounds
+        const sy = Math.round(origHeight * topPercent);
+        const sh = Math.round(origHeight * heightPercent);
+        const sx = 0;
+        const sw = origWidth;
+
+        // Output sizing based on max-width slider
+        const targetWidth = Math.min(parseInt(rngWidth.value), origWidth);
+        const aspect = sh / sw;
+        const targetHeight = Math.round(targetWidth * aspect);
+
+        // Resize Canvas to output resolution
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+
+        // Draw cropped and scaled image onto canvas
+        ctx.drawImage(srcImage, sx, sy, sw, sh, 0, 0, targetWidth, targetHeight);
+
+        // Compress to WebP directly in the browser!
+        const quality = parseInt(rngQuality.value) / 100;
+        canvas.toBlob((blob) => {
+            if (!blob) return;
+            
+            const optimizedSizeKB = blob.size / 1024;
+            valNewSize.innerText = optimizedSizeKB.toFixed(1) + " KB";
+            
+            const originalSizeKB = originalFile.size / 1024;
+            const savings = ((1 - (blob.size / originalFile.size)) * 100).toFixed(1);
+            valSaving.innerText = "Redukcja wagi: -" + savings + "%";
+            
+            // Re-bind download action
+            btnDownload.onclick = () => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = originalImageName + ".webp";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            };
+        }, "image/webp", quality);
+    }
+</script>
+</body>
+</html>

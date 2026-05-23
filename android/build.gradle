@@ -25,6 +25,8 @@ subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
     
     project.evaluationDependsOn(':app')
+
+    project.ext.set("kotlin_version", "2.1.0")
 }
 
 

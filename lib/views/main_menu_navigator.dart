@@ -34,7 +34,7 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
   void initState() {
     super.initState();
     _pages = [
-      const MainTabBarController(),
+      // const MainTabBarController(), // Tymczasowo ukryte
       const FavoritesController(), 
       const AIAssistantController(),
       const SettingsController(),
@@ -151,12 +151,8 @@ class MainMenuNavigatorState extends State<MainMenuNavigator> {
                             unselectedLabelStyle: const TextStyle(fontSize: 10),
                             items: [
                               BottomNavigationBarItem(
-                                icon: const Icon(Icons.home),
-                                label: AppLocalizations.of(context)!.mixSounds,
-                              ),
-                              BottomNavigationBarItem(
                                 icon: const Icon(Icons.favorite_rounded),
-                                label: 'Ulubione',
+                                label: 'Dźwięki',
                               ),
                               BottomNavigationBarItem(
                                 icon: const Icon(Icons.auto_awesome),
