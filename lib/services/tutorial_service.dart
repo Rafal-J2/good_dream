@@ -138,12 +138,16 @@ class TutorialService {
         // Increment step so the next page knows to start Step 2
         setStep(1);
         isTutorialActive = false;
-        // Programmatically push MainTabBarController on the very first click
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const MainTabBarController(),
-          ),
-        );
+        // Delay navigation slightly to let the coach mark overlay fade out completely first
+        Future.delayed(const Duration(milliseconds: 250), () {
+          if (context.mounted) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const MainTabBarController(),
+              ),
+            );
+          }
+        });
       },
       onSkip: () {
         finishTutorial();
@@ -302,10 +306,12 @@ class TutorialService {
       onClickTarget: (target) {
         setStep(3);
         isTutorialActive = false;
-        // Programmatically trigger opening of active sounds modal on the very first click
-        if (onStep3TargetTapped != null) {
-          onStep3TargetTapped!();
-        }
+        // Delay opening bottom sheet slightly to let the coach mark overlay fade out completely first
+        Future.delayed(const Duration(milliseconds: 250), () {
+          if (onStep3TargetTapped != null) {
+            onStep3TargetTapped!();
+          }
+        });
       },
       onSkip: () {
         finishTutorial();
@@ -471,10 +477,12 @@ class TutorialService {
       onClickTarget: (target) {
         finishTutorial();
         isTutorialActive = false;
-        // Programmatically trigger the save current mix dialog on the very first click
-        if (onStep5TargetTapped != null) {
-          onStep5TargetTapped!();
-        }
+        // Delay opening save mix dialog slightly to let the coach mark overlay fade out completely first
+        Future.delayed(const Duration(milliseconds: 250), () {
+          if (onStep5TargetTapped != null) {
+            onStep5TargetTapped!();
+          }
+        });
       },
       onSkip: () {
         finishTutorial();
