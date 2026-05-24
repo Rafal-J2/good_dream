@@ -21,7 +21,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
     super.build(context);
     
     if (TutorialService.getStep() == 3) {
-      Future.delayed(const Duration(milliseconds: 600), () {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         if (context.mounted) {
           TutorialService.startStep4(context);
         }
