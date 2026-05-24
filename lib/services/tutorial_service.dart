@@ -503,10 +503,12 @@ class TutorialService {
         finishTutorial();
         isTutorialActive = false;
         tutorial.finish();
-        // Programmatically trigger the save current mix dialog on the very first click
-        if (onStep5TargetTapped != null) {
-          onStep5TargetTapped!();
-        }
+        // Delay opening save dialog by 350ms to allow overlay fade-out to complete and avoid race condition
+        Future.delayed(const Duration(milliseconds: 350), () {
+          if (onStep5TargetTapped != null) {
+            onStep5TargetTapped!();
+          }
+        });
       },
       onSkip: () {
         finishTutorial();
@@ -516,10 +518,12 @@ class TutorialService {
       onFinish: () {
         finishTutorial();
         isTutorialActive = false;
-        // Programmatically trigger the save current mix dialog on the very first click
-        if (onStep5TargetTapped != null) {
-          onStep5TargetTapped!();
-        }
+        // Delay opening save dialog by 350ms to allow overlay fade-out to complete and avoid race condition
+        Future.delayed(const Duration(milliseconds: 350), () {
+          if (onStep5TargetTapped != null) {
+            onStep5TargetTapped!();
+          }
+        });
         return true;
       },
     );
