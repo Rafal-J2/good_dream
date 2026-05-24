@@ -107,8 +107,24 @@ class _FavoritesControllerState extends State<FavoritesController>
   }
 
   void _loadFavorites() {
+    List? storedFavs = _storage.read<List>('favorites');
+    
+    // Pre-populate with 'Głęboka Medytacja' on first launch / empty favorites
+    if (storedFavs == null || storedFavs.isEmpty) {
+      final deepMeditationMix = {
+        'name': 'Głęboka Medytacja',
+        'image': 'meditation_cover.webp',
+        'sounds': [
+          {'id': 'Meditation', 'volume': 0.9},
+          {'id': 'Sea', 'volume': 0.3},
+        ]
+      };
+      storedFavs = [deepMeditationMix];
+      _storage.write('favorites', storedFavs);
+    }
+
     setState(() {
-      _favorites = _storage.read<List>('favorites') ?? [];
+      _favorites = storedFavs!;
     });
   }
 
