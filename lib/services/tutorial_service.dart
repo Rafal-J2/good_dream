@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
@@ -85,7 +84,6 @@ class TutorialService {
 
     final tutorial = TutorialCoachMark(
       targets: targets,
-      hideSkip: true,
       colorShadow: const Color(0xDC070514),
       onClickTarget: (target) {
         // Increment step so the next page knows to start Step 2
@@ -149,7 +147,6 @@ class TutorialService {
 
     final tutorial = TutorialCoachMark(
       targets: targets,
-      hideSkip: true,
       colorShadow: const Color(0xDC070514),
       onClickTarget: (target) {
         onFirstSoundTapped(); // Programmatic callback to toggle the sound
@@ -223,7 +220,6 @@ class TutorialService {
 
     final tutorial = TutorialCoachMark(
       targets: targets,
-      hideSkip: true,
       colorShadow: const Color(0xDC070514),
       onSkip: () {
         finishTutorial();
@@ -278,7 +274,6 @@ class TutorialService {
 
     final tutorial = TutorialCoachMark(
       targets: targets,
-      hideSkip: true,
       colorShadow: const Color(0xDC070514),
       onClickTarget: (target) {
         setStep(4);
@@ -340,7 +335,6 @@ class TutorialService {
 
     final tutorial = TutorialCoachMark(
       targets: targets,
-      hideSkip: true,
       colorShadow: const Color(0xDC070514),
       onClickTarget: (target) {
         finishTutorial();
@@ -375,82 +369,79 @@ class TutorialService {
     bool isLast = false,
   }) {
     final localizations = AppLocalizations.of(context)!;
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: const Color(0xFF0F0B29).withOpacity(0.85),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: Colors.amberAccent.withOpacity(0.35),
-            width: 1.5,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.amberAccent.withOpacity(0.1),
-              blurRadius: 15,
-              spreadRadius: 2,
-            )
-          ]
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: const Color(0xFF140F35).withOpacity(0.96),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: Colors.amberAccent.withOpacity(0.35),
+          width: 1.5,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.auto_awesome, color: Colors.amberAccent, size: 18),
-                const SizedBox(width: 8),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.amberAccent.withOpacity(0.1),
+            blurRadius: 15,
+            spreadRadius: 2,
+          )
+        ]
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.auto_awesome, color: Colors.amberAccent, size: 18),
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Text(
-              description,
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.85),
-                fontSize: 13,
-                height: 1.5,
               ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            description,
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.85),
+              fontSize: 13,
+              height: 1.5,
             ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: onSkip,
-                  child: Text(
-                    localizations.tutorialSkip,
-                    style: const TextStyle(color: Colors.white54, fontSize: 13),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(
+                onPressed: onSkip,
+                child: Text(
+                  localizations.tutorialSkip,
+                  style: const TextStyle(color: Colors.white54, fontSize: 13),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: onNext,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.amberAccent,
+                  foregroundColor: Colors.black,
+                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: onNext,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.amberAccent,
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Text(
-                    isLast ? localizations.tutorialFinish : localizations.tutorialNext,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                  ),
+                child: Text(
+                  isLast ? localizations.tutorialFinish : localizations.tutorialNext,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
