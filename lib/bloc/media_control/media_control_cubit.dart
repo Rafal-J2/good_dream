@@ -16,6 +16,7 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
   final Map<String, List<AudioClip>> soundsByCategory;
   static const int maxActiveSounds = 6;
   StreamSubscription<PlaybackState>? _playbackStateSubscription;
+  final Set<String> _activatingSoundIds = {};
 
   static const Map<String, double> defaultSoundVolumes = {
     // Nature
@@ -77,23 +78,32 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
 
   /// Toggle a sound on or off.
   Future<void> toggleSound(String category, AudioClip clip, {String? maxSoundsMessage}) async {
-    if (isSoundActive(clip.id)) {
-      await _deactivateSound(clip.id);
+    final soundId = clip.id;
+    if (_activatingSoundIds.contains(soundId)) return;
+
+    if (isSoundActive(soundId)) {
+      await _deactivateSound(soundId);
     } else {
-      // If the user selects a music sound, disable any already playing music sound (max 1 music track).
-      if (category == 'musicSounds') {
-        final musicClips = soundsByCategory['musicSounds'] ?? [];
-        for (final active in state.activeSounds.toList()) {
-          if (musicClips.any((c) => c.id == active.clip.id)) {
-            await _deactivateSound(active.clip.id);
+      _activatingSoundIds.add(soundId);
+      try {
+        // If the user selects a music sound, disable any already playing music sound (max 1 music track).
+        if (category == 'musicSounds') {
+          final musicClips = soundsByCategory['musicSounds'] ?? [];
+          for (final active in state.activeSounds.toList()) {
+            if (musicClips.any((c) => c.id == active.clip.id)) {
+              await _deactivateSound(active.clip.id);
+            }
           }
         }
+        await _activateSound(clip, maxSoundsMessage: maxSoundsMessage);
+      } finally {
+        _activatingSoundIds.remove(soundId);
       }
-      await _activateSound(clip, maxSoundsMessage: maxSoundsMessage);
     }
   }
 
   Future<void> _activateSound(AudioClip clip, {String? maxSoundsMessage}) async {
+    if (isSoundActive(clip.id)) return;
     if (selectedCount >= maxActiveSounds) {
       notifyMaxSoundsReached(maxSoundsMessage);
       return;
