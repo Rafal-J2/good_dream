@@ -256,7 +256,10 @@ class _MainTabBarControllerState extends State<MainTabBarController>
                   ],
                 ),
               ),
-              const ActiveSoundsBottomBar(useTutorialKey: true),
+              SafeArea(
+                bottom: true,
+                child: const ActiveSoundsBottomBar(useTutorialKey: true),
+              ),
             ],
           ),
         ),

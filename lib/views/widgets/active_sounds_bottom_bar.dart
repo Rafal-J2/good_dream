@@ -54,91 +54,87 @@ class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
               curve: Curves.fastOutSlowIn,
               child: !isVisible
                   ? const SizedBox.shrink()
-                  : SafeArea(
-                      bottom: true,
-                      top: false,
-                      left: false,
-                      right: false,
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF0F0B29).withOpacity(0.85),
-                          borderRadius: BorderRadius.circular(24),
-                          border: Border.all(
-                            color: Colors.white.withOpacity(0.12),
-                            width: 1.5,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.25),
-                              blurRadius: 15,
-                              offset: const Offset(0, 5),
-                            )
-                          ],
+                  : Container(
+                      margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0F0B29).withOpacity(0.85),
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.12),
+                          width: 1.5,
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(24),
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  // Lewa strona - przycisk aktywnych dźwięków z ikoną i jawnym stylem
-                                  Expanded(
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: GestureDetector(
-                                        key: widget.useTutorialKey ? TutorialService.activeSoundsBottomBarKey : null,
-                                        onTap: () => _showActiveSoundsModal(),
-                                        child: AnimatedContainer(
-                                          duration: const Duration(milliseconds: 200),
-                                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white.withOpacity(0.1),
-                                            borderRadius: BorderRadius.circular(16),
-                                            border: Border.all(
-                                              color: Colors.white.withOpacity(0.15),
-                                              width: 1,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.25),
+                            blurRadius: 15,
+                            offset: const Offset(0, 5),
+                          )
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(24),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Lewa strona - przycisk aktywnych dźwięków z ikoną i jawnym stylem
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: GestureDetector(
+                                      key: widget.useTutorialKey ? TutorialService.activeSoundsBottomBarKey : null,
+                                      onTap: () => _showActiveSoundsModal(),
+                                      child: AnimatedContainer(
+                                        duration: const Duration(milliseconds: 200),
+                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.1),
+                                          borderRadius: BorderRadius.circular(16),
+                                          border: Border.all(
+                                            color: Colors.white.withOpacity(0.15),
+                                            width: 1,
+                                          ),
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(
+                                              activeCount > 0 ? Icons.volume_up_rounded : Icons.volume_mute_rounded,
+                                              color: activeCount > 0 ? Colors.amberAccent : Colors.white60,
+                                              size: 16,
                                             ),
-                                          ),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Icon(
-                                                activeCount > 0 ? Icons.volume_up_rounded : Icons.volume_mute_rounded,
-                                                color: activeCount > 0 ? Colors.amberAccent : Colors.white60,
-                                                size: 16,
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              'Aktywne: $activeCount / ${MediaControlCubit.maxActiveSounds}',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold, 
+                                                fontSize: 12,
+                                                letterSpacing: 0.2,
                                               ),
-                                              const SizedBox(width: 6),
-                                              Text(
-                                                'Aktywne: $activeCount / ${MediaControlCubit.maxActiveSounds}',
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold, 
-                                                  fontSize: 13,
-                                                  letterSpacing: 0.3,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
                                   ),
-                                  // Środek - Przycisk STOP
-                                  IconButton(
-                                    icon: const Icon(Icons.stop_circle_rounded, color: Colors.redAccent, size: 30),
-                                    onPressed: () {
-                                      context.read<MediaControlCubit>().disableAllSoundsAndIcons();
-                                    },
-                                  ),
-                                  const SizedBox(width: 8),
-                                  // Prawa strona - Timer
-                                  _buildTimerButton(context, timerState),
-                                ],
-                              ),
+                                ),
+                                // Środek - Przycisk STOP
+                                IconButton(
+                                  icon: const Icon(Icons.stop_circle_rounded, color: Colors.redAccent, size: 28),
+                                  padding: EdgeInsets.zero,
+                                  constraints: const BoxConstraints(),
+                                  onPressed: () {
+                                    context.read<MediaControlCubit>().disableAllSoundsAndIcons();
+                                  },
+                                ),
+                                const SizedBox(width: 6),
+                                // Prawa strona - Timer
+                                _buildTimerButton(context, timerState),
+                              ],
                             ),
                           ),
                         ),
@@ -167,12 +163,12 @@ class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
           backgroundColor: Colors.redAccent.withOpacity(0.2),
           foregroundColor: Colors.redAccent,
           elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-          minimumSize: const Size(80, 36),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          side: BorderSide(color: Colors.redAccent.withOpacity(0.5), width: 1.5),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+          minimumSize: const Size(65, 34),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          side: BorderSide(color: Colors.redAccent.withOpacity(0.5), width: 1.2),
         ),
-        child: Text(timeStr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+        child: Text(timeStr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
       );
     } else {
       return ElevatedButton(
@@ -181,13 +177,13 @@ class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
           backgroundColor: Colors.white.withOpacity(0.1),
           foregroundColor: Colors.white,
           elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-          minimumSize: const Size(80, 36),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+          minimumSize: const Size(65, 34),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),
         child: const Text(
           'Timer', 
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)
         ),
       );
     }
