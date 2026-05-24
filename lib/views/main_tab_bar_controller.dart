@@ -256,7 +256,7 @@ class _MainTabBarControllerState extends State<MainTabBarController>
                   ],
                 ),
               ),
-              const ActiveSoundsBottomBar(),
+              const ActiveSoundsBottomBar(useTutorialKey: true),
             ],
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../bloc/media_control/media_control_cubit.dart';
 import '../models/audio_clip.dart';
+import 'package:good_dream/services/tutorial_service.dart';
 
 class AudioControlCenter extends StatelessWidget {
   final String category;
@@ -17,6 +18,23 @@ class AudioControlCenter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<AudioClip> audioClips = soundsByCategory[category] ?? [];
+
+    // Auto-trigger Step 2 of the walkthrough if we are in the nature sounds category
+    if (category == 'natureSounds' && audioClips.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted) {
+          final cubit = context.read<MediaControlCubit>();
+          TutorialService.startStep2(context, () {
+            cubit.toggleSound(
+              category,
+              audioClips[0],
+              maxSoundsMessage: AppLocalizations.of(context)?.maxSoundsReached,
+            );
+          });
+        }
+      });
+    }
+
     return BlocBuilder<MediaControlCubit, MediaControlCubitState>(
       builder: (context, state) {
         final cubit = context.read<MediaControlCubit>();
@@ -38,9 +56,11 @@ class AudioControlCenter extends StatelessWidget {
                   ? state.activeSounds.firstWhere((s) => s.clip.id == clip.id)
                   : null;
 
+              final isFirstNatureItem = category == 'natureSounds' && index == 0;
               return Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Container(
+                  key: isFirstNatureItem ? TutorialService.firstSoundTileKey : null,
                   decoration: BoxDecoration(
                     color: isActive
                         ? Colors.amberAccent.withOpacity(0.12)
@@ -104,6 +124,7 @@ class AudioControlCenter extends StatelessWidget {
                                         overlayShape: const RoundSliderOverlayShape(overlayRadius: 10),
                                       ),
                                       child: Slider(
+                                        key: isFirstNatureItem ? TutorialService.firstSoundSliderKey : null,
                                         value: activeSound.volume,
                                         min: 0,
                                         max: 1,

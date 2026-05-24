@@ -9,6 +9,7 @@ import 'package:good_dream/models/sounds_catalog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:good_dream/views/main_menu_navigator.dart';
 import 'package:good_dream/views/main_tab_bar_controller.dart';
+import 'package:good_dream/services/tutorial_service.dart';
 class FavoritesController extends StatefulWidget {
   const FavoritesController({super.key});
 
@@ -29,14 +30,14 @@ class _FavoritesControllerState extends State<FavoritesController>
       'sounds': [
         {'id': 'Zen', 'volume': 0.6},
         {'id': 'Flute', 'volume': 0.5},
-        {'id': 'River', 'volume': 0.3},
+        {'id': 'River', 'volume': 0.2},
       ]
     },
     {
       'name': 'Głęboka Medytacja',
       'image': 'meditation_cover.webp',
       'sounds': [
-        {'id': 'Meditation', 'volume': 0.6},
+        {'id': 'Meditation', 'volume': 0.9},
         {'id': 'Sea', 'volume': 0.3},
       ]
     },
@@ -63,6 +64,7 @@ class _FavoritesControllerState extends State<FavoritesController>
       'sounds': [
         {'id': 'forest', 'volume': 0.4},
         {'id': 'Small creek', 'volume': 0.5},
+        {'id': 'Background Guitar', 'volume': 0.5},
       ]
     },
     {
@@ -72,6 +74,7 @@ class _FavoritesControllerState extends State<FavoritesController>
         {'id': 'bonfire', 'volume': 0.5},
         {'id': 'cricket', 'volume': 0.5},
         {'id': 'wind', 'volume': 0.4},
+        {'id': 'Background Guitar', 'volume': 0.5},
       ]
     },
     {
@@ -96,6 +99,11 @@ class _FavoritesControllerState extends State<FavoritesController>
   void initState() {
     super.initState();
     _loadFavorites();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        TutorialService.startStep1(context);
+      }
+    });
   }
 
   void _loadFavorites() {
@@ -555,6 +563,7 @@ class _FavoritesControllerState extends State<FavoritesController>
                 ),
                 actions: [
                   IconButton(
+                    key: TutorialService.tuneButtonKey,
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -739,13 +748,19 @@ class _FavoritesControllerState extends State<FavoritesController>
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    if (index == 0) {
-                      return _buildAiPromoCard();
+                    final bool isLimitReached = _favorites.length >= 6;
+                    if (isLimitReached) {
+                      final mix = _favorites[index] as Map<String, dynamic>;
+                      return _buildMixCard(mix, isFavorite: true, index: index);
+                    } else {
+                      if (index == 0) {
+                        return _buildAiPromoCard();
+                      }
+                      final mix = _favorites[index - 1] as Map<String, dynamic>;
+                      return _buildMixCard(mix, isFavorite: true, index: index - 1);
                     }
-                    final mix = _favorites[index - 1] as Map<String, dynamic>;
-                    return _buildMixCard(mix, isFavorite: true, index: index - 1);
                   },
-                  childCount: _favorites.length + 1,
+                  childCount: _favorites.length >= 6 ? _favorites.length : _favorites.length + 1,
                 ),
               ),
             ),

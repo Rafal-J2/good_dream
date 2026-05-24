@@ -224,13 +224,27 @@ class _AIAssistantControllerState extends State<AIAssistantController>
             return <String, dynamic>{};
           }).where((m) => m.isNotEmpty).toList();
 
-          _selectedCover = _getCoverForMix(_recommendedSounds);
+          final storage = GetStorage();
+          final List favs = storage.read<List>('favorites') ?? [];
+          final usedCovers = favs.map((f) => f['image'] as String?).where((img) => img != null).toSet();
+
+          String recommendedCover = _getCoverForMix(_recommendedSounds);
+          final List<String> availableCovers = _allCovers.where((cover) => !usedCovers.contains(cover)).toList();
+          if (availableCovers.isEmpty) {
+            availableCovers.addAll(_allCovers);
+          }
+
+          if (usedCovers.contains(recommendedCover) || !availableCovers.contains(recommendedCover)) {
+            _selectedCover = availableCovers.first;
+          } else {
+            _selectedCover = recommendedCover;
+          }
 
           // Play immediately on successful generation
           final List<MapEntry<AudioClip, double>> clipsToPlay = [];
           for (final s in _recommendedSounds) {
             final id = s['id'] as String? ?? '';
-            final volume = (s['volume'] as num? ?? 0.5).toDouble();
+            final volume = MediaControlCubit.defaultSoundVolumes[id.toLowerCase().trim()] ?? 0.9;
             final clip = _findClipById(id);
             if (clip != null) {
               clipsToPlay.add(MapEntry(clip, volume));
@@ -675,11 +689,20 @@ class _AIAssistantControllerState extends State<AIAssistantController>
   Widget _buildSuccessView() {
     final cubit = context.watch<MediaControlCubit>();
 
+    final storage = GetStorage();
+    final List favs = storage.read<List>('favorites') ?? [];
+    final usedCovers = favs.map((f) => f['image'] as String?).where((img) => img != null).toSet();
+
+    final List<String> availableCovers = _allCovers.where((cover) => !usedCovers.contains(cover)).toList();
+    if (availableCovers.isEmpty) {
+      availableCovers.addAll(_allCovers);
+    }
+
     // Parse recommended sounds with their customized volumes
     final List<MapEntry<AudioClip, double>> recommendedClipsWithVolumes = [];
     for (final item in _recommendedSounds) {
       final id = item['id'] as String? ?? '';
-      final volume = (item['volume'] as num? ?? 0.5).toDouble();
+      final volume = MediaControlCubit.defaultSoundVolumes[id.toLowerCase().trim()] ?? 0.9;
       final clip = _findClipById(id);
       if (clip != null) {
         recommendedClipsWithVolumes.add(MapEntry(clip, volume));
@@ -1046,7 +1069,14 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 8),
                                   child: Row(
-                                    children: _allCovers.map((cover) {
+                                    children: (() {
+                                      final storage = GetStorage();
+                                      final List favs = storage.read<List>('favorites') ?? [];
+                                      final usedCovers = favs.map((f) => f['image']).toSet();
+                                      final availableCovers = _allCovers.where((c) => !usedCovers.contains(c)).toList();
+                                      if (availableCovers.isEmpty) return _allCovers.map((cover) => cover).toList();
+                                      return availableCovers;
+                                    })().map((cover) {
                                       final isSelected = _selectedCover == cover;
                                       final aiRecommendedCover = _getCoverForMix(_recommendedSounds);
                                       final isAiRecommended = cover == aiRecommendedCover;

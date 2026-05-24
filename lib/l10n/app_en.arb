@@ -147,5 +147,20 @@
         "type": "String"
       }
     }
-  }
+  },
+  "settingsTutorialTitle": "Interactive Tutorial",
+  "settingsTutorialSub": "Restart the guide to application features",
+  "tutorialSkip": "Skip",
+  "tutorialNext": "Next",
+  "tutorialFinish": "Finish",
+  "tutorialStep1Title": "Welcome to Good Dream!",
+  "tutorialStep1Desc": "Let's start by mixing sounds. Click this mixer icon to open the audio console and turn on your first soothing sounds.",
+  "tutorialStep2Title": "Step 2: Toggle sound",
+  "tutorialStep2Desc": "Click this tile (e.g. Frogs or Woodpecker) to activate it and hear the natural ambience in real-time.",
+  "tutorialStep3Title": "Step 3: Adjust volume",
+  "tutorialStep3Desc": "Great! The sound is playing. Now drag the volume slider left or right to customize the volume level in your mix.",
+  "tutorialStep4Title": "Step 4: Manage composition",
+  "tutorialStep4Desc": "Wonderful! The bottom playing bar has appeared. Click the 'Active: X / 6' button to see the full active list and save your mix.",
+  "tutorialStep5Title": "Step 5: Save your custom mix!",
+  "tutorialStep5Desc": "Found the perfect soundscape? Click this golden heart icon to permanently save your unique combination to Favorites!"
 }

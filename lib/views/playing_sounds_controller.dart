@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:good_dream/models/audio_clip.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:good_dream/services/tutorial_service.dart';
 
 class PlayingSoundsController extends StatefulWidget {
   const PlayingSoundsController({super.key});
@@ -19,6 +19,15 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    
+    if (TutorialService.getStep() == 4) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted) {
+          TutorialService.startStep5(context);
+        }
+      });
+    }
+
     return BlocBuilder<MediaControlCubit, MediaControlCubitState>(
       builder: (context, state) {
         final cubit = context.read<MediaControlCubit>();
@@ -60,6 +69,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                     actions: [
                       if (selectedCount > 0)
                         IconButton(
+                          key: TutorialService.saveMixButtonKey,
                           onPressed: () => _saveCurrentMix(context, state.activeSounds),
                           icon: const Icon(
                             Icons.favorite_rounded,
@@ -135,38 +145,24 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                         ),
                         const SizedBox(width: 16.0),
                         Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${activeSound.clip.getLocalizedName(context)} (${(activeSound.volume * 100).toInt()}%)',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 6.0),
-                              SliderTheme(
-                                data: SliderThemeData(
-                                  trackHeight: 4,
-                                  activeTrackColor: Colors.amberAccent,
-                                  inactiveTrackColor: Colors.white.withOpacity(0.1),
-                                  thumbColor: Colors.amberAccent,
-                                  overlayColor: Colors.amberAccent.withOpacity(0.2),
-                                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
-                                ),
-                                child: Slider(
-                                  value: activeSound.volume,
-                                  min: 0,
-                                  max: 1,
-                                  divisions: 50,
-                                  onChanged: (volume) {
-                                    cubit.setVolume(activeSound.clip.id, volume);
-                                  },
-                                ),
-                              ),
-                            ],
+                          child: SliderTheme(
+                            data: SliderThemeData(
+                              trackHeight: 4,
+                              activeTrackColor: Colors.amberAccent,
+                              inactiveTrackColor: Colors.white.withOpacity(0.1),
+                              thumbColor: Colors.amberAccent,
+                              overlayColor: Colors.amberAccent.withOpacity(0.2),
+                              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+                            ),
+                            child: Slider(
+                              value: activeSound.volume,
+                              min: 0,
+                              max: 1,
+                              divisions: 50,
+                              onChanged: (volume) {
+                                cubit.setVolume(activeSound.clip.id, volume);
+                              },
+                            ),
                           ),
                         ),
                         const SizedBox(width: 8.0),
@@ -192,6 +188,80 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
     );
   }
 
+  List<String> _generateNameSuggestions(List<dynamic> activeSounds) {
+    final ids = activeSounds.map((s) => s.clip.id.toString().toLowerCase().trim()).toList();
+    if (ids.isEmpty) {
+      return ["Mój Cichy Zakątek", "Chwila Relaksu", "Senny Miks"];
+    }
+
+    final bool hasRain = ids.any((id) => id.contains('rain'));
+    final bool hasSea = ids.any((id) => id.contains('sea') || id.contains('ocean'));
+    final bool hasForest = ids.any((id) => id.contains('forest') || id.contains('wood') || id.contains('bird') || id.contains('cricket'));
+    final bool hasFire = ids.any((id) => id.contains('fire') || id.contains('bonfire') || id.contains('fireplace'));
+    final bool hasMusic = ids.any((id) => id.contains('meditation') || id.contains('piano') || id.contains('guitar') || id.contains('flute') || id.contains('zen') || id.contains('yoga') || id.contains('binaural') || id.contains('om'));
+    final bool hasWind = ids.any((id) => id.contains('wind'));
+    final bool hasWater = ids.any((id) => id.contains('river') || id.contains('creek') || id.contains('waterfall') || id.contains('fountain') || id.contains('jacuzzi') || id.contains('cave'));
+    final bool hasMechanical = ids.any((id) => id.contains('plane') || id.contains('train') || id.contains('car') || id.contains('bus') || id.contains('washing') || id.contains('hair') || id.contains('vacuum') || id.contains('keyboard'));
+
+    final List<String> suggestions = [];
+
+    if (hasRain && hasMusic) {
+      suggestions.addAll(["Melodia w Deszczu", "Deszczowy Koncert", "Spokojna Nuta w Kroplach"]);
+    } else if (hasSea && hasMusic) {
+      suggestions.addAll(["Morska Symfonia", "Fale i Fortepian", "Oceaniczny Relaks"]);
+    } else if (hasForest && hasMusic) {
+      suggestions.addAll(["Leśna Medytacja", "Śpiew Ptaków i Flet", "Zielona Harmonia"]);
+    } else if (hasFire && hasMusic) {
+      suggestions.addAll(["Wieczór przy Kominku", "Gitara przy Ognisku", "Ciepły Płomień Muzyki"]);
+    } else if (hasRain && hasForest) {
+      suggestions.addAll(["Leśny Deszcz", "Szum Drzew i Krople", "Nocna Burza w Lesie"]);
+    } else if (hasSea && hasWind) {
+      suggestions.addAll(["Morski Wiatr", "Szept Oceanu", "Słona Bryza"]);
+    } else if (hasFire && hasForest) {
+      suggestions.addAll(["Ognisko w Głuszy", "Ciepło Leśnej Nocy", "Trzaskające Drewno"]);
+    } else if (hasWater && hasRain) {
+      suggestions.addAll(["Deszcz nad Potokiem", "Górski Wodospad w Kroplach", "Bieg Deszczowej Rzeki"]);
+    } else {
+      final primaryId = ids.first;
+      if (primaryId.contains('rain')) {
+        suggestions.addAll(["Spokojny Deszcz", "Krople na Szybie", "Nocna Ulewa"]);
+      } else if (primaryId.contains('sea') || primaryId.contains('ocean')) {
+        suggestions.addAll(["Szum Oceanu", "Spokojna Plaża", "Głębia Spokoju"]);
+      } else if (primaryId.contains('forest') || primaryId.contains('bird') || primaryId.contains('cricket') || primaryId.contains('woodpecker') || primaryId.contains('frog')) {
+        suggestions.addAll(["Leśny Zakątek", "Śpiew Ptaków", "Nocne Świerszcze"]);
+      } else if (primaryId.contains('fire')) {
+        suggestions.addAll(["Ciepły Kominek", "Płomień Spokoju", "Złoty Blask"]);
+      } else if (primaryId.contains('piano')) {
+        suggestions.addAll(["Melodia Fortepianu", "Kojący Klawisz", "Wieczorne Piano"]);
+      } else if (primaryId.contains('guitar')) {
+        suggestions.addAll(["Spokojna Gitara", "Akordy Relaksu", "Ciepłe Struny"]);
+      } else if (primaryId.contains('meditation') || primaryId.contains('healing') || primaryId.contains('yoga') || primaryId.contains('zen')) {
+        suggestions.addAll(["Głęboka Medytacja", "Stan Zen", "Ukojenie Umysłu"]);
+      } else if (primaryId.contains('flute')) {
+        suggestions.addAll(["Kojący Flet", "Eteryczny Powiew", "Melodia Wiatru"]);
+      } else if (primaryId.contains('binaural')) {
+        suggestions.addAll(["Fale Binauralne", "Głęboki Sen", "Harmonia Umysłu"]);
+      } else if (primaryId.contains('wind')) {
+        suggestions.addAll(["Kojący Wiatr", "Powiew Nocy", "Szum Halnego"]);
+      } else if (primaryId.contains('waterfall') || primaryId.contains('river') || primaryId.contains('creek') || primaryId.contains('fountain') || primaryId.contains('jacuzzi') || primaryId.contains('cave')) {
+        suggestions.addAll(["Górski Potok", "Szum Wodospadu", "Bieg Rzeki"]);
+      } else if (hasMechanical) {
+        suggestions.addAll(["Biały Szum", "Podróż Pociągiem", "Jednostajny Rytm"]);
+      } else {
+        suggestions.addAll(["Mój Relaks", "Kojąca Chwila", "Wieczorny Spokój"]);
+      }
+    }
+
+    final unique = <String>{};
+    for (var name in suggestions) {
+      if (unique.length < 3) unique.add(name);
+    }
+    while (unique.length < 3) {
+      unique.add("Mój Miks ${unique.length + 1}");
+    }
+    return unique.toList();
+  }
+
   void _saveCurrentMix(BuildContext context, List<dynamic> activeSounds) {
     final localizations = AppLocalizations.of(context)!;
     final storage = GetStorage();
@@ -214,7 +284,8 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
       return;
     }
 
-    final nameController = TextEditingController();
+    final suggestedNames = _generateNameSuggestions(activeSounds);
+    final nameController = TextEditingController(text: suggestedNames.isNotEmpty ? suggestedNames.first : "");
     
     // Auto-detect a recommended cover based on active sounds
     final soundIds = activeSounds.map((s) => s.clip.id.toLowerCase() as String).toList();
@@ -282,7 +353,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
       }
     }
 
-    String localSelectedCover = recommendedCover;
+    final usedCovers = favs.map((f) => f['image'] as String?).where((img) => img != null).toSet();
 
     final List<String> allCovers = [
       'sleep_cover.webp',
@@ -300,6 +371,19 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
       'meadow_cover.webp',
       'noise_cover.webp',
     ];
+
+    // Filter out already used covers to prevent duplication
+    final List<String> availableCovers = allCovers.where((cover) => !usedCovers.contains(cover)).toList();
+    if (availableCovers.isEmpty) {
+      availableCovers.addAll(allCovers);
+    }
+
+    // Ensure the default selected cover is not already used
+    if (usedCovers.contains(recommendedCover) || !availableCovers.contains(recommendedCover)) {
+      recommendedCover = availableCovers.first;
+    }
+
+    String localSelectedCover = recommendedCover;
 
     showDialog(
       context: context,
@@ -341,6 +425,49 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                         ),
                       ),
                     ),
+                    const SizedBox(height: 12),
+                    Text(
+                      "Propozycje nazw od AI:",
+                      style: TextStyle(color: Colors.amberAccent.withOpacity(0.9), fontSize: 11, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 6),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: suggestedNames.map((suggestedName) {
+                        final isSelectedName = nameController.text == suggestedName;
+                        return GestureDetector(
+                          onTap: () {
+                            setDialogState(() {
+                              nameController.text = suggestedName;
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(isSelectedName ? 0.12 : 0.04),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: isSelectedName
+                                    ? Colors.amberAccent
+                                    : Colors.white.withOpacity(0.08),
+                                width: 1.2,
+                              ),
+                            ),
+                            child: Text(
+                              suggestedName,
+                              style: TextStyle(
+                                color: isSelectedName
+                                    ? Colors.amberAccent
+                                    : Colors.white70,
+                                fontSize: 11.5,
+                                fontWeight: isSelectedName ? FontWeight.bold : FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
                     const SizedBox(height: 18),
                     Text(
                       localizations.aiMixCoverChoice,
@@ -351,9 +478,8 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
                       child: Row(
-                        children: allCovers.map((cover) {
+                        children: availableCovers.map((cover) {
                           final isSelected = localSelectedCover == cover;
-                          final isAiRecommended = cover == recommendedCover;
 
                           return GestureDetector(
                             onTap: () {
@@ -397,26 +523,6 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                                       Positioned.fill(
                                         child: Container(
                                           color: const Color(0xFF00F2FE).withOpacity(0.12),
-                                        ),
-                                      ),
-                                    if (isAiRecommended)
-                                      Positioned(
-                                        top: 2,
-                                        right: 2,
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                                          decoration: BoxDecoration(
-                                            color: Colors.amberAccent.withOpacity(0.85),
-                                            borderRadius: BorderRadius.circular(4),
-                                          ),
-                                          child: const Text(
-                                            'AI',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 7,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
                                         ),
                                       ),
                                   ],

@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:good_dream/bloc/locale/locale_cubit.dart';
 import 'package:good_dream/views/show_dialogs.dart';
+import 'package:good_dream/services/tutorial_service.dart';
+import 'package:good_dream/views/main_menu_navigator.dart';
 
 class SettingsController extends StatefulWidget {
   const SettingsController({super.key});
@@ -70,6 +72,25 @@ class SettingsControllerState extends State<SettingsController>
             color: Colors.lightBlueAccent,
             onTap: () {
               _showLanguageSelectionDialog(context);
+            },
+          ),
+          const SizedBox(height: 16.0),
+
+          // Restart Tutorial Card
+          _buildSettingsCard(
+            title: AppLocalizations.of(context)!.settingsTutorialTitle,
+            subtitle: AppLocalizations.of(context)!.settingsTutorialSub,
+            icon: Icons.auto_awesome_rounded,
+            color: Colors.pinkAccent,
+            onTap: () {
+              TutorialService.resetTutorial();
+              final navigator = context.findAncestorStateOfType<MainMenuNavigatorState>();
+              if (navigator != null) {
+                navigator.selectPage(0);
+              } else {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              }
+              TutorialService.startStep1(context);
             },
           ),
           const SizedBox(height: 16.0),

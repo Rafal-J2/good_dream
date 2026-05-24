@@ -17,6 +17,47 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
   static const int maxActiveSounds = 6;
   StreamSubscription<PlaybackState>? _playbackStateSubscription;
 
+  static const Map<String, double> defaultSoundVolumes = {
+    // Nature
+    'woodpecker': 0.9,
+    'frog': 0.55,
+    'strok': 0.9,
+    'city_park': 0.35,
+    'fireplace': 0.9,
+    'bonfire': 0.75,
+    'bird': 0.9,
+    'thunder': 0.9,
+    'cricket': 0.80,
+    'forest': 0.36,
+    'wind': 0.9,
+    'jungle': 0.9,
+
+    // Water
+    'river': 0.35,
+    'small creek': 0.9,
+    'rain': 0.40,
+    'rain on car roof': 0.75,
+    'rain on car windows': 0.9,
+    'fountain in park': 0.55,
+    'rain under raincoat': 0.9,
+    'rain on windows': 0.70,
+    'sea': 0.40,
+    'cave': 0.9,
+    'waterfall': 0.30,
+    'jacuzzi': 0.80,
+
+    // Mechanical
+    'plane': 0.9,
+    'train': 0.9,
+    'car driving': 0.9,
+    'bus': 0.55,
+    'washing machine': 0.9,
+    'air conditioner': 0.9,
+    'vacuum cleaner': 0.45,
+    'hair dryer': 0.45,
+    'keyboard': 0.9,
+  };
+
   MediaControlCubit(this.soundsByCategory, this.audioHandler)
       : super(MediaControlCubitInitial()) {
     // Listen to playbackState transitions to detect system "stop" commands
@@ -62,7 +103,7 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
     try {
       await player.setAsset(clip.audioFile);
       
-      double defaultVolume = 0.9;
+      final defaultVolume = defaultSoundVolumes[clip.id.toLowerCase().trim()] ?? 0.9;
       
       await player.setVolume(defaultVolume);
       await player.setLoopMode(LoopMode.one);

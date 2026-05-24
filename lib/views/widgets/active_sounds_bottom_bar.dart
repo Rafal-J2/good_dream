@@ -11,9 +11,11 @@ import 'package:numberpicker/numberpicker.dart';
 import '../../bloc/timer/timer_cubit.dart';
 import '../../bloc/timer/timer_state.dart';
 import '../playing_sounds_controller.dart';
+import 'package:good_dream/services/tutorial_service.dart';
 
 class ActiveSoundsBottomBar extends StatefulWidget {
-  const ActiveSoundsBottomBar({super.key});
+  final bool useTutorialKey;
+  const ActiveSoundsBottomBar({super.key, this.useTutorialKey = false});
 
   @override
   State<ActiveSoundsBottomBar> createState() => _ActiveSoundsBottomBarState();
@@ -38,6 +40,14 @@ class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
           builder: (context, mediaState) {
             final activeCount = mediaState.activeSounds.length;
             final isVisible = activeCount > 0 || timerState.isTimerRunning;
+
+            if (isVisible && TutorialService.getStep() == 3) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (context.mounted) {
+                  TutorialService.startStep4(context);
+                }
+              });
+            }
 
             return AnimatedSize(
               duration: const Duration(milliseconds: 300),
@@ -75,27 +85,44 @@ class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  // Lewa strona - tylko cyfry wg wytycznych
+                                  // Lewa strona - przycisk aktywnych dźwięków z ikoną i jawnym stylem
                                   Expanded(
                                     child: Align(
                                       alignment: Alignment.centerLeft,
-                                      child: ElevatedButton(
-                                        onPressed: () => _showActiveSoundsModal(),
-                                        child: Text(
-                                          'Aktywne: $activeCount / ${MediaControlCubit.maxActiveSounds}',
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold, 
-                                            fontSize: 13,
-                                            letterSpacing: 0.3,
+                                      child: GestureDetector(
+                                        key: widget.useTutorialKey ? TutorialService.activeSoundsBottomBarKey : null,
+                                        onTap: () => _showActiveSoundsModal(),
+                                        child: AnimatedContainer(
+                                          duration: const Duration(milliseconds: 200),
+                                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withOpacity(0.1),
+                                            borderRadius: BorderRadius.circular(16),
+                                            border: Border.all(
+                                              color: Colors.white.withOpacity(0.15),
+                                              width: 1,
+                                            ),
                                           ),
-                                        ),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.white.withOpacity(0.1),
-                                          foregroundColor: Colors.white,
-                                          elevation: 0,
-                                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
-                                          minimumSize: const Size(0, 38),
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(
+                                                activeCount > 0 ? Icons.volume_up_rounded : Icons.volume_mute_rounded,
+                                                color: activeCount > 0 ? Colors.amberAccent : Colors.white60,
+                                                size: 16,
+                                              ),
+                                              const SizedBox(width: 6),
+                                              Text(
+                                                'Aktywne: $activeCount / ${MediaControlCubit.maxActiveSounds}',
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold, 
+                                                  fontSize: 13,
+                                                  letterSpacing: 0.3,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),

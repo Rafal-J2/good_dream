@@ -147,5 +147,20 @@
         "type": "String"
       }
     }
-  }
+  },
+  "settingsTutorialTitle": "Interaktywny samouczek",
+  "settingsTutorialSub": "Uruchom ponownie przewodnik po funkcjach aplikacji",
+  "tutorialSkip": "Pomiń",
+  "tutorialNext": "Dalej",
+  "tutorialFinish": "Zakończ",
+  "tutorialStep1Title": "Witaj w Good Dream!",
+  "tutorialStep1Desc": "Zacznijmy od miksowania dźwięków. Kliknij tę ikonę suwaków, aby otworzyć mikser i włączyć swoje pierwsze kojące brzmienia.",
+  "tutorialStep2Title": "Krok 2: Włącz dźwięk",
+  "tutorialStep2Desc": "Kliknij w ten kafelek (np. Żaby lub Dzięcioł), aby go aktywować i usłyszeć naturalne brzmienie w czasie rzeczywistym.",
+  "tutorialStep3Title": "Krok 3: Dopasuj głośność",
+  "tutorialStep3Desc": "Super! Dźwięk gra. Teraz przesuń suwak głośności w lewo lub w prawo, aby dostosować poziom głośności w swoim miksie.",
+  "tutorialStep4Title": "Krok 4: Zarządzaj kompozycją",
+  "tutorialStep4Desc": "Wspaniale! Pojawił się dolny pasek odtwarzacza. Kliknij w przycisk 'Aktywne: X / 6', aby zobaczyć pełną listę i zapisać swój miks.",
+  "tutorialStep5Title": "Krok 5: Zapisz swój własny miks!",
+  "tutorialStep5Desc": "Znalazłeś idealne brzmienie? Kliknij to złote serduszko, aby zapisać swoją unikalną kompozycję na stałe w zakładce Ulubione!"
 }
