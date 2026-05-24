@@ -58,7 +58,7 @@ class TutorialService {
       TargetFocus(
         identify: "tuneButton",
         keyTarget: tuneButtonKey,
-        alignSkip: Alignment.topRight,
+        alignSkip: Alignment.topLeft,
         shape: ShapeLightFocus.Circle,
         radius: 24,
         contents: [
@@ -85,6 +85,18 @@ class TutorialService {
     final tutorial = TutorialCoachMark(
       targets: targets,
       colorShadow: const Color(0xDC070514),
+      skipWidget: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+        child: Text(
+          localizations.tutorialSkip.toUpperCase(),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 13,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ),
       onClickTarget: (target) {
         // Increment step so the next page knows to start Step 2
         setStep(1);
@@ -148,6 +160,18 @@ class TutorialService {
     final tutorial = TutorialCoachMark(
       targets: targets,
       colorShadow: const Color(0xDC070514),
+      skipWidget: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+        child: Text(
+          localizations.tutorialSkip.toUpperCase(),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 13,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ),
       onClickTarget: (target) {
         onFirstSoundTapped(); // Programmatic callback to toggle the sound
         setStep(2);
@@ -221,6 +245,18 @@ class TutorialService {
     final tutorial = TutorialCoachMark(
       targets: targets,
       colorShadow: const Color(0xDC070514),
+      skipWidget: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+        child: Text(
+          localizations.tutorialSkip.toUpperCase(),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 13,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ),
       onSkip: () {
         finishTutorial();
         isTutorialActive = false;
@@ -275,6 +311,18 @@ class TutorialService {
     final tutorial = TutorialCoachMark(
       targets: targets,
       colorShadow: const Color(0xDC070514),
+      skipWidget: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+        child: Text(
+          localizations.tutorialSkip.toUpperCase(),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 13,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ),
       onClickTarget: (target) {
         setStep(4);
         isTutorialActive = false;
@@ -336,6 +384,18 @@ class TutorialService {
     final tutorial = TutorialCoachMark(
       targets: targets,
       colorShadow: const Color(0xDC070514),
+      skipWidget: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+        child: Text(
+          localizations.tutorialSkip.toUpperCase(),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 13,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ),
       onClickTarget: (target) {
         finishTutorial();
         isTutorialActive = false;
