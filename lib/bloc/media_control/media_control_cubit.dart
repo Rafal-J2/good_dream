@@ -236,6 +236,38 @@ class MediaControlCubit extends Cubit<MediaControlCubitState> {
     }
   }
 
+  /// Play the "Głęboka Medytacja" mix programmatically with precise volumes.
+  Future<void> playDeepMeditationMix() async {
+    final List<MapEntry<AudioClip, double>> clipsToPlay = [];
+    final List<Map<String, dynamic>> targetSounds = [
+      {'id': 'Meditation', 'volume': 0.9},
+      {'id': 'Sea', 'volume': 0.3},
+    ];
+
+    for (final s in targetSounds) {
+      final id = s['id'] as String;
+      final volume = s['volume'] as double;
+      AudioClip? found;
+      for (final categoryList in soundsByCategory.values) {
+        for (final clip in categoryList) {
+          if (clip.id.toLowerCase() == id.toLowerCase()) {
+            found = clip;
+            break;
+          }
+        }
+        if (found != null) break;
+      }
+      if (found != null) {
+        clipsToPlay.add(MapEntry(found, volume));
+      }
+    }
+
+    if (clipsToPlay.isNotEmpty) {
+      await playSoundMixWithVolumes(clipsToPlay);
+    }
+  }
+
+
   @override
   Future<void> close() async {
     await _playbackStateSubscription?.cancel();

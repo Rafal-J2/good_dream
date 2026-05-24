@@ -21,6 +21,8 @@ class _FavoritesControllerState extends State<FavoritesController>
     with AutomaticKeepAliveClientMixin {
   final _storage = GetStorage();
   List<dynamic> _favorites = [];
+  Function()? _favoritesSubscription;
+
 
   // 8 pre-generated curated random mixes
   final List<Map<String, dynamic>> _randomMixes = [
@@ -99,12 +101,28 @@ class _FavoritesControllerState extends State<FavoritesController>
   void initState() {
     super.initState();
     _loadFavorites();
+    _favoritesSubscription = _storage.listenKey('favorites', (value) {
+      if (mounted) {
+        setState(() {
+          _favorites = value ?? [];
+        });
+      }
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         TutorialService.startStep1(context);
       }
     });
   }
+
+  @override
+  void dispose() {
+    if (_favoritesSubscription != null) {
+      _favoritesSubscription!();
+    }
+    super.dispose();
+  }
+
 
   void _loadFavorites() {
     List? storedFavs = _storage.read<List>('favorites');
@@ -534,14 +552,6 @@ class _FavoritesControllerState extends State<FavoritesController>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    
-    _storage.listenKey('favorites', (value) {
-      if (mounted) {
-        setState(() {
-          _favorites = value ?? [];
-        });
-      }
-    });
 
     return Scaffold(
       backgroundColor: Colors.transparent,

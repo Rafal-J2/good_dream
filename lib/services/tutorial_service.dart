@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
+
 
 class TutorialService {
   static final storage = GetStorage();
@@ -44,11 +47,41 @@ class TutorialService {
   static void resetTutorial() {
     storage.write(_completedKey, false);
     storage.write(_stepKey, 0);
+
+    // Ensure 'Głęboka Medytacja' is present in favorites when resetting
+    List favs = storage.read<List>('favorites') ?? [];
+    bool containsDeepMeditation = favs.any((element) {
+      final name = (element as Map)['name'] as String? ?? '';
+      return name.toLowerCase().trim() == 'głęboka medytacja' || name.toLowerCase().trim() == 'deep meditation';
+    });
+    
+    if (!containsDeepMeditation) {
+      final deepMeditationMix = {
+        'name': 'Głęboka Medytacja',
+        'image': 'meditation_cover.webp',
+        'sounds': [
+          {'id': 'Meditation', 'volume': 0.9},
+          {'id': 'Sea', 'volume': 0.3},
+        ]
+      };
+      // Insert at the beginning so it is prominently visible first
+      favs.insert(0, deepMeditationMix);
+      // Ensure we don't exceed the max favorites limit (6)
+      if (favs.length > 6) {
+        favs = favs.sublist(0, 6);
+      }
+      storage.write('favorites', favs);
+    }
   }
 
   // --- STEP 1: Highlight the Mixer Tune button on Favorites page ---
   static void startStep1(BuildContext context) {
     if (hasCompleted() || getStep() != 0 || isTutorialActive) return;
+
+    // Auto-play the 'Głęboka Medytacja' mix when tutorial starts/resets
+    try {
+      context.read<MediaControlCubit>().playDeepMeditationMix();
+    } catch (_) {}
 
     isTutorialActive = true;
     final localizations = AppLocalizations.of(context)!;
