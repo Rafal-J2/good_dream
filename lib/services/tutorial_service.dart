@@ -4,6 +4,8 @@ import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
+import 'package:good_dream/views/main_tab_bar_controller.dart';
+
 
 
 class TutorialService {
@@ -21,6 +23,8 @@ class TutorialService {
   static const String _stepKey = 'current_tutorial_step';
 
   static bool isTutorialActive = false;
+  static VoidCallback? onStep3TargetTapped;
+  static VoidCallback? onStep5TargetTapped;
 
   /// Check if the user has already finished the entire tutorial.
   static bool hasCompleted() {
@@ -134,6 +138,12 @@ class TutorialService {
         // Increment step so the next page knows to start Step 2
         setStep(1);
         isTutorialActive = false;
+        // Programmatically push MainTabBarController on the very first click
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const MainTabBarController(),
+          ),
+        );
       },
       onSkip: () {
         finishTutorial();
@@ -292,6 +302,10 @@ class TutorialService {
       onClickTarget: (target) {
         setStep(3);
         isTutorialActive = false;
+        // Programmatically trigger opening of active sounds modal on the very first click
+        if (onStep3TargetTapped != null) {
+          onStep3TargetTapped!();
+        }
       },
       onSkip: () {
         finishTutorial();
@@ -363,6 +377,15 @@ class TutorialService {
         ),
       ),
       onClickTarget: (target) {
+        // Programmatically set the volume of the last added sound to 70% (0.7) and update UI
+        try {
+          final cubit = context.read<MediaControlCubit>();
+          if (cubit.state.activeSounds.isNotEmpty) {
+            final lastActive = cubit.state.activeSounds.last;
+            cubit.setVolume(lastActive.clip.id, 0.7);
+          }
+        } catch (_) {}
+
         setStep(4);
         isTutorialActive = false;
         Future.delayed(const Duration(milliseconds: 600), () {
@@ -448,6 +471,10 @@ class TutorialService {
       onClickTarget: (target) {
         finishTutorial();
         isTutorialActive = false;
+        // Programmatically trigger the save current mix dialog on the very first click
+        if (onStep5TargetTapped != null) {
+          onStep5TargetTapped!();
+        }
       },
       onSkip: () {
         finishTutorial();

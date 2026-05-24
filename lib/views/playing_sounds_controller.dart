@@ -28,6 +28,9 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
       });
     }
     if (TutorialService.getStep() == 4) {
+      TutorialService.onStep5TargetTapped = () {
+        _saveCurrentMix(context, context.read<MediaControlCubit>().state.activeSounds);
+      };
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (context.mounted) {
           TutorialService.startStep5(context);

@@ -42,6 +42,9 @@ class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
             final isVisible = activeCount > 0 || timerState.isTimerRunning;
 
             if (isVisible && TutorialService.getStep() == 2) {
+              TutorialService.onStep3TargetTapped = () {
+                _showActiveSoundsModal();
+              };
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 if (context.mounted) {
                   TutorialService.startStep3(context);
