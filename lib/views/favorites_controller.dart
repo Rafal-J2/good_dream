@@ -72,7 +72,7 @@ class _FavoritesControllerState extends State<FavoritesController>
       'image': 'bonfire_cover.webp',
       'sounds': [
         {'id': 'bonfire', 'volume': 0.3},
-        {'id': 'cricket', 'volume': 0.5},
+        {'id': 'cricket', 'volume': 0.3},
         {'id': 'wind', 'volume': 0.4},
         {'id': 'Background Guitar', 'volume': 0.9},
       ]
