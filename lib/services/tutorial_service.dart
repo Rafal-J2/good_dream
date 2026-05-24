@@ -119,7 +119,8 @@ class TutorialService {
       )
     ];
 
-    final tutorial = TutorialCoachMark(
+    late TutorialCoachMark tutorial;
+    tutorial = TutorialCoachMark(
       targets: targets,
       colorShadow: const Color(0xDC070514),
       skipWidget: Padding(
@@ -138,6 +139,7 @@ class TutorialService {
         // Increment step so the next page knows to start Step 2
         setStep(1);
         isTutorialActive = false;
+        tutorial.finish();
         // Programmatically push MainTabBarController on the very first click
         Navigator.of(context).push(
           MaterialPageRoute(
@@ -204,7 +206,8 @@ class TutorialService {
       )
     ];
 
-    final tutorial = TutorialCoachMark(
+    late TutorialCoachMark tutorial;
+    tutorial = TutorialCoachMark(
       targets: targets,
       colorShadow: const Color(0xDC070514),
       skipWidget: Padding(
@@ -223,6 +226,7 @@ class TutorialService {
         onFirstSoundTapped(); // Programmatic callback to toggle the sound
         setStep(2);
         isTutorialActive = false;
+        tutorial.finish();
         // Trigger Step 3 with a slight delay so the slider is fully rendered
         Future.delayed(const Duration(milliseconds: 600), () {
           if (context.mounted) {
@@ -289,7 +293,8 @@ class TutorialService {
       )
     ];
 
-    final tutorial = TutorialCoachMark(
+    late TutorialCoachMark tutorial;
+    tutorial = TutorialCoachMark(
       targets: targets,
       colorShadow: const Color(0xDC070514),
       skipWidget: Padding(
@@ -306,6 +311,7 @@ class TutorialService {
       ),
       onClickTarget: (target) {
         isTutorialActive = false;
+        tutorial.finish();
         // Delay opening modal by 350ms to allow overlay fade-out to complete and avoid race condition
         Future.delayed(const Duration(milliseconds: 350), () {
           setStep(3);
@@ -374,7 +380,8 @@ class TutorialService {
       )
     ];
 
-    final tutorial = TutorialCoachMark(
+    late TutorialCoachMark tutorial;
+    tutorial = TutorialCoachMark(
       targets: targets,
       colorShadow: const Color(0xDC070514),
       skipWidget: Padding(
@@ -401,6 +408,7 @@ class TutorialService {
 
         setStep(4);
         isTutorialActive = false;
+        tutorial.finish();
         Future.delayed(const Duration(milliseconds: 600), () {
           if (context.mounted) {
             startStep5(context);
@@ -475,7 +483,8 @@ class TutorialService {
       )
     ];
 
-    final tutorial = TutorialCoachMark(
+    late TutorialCoachMark tutorial;
+    tutorial = TutorialCoachMark(
       targets: targets,
       colorShadow: const Color(0xDC070514),
       skipWidget: Padding(
@@ -493,6 +502,7 @@ class TutorialService {
       onClickTarget: (target) {
         finishTutorial();
         isTutorialActive = false;
+        tutorial.finish();
         // Programmatically trigger the save current mix dialog on the very first click
         if (onStep5TargetTapped != null) {
           onStep5TargetTapped!();
