@@ -85,6 +85,7 @@ class TutorialService {
 
     final tutorial = TutorialCoachMark(
       targets: targets,
+      hideSkip: true,
       colorShadow: const Color(0xDC070514),
       onClickTarget: (target) {
         // Increment step so the next page knows to start Step 2
@@ -148,6 +149,7 @@ class TutorialService {
 
     final tutorial = TutorialCoachMark(
       targets: targets,
+      hideSkip: true,
       colorShadow: const Color(0xDC070514),
       onClickTarget: (target) {
         onFirstSoundTapped(); // Programmatic callback to toggle the sound
@@ -221,6 +223,7 @@ class TutorialService {
 
     final tutorial = TutorialCoachMark(
       targets: targets,
+      hideSkip: true,
       colorShadow: const Color(0xDC070514),
       onSkip: () {
         finishTutorial();
@@ -275,6 +278,7 @@ class TutorialService {
 
     final tutorial = TutorialCoachMark(
       targets: targets,
+      hideSkip: true,
       colorShadow: const Color(0xDC070514),
       onClickTarget: (target) {
         setStep(4);
@@ -336,6 +340,7 @@ class TutorialService {
 
     final tutorial = TutorialCoachMark(
       targets: targets,
+      hideSkip: true,
       colorShadow: const Color(0xDC070514),
       onClickTarget: (target) {
         finishTutorial();
