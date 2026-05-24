@@ -157,10 +157,10 @@
   "tutorialStep1Desc": "Let's start by mixing sounds. Click this mixer icon to open the audio console and turn on your first soothing sounds.",
   "tutorialStep2Title": "Step 2: Toggle sound",
   "tutorialStep2Desc": "Click this tile (e.g. Frogs or Woodpecker) to activate it and hear the natural ambience in real-time.",
-  "tutorialStep3Title": "Step 3: Adjust volume",
-  "tutorialStep3Desc": "Great! The sound is playing. Now drag the volume slider left or right to customize the volume level in your mix.",
-  "tutorialStep4Title": "Step 4: Manage composition",
-  "tutorialStep4Desc": "Wonderful! The bottom playing bar has appeared. Click the 'Active: X / 6' button to see the full active list and save your mix.",
+  "tutorialStep3Title": "Step 3: Manage composition",
+  "tutorialStep3Desc": "Wonderful! The bottom playing bar has appeared. Click the 'Active: X / 6' button to see the full active list of sounds.",
+  "tutorialStep4Title": "Step 4: Adjust volume",
+  "tutorialStep4Desc": "Great! Here is the list of your active sounds. Now drag the volume slider left or right to adjust the level of the selected sound.",
   "tutorialStep5Title": "Step 5: Save your custom mix!",
   "tutorialStep5Desc": "Found the perfect soundscape? Click this golden heart icon to permanently save your unique combination to Favorites!"
 }

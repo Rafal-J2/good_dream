@@ -41,10 +41,10 @@ class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
             final activeCount = mediaState.activeSounds.length;
             final isVisible = activeCount > 0 || timerState.isTimerRunning;
 
-            if (isVisible && TutorialService.getStep() == 3) {
+            if (isVisible && TutorialService.getStep() == 2) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 if (context.mounted) {
-                  TutorialService.startStep4(context);
+                  TutorialService.startStep3(context);
                 }
               });
             }
@@ -86,7 +86,12 @@ class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
                                     alignment: Alignment.centerLeft,
                                     child: GestureDetector(
                                       key: widget.useTutorialKey ? TutorialService.activeSoundsBottomBarKey : null,
-                                      onTap: () => _showActiveSoundsModal(),
+                                      onTap: () {
+                                        if (TutorialService.getStep() == 2) {
+                                          TutorialService.setStep(3);
+                                        }
+                                        _showActiveSoundsModal();
+                                      },
                                       child: AnimatedContainer(
                                         duration: const Duration(milliseconds: 200),
                                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),

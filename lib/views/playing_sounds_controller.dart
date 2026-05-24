@@ -20,6 +20,13 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
   Widget build(BuildContext context) {
     super.build(context);
     
+    if (TutorialService.getStep() == 3) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted) {
+          TutorialService.startStep4(context);
+        }
+      });
+    }
     if (TutorialService.getStep() == 4) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (context.mounted) {
@@ -155,6 +162,9 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                               thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
                             ),
                             child: Slider(
+                              key: (TutorialService.getStep() == 3 && state.activeSounds.indexOf(activeSound) == state.activeSounds.length - 1)
+                                  ? TutorialService.firstSoundSliderKey
+                                  : null,
                               value: activeSound.volume,
                               min: 0,
                               max: 1,

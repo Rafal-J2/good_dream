@@ -124,7 +124,7 @@ class AudioControlCenter extends StatelessWidget {
                                         overlayShape: const RoundSliderOverlayShape(overlayRadius: 10),
                                       ),
                                       child: Slider(
-                                        key: isFirstNatureItem ? TutorialService.firstSoundSliderKey : null,
+                                        key: null,
                                         value: activeSound.volume,
                                         min: 0,
                                         max: 1,

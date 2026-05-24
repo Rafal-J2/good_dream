@@ -207,7 +207,7 @@ class TutorialService {
     });
   }
 
-  // --- STEP 3: Highlight the slider of the newly active sound ---
+  // --- STEP 3: Highlight the active sounds drawer launcher button ---
   static void startStep3(BuildContext context) {
     if (hasCompleted() || getStep() != 2 || isTutorialActive) return;
 
@@ -216,14 +216,13 @@ class TutorialService {
 
     final targets = [
       TargetFocus(
-        identify: "firstSoundSlider",
-        keyTarget: firstSoundSliderKey,
+        identify: "activeBar",
+        keyTarget: activeSoundsBottomBarKey,
         shape: ShapeLightFocus.RRect,
-        radius: 12,
-        paddingFocus: 2,
+        radius: 20,
         contents: [
           TargetContent(
-            align: ContentAlign.bottom,
+            align: ContentAlign.top,
             builder: (context, controller) {
               return _buildPremiumBubble(
                 context: context,
@@ -257,6 +256,10 @@ class TutorialService {
           ),
         ),
       ),
+      onClickTarget: (target) {
+        setStep(3);
+        isTutorialActive = false;
+      },
       onSkip: () {
         finishTutorial();
         isTutorialActive = false;
@@ -269,12 +272,14 @@ class TutorialService {
       },
     );
 
-    if (context.mounted) {
-      tutorial.show(context: context);
-    }
+    Future.delayed(const Duration(milliseconds: 600), () {
+      if (context.mounted) {
+        tutorial.show(context: context);
+      }
+    });
   }
 
-  // --- STEP 4: Highlight the active sounds drawer launcher button ---
+  // --- STEP 4: Highlight the slider of the newly active sound inside bottom sheet ---
   static void startStep4(BuildContext context) {
     if (hasCompleted() || getStep() != 3 || isTutorialActive) return;
 
@@ -283,13 +288,14 @@ class TutorialService {
 
     final targets = [
       TargetFocus(
-        identify: "activeBar",
-        keyTarget: activeSoundsBottomBarKey,
+        identify: "firstSoundSlider",
+        keyTarget: firstSoundSliderKey,
         shape: ShapeLightFocus.RRect,
-        radius: 20,
+        radius: 12,
+        paddingFocus: 2,
         contents: [
           TargetContent(
-            align: ContentAlign.top,
+            align: ContentAlign.bottom,
             builder: (context, controller) {
               return _buildPremiumBubble(
                 context: context,
@@ -326,6 +332,11 @@ class TutorialService {
       onClickTarget: (target) {
         setStep(4);
         isTutorialActive = false;
+        Future.delayed(const Duration(milliseconds: 600), () {
+          if (context.mounted) {
+            startStep5(context);
+          }
+        });
       },
       onSkip: () {
         finishTutorial();
@@ -335,6 +346,11 @@ class TutorialService {
       onFinish: () {
         setStep(4);
         isTutorialActive = false;
+        Future.delayed(const Duration(milliseconds: 600), () {
+          if (context.mounted) {
+            startStep5(context);
+          }
+        });
         return true;
       },
     );
