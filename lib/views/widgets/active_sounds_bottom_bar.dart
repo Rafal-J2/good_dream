@@ -12,6 +12,7 @@ import '../../bloc/timer/timer_cubit.dart';
 import '../../bloc/timer/timer_state.dart';
 import '../playing_sounds_controller.dart';
 import 'package:good_dream/services/tutorial_service.dart';
+import 'package:good_dream/services/analytics_service.dart';
 
 class ActiveSoundsBottomBar extends StatefulWidget {
   final bool useTutorialKey;
@@ -24,6 +25,7 @@ class ActiveSoundsBottomBar extends StatefulWidget {
 class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
   int _selectedHour = 1;
   int _selectedMinute = 1;
+  bool _isModalOpen = false;
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +118,7 @@ class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
                                             ),
                                             const SizedBox(width: 4),
                                             Text(
-                                              'Aktywne: $activeCount / ${MediaControlCubit.maxActiveSounds}',
+                                              AppLocalizations.of(context)!.activeSoundsRatio(activeCount, MediaControlCubit.maxActiveSounds),
                                               style: const TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold, 
@@ -166,6 +168,7 @@ class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
       return ElevatedButton(
         onPressed: () {
           context.read<TimerCubit>().cancelTimer();
+          AnalyticsService.logTimerCancelled();
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.redAccent.withOpacity(0.2),
@@ -189,9 +192,9 @@ class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
           minimumSize: const Size(65, 34),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),
-        child: const Text(
-          'Timer', 
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)
+        child: Text(
+          AppLocalizations.of(context)!.timer, 
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)
         ),
       );
     }
@@ -213,39 +216,45 @@ class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
   }
 
   Future<void> _showActiveSoundsModal() async {
-    showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      isScrollControlled: true,
-      barrierColor: Colors.black.withOpacity(0.5),
-      builder: (BuildContext context) {
-        return ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(28),
-            topRight: Radius.circular(28),
-          ),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.65,
-              decoration: BoxDecoration(
-                color: const Color(0xFF0F0B29).withOpacity(0.85),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(28),
-                  topRight: Radius.circular(28),
-                ),
-                border: Border.all(
-                  color: Colors.white.withOpacity(0.08),
-                  width: 1.5,
-                ),
-              ),
-              child: const PlayingSoundsController(),
+    if (_isModalOpen) return;
+    _isModalOpen = true;
+    try {
+      await showModalBottomSheet<void>(
+        context: context,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        isScrollControlled: true,
+        barrierColor: Colors.black.withOpacity(0.5),
+        builder: (BuildContext context) {
+          return ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(28),
+              topRight: Radius.circular(28),
             ),
-          ),
-        );
-      },
-    );
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.65,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF0F0B29).withOpacity(0.85),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(28),
+                    topRight: Radius.circular(28),
+                  ),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.08),
+                    width: 1.5,
+                  ),
+                ),
+                child: const PlayingSoundsController(),
+              ),
+            ),
+          );
+        },
+      );
+    } finally {
+      _isModalOpen = false;
+    }
   }
 
   Future<void> _showModalBottomSheet() async {
@@ -381,6 +390,7 @@ class _ActiveSoundsBottomBarState extends State<ActiveSoundsBottomBar> {
                                     .read<TimerCubit>()
                                     .startTimer(newDurationInSeconds);
                                 notificationStartCountdown(startMsg);
+                                AnalyticsService.logTimerStarted(_selectedHour * 60 + _selectedMinute);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.amberAccent,

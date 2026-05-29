@@ -1,6 +1,18 @@
 {
   "@@locale": "en",
   "mixSounds": "Mix Sounds",
+  "activeSoundsRatio": "Active: {count} / {max}",
+  "@activeSoundsRatio": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "timer": "Timer",
   "activeSoundsCount": "Active ({count})",
   "@activeSoundsCount": {
     "placeholders": {
@@ -20,6 +32,7 @@
   "yes": "Yes",
   "no": "No",
   "activeSoundsTitle": "Active Sounds",
+  "saveMixDialogTitle": "Save to Favorites",
   "noActiveSounds": "No active sounds",
   "settingsTitle": "Settings",
   "privacyPolicy": "Privacy Policy",

@@ -1,6 +1,18 @@
 {
   "@@locale": "hi",
   "mixSounds": "ध्वनियां मिलाएं",
+  "activeSoundsRatio": "सक्रिय: {count} / {max}",
+  "@activeSoundsRatio": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "timer": "टाइमर",
   "activeSoundsCount": "सक्रिय ({count})",
   "@activeSoundsCount": {
     "placeholders": {
@@ -20,6 +32,7 @@
   "yes": "हाँ",
   "no": "नहीं",
   "activeSoundsTitle": "सक्रिय ध्वनियां",
+  "saveMixDialogTitle": "पसंदीदा में सहेजें",
   "noActiveSounds": "कोई सक्रिय ध्वनि नहीं",
   "settingsTitle": "सेटिंग्स",
   "privacyPolicy": "गोपनीयता नीति",

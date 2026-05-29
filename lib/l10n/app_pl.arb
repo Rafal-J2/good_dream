@@ -1,6 +1,18 @@
 {
   "@@locale": "pl",
   "mixSounds": "Miksuj Dźwięki",
+  "activeSoundsRatio": "Aktywne: {count} / {max}",
+  "@activeSoundsRatio": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "timer": "Timer",
   "activeSoundsCount": "Aktywne ({count})",
   "@activeSoundsCount": {
     "placeholders": {
@@ -20,6 +32,7 @@
   "yes": "Tak",
   "no": "Nie",
   "activeSoundsTitle": "Aktywne Dźwięki",
+  "saveMixDialogTitle": "Zapisz do ulubionych",
   "noActiveSounds": "Brak aktywnych dźwięków",
   "settingsTitle": "Ustawienia",
   "privacyPolicy": "Polityka prywatności",
