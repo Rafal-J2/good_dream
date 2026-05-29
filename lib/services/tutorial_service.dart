@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:good_dream/bloc/media_control/media_control_cubit.dart';
 import 'package:good_dream/views/main_tab_bar_controller.dart';
+import 'package:good_dream/services/analytics_service.dart';
 
 
 
@@ -88,6 +89,7 @@ class TutorialService {
     } catch (_) {}
 
     isTutorialActive = true;
+    AnalyticsService.logTutorialStarted();
     final localizations = AppLocalizations.of(context)!;
     
     // Create the target focus
@@ -140,6 +142,7 @@ class TutorialService {
         setStep(1);
         isTutorialActive = false;
         tutorial.finish();
+        AnalyticsService.logTutorialStepCompleted(1, 'open_mixer');
         // Programmatically push MainTabBarController on the very first click
         Navigator.of(context).push(
           MaterialPageRoute(
@@ -148,6 +151,7 @@ class TutorialService {
         );
       },
       onSkip: () {
+        AnalyticsService.logTutorialSkipped(1);
         finishTutorial();
         isTutorialActive = false;
         return true;
@@ -155,6 +159,7 @@ class TutorialService {
       onFinish: () {
         setStep(1);
         isTutorialActive = false;
+        AnalyticsService.logTutorialStepCompleted(1, 'open_mixer');
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => const MainTabBarController(),
@@ -227,6 +232,7 @@ class TutorialService {
         setStep(2);
         isTutorialActive = false;
         tutorial.finish();
+        AnalyticsService.logTutorialStepCompleted(2, 'activate_sound');
         // Trigger Step 3 with a slight delay so the slider is fully rendered
         Future.delayed(const Duration(milliseconds: 600), () {
           if (context.mounted) {
@@ -235,6 +241,7 @@ class TutorialService {
         });
       },
       onSkip: () {
+        AnalyticsService.logTutorialSkipped(2);
         finishTutorial();
         isTutorialActive = false;
         return true;
@@ -243,6 +250,7 @@ class TutorialService {
         onFirstSoundTapped(); // Programmatic callback to toggle the sound
         setStep(2);
         isTutorialActive = false;
+        AnalyticsService.logTutorialStepCompleted(2, 'activate_sound');
         Future.delayed(const Duration(milliseconds: 600), () {
           if (context.mounted) {
             startStep3(context);
@@ -312,6 +320,7 @@ class TutorialService {
       onClickTarget: (target) {
         isTutorialActive = false;
         tutorial.finish();
+        AnalyticsService.logTutorialStepCompleted(3, 'open_active_sounds');
         // Delay opening modal by 350ms to allow overlay fade-out to complete and avoid race condition
         Future.delayed(const Duration(milliseconds: 350), () {
           setStep(3);
@@ -321,12 +330,14 @@ class TutorialService {
         });
       },
       onSkip: () {
+        AnalyticsService.logTutorialSkipped(3);
         finishTutorial();
         isTutorialActive = false;
         return true;
       },
       onFinish: () {
         isTutorialActive = false;
+        AnalyticsService.logTutorialStepCompleted(3, 'open_active_sounds');
         // Delay opening modal by 350ms to allow overlay fade-out to complete and avoid race condition
         Future.delayed(const Duration(milliseconds: 350), () {
           setStep(3);
@@ -361,7 +372,7 @@ class TutorialService {
         paddingFocus: 2,
         contents: [
           TargetContent(
-            align: ContentAlign.bottom,
+            align: ContentAlign.top,
             builder: (context, controller) {
               return _buildPremiumBubble(
                 context: context,
@@ -409,6 +420,7 @@ class TutorialService {
         setStep(4);
         isTutorialActive = false;
         tutorial.finish();
+        AnalyticsService.logTutorialStepCompleted(4, 'adjust_volume');
         Future.delayed(const Duration(milliseconds: 600), () {
           if (context.mounted) {
             startStep5(context);
@@ -416,6 +428,7 @@ class TutorialService {
         });
       },
       onSkip: () {
+        AnalyticsService.logTutorialSkipped(4);
         finishTutorial();
         isTutorialActive = false;
         return true;
@@ -432,6 +445,7 @@ class TutorialService {
 
         setStep(4);
         isTutorialActive = false;
+        AnalyticsService.logTutorialStepCompleted(4, 'adjust_volume');
         Future.delayed(const Duration(milliseconds: 600), () {
           if (context.mounted) {
             startStep5(context);
@@ -503,6 +517,8 @@ class TutorialService {
         finishTutorial();
         isTutorialActive = false;
         tutorial.finish();
+        AnalyticsService.logTutorialStepCompleted(5, 'save_mix');
+        AnalyticsService.logTutorialFinished();
         // Delay opening save dialog by 350ms to allow overlay fade-out to complete and avoid race condition
         Future.delayed(const Duration(milliseconds: 350), () {
           if (onStep5TargetTapped != null) {
@@ -511,6 +527,7 @@ class TutorialService {
         });
       },
       onSkip: () {
+        AnalyticsService.logTutorialSkipped(5);
         finishTutorial();
         isTutorialActive = false;
         return true;
@@ -518,6 +535,8 @@ class TutorialService {
       onFinish: () {
         finishTutorial();
         isTutorialActive = false;
+        AnalyticsService.logTutorialStepCompleted(5, 'save_mix');
+        AnalyticsService.logTutorialFinished();
         // Delay opening save dialog by 350ms to allow overlay fade-out to complete and avoid race condition
         Future.delayed(const Duration(milliseconds: 350), () {
           if (onStep5TargetTapped != null) {

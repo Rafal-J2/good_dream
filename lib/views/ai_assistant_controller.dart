@@ -7,6 +7,7 @@ import 'package:good_dream/models/sounds_catalog.dart';
 import 'package:good_dream/services/ai_assistant_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:good_dream/services/analytics_service.dart';
 
 class AIAssistantController extends StatefulWidget {
   const AIAssistantController({super.key});
@@ -190,6 +191,10 @@ class _AIAssistantControllerState extends State<AIAssistantController>
         _retryCount = 0;
         _currentMoodQuery = query;
         _rejectedMixes = [];
+        AnalyticsService.logEvent(
+          name: 'ai_composer_started',
+          parameters: {'selected_goal': query},
+        );
       }
       _accepted = false;
       _wantsToSave = false;
@@ -223,6 +228,14 @@ class _AIAssistantControllerState extends State<AIAssistantController>
             }
             return <String, dynamic>{};
           }).where((m) => m.isNotEmpty).toList();
+
+          AnalyticsService.logEvent(
+            name: 'ai_composer_success',
+            parameters: {
+              'selected_goal': query,
+              'sounds_suggested': _recommendedSounds.map((s) => s['id'] as String).toList().join(','),
+            },
+          );
 
           final storage = GetStorage();
           final List favs = storage.read<List>('favorites') ?? [];
@@ -921,6 +934,14 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                                   Expanded(
                                     child: OutlinedButton(
                                       onPressed: () async {
+                                        AnalyticsService.logEvent(
+                                          name: 'ai_composer_feedback',
+                                          parameters: {
+                                            'selected_goal': _currentMoodQuery ?? '',
+                                            'user_liked': 0,
+                                            'retry_count': _retryCount,
+                                          },
+                                        );
                                         if (_retryCount >= 3) {
                                           ScaffoldMessenger.of(context).showSnackBar(
                                             SnackBar(
@@ -964,6 +985,13 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                                   Expanded(
                                     child: ElevatedButton(
                                       onPressed: () {
+                                        AnalyticsService.logEvent(
+                                          name: 'ai_composer_feedback',
+                                          parameters: {
+                                            'selected_goal': _currentMoodQuery ?? '',
+                                            'user_liked': 1,
+                                          },
+                                        );
                                         setState(() {
                                           _accepted = true;
                                         });
@@ -1190,6 +1218,13 @@ class _AIAssistantControllerState extends State<AIAssistantController>
                                       };
                                       favs.add(mixData);
                                       storage.write('favorites', favs);
+                                      AnalyticsService.logEvent(
+                                        name: 'ai_composer_mix_saved',
+                                        parameters: {
+                                          'selected_goal': _currentMoodQuery ?? '',
+                                          'mix_name': name,
+                                        },
+                                      );
                                       
                                       setState(() {
                                         _hasSaved = true;

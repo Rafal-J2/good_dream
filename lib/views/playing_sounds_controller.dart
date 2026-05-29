@@ -7,6 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:good_dream/services/tutorial_service.dart';
+import 'package:good_dream/services/analytics_service.dart';
 
 class PlayingSoundsController extends StatefulWidget {
   const PlayingSoundsController({super.key});
@@ -16,10 +17,18 @@ class PlayingSoundsController extends StatefulWidget {
 
 class PlayingSoundsControllerState extends State<PlayingSoundsController>
     with AutomaticKeepAliveClientMixin {
+  bool _isSaveDialogOpen = false;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     
+    TutorialService.onStep5TargetTapped = () {
+      if (mounted) {
+        _saveCurrentMix(context, context.read<MediaControlCubit>().state.activeSounds);
+      }
+    };
+
     if (TutorialService.getStep() == 3) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (context.mounted) {
@@ -28,9 +37,6 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
       });
     }
     if (TutorialService.getStep() == 4) {
-      TutorialService.onStep5TargetTapped = () {
-        _saveCurrentMix(context, context.read<MediaControlCubit>().state.activeSounds);
-      };
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (context.mounted) {
           TutorialService.startStep5(context);
@@ -275,12 +281,15 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
     return unique.toList();
   }
 
-  void _saveCurrentMix(BuildContext context, List<dynamic> activeSounds) {
-    final localizations = AppLocalizations.of(context)!;
-    final storage = GetStorage();
-    List favs = storage.read<List>('favorites') ?? [];
-    
-    if (favs.length >= 6) {
+  Future<void> _saveCurrentMix(BuildContext context, List<dynamic> activeSounds) async {
+    if (_isSaveDialogOpen) return;
+    _isSaveDialogOpen = true;
+    try {
+      final localizations = AppLocalizations.of(context)!;
+      final storage = GetStorage();
+      List favs = storage.read<List>('favorites') ?? [];
+      
+      if (favs.length >= 6) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -398,7 +407,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
 
     String localSelectedCover = recommendedCover;
 
-    showDialog(
+    await showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         return StatefulBuilder(
@@ -407,7 +416,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
               backgroundColor: const Color(0xFF1E1242),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
               title: Text(
-                localizations.activeSoundsTitle,
+                localizations.saveMixDialogTitle,
                 style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               content: SingleChildScrollView(
@@ -578,6 +587,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
 
                     currentFavs.add(newMix);
                     storage.write('favorites', currentFavs);
+                    AnalyticsService.logMixSaved(name, activeSounds.length, localSelectedCover);
 
                     Navigator.of(dialogContext).pop(); // Close dialog
                     Navigator.of(context).pop(); // Close bottom sheet modal
@@ -606,6 +616,15 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
         );
       },
     );
+    } finally {
+      _isSaveDialogOpen = false;
+    }
+  }
+
+  @override
+  void dispose() {
+    TutorialService.onStep5TargetTapped = null;
+    super.dispose();
   }
 
   @override

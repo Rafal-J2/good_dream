@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../bloc/media_control/media_control_cubit.dart';
 import '../models/audio_clip.dart';
 import 'package:good_dream/services/tutorial_service.dart';
+import 'package:good_dream/services/analytics_service.dart';
 
 class AudioControlCenter extends StatelessWidget {
   final String category;
@@ -75,10 +76,19 @@ class AudioControlCenter extends StatelessWidget {
                   ),
                   child: InkWell(
                     onTap: () {
+                      final willBeActive = !isActive;
                       cubit.toggleSound(
                         category,
                         clip,
                         maxSoundsMessage: AppLocalizations.of(context)?.maxSoundsReached,
+                      );
+                      AnalyticsService.logEvent(
+                        name: 'sound_toggled',
+                        parameters: {
+                          'sound_id': clip.id,
+                          'is_active': willBeActive ? 1 : 0,
+                          'category': category,
+                        },
                       );
                     },
                     borderRadius: BorderRadius.circular(16.0),

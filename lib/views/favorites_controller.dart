@@ -10,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:good_dream/views/main_menu_navigator.dart';
 import 'package:good_dream/views/main_tab_bar_controller.dart';
 import 'package:good_dream/services/tutorial_service.dart';
+import 'package:good_dream/services/analytics_service.dart';
 class FavoritesController extends StatefulWidget {
   const FavoritesController({super.key});
 
@@ -22,6 +23,8 @@ class _FavoritesControllerState extends State<FavoritesController>
   final _storage = GetStorage();
   List<dynamic> _favorites = [];
   Function()? _favoritesSubscription;
+  String? _lastPlayedMixName;
+  bool? _lastPlayedMixIsFavorite;
 
 
   // 8 pre-generated curated random mixes
@@ -252,7 +255,7 @@ class _FavoritesControllerState extends State<FavoritesController>
     return 'default_cover.webp';
   }
 
-  Future<void> _playFavorite(Map<String, dynamic> mix) async {
+  Future<void> _playFavorite(Map<String, dynamic> mix, bool isFavoriteCard) async {
     final cubit = context.read<MediaControlCubit>();
     
     // Toggle active mix off if clicked again
@@ -270,10 +273,19 @@ class _FavoritesControllerState extends State<FavoritesController>
 
     if (isCurrentlyActive) {
       await cubit.disableAllSoundsAndIcons();
+      setState(() {
+        _lastPlayedMixName = null;
+        _lastPlayedMixIsFavorite = null;
+      });
       return;
     }
 
     await cubit.disableAllSoundsAndIcons();
+    setState(() {
+      _lastPlayedMixName = mix['name'] as String?;
+      _lastPlayedMixIsFavorite = isFavoriteCard;
+    });
+    AnalyticsService.logMixPlayed(mix['name'] as String? ?? 'Miks', isFavoriteCard);
 
     final List<MapEntry<AudioClip, double>> clipsToPlay = [];
     final sounds = mix['sounds'] as List<dynamic>? ?? [];
@@ -293,7 +305,7 @@ class _FavoritesControllerState extends State<FavoritesController>
     }
   }
 
-  bool _isMixActive(Map<String, dynamic> mix) {
+  bool _isMixActive(Map<String, dynamic> mix, bool isFavoriteCard) {
     final cubit = context.watch<MediaControlCubit>();
     final activeIds = cubit.state.activeSounds.map((e) => e.clip.id.toLowerCase()).toSet();
     
@@ -304,7 +316,31 @@ class _FavoritesControllerState extends State<FavoritesController>
     }).where((id) => id.isNotEmpty).toSet();
 
     if (activeIds.isEmpty || mixIds.isEmpty) return false;
-    return activeIds.length == mixIds.length && activeIds.containsAll(mixIds);
+    
+    // 1. Verify if the active sounds match the mix sounds
+    final soundsMatch = activeIds.length == mixIds.length && activeIds.containsAll(mixIds);
+    if (!soundsMatch) return false;
+
+    // 2. If sounds match and we explicitly tracked the last played mix, highlight exactly that card
+    if (_lastPlayedMixName != null && _lastPlayedMixIsFavorite != null) {
+      if (mix['name'] == _lastPlayedMixName) {
+        return _lastPlayedMixIsFavorite == isFavoriteCard;
+      }
+    }
+
+    // 3. Fallback/Manual Selection: To prevent duplicate highlighting when manually selecting sounds (or tutorial auto-start)
+    // where no mix card was tapped, we prefer built-in (Gotowe) mixes.
+    if (isFavoriteCard) {
+      // Check if there is a matching built-in mix
+      final hasMatchingBuiltIn = _randomMixes.any((m) {
+        final mSounds = m['sounds'] as List<dynamic>? ?? [];
+        final mIds = mSounds.map((e) => ((e as Map)['id'] as String? ?? '').toLowerCase()).toSet();
+        return activeIds.length == mIds.length && activeIds.containsAll(mIds);
+      });
+      if (hasMatchingBuiltIn) return false;
+    }
+
+    return true;
   }
 
   String _getLocalizedMixName(BuildContext context, String originalName) {
@@ -344,14 +380,14 @@ class _FavoritesControllerState extends State<FavoritesController>
     final name = _getLocalizedMixName(context, mix['name'] as String? ?? 'Miks');
 
 
-    final isActive = _isMixActive(mix);
+    final isActive = _isMixActive(mix, isFavorite);
     final coverImage = _getCoverForMix(mix);
 
     return Material(
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        onTap: () => _playFavorite(mix),
+        onTap: () => _playFavorite(mix, isFavorite),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: Stack(
