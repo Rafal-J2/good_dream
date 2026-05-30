@@ -56,5 +56,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+            
+        <!-- Disable Advertising ID collection for Firebase Analytics -->
+        <meta-data
+            android:name="google_analytics_adid_collection_enabled"
+            android:value="false" />
     </application>
 </manifest>

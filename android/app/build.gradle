@@ -35,8 +35,14 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "com.example.good_dream"
-    compileSdkVersion 34
+    compileSdkVersion 35
     ndkVersion flutter.ndkVersion
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

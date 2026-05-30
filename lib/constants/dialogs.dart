@@ -16,18 +16,18 @@ const String ads =
 // Personal Information
 const String personalInformation =
     "Our mobile applications do not require users to provide personal information such as name, address, phone number, email address,"
-    "nor do they automatically collect any other information that can be used to directly identify you. Our priority is to protect the privacy of our users..";
+    "nor do they automatically collect any other information that can be used to directly identify you. Our priority is to protect the privacy of our users.";
 
 //Links to Other Sites  GNU
 const String linksToOtherSitesGNU =
-    "This Service may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated. Therefore,strongly advise you to review the Privacy Policy of these websites. "
-    "I have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.";
+    "This Service may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by us. Therefore, we strongly advise you to review the Privacy Policy of these websites. "
+    "We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.";
 
 // Collection of Technical Data
 const String collectionOfTechnicalData =
-    "To ensure the stability of our applications and improve their quality, we use Firebase Crashlytics, a tool offered by Google that helps us identify and diagnose bugs and crashes in the application."
-    "Firebase Crashlytics may collect anonymous technical data, such as device model, operating system version, error and crash information."
-    "This data is used for diagnostic purposes only and is not used to identify users. For more information about Firebase Crashlytics' data processing, please see ";
+    "To ensure the stability of our applications, improve their quality, and understand user interaction to enhance features, we use Firebase Analytics and Firebase Crashlytics, tools offered by Google."
+    "These services may collect anonymous technical data, such as device model, operating system version, application usage statistics, and error/crash information."
+    "This data is used for diagnostic and analytical purposes only and is not used to identify users. For more information, please see ";
 
 //Children's Privacy Protection
 const String childrensPrivacyGNU =
@@ -47,11 +47,11 @@ const String cookies =
 const String informationSecurity =
     "The security of our users' data is critical to us. We use advanced technologies and security procedures to protect your personal information. Despite our best efforts, no online environment is completely risk-free." 
     "By acknowledging this, by using our application, you are accepting the potential risks associated with online data security."
-     "We encourage you to take measures to protect your own information, such as using strong passwords and keeping your software updated.";
+    "We encourage you to take measures to protect your own information, such as using strong passwords and keeping your software updated.";
 
 //Contact Information *
 const String contactInformation =
-    "If you have any questions, comments or complaints about this Privacy Policy, please contact us as follows: you may email us at Dev.Software15@gmail.com We will respond within a reasonable amount time.";
+    "If you have any questions, comments or complaints about this Privacy Policy, please contact us as follows: you may email us at dev.software15@gmail.com. We will respond within a reasonable amount of time.";
 
 const String acknowledgments =
     "Icons made by Freepik from Flaticon - www.flaticon.com";
