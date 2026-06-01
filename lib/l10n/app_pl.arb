@@ -151,6 +151,7 @@
   "aiMixSaveYes": "Tak, zapisz",
   "aiMixSaveNo": "Nie",
   "aiMixNameChoice": "Wybierz nazwę dla tego miksu:",
+  "aiNameSuggestions": "Propozycje nazw od AI:",
   "aiMixCoverChoice": "Wybierz okładkę dla swojego miksu:",
   "aiMixSaveLimit": "Osiągnięto limit 6 ulubionych. Usuń coś najpierw.",
   "aiMixSavedSuccess": "Zapisano \"{name}\" do ulubionych!",

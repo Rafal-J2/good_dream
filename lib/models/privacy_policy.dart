@@ -24,42 +24,28 @@ const List<PrivacyPolicyContent> privacyPolicyContent = [
     type: PrivacyPolicyContentType.header,
   ),
   PrivacyPolicyContent(
-    text: privacyPolicy,
+    text: privacyPolicyIntro,
   ),
   PrivacyPolicyContent(
-    text: "Consent",
+    text: 'Information We Collect',
     type: PrivacyPolicyContentType.header,
   ),
   PrivacyPolicyContent(
-    text: consent,
+    text: privacyPolicyCollect,
   ),
   PrivacyPolicyContent(
-    text: "ADS",
+    text: 'How We Use Information',
     type: PrivacyPolicyContentType.header,
   ),
   PrivacyPolicyContent(
-    text: ads,
+    text: privacyPolicyUse,
   ),
   PrivacyPolicyContent(
-    text: 'Personal Information',
+    text: 'Third-Party Services',
     type: PrivacyPolicyContentType.header,
   ),
   PrivacyPolicyContent(
-    text: personalInformation,
-  ),
-  PrivacyPolicyContent(
-    text: 'Links to Other Sites',
-    type: PrivacyPolicyContentType.header,
-  ),
-  PrivacyPolicyContent(
-    text: linksToOtherSitesGNU,
-  ),
-  PrivacyPolicyContent(
-    text: 'Collection of Technical Data',
-    type: PrivacyPolicyContentType.header,
-  ),
-  PrivacyPolicyContent(
-    text: collectionOfTechnicalData,
+    text: privacyPolicyThirdParty,
   ),
   PrivacyPolicyContent(
     text: '•	Google Play Services',
@@ -67,31 +53,52 @@ const List<PrivacyPolicyContent> privacyPolicyContent = [
     url: 'google_privacy',
   ),
   PrivacyPolicyContent(
-    text: "Children's Privacy Protection",
+    text: 'Data Retention',
     type: PrivacyPolicyContentType.header,
   ),
   PrivacyPolicyContent(
-    text: childrensPrivacyGNU,
+    text: privacyPolicyRetention,
   ),
   PrivacyPolicyContent(
-    text: 'Cookies',
+    text: 'International Data Transfers',
     type: PrivacyPolicyContentType.header,
   ),
   PrivacyPolicyContent(
-    text: cookies,
+    text: privacyPolicyTransfers,
   ),
   PrivacyPolicyContent(
-    text: 'Information security',
+    text: "Children's Privacy",
     type: PrivacyPolicyContentType.header,
   ),
   PrivacyPolicyContent(
-    text: informationSecurity,
+    text: privacyPolicyChildren,
   ),
   PrivacyPolicyContent(
-    text: 'Contact Information ',
+    text: 'Security',
     type: PrivacyPolicyContentType.header,
   ),
   PrivacyPolicyContent(
-    text: contactInformation,
+    text: privacyPolicySecurity,
+  ),
+  PrivacyPolicyContent(
+    text: 'Your Rights',
+    type: PrivacyPolicyContentType.header,
+  ),
+  PrivacyPolicyContent(
+    text: privacyPolicyRights,
+  ),
+  PrivacyPolicyContent(
+    text: 'Changes to This Privacy Policy',
+    type: PrivacyPolicyContentType.header,
+  ),
+  PrivacyPolicyContent(
+    text: privacyPolicyChanges,
+  ),
+  PrivacyPolicyContent(
+    text: 'Contact Us',
+    type: PrivacyPolicyContentType.header,
+  ),
+  PrivacyPolicyContent(
+    text: privacyPolicyContact,
   ),
 ];

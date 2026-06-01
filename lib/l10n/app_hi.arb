@@ -151,6 +151,7 @@
   "aiMixSaveYes": "हाँ, सहेजें",
   "aiMixSaveNo": "नहीं",
   "aiMixNameChoice": "इस मिक्स के लिए एक नाम चुनें:",
+  "aiNameSuggestions": "एआई नाम के सुझाव:",
   "aiMixCoverChoice": "अपने मिक्स के लिए एक कवर चुनें:",
   "aiMixSaveLimit": "पसंदीदा की अधिकतम सीमा 6 तक पहुँच गई है। पहले कुछ हटाएँ।",
   "aiMixSavedSuccess": "पसंदीदा में \"{name}\" सहेजा गया!",

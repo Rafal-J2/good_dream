@@ -207,7 +207,8 @@ class _AIAssistantControllerState extends State<AIAssistantController>
 
     _pulseController.repeat(reverse: true);
 
-    final result = await _aiService.generateSleepSession(query, rejectedSounds: _rejectedMixes);
+    final lang = Localizations.localeOf(context).languageCode;
+    final result = await _aiService.generateSleepSession(query, rejectedSounds: _rejectedMixes, language: lang);
 
     if (mounted) {
       setState(() {
@@ -217,7 +218,13 @@ class _AIAssistantControllerState extends State<AIAssistantController>
           final rawNames = result['proposedNames'] as List<dynamic>? ?? [];
           _proposedNames = rawNames.map((e) => e.toString()).toList();
           if (_proposedNames.isEmpty) {
-            _proposedNames = ['Spokojny Sen', 'Nocny Relaks', 'Głęboki Oddech'];
+            if (lang == 'en') {
+              _proposedNames = ['Peaceful Sleep', 'Night Relaxation', 'Deep Breath'];
+            } else if (lang == 'hi') {
+              _proposedNames = ['शांतिपूर्ण नींद', 'रात का विश्राम', 'गहरी सांस'];
+            } else {
+              _proposedNames = ['Spokojny Sen', 'Nocny Relaks', 'Głęboki Oddech'];
+            }
           }
           
           _recommendedSounds = rawSounds.map((item) {

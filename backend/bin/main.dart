@@ -46,9 +46,20 @@ void main() async {
       final Map<String, dynamic> jsonBody = jsonDecode(body);
       final mood = jsonBody['mood'] as String? ?? 'spokojny sen';
       final rejectedSounds = jsonBody['rejectedSounds'] as List<dynamic>? ?? [];
+      final language = jsonBody['language'] as String? ?? 'pl';
 
       if (apiKey == null || apiKey.isEmpty || apiKey == 'YOUR_GEMINI_API_KEY_HERE' || apiKey == 'YOUR_DEEPSEEK_API_KEY_HERE') {
         throw Exception('API Key is missing. Please set DEEPSEEK_API_KEY in your backend/.env file.');
+      }
+
+      String languageName = 'Polish';
+      String languageExample = '"Spokojny Las", "Nocny Relaks"';
+      if (language == 'en') {
+        languageName = 'English';
+        languageExample = '"Calm Forest", "Night Relaxation"';
+      } else if (language == 'hi') {
+        languageName = 'Hindi (written in Devanagari script)';
+        languageExample = '"शांत वन", "रात की शांति"';
       }
 
       final systemInstruction = '''
@@ -61,7 +72,7 @@ Instructions for sounds:
 
 Format your final output strictly as a JSON object with two keys:
 1. "recommendedSounds": (array of strings) The exact IDs of the chosen sounds (e.g. ["Rain", "Piano"]).
-2. "proposedNames": (array of exactly 3 strings) Provide exactly 3 short, poetic names in Polish for this mix (e.g. "Spokojny Las", "Nocny Relaks").
+2. "proposedNames": (array of exactly 3 strings) Provide exactly 3 short, poetic names in $languageName for this mix (e.g. $languageExample).
 
 Available sound IDs:
 ${availableSoundIds.join(', ')}
@@ -129,7 +140,13 @@ ${availableSoundIds.join(', ')}
       
       // Parse with fallback validation
       final rawSounds = decoded['recommendedSounds'] as List<dynamic>? ?? [];
-      final proposedNamesRaw = decoded['proposedNames'] as List<dynamic>? ?? ['Twój miks 1', 'Twój miks 2', 'Twój miks 3'];
+      List<String> defaultNames = ['Twój miks 1', 'Twój miks 2', 'Twój miks 3'];
+      if (language == 'en') {
+        defaultNames = ['Your mix 1', 'Your mix 2', 'Your mix 3'];
+      } else if (language == 'hi') {
+        defaultNames = ['आपका मिक्स 1', 'आपका मिक्स 2', 'आपका मिक्स 3'];
+      }
+      final proposedNamesRaw = decoded['proposedNames'] as List<dynamic>? ?? defaultNames;
       final List<String> proposedNames = proposedNamesRaw.map((e) => e.toString()).take(3).toList();
       
       final List<Map<String, dynamic>> recommendedSounds = [];

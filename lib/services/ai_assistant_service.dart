@@ -27,12 +27,15 @@ class AIAssistantService {
 
   /// Sends a request to the backend Gemini AI flow to get sleep advice
   /// and obtain recommended matching catalog sound IDs with custom volume levels.
-  Future<Map<String, dynamic>> generateSleepSession(String mood, {List<String>? rejectedSounds}) async {
+  Future<Map<String, dynamic>> generateSleepSession(String mood, {List<String>? rejectedSounds, String? language}) async {
     final url = Uri.parse('$baseUrl/generateSleepSession');
     try {
       final bodyData = <String, dynamic>{'mood': mood};
       if (rejectedSounds != null && rejectedSounds.isNotEmpty) {
         bodyData['rejectedSounds'] = rejectedSounds;
+      }
+      if (language != null) {
+        bodyData['language'] = language;
       }
 
       final response = await http.post(

@@ -207,9 +207,11 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
     );
   }
 
-  List<String> _generateNameSuggestions(List<dynamic> activeSounds) {
+  List<String> _generateNameSuggestions(List<dynamic> activeSounds, String lang) {
     final ids = activeSounds.map((s) => s.clip.id.toString().toLowerCase().trim()).toList();
     if (ids.isEmpty) {
+      if (lang == 'en') return ["My Quiet Corner", "Relaxation Moment", "Sleepy Mix"];
+      if (lang == 'hi') return ["मेरा शांत कोना", "विश्राम का क्षण", "नींद भरा मिक्स"];
       return ["Mój Cichy Zakątek", "Chwila Relaksu", "Senny Miks"];
     }
 
@@ -225,49 +227,175 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
     final List<String> suggestions = [];
 
     if (hasRain && hasMusic) {
-      suggestions.addAll(["Melodia w Deszczu", "Deszczowy Koncert", "Spokojna Nuta w Kroplach"]);
+      if (lang == 'en') {
+        suggestions.addAll(["Melody in Rain", "Rainy Concert", "Calm Note in Drops"]);
+      } else if (lang == 'hi') {
+        suggestions.addAll(["बारिश में राग", "बारिश का संगीत", "बूंदों में शांत स्वर"]);
+      } else {
+        suggestions.addAll(["Melodia w Deszczu", "Deszczowy Koncert", "Spokojna Nuta w Kroplach"]);
+      }
     } else if (hasSea && hasMusic) {
-      suggestions.addAll(["Morska Symfonia", "Fale i Fortepian", "Oceaniczny Relaks"]);
+      if (lang == 'en') {
+        suggestions.addAll(["Sea Symphony", "Waves and Piano", "Oceanic Relaxation"]);
+      } else if (lang == 'hi') {
+        suggestions.addAll(["समुद्री सिम्फनी", "लहरें और पियानो", "महासागरीय विश्राम"]);
+      } else {
+        suggestions.addAll(["Morska Symfonia", "Fale i Fortepian", "Oceaniczny Relaks"]);
+      }
     } else if (hasForest && hasMusic) {
-      suggestions.addAll(["Leśna Medytacja", "Śpiew Ptaków i Flet", "Zielona Harmonia"]);
+      if (lang == 'en') {
+        suggestions.addAll(["Forest Meditation", "Birds and Flute", "Green Harmony"]);
+      } else if (lang == 'hi') {
+        suggestions.addAll(["वन ध्यान", "पक्षियों का गान और बांसुरी", "हरित सद्भाव"]);
+      } else {
+        suggestions.addAll(["Leśna Medytacja", "Śpiew Ptaków i Flet", "Zielona Harmonia"]);
+      }
     } else if (hasFire && hasMusic) {
-      suggestions.addAll(["Wieczór przy Kominku", "Gitara przy Ognisku", "Ciepły Płomień Muzyki"]);
+      if (lang == 'en') {
+        suggestions.addAll(["Evening by Fireplace", "Guitar by Bonfire", "Warm Flame of Music"]);
+      } else if (lang == 'hi') {
+        suggestions.addAll(["अलाव के पास शाम", "कैंपफायर पर गिटार", "संगीत की गर्म लौ"]);
+      } else {
+        suggestions.addAll(["Wieczór przy Kominku", "Gitara przy Ognisku", "Ciepły Płomień Muzyki"]);
+      }
     } else if (hasRain && hasForest) {
-      suggestions.addAll(["Leśny Deszcz", "Szum Drzew i Krople", "Nocna Burza w Lesie"]);
+      if (lang == 'en') {
+        suggestions.addAll(["Forest Rain", "Rustle of Trees and Drops", "Night Storm in Forest"]);
+      } else if (lang == 'hi') {
+        suggestions.addAll(["वन की वर्षा", "पेड़ों की सरसराहट og बूंदें", "जंगल में रात का तूफान"]);
+      } else {
+        suggestions.addAll(["Leśny Deszcz", "Szum Drzew i Krople", "Nocna Burza w Lesie"]);
+      }
     } else if (hasSea && hasWind) {
-      suggestions.addAll(["Morski Wiatr", "Szept Oceanu", "Słona Bryza"]);
+      if (lang == 'en') {
+        suggestions.addAll(["Sea Wind", "Ocean Whisper", "Salty Breeze"]);
+      } else if (lang == 'hi') {
+        suggestions.addAll(["समुद्री हवा", "समुद्र की फुसफुसाहट", "नमकीन हवा"]);
+      } else {
+        suggestions.addAll(["Morski Wiatr", "Szept Oceanu", "Słona Bryza"]);
+      }
     } else if (hasFire && hasForest) {
-      suggestions.addAll(["Ognisko w Głuszy", "Ciepło Leśnej Nocy", "Trzaskające Drewno"]);
+      if (lang == 'en') {
+        suggestions.addAll(["Bonfire in Wilderness", "Warmth of Forest Night", "Crackling Wood"]);
+      } else if (lang == 'hi') {
+        suggestions.addAll(["जंगल में अलाव", "वन रात्रि की गर्मी", "चटकती लकड़ी"]);
+      } else {
+        suggestions.addAll(["Ognisko w Głuszy", "Ciepło Leśnej Nocy", "Trzaskające Drewno"]);
+      }
     } else if (hasWater && hasRain) {
-      suggestions.addAll(["Deszcz nad Potokiem", "Górski Wodospad w Kroplach", "Bieg Deszczowej Rzeki"]);
+      if (lang == 'en') {
+        suggestions.addAll(["Rain over Creek", "Mountain Waterfall in Drops", "Flow of Rainy River"]);
+      } else if (lang == 'hi') {
+        suggestions.addAll(["झरने पर बारिश", "पहाड़ी झरना बूंदों में", "बरसाती नदी का बहाव"]);
+      } else {
+        suggestions.addAll(["Deszcz nad Potokiem", "Górski Wodospad w Kroplach", "Bieg Deszczowej Rzeki"]);
+      }
     } else {
       final primaryId = ids.first;
       if (primaryId.contains('rain')) {
-        suggestions.addAll(["Spokojny Deszcz", "Krople na Szybie", "Nocna Ulewa"]);
+        if (lang == 'en') {
+          suggestions.addAll(["Calm Rain", "Drops on Window", "Night Downpour"]);
+        } else if (lang == 'hi') {
+          suggestions.addAll(["शांत बारिश", "खिड़की पर बूंदें", "रात की मूसलाधार बारिश"]);
+        } else {
+          suggestions.addAll(["Spokojny Deszcz", "Krople na Szybie", "Nocna Ulewa"]);
+        }
       } else if (primaryId.contains('sea') || primaryId.contains('ocean')) {
-        suggestions.addAll(["Szum Oceanu", "Spokojna Plaża", "Głębia Spokoju"]);
+        if (lang == 'en') {
+          suggestions.addAll(["Ocean Sound", "Peaceful Beach", "Depth of Calm"]);
+        } else if (lang == 'hi') {
+          suggestions.addAll(["समुद्र का शोर", "शांत समुद्र तट", "शांति की गहराई"]);
+        } else {
+          suggestions.addAll(["Szum Oceanu", "Spokojna Plaża", "Głębia Spokoju"]);
+        }
       } else if (primaryId.contains('forest') || primaryId.contains('bird') || primaryId.contains('cricket') || primaryId.contains('woodpecker') || primaryId.contains('frog')) {
-        suggestions.addAll(["Leśny Zakątek", "Śpiew Ptaków", "Nocne Świerszcze"]);
+        if (lang == 'en') {
+          suggestions.addAll(["Forest Corner", "Birdsong", "Night Crickets"]);
+        } else if (lang == 'hi') {
+          suggestions.addAll(["वन का कोना", "पक्षियों की चहचहाहट", "रात के झिंगुर"]);
+        } else {
+          suggestions.addAll(["Leśny Zakątek", "Śpiew Ptaków", "Nocne Świerszcze"]);
+        }
       } else if (primaryId.contains('fire')) {
-        suggestions.addAll(["Ciepły Kominek", "Płomień Spokoju", "Złoty Blask"]);
+        if (lang == 'en') {
+          suggestions.addAll(["Warm Fireplace", "Flame of Calm", "Golden Glow"]);
+        } else if (lang == 'hi') {
+          suggestions.addAll(["गर्म चिमनी", "शांति की लौ", "सुनहरी चमक"]);
+        } else {
+          suggestions.addAll(["Ciepły Kominek", "Płomień Spokoju", "Złoty Blask"]);
+        }
       } else if (primaryId.contains('piano')) {
-        suggestions.addAll(["Melodia Fortepianu", "Kojący Klawisz", "Wieczorne Piano"]);
+        if (lang == 'en') {
+          suggestions.addAll(["Piano Melody", "Soothing Key", "Evening Piano"]);
+        } else if (lang == 'hi') {
+          suggestions.addAll(["पियानो राग", "सुखदायक सुर", "शाम का पियानो"]);
+        } else {
+          suggestions.addAll(["Melodia Fortepianu", "Kojący Klawisz", "Wieczorne Piano"]);
+        }
       } else if (primaryId.contains('guitar')) {
-        suggestions.addAll(["Spokojna Gitara", "Akordy Relaksu", "Ciepłe Struny"]);
+        if (lang == 'en') {
+          suggestions.addAll(["Calm Guitar", "Relaxing Chords", "Warm Strings"]);
+        } else if (lang == 'hi') {
+          suggestions.addAll(["शांत gिटार", "विश्राम के स्वर", "गर्म तार"]);
+        } else {
+          suggestions.addAll(["Spokojna Gitara", "Akordy Relaksu", "Ciepłe Struny"]);
+        }
       } else if (primaryId.contains('meditation') || primaryId.contains('healing') || primaryId.contains('yoga') || primaryId.contains('zen')) {
-        suggestions.addAll(["Głęboka Medytacja", "Stan Zen", "Ukojenie Umysłu"]);
+        if (lang == 'en') {
+          suggestions.addAll(["Deep Meditation", "Zen State", "Mind Soothing"]);
+        } else if (lang == 'hi') {
+          suggestions.addAll(["गहन ध्यान", "ज़ेन की स्थिति", "मन की शांति"]);
+        } else {
+          suggestions.addAll(["Głęboka Medytacja", "Stan Zen", "Ukojenie Umysłu"]);
+        }
       } else if (primaryId.contains('flute')) {
-        suggestions.addAll(["Kojący Flet", "Eteryczny Powiew", "Melodia Wiatru"]);
+        if (lang == 'en') {
+          suggestions.addAll(["Soothing Flute", "Ethereal Breeze", "Wind Melody"]);
+        } else if (lang == 'hi') {
+          suggestions.addAll(["सुखदायक बांसुरी", "अलौकिक हवा", "हवा का राग"]);
+        } else {
+          suggestions.addAll(["Kojący Flet", "Eteryczny Powiew", "Melodia Wiatru"]);
+        }
       } else if (primaryId.contains('binaural')) {
-        suggestions.addAll(["Fale Binauralne", "Głęboki Sen", "Harmonia Umysłu"]);
+        if (lang == 'en') {
+          suggestions.addAll(["Binaural Beats", "Deep Sleep", "Mind Harmony"]);
+        } else if (lang == 'hi') {
+          suggestions.addAll(["बाइनॉरल बीट्स", "गहरी नींद", "मन का सामंजस्य"]);
+        } else {
+          suggestions.addAll(["Fale Binauralne", "Głęboki Sen", "Harmonia Umysłu"]);
+        }
       } else if (primaryId.contains('wind')) {
-        suggestions.addAll(["Kojący Wiatr", "Powiew Nocy", "Szum Halnego"]);
+        if (lang == 'en') {
+          suggestions.addAll(["Soothing Wind", "Night Breeze", "Wind Whisper"]);
+        } else if (lang == 'hi') {
+          suggestions.addAll(["सुखदायक हवा", "रात की हवा", "हवा की सरसराहट"]);
+        } else {
+          suggestions.addAll(["Kojący Wiatr", "Powiew Nocy", "Szum Halnego"]);
+        }
       } else if (primaryId.contains('waterfall') || primaryId.contains('river') || primaryId.contains('creek') || primaryId.contains('fountain') || primaryId.contains('jacuzzi') || primaryId.contains('cave')) {
-        suggestions.addAll(["Górski Potok", "Szum Wodospadu", "Bieg Rzeki"]);
+        if (lang == 'en') {
+          suggestions.addAll(["Mountain Creek", "Waterfall Sound", "River Flow"]);
+        } else if (lang == 'hi') {
+          suggestions.addAll(["पहाड़ी जलधारा", "झरने की आवाज", "नदी का बहाव"]);
+        } else {
+          suggestions.addAll(["Górski Potok", "Szum Wodospadu", "Bieg Rzeki"]);
+        }
       } else if (hasMechanical) {
-        suggestions.addAll(["Biały Szum", "Podróż Pociągiem", "Jednostajny Rytm"]);
+        if (lang == 'en') {
+          suggestions.addAll(["White Noise", "Train Journey", "Steady Rhythm"]);
+        } else if (lang == 'hi') {
+          suggestions.addAll(["सफेद शोर", "ट्रेन की यात्रा", "स्थिर लय"]);
+        } else {
+          suggestions.addAll(["Biały Szum", "Podróż Pociągiem", "Jednostajny Rytm"]);
+        }
       } else {
-        suggestions.addAll(["Mój Relaks", "Kojąca Chwila", "Wieczorny Spokój"]);
+        if (lang == 'en') {
+          suggestions.addAll(["My Relaxation", "Soothing Moment", "Evening Calm"]);
+        } else if (lang == 'hi') {
+          suggestions.addAll(["मेरा विश्राम", "सुखदायक क्षण", "शाम की शांति"]);
+        } else {
+          suggestions.addAll(["Mój Relaks", "Kojąca Chwila", "Wieczorny Spokój"]);
+        }
       }
     }
 
@@ -276,7 +404,13 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
       if (unique.length < 3) unique.add(name);
     }
     while (unique.length < 3) {
-      unique.add("Mój Miks ${unique.length + 1}");
+      if (lang == 'en') {
+        unique.add("My Mix ${unique.length + 1}");
+      } else if (lang == 'hi') {
+        unique.add("मेरा मिक्स ${unique.length + 1}");
+      } else {
+        unique.add("Mój Miks ${unique.length + 1}");
+      }
     }
     return unique.toList();
   }
@@ -306,7 +440,8 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
       return;
     }
 
-    final suggestedNames = _generateNameSuggestions(activeSounds);
+    final lang = Localizations.localeOf(context).languageCode;
+    final suggestedNames = _generateNameSuggestions(activeSounds, lang);
     final nameController = TextEditingController(text: suggestedNames.isNotEmpty ? suggestedNames.first : "");
     
     // Auto-detect a recommended cover based on active sounds
@@ -449,7 +584,7 @@ class PlayingSoundsControllerState extends State<PlayingSoundsController>
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      "Propozycje nazw od AI:",
+                      localizations.aiNameSuggestions,
                       style: TextStyle(color: Colors.amberAccent.withOpacity(0.9), fontSize: 11, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 6),

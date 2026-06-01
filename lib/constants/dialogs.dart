@@ -1,57 +1,82 @@
-//Privacy Policy
-const String privacyPolicy =
-    "This Privacy Policy is intended to inform users about the principles of collecting, using and protecting personal information that is provided by users when using our service."
-    "We are committed to protecting the privacy and personal information of our users and transparently informing them of the methods of processing. "
-    "This document helps you make informed decisions about the data that users choose to share with us.";
+// Preamble & Introduction
+const String privacyPolicyIntro =
+    "SoftDev Rafał Jeroś built the Good Dream app as a Commercial app. This SERVICE is provided by SoftDev Rafał Jeroś and is intended for use as is.\n\n"
+    "This Privacy Policy explains how the Good Dream mobile application (\"Application\"), developed and maintained by SoftDev Rafał Jeroś (\"we\", \"our\", or \"us\"), collects, uses, and protects information when you use our Application.\n\n"
+    "By using the Application, you agree to the collection and use of information in accordance with this Privacy Policy.";
 
-// Consent
-const String consent =
-    "By using our app, you agree to this Privacy Policy and consent to its terms. If you do not agree with the terms of our Privacy Policy, please do not use the app.";
+// Information We Collect
+const String privacyPolicyCollect =
+    "The Application does not require user registration and does not directly collect personally identifiable information such as:\n"
+    "• Full name\n"
+    "• Email address\n"
+    "• Phone number\n"
+    "• Postal address\n\n"
+    "However, the Application uses third-party services that may automatically collect certain information, including:\n"
+    "• Device model\n"
+    "• Operating system version\n"
+    "• Application version\n"
+    "• Country and language settings\n"
+    "• Anonymous usage statistics\n"
+    "• Device identifiers\n"
+    "• Crash reports and diagnostic information";
 
-//Ads
-const String ads =
-    "Our app is ad-free. We do not collect or process user data for the purpose of displaying ads."
-    "Our priority is to provide a safe and comfortable user experience without interference from advertising content.";
+// How We Use Information
+const String privacyPolicyUse =
+    "The collected information is used solely to:\n"
+    "• Monitor application performance\n"
+    "• Analyze anonymous usage patterns\n"
+    "• Identify and fix technical issues\n"
+    "• Improve functionality and user experience\n"
+    "• Maintain application stability and security";
 
-// Personal Information
-const String personalInformation =
-    "Our mobile applications do not require users to provide personal information such as name, address, phone number, email address,"
-    "nor do they automatically collect any other information that can be used to directly identify you. Our priority is to protect the privacy of our users.";
+// Third-Party Services
+const String privacyPolicyThirdParty =
+    "The Application uses the following third-party services:\n\n"
+    "• Google Firebase Analytics\n"
+    "Firebase Analytics helps us understand how users interact with the Application through anonymous usage statistics.\n\n"
+    "• Firebase Crashlytics\n"
+    "Firebase Crashlytics helps us detect, diagnose, and fix application crashes and technical issues.\n\n"
+    "For more information about how Google processes data, please review Google's Privacy Policy at https://policies.google.com/privacy\n\n"
+    "Additional Firebase privacy information can be found at https://firebase.google.com/support/privacy";
 
-//Links to Other Sites  GNU
-const String linksToOtherSitesGNU =
-    "This Service may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by us. Therefore, we strongly advise you to review the Privacy Policy of these websites. "
-    "We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.";
+// Data Retention
+const String privacyPolicyRetention =
+    "Information collected through third-party services is retained only for as long as necessary to provide analytics, diagnostics, improve the Application, and comply with legal obligations.\n\n"
+    "Retention periods may vary depending on the policies of the third-party service providers.";
 
-// Collection of Technical Data
-const String collectionOfTechnicalData =
-    "To ensure the stability of our applications, improve their quality, and understand user interaction to enhance features, we use Firebase Analytics and Firebase Crashlytics, tools offered by Google."
-    "These services may collect anonymous technical data, such as device model, operating system version, application usage statistics, and error/crash information."
-    "This data is used for diagnostic and analytical purposes only and is not used to identify users. For more information, please see ";
+// International Data Transfers
+const String privacyPolicyTransfers =
+    "The information collected through third-party services may be processed and stored on servers located outside your country of residence, including servers operated by Google.\n\n"
+    "By using the Application, you consent to such processing where permitted by applicable law.";
 
-//Children's Privacy Protection
-const String childrensPrivacyGNU =
-    "Our service is intended for the general public and is not directed to anyone under the age of 13. We do not knowingly collect any personal information from children under the age of 13."
-    "If we discover that we have received personal information from a child under the age of 13, we will take steps to remove that information from our servers as soon as possible."
-    "If you are a parent or guardian and believe that your child has provided us with personal information, please contact us at [dev.software15@gmail.com]."
-    "The steps we will take are designed to protect the privacy and security of children's data in accordance with our privacy policy and applicable laws.";
+// Children's Privacy
+const String privacyPolicyChildren =
+    "The Application is not directed to children under the age of 13.\n\n"
+    "We do not knowingly collect personally identifiable information from children under 13. If we become aware that a child has provided personal information, we will take reasonable steps to remove such information.";
 
-// Cookies
-const String cookies =
-    "Our application/website does not use cookies directly. Cookies are small text files stored on your device by your browser at the request of the website's server."
-    "They are mainly used to maintain user sessions, such as storing login information or shopping cart contents, but may also be used to track browsing habits for analytics or advertising purposes."
-    "As our service does not use advertising or track users with cookies for advertising purposes, we have no control over cookies that may be set by third parties"
-    "(e.g., analytics services, social media) whose functionalities are enabled on our website/app. We recommend that users regularly check their browser settings to manage cookies according to their privacy preferences.";
+// Security
+const String privacyPolicySecurity =
+    "We take reasonable measures to protect information processed through the Application. However, no method of electronic transmission or storage is completely secure, and we cannot guarantee absolute security.";
 
-//Information security *
-const String informationSecurity =
-    "The security of our users' data is critical to us. We use advanced technologies and security procedures to protect your personal information. Despite our best efforts, no online environment is completely risk-free." 
-    "By acknowledging this, by using our application, you are accepting the potential risks associated with online data security."
-    "We encourage you to take measures to protect your own information, such as using strong passwords and keeping your software updated.";
+// Your Rights
+const String privacyPolicyRights =
+    "If you are located in the European Economic Area (EEA), you may have the right to:\n"
+    "• Access your personal data\n"
+    "• Request correction of your personal data\n"
+    "• Request deletion of your personal data\n"
+    "• Restrict or object to processing\n"
+    "• Lodge a complaint with your local data protection authority\n\n"
+    "Requests regarding personal data may be submitted using the contact information below.";
 
-//Contact Information *
-const String contactInformation =
-    "If you have any questions, comments or complaints about this Privacy Policy, please contact us as follows: you may email us at dev.software15@gmail.com. We will respond within a reasonable amount of time.";
+// Changes to This Privacy Policy
+const String privacyPolicyChanges =
+    "We may update this Privacy Policy from time to time.\n\n"
+    "Any changes will be posted on this page with an updated effective date. Users are encouraged to review this Privacy Policy periodically.";
+
+// Contact Us
+const String privacyPolicyContact =
+    "If you have any questions regarding this Privacy Policy, please contact us:\n\n"
+    "Email: Dev.Software15@gmail.com";
 
 const String acknowledgments =
     "Icons made by Freepik from Flaticon - www.flaticon.com";

@@ -151,6 +151,7 @@
   "aiMixSaveYes": "Yes, save it",
   "aiMixSaveNo": "No",
   "aiMixNameChoice": "Choose a name for this mix:",
+  "aiNameSuggestions": "AI Name Suggestions:",
   "aiMixCoverChoice": "Choose a cover for your mix:",
   "aiMixSaveLimit": "Limit of 6 favorites reached. Remove something first.",
   "aiMixSavedSuccess": "Saved \"{name}\" to favorites!",
